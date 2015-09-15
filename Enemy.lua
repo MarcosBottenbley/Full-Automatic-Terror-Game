@@ -21,32 +21,30 @@ function Enemy.new(x, y, v)
 	return self
 end
 
-function Enemy:draw()
-	love.graphics.draw(
-		enemy_sprite, 
-		self.x, self.y, 
-		0, 
-		.5, .5, 
-		enemy_width/2, enemy_width/2
-	)
+function Enemy:draw(enemy_sprite)
+	love.graphics.draw(enemy_sprite, self.x, self.y)
 end
 
 function Enemy:update(dt)
 	self.x = self.x + self.vx*dt
 	self.y = self.y + self.vy*dt
 
-	if self.x < enemy_width/4 or self.x > width-enemy_width/4 then
+	if self.x < 1 or self.x > width-enemy_width then
 		self:bounce(1)
 	end
 
-	if self.y < enemy_height/4 or self.y > height-enemy_height/4 then
+	if self.y < 1 or self.y > height-enemy_height then
 		self:bounce(0)
 	end
 end
 
 function Enemy:direction()
-	if math.floor(math.random(0,2)) == 1 then
-		self:bounce(1)
+	if math.random(0,2) <= 1 then
+		if math.random(0,2) >= 1 then
+			self:bounce(0)
+		else
+			self:bounce(1)
+		end
 	end
 end
 
