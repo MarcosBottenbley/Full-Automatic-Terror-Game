@@ -1,5 +1,11 @@
 time = 0
 
+once_u = false
+once_d = false
+once_r = false
+once_l = false
+
+
 function love.load(arg)
 	math.randomseed(os.time())
 
