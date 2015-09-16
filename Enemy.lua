@@ -13,18 +13,31 @@ setmetatable(Enemy, {
 	end,
 })
 
-function Enemy:_init(x, y, w, h, v, sprite)
-	Object._init(self, x, y, w, h, v)
-	self.sprite = sprite
+function Enemy:_init(x, y, v, sprite)
+	Object._init(self, x, y, 20, 20, v, sprite)
 end
 
 function Enemy:draw()
-	if self.sprite ~= nil then
-		love.graphics.draw(self.sprite, self.x, self.y)
+	Object.draw(self,255,0,0)
+end
+
+function Enemy:update(dt, swidth, sheight)
+	Object.update(self, dt, swidth, sheight)
+
+	if self.x < 1 or self.x > swidth-self.width then
+		self:bounce(1)
+	end
+
+	if self.y < 1 or self.y > sheight-self.height then
+		self:bounce(0)
+	end
+end
+
+function Enemy:bounce(side)
+	if side == 1 then
+		self.vx = -self.vx
 	else
-		love.graphics.setColor(255, 0, 0, 255)
-		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-		love.graphics.setColor(255,255,255,255)
+		self.vy = -self.vy
 	end
 end
 

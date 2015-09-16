@@ -28,19 +28,14 @@ function love.load(arg)
 	enemies = {}
 
 	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), 
-			math.random(600 - enemy_height), 
-			enemy_width, 
-			enemy_height,
-			math.random(40,80), 
-			enemy_sprite))
+		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
 	end
 
 	for _, e in ipairs(enemies) do
 		e:direction()
 	end
 
-	player1 = Player(width/2, height/2, player_width, player_height, 200, player_sprite)
+	player1 = Player(width/2, height/2, 200, player_sprite)
 end
 
 function love.update(dt)

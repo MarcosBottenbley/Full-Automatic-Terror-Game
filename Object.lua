@@ -3,7 +3,8 @@ math.randomseed(os.time())
 local Object= {
 	x = 10, y = 10,
 	vx = 50, vy = 50,
-	width = 10, height = 10
+	width = 10, height = 10,
+	sprite = nil
 }
 Object.__index = Object
 
@@ -15,39 +16,43 @@ setmetatable(Object, {
 	end,
 })
 
-function Object:_init(x, y, w, h, v)
+function Object:_init(x, y, w, h, v, sprite)
 	self.x = x
 	self.y = y
 	self.vx = v
 	self.vy = v
-	self.width = w
-	self.height = h
+	self.sprite = sprite
+
+	self:setDim(w,h)
+end
+
+function Object:setDim(w,h)
+	if self.sprite ~= nil then
+		self.width = self.sprite:getWidth()
+		self.height = self.sprite:getHeight()
+	else
+		self.width = w
+		self.height = h
+	end
 end
 
 function Object:update(dt, swidth, sheight)
 	self.x = self.x + self.vx*dt
 	self.y = self.y + self.vy*dt
-
-	if self.x < 1 or self.x > swidth-self.width then
-		self:bounce(1)
-	end
-
-	if self.y < 1 or self.y > sheight-self.height then
-		self:bounce(0)
-	end
 end
 
-function Object:bounce(side)
-	if side == 1 then
-		self.vx = -self.vx
+function Object:draw(r,g,b)
+	if self.sprite ~= nil then
+		love.graphics.draw(self.sprite, self.x, self.y)
 	else
-		self.vy = -self.vy
+		if r ~= nil and g ~= nil and b ~= nil then
+			love.graphics.setColor(r,g,b)
+		else
+			love.graphics.setColor(255,255,255,255)
+		end
+		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
-end
-
-function Object:draw()
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
 
 return Object

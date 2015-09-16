@@ -15,10 +15,9 @@ setmetatable(Player, {
 	end,
 })
 
-function Player:_init(x, y, w, h, v, sprite)
-	Object._init(self, x, y, w, h)
+function Player:_init(x, y, v, sprite)
+	Object._init(self, x, y, 40, 40, 0, sprite)
 	self.vel = v
-	self.sprite = sprite
 end
 
 function Player:update(dt, swidth, sheight)
@@ -84,13 +83,7 @@ function Player:update(dt, swidth, sheight)
 end
 
 function Player:draw()
-	if self.sprite ~= nil then
-		love.graphics.draw(self.sprite, self.x, self.y)
-	else
-		love.graphics.setColor(0,255,0,255)
-		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-		love.graphics.setColor(255,255,255,255)
-	end
+	Object.draw(self,0,255,0)
 end
 
 return Player
