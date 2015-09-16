@@ -1,40 +1,30 @@
-local Enemy = {
-	x = 10, y = 10,
-	vx = 20, vy = 20,
-	r = 10
-}
+Object = require("Object")
+math.randomseed(os.time())
+
+local Enemy = {}
 Enemy.__index = Enemy
 
 setmetatable(Enemy, {
+	__index = Object,
 	__call = function (cls, ...)
-		return cls.new(...)
+		local self = setmetatable({}, cls)
+		self:_init(...)
+		return self
 	end,
 })
 
-function Enemy.new(x, y, v)
-	local self = setmetatable({}, Enemy)
-	self.x = x
-	self.y = y
-	self.vx = v
-	self.vy = v
-
-	return self
+function Enemy:_init(x, y, w, h, v, sprite)
+	Object._init(self, x, y, w, h, v)
+	self.sprite = sprite
 end
 
-function Enemy:draw(enemy_sprite)
-	love.graphics.draw(enemy_sprite, self.x, self.y)
-end
-
-function Enemy:update(dt)
-	self.x = self.x + self.vx*dt
-	self.y = self.y + self.vy*dt
-
-	if self.x < 1 or self.x > width-enemy_width then
-		self:bounce(1)
-	end
-
-	if self.y < 1 or self.y > height-enemy_height then
-		self:bounce(0)
+function Enemy:draw()
+	if self.sprite ~= nil then
+		love.graphics.draw(self.sprite, self.x, self.y)
+	else
+		love.graphics.setColor(255, 0, 0, 255)
+		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+		love.graphics.setColor(255,255,255,255)
 	end
 end
 
@@ -45,14 +35,6 @@ function Enemy:direction()
 		else
 			self:bounce(1)
 		end
-	end
-end
-
-function Enemy:bounce(side)
-	if side == 1 then
-		self.vx = -self.vx
-	else
-		self.vy = -self.vy
 	end
 end
 

@@ -5,7 +5,6 @@ once_d = false
 once_r = false
 once_l = false
 
-
 function love.load(arg)
 	math.randomseed(os.time())
 
@@ -28,34 +27,39 @@ function love.load(arg)
 
 	enemies = {}
 
-	for i = 1, 10 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
+	for i = 1, 9 do
+		table.insert(enemies, Enemy(math.random(800 - enemy_width), 
+			math.random(600 - enemy_height), 
+			enemy_width, 
+			enemy_height,
+			math.random(40,80), 
+			enemy_sprite))
 	end
 
 	for _, e in ipairs(enemies) do
 		e:direction()
 	end
 
-	player1 = Player(width/2, height/2, player_width, player_height, 200)
+	player1 = Player(width/2, height/2, player_width, player_height, 200, player_sprite)
 end
 
 function love.update(dt)
 	time = time + dt
 
 	for _, e in ipairs(enemies) do
-		e:update(dt)
+		e:update(dt, width, height)
 	end
 
-	player1:update(dt)
+	player1:update(dt, width, height)
 
 end
 
 function love.draw(dt)
 
-	player1:draw(player_sprite)
+	player1:draw()
 	
 	for _, e in ipairs(enemies) do
-		e:draw(enemy_sprite)
+		e:draw()
 	end
 end
 
