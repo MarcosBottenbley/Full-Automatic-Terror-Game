@@ -5,57 +5,46 @@ once_d = false
 once_r = false
 once_l = false
 
+Title = require("Title")
+Game = require("Game")
+
+function switchTo(state)
+	current:stop()
+	current = state
+	current:start()
+end
+
+--- Center small inside large.
+function center(large, small)
+	return large/2 - small/2
+end
+
+--- Linear interpolation between a and b controlled by 0 <= t <= 1.
+function lerp(a, b, t)
+	return (1-t)*a + t*b
+end
+
 function love.load(arg)
-	math.randomseed(os.time())
-
-	Player = require("Player")
-	Enemy = require("Enemy")
-
+	-- compute some globals
 	width = love.window.getWidth()
 	height = love.window.getHeight()
 	
-	enemy_sprite = love.graphics.newImage("gfx/gel.png")
-	enemy_width = enemy_sprite:getWidth()
-	enemy_height = enemy_sprite:getHeight()
-	
-	player_sprite = love.graphics.newImage("gfx/toast.png")
-	player_width = player_sprite:getWidth()
-	player_height = player_sprite:getHeight()
-	
-	blip = love.audio.newSource("sfx/bump.ogg")
-	blip:setLooping(false)
-
-	enemies = {}
-
-	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
-	end
-
-	for _, e in ipairs(enemies) do
-		e:direction()
-	end
-
-	player1 = Player(width/2, height/2, 200, player_sprite)
+	-- load all the states
+	Title:load()
+	--Menu:load()
+	Game:load()
+	--Scores:load()
+	-- start off in title state
+	current = Title
+	current:start()
 end
 
 function love.update(dt)
-	time = time + dt
-
-	for _, e in ipairs(enemies) do
-		e:update(dt, width, height)
-	end
-
-	player1:update(dt, width, height)
-
+	current:update(dt)
 end
 
 function love.draw(dt)
-
-	player1:draw()
-	
-	for _, e in ipairs(enemies) do
-		e:draw()
-	end
+	current:draw(dt)
 end
 
 function love.keypressed(key)
