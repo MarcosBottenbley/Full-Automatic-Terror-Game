@@ -65,7 +65,7 @@ function Game:start()
 end
 
 function Game:stop()
-
+	bgm:stop()
 end
 
 function Game:update(dt)
@@ -85,6 +85,12 @@ function Game:draw(dt)
 	
 	for _, e in ipairs(enemies) do
 		e:draw()
+	end
+end
+
+function Game.keyreleased(key)
+	if key == 'h' then
+		switchTo(ScoreScreen)
 	end
 end
 

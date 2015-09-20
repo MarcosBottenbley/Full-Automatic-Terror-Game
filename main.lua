@@ -8,6 +8,7 @@ once_l = false
 Title = require("Title")
 Game = require("Game")
 ScoreScreen = require("ScoreScreen")
+Menu = require("Menu")
 
 function switchTo(state)
 	current:stop()
@@ -32,12 +33,12 @@ function love.load(arg)
 	
 	-- load all the states
 	Title:load()
-	--Menu:load()
+	Menu:load()
 	Game:load()
 	--Scores:load()
 	ScoreScreen:load()
 	-- start off in title state
-	current = ScoreScreen
+	current = Title
 	current:start()
 end
 
@@ -47,6 +48,10 @@ end
 
 function love.draw(dt)
 	current:draw(dt)
+end
+
+function love.keyreleased(key)
+	current:keyreleased(key)
 end
 
 function love.keypressed(key)

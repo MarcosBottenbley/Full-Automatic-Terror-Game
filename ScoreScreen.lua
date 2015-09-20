@@ -25,7 +25,7 @@ function ScoreScreen:load()
 	self.font = love.graphics.newFont("ka1.ttf", 60)
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
-	self.sound = love.audio.newSource("Extra Stages.mp3")
+	self.sound = love.audio.newSource("sfx/Hardinthemariopaint.mp3")
 end
 function ScoreScreen:update(dt)
 	self.time = self.time + dt
@@ -54,7 +54,7 @@ function ScoreScreen:draw()
 
 end
 function ScoreScreen:keyreleased(key)
-	switchTo(Title)
+	switchTo(Menu)
 end
 function ScoreScreen:start()
 	self.time = 0

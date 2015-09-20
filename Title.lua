@@ -29,7 +29,7 @@ end
 function Title:update(dt)
 	self.time = self.time + dt
 	if self.time > 21 then
-		switchTo(Game)
+		switchTo(Menu)
 	end
 end
 function Title:draw()
@@ -45,7 +45,7 @@ function Title:draw()
 	love.graphics.print(self.time, 10, 20)
 end
 function Title:keyreleased(key)
-	switchTo(Game)
+	switchTo(Menu)
 end
 function Title:start()
 	self.time = 0
