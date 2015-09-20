@@ -11,5 +11,5 @@ function love.conf(t)
 	t.window.resizable = false
 
 	t.window.vsync = true
-	t.console = true
+	t.console = true		--for testing
 end
