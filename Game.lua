@@ -38,7 +38,7 @@ function Game:load(arg)
 	enemies = {}
 
 	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
+		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
 	end
 
 	for _, e in ipairs(enemies) do
