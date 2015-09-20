@@ -19,6 +19,14 @@ function Game:load(arg)
 	Player = require("Player")
 	Enemy = require("Enemy")
 	
+	enemy_sprite = love.graphics.newImage("gfx/gel.png")
+	enemy_width = enemy_sprite:getWidth()
+	enemy_height = enemy_sprite:getHeight()
+	
+	player_sprite = love.graphics.newImage("gfx/toast.png")
+	player_width = player_sprite:getWidth()
+	player_height = player_sprite:getHeight()
+	
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	
 	blip = love.audio.newSource("sfx/bump.ogg")
@@ -30,7 +38,7 @@ function Game:load(arg)
 	enemies = {}
 
 	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - 62), math.random(600 - 62), math.random(40,80)))
+		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
 	end
 
 	for _, e in ipairs(enemies) do
@@ -42,6 +50,18 @@ end
 
 function Game:start()
 	bgm:play()
+	
+	enemies = {}
+
+	for i = 1, 9 do
+		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
+	end
+
+	for _, e in ipairs(enemies) do
+		e:direction()
+	end
+
+	player1 = Player(width/2, height/2, 200, player_sprite)
 end
 
 function Game:stop()

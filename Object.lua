@@ -5,7 +5,6 @@ local Object= {
 	vx = 50, vy = 50,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
-	name = "Object"
 }
 Object.__index = Object
 
@@ -17,7 +16,7 @@ setmetatable(Object, {
 	end,
 })
 
-function Object:_init(x, y, v, file, width, height, frames, states, delay, name)
+function Object:_init(x, y, v, file, width, height, frames, states, delay)
 	self.x = x
 	self.y = y
 	self.vx = v
@@ -25,15 +24,13 @@ function Object:_init(x, y, v, file, width, height, frames, states, delay, name)
 
 	self.sprite_sheet = love.graphics.newImage(file)
 
-	self.width = width 		--width of each sprite in the frame
+	self.width = width 	--width of each sprite in the frame
 	self.height = height	--height of each sprite in the frame
 
 	self.frames = frames	--number of frames
 	self.states = states	--number of states (different animations)
 
 	self.delay = delay		--delay between changing frames
-
-	self.name = name
 
 	self.current_frame = 1
 	self.current_state = 1
@@ -45,14 +42,19 @@ function Object:_init(x, y, v, file, width, height, frames, states, delay, name)
 end
 
 function Object:load()
-	self.sprites[1] = love.graphics.newQuad(1,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[2] = love.graphics.newQuad(62,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[3] = love.graphics.newQuad(124,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[4] = love.graphics.newQuad(186,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[5] = love.graphics.newQuad(248,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[6] = love.graphics.newQuad(310,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[7] = love.graphics.newQuad(372,1, self.width,self.height,self.sheet_width,self.sheet_height)
-	self.sprites[8] = love.graphics.newQuad(434,1, self.width,self.height,self.sheet_width,self.sheet_height)
+	for i = 1, self.states do
+		local h = (self.height * i) - (self.height-1)
+		self.sprites[i] = {}
+
+		for j = 1, self.frames do
+			local w = (self.width * j) - (self.width-1)
+			self.sprites[i][j] = love.graphics.newQuad(w,h,
+				self.width,
+				self.height,
+				self.sheet_width,
+				self.sheet_height)
+		end
+	end
 end
 
 function Object:update(dt)
@@ -66,7 +68,7 @@ end
 
 function Object:draw(r,g,b)
 	if self.sprite_sheet ~= nil then
-		love.graphics.draw(self.sprite_sheet, self.sprites[self.current_frame], self.x, self.y)
+		love.graphics.draw(self.sprite_sheet, self.sprites[self.current_state][self.current_frame], self.x, self.y)
 	else
 		if r ~= nil and g ~= nil and b ~= nil then
 			love.graphics.setColor(r,g,b)

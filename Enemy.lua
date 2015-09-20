@@ -3,9 +3,9 @@ math.randomseed(os.time())
 
 local Enemy = {
 	img = "gfx/enemy_sheet.png",
-	width = 62, height = 62,
-	frames = 8, states = 1,
-	delay = 1
+	width = 56, height = 56,
+	frames = 5, states = 1,
+	delay = 0.08
 }
 Enemy.__index = Enemy
 
@@ -25,8 +25,7 @@ function Enemy:_init(x, y, v)
 		self.height, 
 		self.frames, 
 		self.states,
-		self.delay,
-		"Enemy")
+		self.delay)
 end
 
 function Enemy:draw()
