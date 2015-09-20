@@ -80,7 +80,6 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
-
 	love.graphics.setFont(self.helpfont)
 
 	love.graphics.print(

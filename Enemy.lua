@@ -25,7 +25,8 @@ function Enemy:_init(x, y, v)
 		self.height, 
 		self.frames, 
 		self.states,
-		self.delay)
+		self.delay
+		)
 end
 
 function Enemy:draw()
@@ -38,12 +39,20 @@ function Enemy:update(dt, swidth, sheight)
 	self.x = self.x + self.vx*dt
 	self.y = self.y + self.vy*dt
 
-	if self.x < 1 or self.x > swidth-self.width then
-		self:bounce(1)
+	if self.x < 1 then
+		self.vx = math.abs(self.vx)
+	end
+	
+	if self.x > swidth-self.width then
+		self.vx = -1 * math.abs(self.vx)
 	end
 
-	if self.y < 1 or self.y > sheight-self.height then
-		self:bounce(0)
+	if self.y < 1 then
+		self.vy = math.abs(self.vy)
+	end
+	
+	if self.y > sheight-self.height then
+		self.vy = -1 * math.abs(self.vy)
 	end
 end
 
