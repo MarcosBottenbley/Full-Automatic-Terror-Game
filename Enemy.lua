@@ -1,7 +1,10 @@
 Object = require("Object")
 math.randomseed(os.time())
 
-local Enemy = {}
+local Enemy = {
+	img = "gfx/enemy_sheet.png",
+	width = 56, height = 56
+}
 Enemy.__index = Enemy
 
 setmetatable(Enemy, {
@@ -13,8 +16,8 @@ setmetatable(Enemy, {
 	end,
 })
 
-function Enemy:_init(x, y, v, sprite)
-	Object._init(self, x, y, 20, 20, v, sprite)
+function Enemy:_init(x, y, v)
+	Object._init(self, x, y, v, self.img, self.width, self.height, 5, 1, 0.08)
 end
 
 function Enemy:draw()
@@ -22,7 +25,7 @@ function Enemy:draw()
 end
 
 function Enemy:update(dt, swidth, sheight)
-	Object.update(self, dt, swidth, sheight)
+	Object.update(self, dt)
 
 	if self.x < 1 or self.x > swidth-self.width then
 		self:bounce(1)
