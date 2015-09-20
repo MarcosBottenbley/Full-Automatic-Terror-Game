@@ -21,9 +21,9 @@ function center(large, small)
 	return large/2 - small/2
 end
 
---- Linear interpolation between a and b controlled by 0 <= t <= 1.
+--- Interpolation between a and b controlled by 0 <= t <= 1.
 function lerp(a, b, t)
-	return (1-t)*a + t*b
+	return ((1-t)^5)*a + (t^5)*b
 end
 
 function love.load(arg)
@@ -52,12 +52,4 @@ end
 
 function love.keyreleased(key)
 	current:keyreleased(key)
-end
-
-function love.keypressed(key)
-
-	-- exits
-	if key == 'escape' then
-		love.event.quit()
-	end
 end

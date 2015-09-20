@@ -1,6 +1,7 @@
 State = require("State")
 
 local Game = {}
+local help = "Press H for high scores and Esc for menu"
 Game.__index = Game
 
 setmetatable(Game, {
@@ -17,9 +18,6 @@ function Game:load(arg)
 
 	Player = require("Player")
 	Enemy = require("Enemy")
-
-	--width = love.window.getWidth()
-	--height = love.window.getHeight()
 	
 	enemy_sprite = love.graphics.newImage("gfx/gel.png")
 	enemy_width = enemy_sprite:getWidth()
@@ -29,10 +27,12 @@ function Game:load(arg)
 	player_width = player_sprite:getWidth()
 	player_height = player_sprite:getHeight()
 	
+	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
+	
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
 	
-	bgm = love.audio.newSource("sfx/IZ-SWAG.ogg")
+	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
 	enemies = {}
@@ -81,6 +81,13 @@ end
 
 function Game:draw(dt)
 
+	love.graphics.setFont(self.helpfont)
+
+	love.graphics.print(
+		help,
+		10, height - 10
+	)
+
 	player1:draw()
 	
 	for _, e in ipairs(enemies) do
@@ -88,7 +95,11 @@ function Game:draw(dt)
 	end
 end
 
-function Game.keyreleased(key)
+function Game:keyreleased(key)
+	if key == 'escape' then
+		switchTo(Menu)
+	end
+	
 	if key == 'h' then
 		switchTo(ScoreScreen)
 	end

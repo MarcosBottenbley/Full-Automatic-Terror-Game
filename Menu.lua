@@ -5,6 +5,7 @@ local selects = {"-New Game-", "-Brightness-", "-Volume-", "-High Scores-", "-Qu
 local widths = {}
 local selectwidths = {}
 local selector = 0
+local help = "Use the arrow keys to navigate and Enter to select"
 Menu.__index = Menu
 
 setmetatable(Menu, {
@@ -18,6 +19,8 @@ setmetatable(Menu, {
 
 function Menu:load()
 	self.font = love.graphics.newFont("ka1.ttf", 50)
+	self.font2 = love.graphics.newFont("PressStart2P.ttf", 12)
+	
 	for index,value in ipairs(Menu) do
 		widths[index] = self.font:getWidth(value)
 	end
@@ -26,7 +29,7 @@ function Menu:load()
 		selectwidths[index] = self.font:getWidth(value)
 	end
 	
-	menu_bgm = love.audio.newSource("sfx/chippy.mp3")
+	menu_bgm = love.audio.newSource("sfx/menu.ogg")
 	menu_bgm:setLooping(true)
 end
 
@@ -34,20 +37,27 @@ function Menu:update(dt)
 end
 
 function Menu:draw()
-	love.graphics.setFont(self.font)
+	love.graphics.setFont(self.font2)
 	love.graphics.setColor({255, 255, 255, 255})
-	ummm = height / 5 --hardcoded value (lua cant get size of table)
+	item_space = height / 5 --hardcoded value (lua cant get size of table)
+	
+	love.graphics.print(
+		help,
+		10, height - 10
+	)
+	
+	love.graphics.setFont(self.font)
 	
 	for index,value in ipairs(Menu) do
 		if selector + 1 == index then
 			love.graphics.print(
 				selects[index],
-				center(width, selectwidths[index]), (height/5)*(index-1) + 25
+				center(width, selectwidths[index]), (item_space)*(index-1) + 25
 			)
 		else
 			love.graphics.print(
 				value,
-				center(width, widths[index]), (height/5)*(index-1) + 25
+				center(width, widths[index]), (item_space)*(index-1) + 25
 				--25 is also hardcoded because i'm lazy
 			)
 		end
@@ -55,6 +65,10 @@ function Menu:draw()
 end
 
 function Menu:keyreleased(key)
+	if key == 'escape' then
+		love.event.quit()
+	end
+	
 	if key == 'up' then
 		selector = ((selector - 1) % 5)
 	end
