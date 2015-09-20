@@ -2,7 +2,11 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Player = {
-	vel = 200
+	vel = 200,
+	img = "gfx/main_ship_sheet.png",
+	width = 54, height = 70,
+	frames = 5, states = 1,
+	delay = 0.08
 }
 Player.__index = Player
 
@@ -15,12 +19,20 @@ setmetatable(Player, {
 	end,
 })
 
-function Player:_init(x, y, v, sprite)
-	Object._init(self, x, y, 40, 40, 0, sprite)
+function Player:_init(x, y, v)
+	Object._init(self, x, y, 0, 
+		self.img, 
+		self.width,
+		self.height,
+		self.frames,
+		self.states,
+		self.delay)
+
 	self.vel = v
 end
 
 function Player:update(dt, swidth, sheight)
+	Object.update(self,dt)
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.x = self.x-self.vel*dt
 

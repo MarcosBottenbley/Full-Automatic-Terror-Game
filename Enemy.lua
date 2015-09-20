@@ -3,7 +3,9 @@ math.randomseed(os.time())
 
 local Enemy = {
 	img = "gfx/enemy_sheet.png",
-	width = 56, height = 56
+	width = 56, height = 56,
+	frames = 5, states = 1,
+	delay = 0.08
 }
 Enemy.__index = Enemy
 
@@ -17,7 +19,13 @@ setmetatable(Enemy, {
 })
 
 function Enemy:_init(x, y, v)
-	Object._init(self, x, y, v, self.img, self.width, self.height, 5, 1, 0.08)
+	Object._init(self, x, y, v, 
+		self.img, 
+		self.width, 
+		self.height, 
+		self.frames, 
+		self.states,
+		self.delay)
 end
 
 function Enemy:draw()
@@ -26,6 +34,9 @@ end
 
 function Enemy:update(dt, swidth, sheight)
 	Object.update(self, dt)
+
+	self.x = self.x + self.vx*dt
+	self.y = self.y + self.vy*dt
 
 	if self.x < 1 or self.x > swidth-self.width then
 		self:bounce(1)

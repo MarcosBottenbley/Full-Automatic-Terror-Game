@@ -45,7 +45,7 @@ function Game:load(arg)
 		e:direction()
 	end
 
-	player1 = Player(width/2, height/2, 200, player_sprite)
+	player1 = Player(width/2, height/2, 200)
 end
 
 function Game:start()
