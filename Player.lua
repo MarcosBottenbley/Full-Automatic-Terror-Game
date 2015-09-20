@@ -26,7 +26,8 @@ function Player:_init(x, y, v)
 		self.height,
 		self.frames,
 		self.states,
-		self.delay)
+		self.delay,
+		"Player")
 
 	self.vel = v
 end
