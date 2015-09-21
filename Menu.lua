@@ -29,7 +29,7 @@ function Menu:load()
 		selectwidths[index] = self.font:getWidth(value)
 	end
 	
-	menu_bgm = love.audio.newSource("sfx/menu.ogg")
+	menu_bgm = love.audio.newSource("sfx/menulow.ogg")
 	menu_bgm:setLooping(true)
 	
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")

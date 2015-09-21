@@ -1,5 +1,6 @@
 State = require("State")
 
+local Studio = {}
 Studio.__index = Studio
 
 setmetatable(Studio, {
@@ -21,8 +22,6 @@ function Studio:fadein()
 end
 
 function Studio:load()
-	self.width = self.font:getWidth(self.name)
-	self.height = self.font:getHeight(self.name)
 	self.logo = love.graphics.newImage("gfx/sss.png")
 end
 
@@ -33,14 +32,13 @@ end
 
 function Studio:update(dt)
 	self.time = self.time + dt
-	if self.time > 19 then
-		switchTo(Menu)
+	if self.time > 3 then
+		switchTo(Title)
 	end
 end
 
 function Studio:draw()
-	love.draw(logo, 1, 1)
-	-- love.draw(logo, center(width, logo:getWidth()), center(height, logo:getHeight()))
+	love.graphics.draw(self.logo, 250, 210)
 end
 
 function Studio:keyreleased(key)
@@ -49,6 +47,14 @@ function Studio:keyreleased(key)
 	else
 		switchTo(Title)
 	end
+end
+
+function Studio:start()
+	self.time = 0
+end
+
+function Studio:stop()
+
 end
 
 return Studio

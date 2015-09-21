@@ -37,10 +37,9 @@ function love.load(arg)
 	Title:load()
 	Menu:load()
 	Game:load()
-	--Scores:load()
 	ScoreScreen:load()
-	-- start off in title state
-	current = Title
+
+	current = Studio
 	current:start()
 end
 

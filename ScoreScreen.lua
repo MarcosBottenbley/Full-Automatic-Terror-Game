@@ -27,7 +27,7 @@ function ScoreScreen:load()
 	self.font2 = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
-	self.sound = love.audio.newSource("sfx/score.ogg")
+	self.sound = love.audio.newSource("sfx/scorelow.ogg")
 end
 
 function ScoreScreen:update(dt)
