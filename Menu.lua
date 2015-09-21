@@ -31,12 +31,15 @@ function Menu:load()
 	
 	menu_bgm = love.audio.newSource("sfx/menu.ogg")
 	menu_bgm:setLooping(true)
+	
+	self.bg = love.graphics.newImage("gfx/menu_screen.png")
 end
 
 function Menu:update(dt)
 end
 
 function Menu:draw()
+	love.graphics.draw(self.bg, 1, 1)
 	love.graphics.setFont(self.font2)
 	love.graphics.setColor({255, 255, 255, 255})
 	item_space = height / 5 --hardcoded value (lua cant get size of table)

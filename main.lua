@@ -9,6 +9,7 @@ Title = require("Title")
 Game = require("Game")
 ScoreScreen = require("ScoreScreen")
 Menu = require("Menu")
+Studio = require("Studio")
 
 function switchTo(state)
 	current:stop()
@@ -32,6 +33,7 @@ function love.load(arg)
 	height = love.window.getHeight()
 	
 	-- load all the states
+	Studio:load()
 	Title:load()
 	Menu:load()
 	Game:load()
