@@ -46,12 +46,18 @@ function Game:load(arg)
 	end
 
 	player1 = Player(width/2, height/2, 200)
+	
+	for _, e in ipairs(enemies) do
+		print(" " .. e.width)
+	end
+	
+	print(" " .. player1.width)
 end
 
 function Game:start()
-	bgm:play()
+	--bgm:play()
 	
-	enemies = {}
+	--[[enemies = {}
 
 	for i = 1, 9 do
 		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
@@ -61,11 +67,23 @@ function Game:start()
 		e:direction()
 	end
 
-	player1 = Player(width/2, height/2, 200, player_sprite)
+	player1 = Player(width/2, height/2, 200, player_sprite)--]]
+	
+	for _, e in ipairs(enemies) do
+		print(" " .. e.width)
+	end
+	
+	print(" " .. player1.width)
 end
 
 function Game:stop()
 	bgm:stop()
+	
+	for _, e in ipairs(enemies) do
+		print(" " .. e.width)
+	end
+	
+	print(" " .. player1.width)
 end
 
 function Game:update(dt)
@@ -92,6 +110,7 @@ function Game:draw(dt)
 	for _, e in ipairs(enemies) do
 		e:draw()
 	end
+
 end
 
 function Game:keyreleased(key)

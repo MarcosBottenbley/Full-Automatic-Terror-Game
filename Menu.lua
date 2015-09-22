@@ -92,7 +92,7 @@ function Menu:keyreleased(key)
 end
 
 function Menu:start()
-	menu_bgm:play()
+	--menu_bgm:play()
 end
 
 function Menu:stop()

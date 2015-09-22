@@ -5,7 +5,7 @@ local Enemy = {
 	img = "gfx/enemy_sheet.png",
 	width = 62, height = 62,
 	frames = 5, states = 1,
-	delay = 0.08
+	delay = 0.08, sprites = {}
 }
 Enemy.__index = Enemy
 

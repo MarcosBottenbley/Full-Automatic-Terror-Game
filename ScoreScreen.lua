@@ -65,7 +65,7 @@ end
 
 function ScoreScreen:start()
 	self.time = 0
-	self.sound:play()
+	--self.sound:play()
 end
 
 function ScoreScreen:stop()
