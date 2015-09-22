@@ -35,6 +35,8 @@ function Game:load(arg)
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
+	background = love.graphics.newImage("gfx/game_screen.png")
+
 	enemies = {}
 
 	for i = 1, 9 do
@@ -98,6 +100,7 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
+	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
 
 	love.graphics.print(
