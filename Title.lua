@@ -13,8 +13,8 @@ setmetatable(Title, {
 })
 
 function Title:fadein()
-	if self.time < 9.5 then
-		local c = lerp(0, 255, self.time/9.5)
+	if self.time < 3 then
+		local c = lerp(0, 255, self.time/3)
 		return {c, c, c, 255}
 	else
 		return {255, 255, 255, 255}
@@ -30,7 +30,7 @@ end
 
 function Title:update(dt)
 	self.time = self.time + dt
-	if self.time > 19 then
+	if self.time > 8 then
 		switchTo(Menu)
 	end
 end

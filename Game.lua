@@ -31,7 +31,11 @@ function Game:load(arg)
 	
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
-	
+	ding = love.audio.newSource("sfx/ding.mp3")
+	ding:setLooping(false)
+	bootdown = love.audio.newSource("sfx/shutdown.mp3")
+	bootdown:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
