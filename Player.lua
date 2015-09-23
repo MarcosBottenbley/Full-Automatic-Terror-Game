@@ -31,6 +31,12 @@ function Player:_init(x, y, v)
 	self.vel = v
 end
 
+function Player:load()
+	Object.load(self)
+	pew = love.audio.newSource("sfx/pew.ogg")
+	pew:setLooping(false)
+end
+
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
@@ -100,6 +106,7 @@ end
 
 function Player:keyreleased(key)
 	if key == 'z' then
+		pew:play()
 		table.insert(bullets, Bullet(self.x + (self.width/2) - 7.5, self.y, -600)) --magic numbers errywhere
 	end
 end

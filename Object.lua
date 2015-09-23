@@ -80,7 +80,4 @@ function Object:draw(r,g,b)
 	love.graphics.setColor(255,255,255,255)
 end
 
-function Object:keypressed(key)
-end
-
 return Object
