@@ -18,6 +18,7 @@ function Game:load(arg)
 
 	Player = require("Player")
 	Enemy = require("Enemy")
+	Bullet = require("Bullet")
 	
 	enemy_sprite = love.graphics.newImage("gfx/gel.png")
 	enemy_width = enemy_sprite:getWidth()
@@ -31,17 +32,14 @@ function Game:load(arg)
 	
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
-	ding = love.audio.newSource("sfx/ding.mp3")
-	ding:setLooping(false)
-	bootdown = love.audio.newSource("sfx/shutdown.mp3")
-	bootdown:setLooping(false)
-
+	
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
 	background = love.graphics.newImage("gfx/game_screen.png")
 
 	enemies = {}
+	bullets = {}
 
 	for i = 1, 9 do
 		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
@@ -53,49 +51,25 @@ function Game:load(arg)
 
 	player1 = Player(width/2, height/2, 200)
 	
-	for _, e in ipairs(enemies) do
-		print(" " .. e.width)
-	end
-	
-	print(" " .. player1.width)
 end
 
 function Game:start()
-	--bgm:play()
-	
-	--[[enemies = {}
-
-	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80), enemy_sprite))
-	end
-
-	for _, e in ipairs(enemies) do
-		e:direction()
-	end
-
-	player1 = Player(width/2, height/2, 200, player_sprite)--]]
-	
-	for _, e in ipairs(enemies) do
-		print(" " .. e.width)
-	end
-	
-	print(" " .. player1.width)
+	bgm:play()
 end
 
 function Game:stop()
 	bgm:stop()
 	
-	for _, e in ipairs(enemies) do
-		print(" " .. e.width)
-	end
-	
-	print(" " .. player1.width)
 end
 
 function Game:update(dt)
 	time = time + dt
 
 	for _, e in ipairs(enemies) do
+		e:update(dt, width, height)
+	end
+	
+	for _, e in ipairs(bullets) do
 		e:update(dt, width, height)
 	end
 
@@ -111,16 +85,21 @@ function Game:draw(dt)
 		help,
 		10, height - 10
 	)
+	
+	for _, e in ipairs(bullets) do
+		e:draw()
+	end
 
 	player1:draw()
 	
 	for _, e in ipairs(enemies) do
 		e:draw()
 	end
-
 end
 
 function Game:keyreleased(key)
+	player1:keyreleased(key)
+	
 	if key == 'escape' then
 		switchTo(Menu)
 	end
