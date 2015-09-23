@@ -54,7 +54,7 @@ end
 
 function Title:start()
 	self.time = 0
-	--self.sound:play()
+	self.sound:play()
 end
 
 function Title:stop()

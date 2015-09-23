@@ -32,6 +32,12 @@ function Menu:load()
 	menu_bgm = love.audio.newSource("sfx/menulow.ogg")
 	menu_bgm:setLooping(true)
 	
+	choose = love.audio.newSource("sfx/choose.ogg")
+	choose:setLooping(false)
+	
+	selected = love.audio.newSource("sfx/select.ogg")
+	selected:setLooping(false)
+	
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
 end
 
@@ -74,13 +80,17 @@ function Menu:keyreleased(key)
 	
 	if key == 'up' then
 		selector = ((selector - 1) % 5)
+		selected:play()
 	end
 	
 	if key == 'down' then 
 		selector = ((selector + 1) % 5)
+		selected:play()
 	end
 	
 	if key == 'return' then
+		choose:play()
+	
 		if selector == 0 then
 			switchTo(Game)
 		elseif selector == 3 then
@@ -92,7 +102,7 @@ function Menu:keyreleased(key)
 end
 
 function Menu:start()
-	--menu_bgm:play()
+	menu_bgm:play()
 end
 
 function Menu:stop()
