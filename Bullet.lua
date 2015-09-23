@@ -20,7 +20,8 @@ setmetatable(Bullet, {
 })
 
 function Bullet:_init(x, y, v)
-	Object._init(self, x, y, v, 
+	self.vy = v
+	Object._init(self, x, y, 
 		self.img, 
 		self.width,
 		self.height,

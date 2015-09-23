@@ -2,11 +2,8 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Enemy = {
-	img = "gfx/enemy_sheet.png",
-	width = 56, height = 56,
-	frames = 8, states = 1,
-	delay = 0.08, sprites = {},
-	bounding_rad = 25
+	vx = 10, vy = 10,
+	sprites = {}
 }
 Enemy.__index = Enemy
 
@@ -19,15 +16,10 @@ setmetatable(Enemy, {
 	end,
 })
 
-function Enemy:_init(x, y, v)
-	Object._init(self, x, y, v, 
-		self.img, 
-		self.width, 
-		self.height, 
-		self.frames, 
-		self.states,
-		self.delay
-		)
+function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
+	self.vx = v
+	self.vy = v
+	Object._init(self, x, y, img, width, height, frames, states, delay)
 end
 
 function Enemy:draw()
@@ -36,9 +28,6 @@ end
 
 function Enemy:update(dt, swidth, sheight)
 	Object.update(self, dt)
-
-	self.x = self.x + self.vx*dt
-	self.y = self.y + self.vy*dt
 
 	if self.x < 1 then
 		self.vx = math.abs(self.vx)

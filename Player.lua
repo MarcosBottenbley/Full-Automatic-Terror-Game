@@ -20,7 +20,7 @@ setmetatable(Player, {
 })
 
 function Player:_init(x, y, v)
-	Object._init(self, x, y, 0, 
+	Object._init(self, x, y, 
 		self.img, 
 		self.width,
 		self.height,

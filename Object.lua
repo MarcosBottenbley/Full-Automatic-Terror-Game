@@ -2,7 +2,6 @@ math.randomseed(os.time())
 
 local Object= {
 	x = 10, y = 10,
-	vx = 50, vy = 50,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
 }
@@ -16,11 +15,9 @@ setmetatable(Object, {
 	end,
 })
 
-function Object:_init(x, y, v, file, width, height, frames, states, delay)
+function Object:_init(x, y, file, width, height, frames, states, delay)
 	self.x = x
 	self.y = y
-	self.vx = v
-	self.vy = v
 
 	self.sprite_sheet = love.graphics.newImage(file)
 

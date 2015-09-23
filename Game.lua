@@ -17,7 +17,7 @@ function Game:load(arg)
 	math.randomseed(os.time())
 
 	Player = require("Player")
-	Enemy = require("Enemy")
+	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
 	
 	enemy_sprite = love.graphics.newImage("gfx/gel.png")
@@ -42,7 +42,8 @@ function Game:load(arg)
 	bullets = {}
 
 	for i = 1, 9 do
-		table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
+		--table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
+		table.insert(enemies, GlowBorg())
 	end
 
 	for _, e in ipairs(enemies) do

@@ -1,9 +1,9 @@
 Enemy = require("Enemy")
 
 local GlowBorg = {
-	img = "gfx/enemy_sheet.png"
-	width = 62, height = 62,
-	frames = 5, states = 1,
+	img = "gfx/enemy_sheet.png",
+	width = 56, height = 56,
+	frames = 8, states = 1,
 	delay = 0.08, sprites = {},
 	bounding_rad = 25
 }
@@ -20,11 +20,16 @@ setmetatable(GlowBorg, {
 
 function GlowBorg:_init()
 	local x = math.random(800 - self.width)
-	local y = math.random(600 - self.height)
+	local y = 56
 	local v = math.random(40,80)
-	Enemy._init(self, x, y, v)
+	v = -v
+	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
-function GlowBorg:update()
-	
+function GlowBorg:update(dt, swidth, sheight)
+	Enemy.update(self, dt, swidth, sheight)
+
+	self.y = self.y + self.vy*dt
 end
+
+return GlowBorg
