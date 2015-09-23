@@ -98,4 +98,10 @@ function Player:draw()
 	Object.draw(self,0,255,0)
 end
 
+function Player:keyreleased(key)
+	if key == 'z' then
+		table.insert(bullets, Bullet(self.x + (self.width/2) - 7.5, self.y, -600)) --magic numbers errywhere
+	end
+end
+
 return Player
