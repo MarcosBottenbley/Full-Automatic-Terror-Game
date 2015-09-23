@@ -76,40 +76,28 @@ end
 function Menu:keyreleased(key)
 	if key == 'escape' then
 		love.event.quit()
-		blip:play()
 	end
 	
 	if key == 'up' then
 		selector = ((selector - 1) % 5)
-<<<<<<< HEAD
-		blip:play()
-=======
 		selected:play()
->>>>>>> 6979c4e83d63e5f90b09e1d36ec7619a2e443540
 	end
 	
 	if key == 'down' then 
 		selector = ((selector + 1) % 5)
-<<<<<<< HEAD
-		blip:play()
-=======
 		selected:play()
->>>>>>> 6979c4e83d63e5f90b09e1d36ec7619a2e443540
 	end
 	
 	if key == 'return' then
 		choose:play()
 	
 		if selector == 0 then
-			ding:play()
 			love.timer.sleep(0.4)
 			switchTo(Game)
 		elseif selector == 3 then
-			ding:play()
 			love.timer.sleep(0.4)
 			switchTo(ScoreScreen)
 		elseif selector == 4 then
-			bootdown:play()
 			love.timer.sleep(2)
 			love.event.quit()
 		end
