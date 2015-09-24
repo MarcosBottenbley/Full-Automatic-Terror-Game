@@ -42,7 +42,9 @@ function Bullet:draw()
 end
 
 function Bullet:exited_screen(swidth, sheight)
-	if (self.y + self.height) < 0 then
+	local y_pos = self.y + self.height
+	local x_pos = self.x + self.height
+	if y_pos < 0 or x_pos < 0 or y_pos > sheight or x_pos > swidth
 		return true
 	end
 end
