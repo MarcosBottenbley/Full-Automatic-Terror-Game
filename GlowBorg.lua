@@ -32,4 +32,8 @@ function GlowBorg:update(dt, swidth, sheight)
 	self.y = self.y + self.vy*dt
 end
 
+function GlowBorg:getRadius( ... )
+	return self.bounding_rad
+end
+
 return GlowBorg

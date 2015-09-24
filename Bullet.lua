@@ -41,4 +41,10 @@ function Bullet:draw()
 	Object.draw(self,0,255,0)
 end
 
+function Bullet:exited_screen(swidth, sheight)
+	if (self.y + self.height) < 0 then
+		return true
+	end
+end
+
 return Bullet

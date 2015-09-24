@@ -77,4 +77,12 @@ function Object:draw(r,g,b)
 	love.graphics.setColor(255,255,255,255)
 end
 
+function Object:getX()
+	return self.x
+end
+
+function Object:getY()
+	return self.y
+end
+
 return Object

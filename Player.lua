@@ -107,7 +107,9 @@ end
 function Player:keyreleased(key)
 	if key == 'z' then
 		pew:play()
-		table.insert(bullets, Bullet(self.x + (self.width/2) - 7.5, self.y, -600)) --magic numbers errywhere
+		local b = Bullet(self.x + (self.width/2) - 7.5, self.y, -600)
+		table.insert(bullets, b) --magic numbers errywhere
+		table.insert(objects, b)
 	end
 end
 

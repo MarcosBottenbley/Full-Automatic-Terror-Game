@@ -20,14 +20,6 @@ function Game:load(arg)
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
 	
-	enemy_sprite = love.graphics.newImage("gfx/gel.png")
-	enemy_width = enemy_sprite:getWidth()
-	enemy_height = enemy_sprite:getHeight()
-	
-	player_sprite = love.graphics.newImage("gfx/toast.png")
-	player_width = player_sprite:getWidth()
-	player_height = player_sprite:getHeight()
-	
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	
 	blip = love.audio.newSource("sfx/bump.ogg")
@@ -40,10 +32,13 @@ function Game:load(arg)
 
 	enemies = {}
 	bullets = {}
+	objects = {}
 
 	for i = 1, 9 do
+		local g = GlowBorg()
 		--table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
-		table.insert(enemies, GlowBorg())
+		table.insert(enemies, g)
+		table.insert(objects, g)
 	end
 
 	for _, e in ipairs(enemies) do
@@ -66,20 +61,31 @@ end
 function Game:update(dt)
 	time = time + dt
 
+	player1:update(dt, width, height)
+
 	for _, e in ipairs(enemies) do
 		e:update(dt, width, height)
 	end
 	
-	for _, e in ipairs(bullets) do
-		e:update(dt, width, height)
+	local x = 1
+	for _, b in ipairs(bullets) do
+		b:update(dt, width, height)
+
+		if b:exited_screen(width,height) then
+			table.remove(bullets, x)
+		end
+
+		x = x + 1
 	end
 
-	player1:update(dt, width, height)
+	for i=1,table.getn(objects) do
+		
+	end
 
 end
 
 function Game:draw(dt)
-	love.graphics.draw(background, 0, 0)
+	--love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
 
 	love.graphics.print(
@@ -87,8 +93,12 @@ function Game:draw(dt)
 		10, height - 10
 	)
 	
-	for _, e in ipairs(bullets) do
-		e:draw()
+	for _, b in ipairs(bullets) do
+		b:draw()
+
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("X: " .. tostring(b:getX()), 10, 10)
+		love.graphics.print("Y: " .. tostring(b:getY()), 10, 30)
 	end
 
 	player1:draw()
@@ -108,6 +118,13 @@ function Game:keyreleased(key)
 	if key == 'h' then
 		switchTo(ScoreScreen)
 	end
+end
+
+function Game:calc_dist(x1, x2, y1, y2)
+	local x_dist = math.pow(x2-x1,2)
+	local y_dist = math.pow(y2-y1,2)
+
+	return math.sqrt(x_dist + y_dist)
 end
 
 return Game
