@@ -37,15 +37,18 @@ function Game:load(arg)
 	for i = 1, 9 do
 		local g = GlowBorg()
 		--table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
-		table.insert(enemies, g)
+		--table.insert(enemies, g)
 		table.insert(objects, g)
 	end
 
+	--[[
 	for _, e in ipairs(enemies) do
 		e:direction()
 	end
+	--]]
 
 	player1 = Player(width/2, height/2, 200)
+	table.insert(objects, player1)
 	
 end
 
@@ -61,12 +64,25 @@ end
 function Game:update(dt)
 	time = time + dt
 
-	player1:update(dt, width, height)
+	--player1:update(dt, width, height)
 
+	local x = 1
+	for _, o in ipairs(objects) do
+		o:update(dt, width, height)
+
+		if o:getID() == 3 and o:exited_screen(width, height) then
+			table.remove(objects, x)
+		end
+
+		x = x + 1
+	end
+
+	--[[
 	for _, e in ipairs(enemies) do
 		e:update(dt, width, height)
 	end
-	
+
+
 	local x = 1
 	for _, b in ipairs(bullets) do
 		b:update(dt, width, height)
@@ -77,9 +93,22 @@ function Game:update(dt)
 
 		x = x + 1
 	end
+	--]]
 
-	for i=1,table.getn(objects) do
-		
+	local length = table.getn(objects)
+	for i=1, length do
+
+		for j = i + 1, length do
+			if objects[i]:getID() ~= objects[j]:getID() then
+				local d = self:calc_dist(objects[i]:getX(), objects[j]:getX(), objects[i]:getY(), objects[j]:getY())
+				if d < 10 then
+					table.remove(objects, i)
+					table.remove(objects, j)
+					length = table.getn(objects)
+				end
+			end
+
+		end
 	end
 
 end
@@ -92,7 +121,18 @@ function Game:draw(dt)
 		help,
 		10, height - 10
 	)
+
+	for _, o in ipairs(objects) do
+		o:draw()
+
+		if o:getID() == 3 then
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.print("X: " .. tostring(o:getX()), 10, 10)
+			love.graphics.print("Y: " .. tostring(o:getY()), 10, 30)
+		end
+	end
 	
+	--[[
 	for _, b in ipairs(bullets) do
 		b:draw()
 
@@ -106,6 +146,7 @@ function Game:draw(dt)
 	for _, e in ipairs(enemies) do
 		e:draw()
 	end
+	--]]
 end
 
 function Game:keyreleased(key)
