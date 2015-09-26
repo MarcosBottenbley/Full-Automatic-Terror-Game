@@ -6,10 +6,7 @@ once_r = false
 once_l = false
 
 highscores = {}
-for line in love.filesystem.lines("scores") do
-		table.insert(highscores, line)
-end
-table.remove(highscores, 1)
+default_scores = "\n5000\n4000\n3000\n2000\n1000"
 
 Title = require("Title")
 Game = require("Game")
@@ -34,6 +31,16 @@ function lerp(a, b, t)
 end
 
 function love.load(arg)
+
+	--load highscore list
+	if not love.filesystem.exists("scores") then
+		love.filesystem.write("scores", default_scores)
+	end
+	for line in love.filesystem.lines("scores") do
+		table.insert(highscores, line)
+	end
+	table.remove(highscores, 1)
+	
 	-- compute some globals
 	width = love.window.getWidth()
 	height = love.window.getHeight()
@@ -45,6 +52,7 @@ function love.load(arg)
 	Game:load()
 	ScoreScreen:load()
 
+	--set current state
 	current = Studio
 	current:start()
 end
@@ -59,4 +67,12 @@ end
 
 function love.keyreleased(key)
 	current:keyreleased(key)
+end
+
+function love.quit()
+	love.filesystem.write("scores", "")
+	
+	for rank, hs in ipairs(highscores) do
+		love.filesystem.append("scores", "\n" .. hs)
+	end
 end

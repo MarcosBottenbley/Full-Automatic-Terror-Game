@@ -1,9 +1,9 @@
 State = require("State")
 
 local Game = {}
-local help = "Press H for high scores and Esc for menu"
+local help = "Press H for high scores and Esc for menu (and P for points)"
 local scorestring = "SCORE: "
-score = 0
+local score = 0
 Game.__index = Game
 
 setmetatable(Game, {
@@ -57,18 +57,19 @@ end
 
 function Game:start()
 	bgm:play()
-	
-	if not love.filesystem.exists("scores") then
-		love.filesystem.write("scores", "")
-	end
-
 	score = 0
 end
 
 function Game:stop()
 	bgm:stop()
-	bytes = string.len(score)
-	love.filesystem.append("scores", "\n" .. score)
+	
+	for rank, hs in ipairs(highscores) do
+		if score > tonumber(hs) then
+			table.insert(highscores, rank, score)
+			table.remove(highscores, 6)
+			break
+		end
+	end
 end
 
 function Game:lose()
@@ -183,6 +184,10 @@ function Game:keyreleased(key)
 	
 	if key == 'h' then
 		switchTo(ScoreScreen)
+	end
+	
+	if key == 'p' then
+		score = score + 100
 	end
 end
 
