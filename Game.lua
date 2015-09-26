@@ -37,32 +37,26 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
-
-	for i = 1, 9 do
-		local g = GlowBorg()
-		--table.insert(enemies, Enemy(math.random(800 - enemy_width), math.random(600 - enemy_height), math.random(40,80)))
-		--table.insert(enemies, g)
-		table.insert(objects, g)
-	end
-
-	--[[
-	for _, e in ipairs(enemies) do
-		e:direction()
-	end
-	--]]
-
-	player1 = Player(width/2, height/2, 200)
-	table.insert(objects, player1)
-	
 end
 
 function Game:start()
 	bgm:play()
 	score = 0
+	for i = 1, 9 do
+		local g = GlowBorg()
+		table.insert(objects, g)
+	end
+
+	player1 = Player(width/2, height/2, 200)
+	table.insert(objects, player1)
 end
 
 function Game:stop()
 	bgm:stop()
+	
+	for i, thing in ipairs(objects) do
+		table.remove(objects, i)
+	end
 	
 	for rank, hs in ipairs(highscores) do
 		if score > tonumber(hs) then
@@ -84,8 +78,6 @@ end
 function Game:update(dt)
 	time = time + dt
 
-	--player1:update(dt, width, height)
-
 	local x = 1
 	for _, o in ipairs(objects) do
 		o:update(dt, width, height)
@@ -97,33 +89,12 @@ function Game:update(dt)
 		x = x + 1
 	end
 
-	--[[
-	for _, e in ipairs(enemies) do
-		e:update(dt, width, height)
-	end
-
-
-	local x = 1
-	for _, b in ipairs(bullets) do
-		b:update(dt, width, height)
-
-		if b:exited_screen(width,height) then
-			table.remove(bullets, x)
-		end
-
-		x = x + 1
-	end
-	--]]
-
 	local length = table.getn(objects)
 	for i=1, length - 1 do
 		for j = i + 1, length do
 			if objects[i]:getID() ~= objects[j]:getID() then
 				local d = self:calc_dist(objects[i]:getX(), objects[j]:getX(), objects[i]:getY(), objects[j]:getY())
 				if d < 10 then
-					--table.remove(objects, j)
-					--table.remove(objects, i)
-					--length = table.getn(objects)
 					objects[i].collided = true
 					objects[j].collided = true
 				end
@@ -142,7 +113,7 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
-	--love.graphics.draw(background, 0, 0)
+	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
 
 	love.graphics.print(
