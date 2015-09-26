@@ -37,6 +37,9 @@ function Menu:load()
 	
 	selected = love.audio.newSource("sfx/select.ogg")
 	selected:setLooping(false)
+
+	quitgame = love.audio.newSource("sfx/shutdown.mp3")
+	quitgame:setLooping(false)
 	
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
 end
@@ -98,6 +101,8 @@ function Menu:keyreleased(key)
 			love.timer.sleep(0.4)
 			switchTo(ScoreScreen)
 		elseif selector == 4 then
+			menu_bgm:stop()
+			quitgame:play()
 			love.timer.sleep(2)
 			love.event.quit()
 		end
