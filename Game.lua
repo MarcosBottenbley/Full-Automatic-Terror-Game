@@ -1,7 +1,8 @@
 State = require("State")
 
 local Game = {}
-local help = "Press H for high scores and Esc for menu (and P for points)"
+local help = "Press H for high scores, Esc for menu, P for points\n" ..
+			"-Press Y to die    -Press X to not die"
 local scorestring = "SCORE: "
 local score = 0
 Game.__index = Game
@@ -138,7 +139,7 @@ function Game:draw(dt)
 
 	love.graphics.print(
 		help,
-		10, height - 10
+		10, height - 20
 	)
 
 	for _, o in ipairs(objects) do
@@ -178,12 +179,21 @@ end
 function Game:keyreleased(key)
 	player1:keyreleased(key)
 	
+	--there's definitely a better way to do this
 	if key == 'escape' then
 		switchTo(Menu)
 	end
 	
 	if key == 'h' then
 		switchTo(ScoreScreen)
+	end
+	
+	if key == 'y' then
+		switchTo(GameOver)
+	end
+	
+	if key == 'x' then
+		switchTo(Win)
 	end
 	
 	if key == 'p' then

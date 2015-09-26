@@ -13,6 +13,8 @@ Game = require("Game")
 ScoreScreen = require("ScoreScreen")
 Menu = require("Menu")
 Studio = require("Studio")
+Win = require("Win")
+GameOver = require("GameOver")
 
 function switchTo(state)
 	current:stop()
@@ -51,6 +53,8 @@ function love.load(arg)
 	Menu:load()
 	Game:load()
 	ScoreScreen:load()
+	Win:load()
+	GameOver:load()
 
 	--set current state
 	current = Studio
