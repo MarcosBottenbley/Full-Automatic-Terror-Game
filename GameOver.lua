@@ -16,6 +16,9 @@ function GameOver:load()
 	self.font = love.graphics.newFont("ka1.ttf", 74)
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
+	
+	lose = love.audio.newSource("sfx/lose.ogg")
+	lose:setLooping(false)
 end
 
 --- Center small inside large.
@@ -40,6 +43,7 @@ function GameOver:keyreleased(key)
 end
 
 function GameOver:start()
+	lose:play()
 end
 
 function GameOver:stop()

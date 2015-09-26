@@ -16,6 +16,9 @@ function Win:load()
 	self.font = love.graphics.newFont("ka1.ttf", 74)
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
+	
+	victory = love.audio.newSource("sfx/win.ogg")
+	victory:setLooping(false)
 end
 
 --- Center small inside large.
@@ -41,7 +44,7 @@ function Win:keyreleased(key)
 end
 
 function Win:start()
-	
+	victory:play()
 end
 
 function Win:stop()
