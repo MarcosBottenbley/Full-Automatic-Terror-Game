@@ -40,7 +40,7 @@ function Win:draw()
 end
 
 function Win:keyreleased(key)
-	switchTo(Title)
+	switchTo(ScoreScreen)
 end
 
 function Win:start()

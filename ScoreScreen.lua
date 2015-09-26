@@ -22,6 +22,15 @@ function ScoreScreen:fadein()
 	end
 end
 
+function ScoreScreen:fadein2()
+	if self.time < 1 then
+		local c = lerp(0, 255, self.time/1)
+		return {c, c, c, 255}
+	else
+		return {255, 25, 25, 255}
+	end
+end
+
 function ScoreScreen:load()
 	self.font = love.graphics.newFont("ka1.ttf", 60)
 	self.font2 = love.graphics.newFont("PressStart2P.ttf", 12)
@@ -51,10 +60,15 @@ function ScoreScreen:draw()
 	)
 
 	love.graphics.setFont(love.graphics.newFont("ka1.ttf", 20))
-	love.graphics.setColor(self:fadein())
 	
 	local length = table.getn(highscores)
 	for i = 1, length do
+		if i == recent_score then
+			love.graphics.setColor(self:fadein2())
+		else
+			love.graphics.setColor(self:fadein())
+		end
+		
 		love.graphics.print(
 			i .. ". " .. highscores[i],
 			30, (height/12 + self.height) + (i*30)

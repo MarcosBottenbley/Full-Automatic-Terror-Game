@@ -39,7 +39,7 @@ function GameOver:draw()
 end
 
 function GameOver:keyreleased(key)
-	switchTo(Title)
+	switchTo(ScoreScreen)
 end
 
 function GameOver:start()

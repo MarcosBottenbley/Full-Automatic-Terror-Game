@@ -5,6 +5,8 @@ once_d = false
 once_r = false
 once_l = false
 
+recent_score = 0
+
 highscores = {}
 default_scores = "\n5000\n4000\n3000\n2000\n1000"
 
