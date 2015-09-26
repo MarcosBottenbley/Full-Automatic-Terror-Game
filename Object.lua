@@ -4,6 +4,7 @@ local Object= {
 	x = 10, y = 10,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
+	id = 0,
 }
 Object.__index = Object
 
@@ -66,6 +67,9 @@ end
 function Object:draw(r,g,b)
 	if self.sprite_sheet ~= nil then
 		love.graphics.draw(self.sprite_sheet, self.sprites[self.current_state][self.current_frame], self.x, self.y)
+		love.graphics.setColor(0,0,0,255)
+		love.graphics.print(tostring(self.id), self.x + self.width/2, self.y + self.height/2)
+		love.graphics.setColor(255,255,255,255)
 	else
 		if r ~= nil and g ~= nil and b ~= nil then
 			love.graphics.setColor(r,g,b)
@@ -83,6 +87,10 @@ end
 
 function Object:getY()
 	return self.y
+end
+
+function Object:getID( ... )
+	return self.id
 end
 
 return Object

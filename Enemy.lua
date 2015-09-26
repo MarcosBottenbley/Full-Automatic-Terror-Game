@@ -3,7 +3,8 @@ math.randomseed(os.time())
 
 local Enemy = {
 	vx = 10, vy = 10,
-	sprites = {}
+	sprites = {},
+	id = 1,
 }
 Enemy.__index = Enemy
 
