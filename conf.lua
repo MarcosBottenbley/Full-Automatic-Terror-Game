@@ -1,5 +1,4 @@
 function love.conf(t)
-	t.identity = nil
 	t.version = "0.9.2"
 	t.window.title = "First Game"
 

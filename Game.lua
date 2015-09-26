@@ -57,11 +57,26 @@ end
 
 function Game:start()
 	bgm:play()
+	
+	if not love.filesystem.exists("scores") then
+		love.filesystem.write("scores", "")
+	end
+
+	score = 0
 end
 
 function Game:stop()
 	bgm:stop()
-	
+	bytes = string.len(score)
+	love.filesystem.append("scores", "\n" .. score)
+end
+
+function Game:lose()
+
+end
+
+function Game:win()
+
 end
 
 function Game:update(dt)
@@ -135,7 +150,6 @@ function Game:draw(dt)
 		end
 	end
 	
-<<<<<<< HEAD
 	love.graphics.setFont(self.scorefont)
 	
 	love.graphics.printf(

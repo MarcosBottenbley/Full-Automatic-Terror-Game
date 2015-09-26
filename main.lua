@@ -5,6 +5,12 @@ once_d = false
 once_r = false
 once_l = false
 
+highscores = {}
+for line in love.filesystem.lines("scores") do
+		table.insert(highscores, line)
+end
+table.remove(highscores, 1)
+
 Title = require("Title")
 Game = require("Game")
 ScoreScreen = require("ScoreScreen")

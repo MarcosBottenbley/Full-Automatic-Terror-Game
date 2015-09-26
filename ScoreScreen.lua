@@ -1,7 +1,6 @@
 State = require("State")
 
 local ScoreScreen = {name = "Your Statistics"}
-local scores = {}
 local help = "Press any key to return to menu"
 ScoreScreen.__index = ScoreScreen
 
@@ -53,10 +52,19 @@ function ScoreScreen:draw()
 
 	love.graphics.setFont(love.graphics.newFont("ka1.ttf", 20))
 	love.graphics.setColor(self:fadein())
-	love.graphics.print(
+	
+	local length = table.getn(highscores)
+	for i = 1, length do
+		love.graphics.print(
+			i .. ". " .. highscores[i],
+			30, (height/12 + self.height) + (i*30)
+		)
+	end
+	
+	--[[love.graphics.print(
 	"Number of Enemies Killed- 0\n\nNumber of Deaths- 0\n\nStatus of Enemy- TOAST",
 	center(width, self.width) - 30, (height/12) + 180
-	)
+	)--]]
 
 end
 
