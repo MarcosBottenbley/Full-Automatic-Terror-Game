@@ -1,6 +1,7 @@
 State = require("State")
 
 local ScoreScreen = {name = "Your Statistics"}
+local scores = {}
 local help = "Press any key to return to menu"
 ScoreScreen.__index = ScoreScreen
 

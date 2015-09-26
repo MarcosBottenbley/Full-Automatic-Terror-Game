@@ -110,6 +110,7 @@ function Player:keyreleased(key)
 		local b = Bullet(self.x + (self.width/2) - 7.5, self.y, -600)
 		table.insert(bullets, b) --magic numbers errywhere
 		table.insert(objects, b)
+		score = score + 10
 	end
 end
 

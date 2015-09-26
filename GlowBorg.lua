@@ -19,7 +19,7 @@ setmetatable(GlowBorg, {
 })
 
 function GlowBorg:_init()
-	local x = math.random(800 - self.width)
+	local x = math.random(width - self.width)
 	local y = 56
 	local v = math.random(40,80)
 	v = -v

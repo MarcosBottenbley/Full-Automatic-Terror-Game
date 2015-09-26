@@ -2,6 +2,8 @@ State = require("State")
 
 local Game = {}
 local help = "Press H for high scores and Esc for menu"
+local scorestring = "SCORE: "
+score = 0
 Game.__index = Game
 
 setmetatable(Game, {
@@ -21,6 +23,7 @@ function Game:load(arg)
 	Bullet = require("Bullet")
 	
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
+	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
 	
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
@@ -93,12 +96,21 @@ function Game:draw(dt)
 		10, height - 10
 	)
 	
+	love.graphics.setFont(self.scorefont)
+	
+	love.graphics.printf(
+		scorestring .. score,
+		width - 300, 10,
+		300,
+		"left"
+	)
+	
 	for _, b in ipairs(bullets) do
 		b:draw()
 
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("X: " .. tostring(b:getX()), 10, 10)
-		love.graphics.print("Y: " .. tostring(b:getY()), 10, 30)
+		--love.graphics.print("X: " .. tostring(b:getX()), 10, 10)
+		--love.graphics.print("Y: " .. tostring(b:getY()), 10, 30)
 	end
 
 	player1:draw()
