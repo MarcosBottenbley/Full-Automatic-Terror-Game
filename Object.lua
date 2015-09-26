@@ -4,7 +4,7 @@ local Object= {
 	x = 10, y = 10,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
-	id = 0,
+	id = 0, collided = false
 }
 Object.__index = Object
 

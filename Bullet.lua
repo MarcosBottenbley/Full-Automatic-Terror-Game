@@ -7,7 +7,7 @@ local Bullet = {
 	width = 15, height = 46,
 	frames = 1, states = 1,
 	delay = 1, sprites = {},
-	id = 3,
+	id = 3, collided = false
 }
 Bullet.__index = Bullet
 

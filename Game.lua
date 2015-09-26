@@ -116,20 +116,28 @@ function Game:update(dt)
 	--]]
 
 	local length = table.getn(objects)
-	for i=1, length do
-
+	for i=1, length - 1 do
 		for j = i + 1, length do
 			if objects[i]:getID() ~= objects[j]:getID() then
 				local d = self:calc_dist(objects[i]:getX(), objects[j]:getX(), objects[i]:getY(), objects[j]:getY())
 				if d < 10 then
-					table.remove(objects, i)
-					table.remove(objects, j)
-					length = table.getn(objects)
+					--table.remove(objects, j)
+					--table.remove(objects, i)
+					--length = table.getn(objects)
+					objects[i].collided = true
+					objects[j].collided = true
 				end
 			end
-
 		end
 	end
+	
+	for i=0, length - 1 do
+		if objects[length - i].collided then
+			table.remove(objects, length - i)
+		end
+	end
+	
+	
 
 end
 

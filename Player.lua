@@ -7,7 +7,7 @@ local Player = {
 	width = 54, height = 70,
 	frames = 5, states = 1,
 	delay = 0.08, sprites = {},
-	id = 2,
+	id = 2, collided = false
 }
 Player.__index = Player
 

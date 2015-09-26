@@ -4,7 +4,7 @@ math.randomseed(os.time())
 local Enemy = {
 	vx = 10, vy = 10,
 	sprites = {},
-	id = 1,
+	id = 1, collided = false
 }
 Enemy.__index = Enemy
 
