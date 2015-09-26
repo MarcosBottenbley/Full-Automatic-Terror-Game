@@ -148,20 +148,6 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
-	
-	for _, b in ipairs(bullets) do
-		b:draw()
-
-		love.graphics.setColor(255,255,255,255)
-		--love.graphics.print("X: " .. tostring(b:getX()), 10, 10)
-		--love.graphics.print("Y: " .. tostring(b:getY()), 10, 30)
-	end
-
-	player1:draw()
-	
-	for _, e in ipairs(enemies) do
-		e:draw()
-	end
 end
 
 function Game:keyreleased(key)

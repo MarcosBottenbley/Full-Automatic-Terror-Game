@@ -1,6 +1,6 @@
 State = require("State")
 
-local Win = {name = "YOU DID IT BROH"}
+local Win = {name = "YOU DID IT BROH", bonus = "SCORE +3000"}
 Win.__index = Win
 
 setmetatable(Win, {
@@ -14,8 +14,12 @@ setmetatable(Win, {
 
 function Win:load()
 	self.font = love.graphics.newFont("ka1.ttf", 74)
-	self.width = self.font:getWidth(self.name)
-	self.height = self.font:getHeight(self.name)
+	self.namewidth = self.font:getWidth(self.name)
+	self.nameheight = self.font:getHeight(self.name)
+	
+	self.fontsmall = love.graphics.newFont("PressStart2P.ttf", 30)
+	self.bonuswidth = self.font:getWidth(self.name)
+	self.bonusheight = self.font:getHeight(self.name)
 	
 	victory = love.audio.newSource("sfx/win.ogg")
 	victory:setLooping(false)
@@ -35,7 +39,13 @@ function Win:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.print(
 		self.name,
-		center(width, self.width), center(height, self.height)
+		center(width, self.namewidth), center(height, self.nameheight)
+	)
+	
+	love.graphics.setFont(self.fontsmall)
+	love.graphics.print(
+		self.bonus,
+		center(width, self.bonuswidth), center(height, self.bonusheight) + 100
 	)
 end
 
