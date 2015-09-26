@@ -97,6 +97,9 @@ function Menu:keyreleased(key)
 		if selector == 0 then
 			love.timer.sleep(0.4)
 			switchTo(Game)
+		elseif selector == 2 then
+			love.timer.sleep(0.4)
+			switchTo(VolScreen)
 		elseif selector == 3 then
 			love.timer.sleep(0.4)
 			switchTo(ScoreScreen)
