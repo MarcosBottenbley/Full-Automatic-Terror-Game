@@ -32,8 +32,12 @@ function GlowBorg:update(dt, swidth, sheight)
 	self.y = self.y + self.vy*dt
 end
 
-function GlowBorg:getRadius( ... )
-	return self.bounding_rad
+function GlowBorg:getHitBoxes( ... )
+	local hb = {}
+	local hb_1 = {self.x + self.width/2, self.y + self.height/2, self.bounding_rad}
+	table.insert(hb, hb_1)
+
+	return hb
 end
 
 return GlowBorg

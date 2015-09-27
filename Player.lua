@@ -7,7 +7,8 @@ local Player = {
 	width = 54, height = 70,
 	frames = 5, states = 1,
 	delay = 0.08, sprites = {},
-	id = 2, collided = false
+	id = 2, collided = false,
+	bounding_rad = 25
 }
 Player.__index = Player
 
@@ -108,10 +109,19 @@ end
 function Player:keyreleased(key)
 	if key == 'z' then
 		pew:play()
-		local b = Bullet(self.x + (self.width/2) - 7.5, self.y, -600) --magic numbers errywhere
-		--table.insert(bullets, b)
+		local b = Bullet(self.x + (self.width/2) - 7.5, self.y - 10, -600) --magic numbers errywhere
 		table.insert(objects, b)
 	end
+end
+
+function Player:getHitBoxes( ... )
+	local hb = {}
+	local hb_1 = {self.x + self.width/2, self.y + 10, 10}
+	local hb_2 = {self.x + self.width/2, self.y + 39, 19}
+	table.insert(hb, hb_1)
+	table.insert(hb, hb_2)
+
+	return hb
 end
 
 return Player

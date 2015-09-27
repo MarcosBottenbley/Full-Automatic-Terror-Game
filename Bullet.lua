@@ -7,7 +7,8 @@ local Bullet = {
 	width = 15, height = 46,
 	frames = 1, states = 1,
 	delay = 1, sprites = {},
-	id = 3, collided = false
+	id = 3, collided = false,
+	bounding_rad = 5
 }
 Bullet.__index = Bullet
 
@@ -48,6 +49,14 @@ function Bullet:exited_screen(swidth, sheight)
 	if y_pos < 0 or x_pos < 0 or y_pos > sheight or x_pos > swidth then
 		return true
 	end
+end
+
+function Bullet:getHitBoxes( ... )
+	local hb = {}
+	local hb_1 = {self.x + self.width/2, self.y + 5, self.bounding_rad}
+	table.insert(hb, hb_1)
+
+	return hb
 end
 
 return Bullet
