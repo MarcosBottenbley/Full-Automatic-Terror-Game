@@ -102,10 +102,11 @@ function Game:update(dt)
 	for i=1, length - 1 do
 		for j = i + 1, length do
 			if objects[i]:getID() ~= objects[j]:getID() then
-				local d = self:calc_dist(objects[i]:getX(), objects[j]:getX(), objects[i]:getY(), objects[j]:getY())
-				if d < 10 then
-					objects[i].collided = true
-					objects[j].collided = true
+				if (objects[i]:getID() ~= 3 and objects[j]:getID() ~= 2) or (objects[i]:getID() ~= 2 and objects[j]:getID() ~= 3) then
+					if self:touching(objects[i], objects[j]) then
+						objects[i].collided = true
+						objects[j].collided = true
+					end
 				end
 			end
 		end
@@ -116,8 +117,6 @@ function Game:update(dt)
 			table.remove(objects, length - i)
 		end
 	end
-	
-	
 
 end
 
@@ -132,12 +131,6 @@ function Game:draw(dt)
 
 	for _, o in ipairs(objects) do
 		o:draw()
-
-		if o:getID() == 3 then
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.print("X: " .. tostring(o:getX()), 10, 10)
-			love.graphics.print("Y: " .. tostring(o:getY()), 10, 30)
-		end
 	end
 	
 	love.graphics.setFont(self.scorefont)
@@ -175,11 +168,38 @@ function Game:keyreleased(key)
 	end
 end
 
-function Game:calc_dist(x1, x2, y1, y2)
-	local x_dist = math.pow(x2-x1,2)
-	local y_dist = math.pow(y2-y1,2)
+function Game:touching(obj1, obj2)
+	local hb_1 = obj1:getHitBoxes()
+	local hb_2 = obj2:getHitBoxes()
 
-	return math.sqrt(x_dist + y_dist)
+	local length1 = table.getn(hb_1)
+	local length2 = table.getn(hb_2)
+
+	if length1 >= length2 then
+		for i = 1, length1 do
+			for j = 1, length2 do
+				local x_dist = math.pow(hb_1[i][1]-hb_2[j][1],2)
+				local y_dist = math.pow(hb_1[i][2]-hb_2[j][2],2)
+				local d = math.sqrt(x_dist + y_dist)
+
+				if d < hb_1[i][3] + hb_2[j][3] then
+					return true
+				end
+			end
+		end
+	else
+		for i = 1, length2 do
+			for j = 1, length1 do
+				local x_dist = math.pow(hb_2[i][1]-hb_1[j][1],2)
+				local y_dist = math.pow(hb_2[i][2]-hb_1[j][2],2)
+				local d = math.sqrt(x_dist + y_dist)
+
+				if d < hb_2[i][3] + hb_1[j][3] then
+					return true
+				end
+			end
+		end
+	end
 end
 
 return Game
