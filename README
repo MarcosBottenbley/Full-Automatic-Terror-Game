@@ -13,6 +13,16 @@ dmill118@jhu.edu
 600.255: Intro to Video Game Design
 Assignment 3: Animation and Game States
 
+#Gameplay
+
+Move the ship with the arrow keys or WASD and press Z to shoot.
+Destroy all the enemies to win the game, but be careful, since
+touching once of them means game over.
+Destroying an enemy is +200 points and clearing the game yields a
++3000 point bonus.
+We decided to go with a simple approach for scoring points since
+a main focus of our game is ship-to-ship combat.
+
 # Credits
 
 * Code

@@ -1,7 +1,7 @@
 State = require("State")
 
 local Win = {name = "YOU DID IT BROH", bonus = "SCORE +3000", 
-help = "Press any key to return to menu"}
+help = "Press any key to continue"}
 Win.__index = Win
 
 setmetatable(Win, {

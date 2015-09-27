@@ -1,8 +1,7 @@
 State = require("State")
 
 local Game = {}
-local help = "Press H for high scores, Esc for menu, P for points\n" ..
-			"-Press Y to die    -Press X to not die"
+local help = "Press Esc to return to menu"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
@@ -113,7 +112,8 @@ function Game:update(dt)
 	local length = table.getn(objects)
 	for i=1, length - 1 do
 		for j = i + 1, length do
-			if objects[i]:getID() ~= objects[j]:getID() then
+			if objects[i]:getID() ~= objects[j]:getID() and
+			objects[i].collided == false and objects[j].collided == false then
 				if objects[i]:getID() == 1 or objects[j]:getID() == 1 then
 					if self:touching(objects[i], objects[j]) then
 
@@ -175,10 +175,8 @@ function Game:update(dt)
 	
 	--checks for win/lose states
 	length = table.getn(objects)
-	print(player_gone)
 	enemy_gone = true
 	player_gone = true
-	print(player_gone)
 	for i=1, length do
 		if objects[i]:getID() == 1 then
 			enemy_gone = false
@@ -186,7 +184,6 @@ function Game:update(dt)
 			player_gone = false
 		end
 	end
-	print(player_gone)
 	
 	if enemy_gone then
 		self:win()
@@ -221,25 +218,8 @@ end
 function Game:keyreleased(key)
 	player1:keyreleased(key)
 	
-	--there's definitely a better way to do this
 	if key == 'escape' then
 		switchTo(Menu)
-	end
-	
-	if key == 'h' then
-		switchTo(ScoreScreen)
-	end
-	
-	if key == 'y' then
-		self:lose()
-	end
-	
-	if key == 'x' then
-		self:win()
-	end
-	
-	if key == 'p' then
-		score = score + 100
 	end
 end
 

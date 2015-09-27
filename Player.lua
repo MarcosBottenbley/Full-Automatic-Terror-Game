@@ -124,4 +124,11 @@ function Player:getHitBoxes( ... )
 	return hb
 end
 
+function Player:explode()
+	if self.exploded == false and self.current_state == 2 then
+		--TODO: make uncollidable somehow?
+		self.exploded = true
+	end
+end
+
 return Player

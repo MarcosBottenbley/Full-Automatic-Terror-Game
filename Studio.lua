@@ -33,7 +33,7 @@ end
 function Studio:update(dt)
 	self.time = self.time + dt
 	if self.time > 3 then
-		switchTo(Title)
+		switchTo(Menu)
 	end
 end
 
@@ -45,7 +45,7 @@ function Studio:keyreleased(key)
 	if key == 'escape' then
 		love.event.quit()
 	else
-		switchTo(Title)
+		switchTo(Menu)
 	end
 end
 

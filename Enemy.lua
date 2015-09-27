@@ -17,6 +17,12 @@ setmetatable(Enemy, {
 	end,
 })
 
+function Enemy:load()
+	Object.load(self)
+	boom = love.audio.newSource("sfx/explode.ogg")
+	boom:setLooping(false)
+end
+
 function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
 	self.vx = v
 	self.vy = v
@@ -45,6 +51,8 @@ function Enemy:update(dt, swidth, sheight)
 	if self.y > sheight-self.height then
 		self.vy = -1 * math.abs(self.vy)
 	end
+	
+	self:explode()
 end
 
 function Enemy:bounce(side)
@@ -62,6 +70,15 @@ function Enemy:direction()
 		else
 			self:bounce(1)
 		end
+	end
+end
+
+function Enemy:explode()
+	if self.exploded == false and self.current_state == 2 then
+		--score = score + 200
+		boom:play()
+		--TODO: make uncollidable somehow?
+		self.exploded = true
 	end
 end
 

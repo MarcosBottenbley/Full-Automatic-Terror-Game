@@ -1,7 +1,7 @@
 State = require("State")
 
 local GameOver = {name = "GAME OVER BROH", 
-help = "Press any key to return to menu"}
+help = "Press any key to continue"}
 GameOver.__index = GameOver
 
 setmetatable(GameOver, {
