@@ -8,6 +8,8 @@ local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
 local title = "SPACE GAME 3000"
+--local alpha = 50		for flashing maybe in the future do not delete
+--local adelt = 75
 
 Menu.__index = Menu
 
@@ -59,11 +61,21 @@ function Menu:load()
 end
 
 function Menu:update(dt)
+
 	timer2 = love.timer.getTime()
 	if (timer2 - timer1) >= 0.2 then
 		flash = not flash
 		timer1 = love.timer.getTime()
 	end
+
+	--[[
+	alpha = alpha + adelt * dt
+	
+	if alpha <= 50 or alpha >= 255 then
+		adelt = -adelt
+	end
+	--]]
+
 end
 
 function Menu:draw()
@@ -73,11 +85,14 @@ function Menu:draw()
 
 	-- draw the title
 	love.graphics.setFont(self.title_font)
+
 	if flash then
 		love.graphics.setColor(255, 255, 255, 255)
 	else
 		love.graphics.setColor(255, 255, 255, 150)
 	end
+
+	--love.graphics.setColor(255,255,255,alpha)
 	love.graphics.print(
 		title,
 		width/2 - title_width/2, 75
