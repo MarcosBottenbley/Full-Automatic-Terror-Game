@@ -99,12 +99,12 @@ function Menu:draw()
 		if selector + 1 == index then
 			love.graphics.print(
 				selects[index],
-				center(width, selectwidths[index]), (item_space)*(index-1) + 226
+				center(width, selectwidths[index]), (item_space)*(index-1) + 230
 			)
 		else
 			love.graphics.print(
 				value,
-				center(width, widths[index]), (item_space)*(index-1) + 226
+				center(width, widths[index]), (item_space)*(index-1) + 230
 				--226 is hardcoded until i check pix location in photoshop
 			)
 		end

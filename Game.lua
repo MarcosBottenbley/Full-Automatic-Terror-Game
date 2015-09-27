@@ -5,6 +5,8 @@ local help = "Press H for high scores, Esc for menu, P for points\n" ..
 			"-Press Y to die    -Press X to not die"
 local scorestring = "SCORE: "
 local score = 0
+local timer = 0
+local waiting = false
 Game.__index = Game
 
 setmetatable(Game, {
@@ -104,19 +106,45 @@ function Game:update(dt)
 			if objects[i]:getID() ~= objects[j]:getID() then
 				if (objects[i]:getID() ~= 3 and objects[j]:getID() ~= 2) or (objects[i]:getID() ~= 2 and objects[j]:getID() ~= 3) then
 					if self:touching(objects[i], objects[j]) then
+
+						-- objects collided
 						objects[i].collided = true
 						objects[j].collided = true
+						-- set to explode
+						objects[i].current_state = 2
+						objects[j].current_state = 2
+						-- start timer
+						waiting = true
+
 					end
 				end
 			end
 		end
 	end
 	
-	for i=0, length - 1 do
-		if objects[length - i].collided then
-			table.remove(objects, length - i)
+	--for i=0, length - 1 do
+	--	if objects[length - i].collided then
+	--		if objects[length - i]:getID() == 3 then
+	--			table.remove(objects, length - i)
+	--		end
+	--	end
+	--end
+
+	-- if they collided, waiting = true
+	if waiting then
+		-- wait for animation
+		if timer > 1.6 then
+			for i=0, length - 1 do
+				if objects[length - i].collided then
+					table.remove(objects, length - i)
+				end
+				waiting = false
+				timer = 0
+			end
 		end
 	end
+
+	timer = timer + dt
 
 end
 

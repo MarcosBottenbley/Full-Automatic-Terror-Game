@@ -5,7 +5,7 @@ local Bullet = {
 	vel = 400,
 	img = "gfx/bullet.png",
 	width = 9, height = 40,
-	frames = 1, states = 1,
+	frames = 1, states = 2,
 	delay = 1, sprites = {},
 	id = 3, collided = false,
 	bounding_rad = 5
