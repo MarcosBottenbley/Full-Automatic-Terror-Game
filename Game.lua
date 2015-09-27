@@ -5,8 +5,13 @@ local help = "Press H for high scores, Esc for menu, P for points\n" ..
 			"-Press Y to die    -Press X to not die"
 local scorestring = "SCORE: "
 local score = 0
+local enemy_count = 9
+
 local timer = 0
 local waiting = false
+
+local enemy_gone = false
+local player_gone = false
 Game.__index = Game
 
 setmetatable(Game, {
@@ -44,8 +49,12 @@ end
 function Game:start()
 	bgm:play()
 	
+	enemy_count = 9
 	score = 0
 	recent_score = 0
+	
+	enemy_gone = false
+	player_gone = false
 	
 	for i = 1, 9 do
 		local g = GlowBorg()
@@ -59,8 +68,9 @@ end
 function Game:stop()
 	bgm:stop()
 	
-	for i, thing in ipairs(objects) do
-		table.remove(objects, i)
+	local length = table.getn(objects)
+	for i = 0, length - 1 do
+		table.remove(objects, length - i)
 	end
 end
 
@@ -104,7 +114,7 @@ function Game:update(dt)
 	for i=1, length - 1 do
 		for j = i + 1, length do
 			if objects[i]:getID() ~= objects[j]:getID() then
-				if (objects[i]:getID() ~= 3 and objects[j]:getID() ~= 2) or (objects[i]:getID() ~= 2 and objects[j]:getID() ~= 3) then
+				if objects[i]:getID() == 1 or objects[j]:getID() == 1 then
 					if self:touching(objects[i], objects[j]) then
 
 						-- objects collided
@@ -112,10 +122,12 @@ function Game:update(dt)
 						objects[j].collided = true
 						-- set to explode
 						objects[i].current_state = 2
+						objects[i].current_frame = 1
 						objects[j].current_state = 2
+						objects[j].current_frame = 1
 						-- start timer
-						waiting = true
-
+						--objects[i].waiting = true
+						--objects[j].waiting = true
 					end
 				end
 			end
@@ -131,7 +143,7 @@ function Game:update(dt)
 	--end
 
 	-- if they collided, waiting = true
-	if waiting then
+	--[[if waiting then
 		-- wait for animation
 		if timer > 1.6 then
 			for i=0, length - 1 do
@@ -144,8 +156,39 @@ function Game:update(dt)
 		end
 	end
 
-	timer = timer + dt
-
+	timer = timer + dt--]]
+	
+	--check for when to end explosion animation and remove object
+	for i=0, length - 1 do
+		if objects[length - i].collided then
+			if objects[length - i].timer > .71 then
+				table.remove(objects, length - i)
+				score = score + 200
+				enemy_count = enemy_count - 1
+			elseif objects[length - i]:getID() == 3 then
+				table.remove(objects, length - i)
+			else
+				objects[length - i].timer = objects[length - i].timer + dt
+			end
+		end
+	end
+	
+	--checks for win/lose states
+	--[[length = table.getn(objects)
+	enemy_gone, player_gone = true
+	for i=1, length do
+		if objects[i].getID() == 1 then
+			enemy_gone = false
+		elseif objects[i].getID() == 2 then
+			player_gone = false
+		end
+	end
+	
+	if enemy_gone then
+		self:win()
+	elseif player_gone then
+		self:lose()
+	end--]]
 end
 
 function Game:draw(dt)

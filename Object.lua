@@ -35,6 +35,8 @@ function Object:_init(x, y, file, width, height, frames, states, delay)
 
 	self.sheet_width = self.sprite_sheet:getWidth()
 	self.sheet_height = self.sprite_sheet:getHeight()
+	
+	self.timer = 0
 
 	self:load()
 end
