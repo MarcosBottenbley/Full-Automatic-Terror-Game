@@ -1,7 +1,0 @@
-Bounding boxes - 
-
-main ship: one 20x20 circle centered on the ship, starting from
-the tip. one 38x38 circle centered on the ship, directly
-underneath the first circle
-
-enemy ship: one centered 50x50 circle
