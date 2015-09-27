@@ -2,9 +2,9 @@ Enemy = require("Enemy")
 
 local GlowBorg = {
 	img = "gfx/enemy_sheet.png",
-	width = 56, height = 56,
-	frames = 8, states = 1,
-	delay = 0.08, sprites = {},
+	width = 60, height = 60,
+	frames = 6, states = 1,
+	delay = 0.12, sprites = {},
 	bounding_rad = 25
 }
 GlowBorg.__index = GlowBorg
