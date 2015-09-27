@@ -1,6 +1,7 @@
 State = require("State")
 
-local Win = {name = "YOU DID IT BROH", bonus = "SCORE +3000"}
+local Win = {name = "YOU DID IT BROH", bonus = "SCORE +3000", 
+help = "Press any key to return to menu"}
 Win.__index = Win
 
 setmetatable(Win, {
@@ -21,6 +22,8 @@ function Win:load()
 	self.bonuswidth = self.font:getWidth(self.name)
 	self.bonusheight = self.font:getHeight(self.name)
 	
+	self.fontsmaller = love.graphics.newFont("PressStart2P.ttf", 12)
+	
 	victory = love.audio.newSource("sfx/win.ogg")
 	victory:setLooping(false)
 end
@@ -31,7 +34,7 @@ function center(large, small)
 end
 
 function Win:update(dt)
-
+	self.time = self.time + dt
 end
 
 function Win:draw()
@@ -47,14 +50,25 @@ function Win:draw()
 		self.bonus,
 		center(width, self.bonuswidth), center(height, self.bonusheight) + 100
 	)
+	
+	if self.time > 2 then
+		love.graphics.setFont(self.fontsmaller)
+		love.graphics.print(
+		self.help,
+		10, height - 10
+		)
+	end
 end
 
 function Win:keyreleased(key)
-	switchTo(ScoreScreen)
+	if self.time > 2 then
+		switchTo(ScoreScreen)
+	end
 end
 
 function Win:start()
 	victory:play()
+	self.time = 0
 end
 
 function Win:stop()

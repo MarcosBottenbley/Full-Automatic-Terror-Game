@@ -174,21 +174,25 @@ function Game:update(dt)
 	end
 	
 	--checks for win/lose states
-	--[[length = table.getn(objects)
-	enemy_gone, player_gone = true
+	length = table.getn(objects)
+	print(player_gone)
+	enemy_gone = true
+	player_gone = true
+	print(player_gone)
 	for i=1, length do
-		if objects[i].getID() == 1 then
+		if objects[i]:getID() == 1 then
 			enemy_gone = false
-		elseif objects[i].getID() == 2 then
+		elseif objects[i]:getID() == 2 then
 			player_gone = false
 		end
 	end
+	print(player_gone)
 	
 	if enemy_gone then
 		self:win()
 	elseif player_gone then
 		self:lose()
-	end--]]
+	end
 end
 
 function Game:draw(dt)
