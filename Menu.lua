@@ -6,6 +6,9 @@ local widths = {}
 local selectwidths = {}
 local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
+local flash = false
+local title = "SPACE GAME 3000"
+
 Menu.__index = Menu
 
 setmetatable(Menu, {
@@ -18,15 +21,22 @@ setmetatable(Menu, {
 })
 
 function Menu:load()
-	self.font = love.graphics.newFont("ka1.ttf", 50)
-	self.font2 = love.graphics.newFont("PressStart2P.ttf", 12)
+	width = love.window.getWidth()
+	height = love.window.getHeight()
+
+	self.title_font = love.graphics.newFont("ka1.ttf", 52)
+	self.list_font = love.graphics.newFont("ka1.ttf", 30)
+	self.help_font = love.graphics.newFont("PressStart2P.ttf", 12)
+
+	title_width = self.title_font:getWidth(title)
+	title_height = self.title_font:getHeight(title)
 	
 	for index,value in ipairs(Menu) do
-		widths[index] = self.font:getWidth(value)
+		widths[index] = self.list_font:getWidth(value)
 	end
 	
 	for index,value in ipairs(selects) do
-		selectwidths[index] = self.font:getWidth(value)
+		selectwidths[index] = self.list_font:getWidth(value)
 	end
 	
 	menu_bgm = love.audio.newSource("sfx/menulow.ogg")
@@ -42,35 +52,60 @@ function Menu:load()
 	quitgame:setLooping(false)
 	
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
+
+	-- for flashing title
+	timer1 = love.timer.getTime()
+	timer2 = love.timer.getTime()
 end
 
 function Menu:update(dt)
+	timer2 = love.timer.getTime()
+	if (timer2 - timer1) >= 0.2 then
+		flash = not flash
+		timer1 = love.timer.getTime()
+	end
 end
 
 function Menu:draw()
+
+	-- draw background
 	love.graphics.draw(self.bg, 1, 1)
-	love.graphics.setFont(self.font2)
+
+	-- draw the title
+	love.graphics.setFont(self.title_font)
+	if flash then
+		love.graphics.setColor(255, 255, 255, 255)
+	else
+		love.graphics.setColor(255, 255, 255, 150)
+	end
+	love.graphics.print(
+		title,
+		width/2 - title_width/2, 75
+	)
+
+	-- draw the menu list
+	love.graphics.setFont(self.help_font)
 	love.graphics.setColor({255, 255, 255, 255})
-	item_space = height / 5 --hardcoded value (lua cant get size of table)
+	item_space = 50 --hardcoded value (lua cant get size of table)
 	
 	love.graphics.print(
 		help,
 		10, height - 10
 	)
 	
-	love.graphics.setFont(self.font)
+	love.graphics.setFont(self.list_font)
 	
 	for index,value in ipairs(Menu) do
 		if selector + 1 == index then
 			love.graphics.print(
 				selects[index],
-				center(width, selectwidths[index]), (item_space)*(index-1) + 25
+				center(width, selectwidths[index]), (item_space)*(index-1) + 226
 			)
 		else
 			love.graphics.print(
 				value,
-				center(width, widths[index]), (item_space)*(index-1) + 25
-				--25 is also hardcoded because i'm lazy
+				center(width, widths[index]), (item_space)*(index-1) + 226
+				--226 is hardcoded until i check pix location in photoshop
 			)
 		end
 	end

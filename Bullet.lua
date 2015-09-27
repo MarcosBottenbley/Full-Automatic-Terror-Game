@@ -4,7 +4,7 @@ math.randomseed(os.time())
 local Bullet = {
 	vel = 400,
 	img = "gfx/bullet.png",
-	width = 15, height = 46,
+	width = 9, height = 40,
 	frames = 1, states = 1,
 	delay = 1, sprites = {},
 	id = 3, collided = false,

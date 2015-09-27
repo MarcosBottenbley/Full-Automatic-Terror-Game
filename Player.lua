@@ -4,7 +4,7 @@ math.randomseed(os.time())
 local Player = {
 	vel = 200,
 	img = "gfx/main_ship_sheet.png",
-	width = 54, height = 70,
+	width = 42, height = 57,
 	frames = 5, states = 1,
 	delay = 0.08, sprites = {},
 	id = 2, collided = false,
