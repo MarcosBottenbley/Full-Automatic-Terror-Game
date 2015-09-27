@@ -4,6 +4,8 @@ local VolScreen = {name = "Volume"}
 local help = "Use Up and Down Arrow Keys to Adjust Volume\nUse Any Other Key to Return to the Menu"
 VolScreen.__index = VolScreen
 local i = 50;
+local max = "MAX"
+local min = "MIN"
 
 setmetatable(VolScreen, {
 	__index = State,
@@ -57,23 +59,39 @@ function VolScreen:draw()
 		"Master Volume:  ",
 		0, 200, 800, 'center'
 	)
-
-	love.graphics.printf(
-		i,
-		0, 300, 800, 'center'
-	)
+	
+	
+	if i == 100 then
+		love.graphics.printf(
+			max,
+			0, 300, 800, 'center'
+		)
+	elseif i == 0 then
+		love.graphics.printf(
+			min,
+			0, 300, 800, 'center'
+		)
+	else 
+		love.graphics.printf(
+			i,
+			0, 300, 800, 'center'
+		)	end
 
 end
 
 function VolScreen:keyreleased(key)
 	if key == 'up' then
-		i = i + 1
+		if (i < 100) then
+			i = i + 1
+		end
 		love.audio.setVolume((i*2)/100)
 	elseif key == 'down' then
-		i = i - 1
+		
+		if (i > 0) then
+			i = i - 1
+		end
 		love.audio.setVolume((i*2)/100)
 	else
-		love.audio.setVolume((i*2)/100)
 		switchTo(Menu)
 	end
 end
