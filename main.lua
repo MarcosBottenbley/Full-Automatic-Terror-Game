@@ -5,6 +5,8 @@ once_d = false
 once_r = false
 once_l = false
 
+recent_score = 0
+
 highscores = {}
 default_scores = "\n5000\n4000\n3000\n2000\n1000"
 
@@ -14,6 +16,7 @@ ScoreScreen = require("ScoreScreen")
 Menu = require("Menu")
 Studio = require("Studio")
 Win = require("Win")
+VolScreen = require("VolScreen")
 GameOver = require("GameOver")
 
 function switchTo(state)
@@ -54,6 +57,7 @@ function love.load(arg)
 	Game:load()
 	ScoreScreen:load()
 	Win:load()
+	VolScreen:load()
 	GameOver:load()
 
 	--set current state

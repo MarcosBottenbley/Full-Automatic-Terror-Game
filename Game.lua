@@ -41,7 +41,10 @@ end
 
 function Game:start()
 	bgm:play()
+	
 	score = 0
+	recent_score = 0
+	
 	for i = 1, 9 do
 		local g = GlowBorg()
 		table.insert(objects, g)
@@ -57,22 +60,28 @@ function Game:stop()
 	for i, thing in ipairs(objects) do
 		table.remove(objects, i)
 	end
-	
+end
+
+function Game:lose()
+	self:scoreCheck()
+	switchTo(GameOver)
+end
+
+function Game:win()
+	score = score + 3000
+	self:scoreCheck()
+	switchTo(Win)
+end
+
+function Game:scoreCheck()
 	for rank, hs in ipairs(highscores) do
 		if score > tonumber(hs) then
+			recent_score = rank
 			table.insert(highscores, rank, score)
 			table.remove(highscores, 6)
 			break
 		end
 	end
-end
-
-function Game:lose()
-
-end
-
-function Game:win()
-
 end
 
 function Game:update(dt)
@@ -139,20 +148,6 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
-	
-	for _, b in ipairs(bullets) do
-		b:draw()
-
-		love.graphics.setColor(255,255,255,255)
-		--love.graphics.print("X: " .. tostring(b:getX()), 10, 10)
-		--love.graphics.print("Y: " .. tostring(b:getY()), 10, 30)
-	end
-
-	player1:draw()
-	
-	for _, e in ipairs(enemies) do
-		e:draw()
-	end
 end
 
 function Game:keyreleased(key)
@@ -168,11 +163,11 @@ function Game:keyreleased(key)
 	end
 	
 	if key == 'y' then
-		switchTo(GameOver)
+		self:lose()
 	end
 	
 	if key == 'x' then
-		switchTo(Win)
+		self:win()
 	end
 	
 	if key == 'p' then
