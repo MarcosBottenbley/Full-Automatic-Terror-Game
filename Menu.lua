@@ -71,7 +71,7 @@ function Menu:update(dt)
 	--[[
 	alpha = alpha + adelt * dt
 	
-	if alpha <= 50 or alpha >= 255 then
+	if alpha <= 50 or alpha >= 255 then			for flashing title
 		adelt = -adelt
 	end
 	--]]
