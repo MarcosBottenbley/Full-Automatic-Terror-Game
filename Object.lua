@@ -1,3 +1,15 @@
+--- Marcos Bottenbley
+--- mbotten1@jhu.edu
+
+--- Rebecca Bushko
+--- rbushko1@jhu.edu
+
+--- Adam Ellenbogen
+--- aellenb1@jhu.edu
+
+--- David Miller
+--- dmill118@jhu.edu
+
 math.randomseed(os.time())
 
 local Object= {
