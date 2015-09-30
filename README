@@ -11,7 +11,20 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 4: Win, Lose, Scores
+Assignment 5: Scrolling Level Zero!
+
+Problem 1: Level Zero
+
+In our game, "four screenfuls of stuff" is described as scrolling across a larger world, which is four times larger than our game screen. Our level will have an objective located somewhere with an arrow constantly pointing in its direction so that the player can navigate towards it with ease. The game will also have a mini-map so that the player will know their position relative to the map’s "boundaries". This level does not actually have a boundary that will stop the player. The map will wrap around so that reaching the wall will send them to the opposite side of the map. The player will be made aware that they have wrapped around so that they don’t get confused when the arrow changes directions on them. This will require smooth transitions between background tiles so that the wraparound looks natural (doesn’t look shaky). There will be enemies spawning at certain locations so that no part of the map is considered to be empty.
+
+Problem 2: Camera and Scrolling
+
+As a more open-world type of game, we plan to use the tile-based approach to level design and rendering. As discussed in problem 1, the camera will scroll across the level (while centered on the player) and, upon reaching its edge, will loop around to the opposite edge of the map. By our account, "camera" is defined as the portion of the level that the player can currently see and "scrolling" is defined as the player moving, which results in a new part of the level becoming visible in the camera. As for "whatever else makes your game more interesting to look at", most of the details are included in the description of Problem 1. In addition to what is stated there, we also are implementing our ship’s ability to rotate and fire in whatever direction we are facing. We will include more advanced descriptions of the added features once we make more progress on implementing and testing them.
+
+
+
+
+
 #Gameplay
 
 Move the ship with the arrow keys or WASD and press Z to shoot.
