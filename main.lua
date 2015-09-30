@@ -57,11 +57,11 @@ function love.load(arg)
 		table.insert(highscores, line)
 	end
 	table.remove(highscores, 1)
-	
+
 	-- compute some globals
 	width = love.window.getWidth()
 	height = love.window.getHeight()
-	
+
 	-- load all the states
 	Studio:load()
 	Title:load()
@@ -91,7 +91,7 @@ end
 
 function love.quit()
 	love.filesystem.write("scores", "")
-	
+
 	for rank, hs in ipairs(highscores) do
 		love.filesystem.append("scores", "\n" .. hs)
 	end

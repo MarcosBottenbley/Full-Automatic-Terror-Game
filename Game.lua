@@ -23,6 +23,7 @@ local waiting = false
 
 local enemy_gone = false
 local player_gone = false
+
 Game.__index = Game
 
 setmetatable(Game, {
@@ -40,17 +41,17 @@ function Game:load(arg)
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
-	
+
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
-	
+
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
-	
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
-	background = love.graphics.newImage("gfx/game_screen.png")
+	background = love.graphics.newImage("gfx/large_bg_2.png")
 
 	enemies = {}
 	bullets = {}
@@ -59,14 +60,14 @@ end
 
 function Game:start()
 	bgm:play()
-	
+
 	enemy_count = 9
 	score = 0
 	recent_score = 0
-	
+
 	enemy_gone = false
 	player_gone = false
-	
+
 	for i = 1, 9 do
 		local g = GlowBorg()
 		table.insert(objects, g)
@@ -78,7 +79,7 @@ end
 
 function Game:stop()
 	bgm:stop()
-	
+
 	local length = table.getn(objects)
 	for i = 0, length - 1 do
 		table.remove(objects, length - i)
@@ -137,39 +138,13 @@ function Game:update(dt)
 						objects[i].current_frame = 1
 						objects[j].current_state = 2
 						objects[j].current_frame = 1
-						-- start timer
-						--objects[i].waiting = true
-						--objects[j].waiting = true
+
 					end
 				end
 			end
 		end
 	end
-	
-	--for i=0, length - 1 do
-	--	if objects[length - i].collided then
-	--		if objects[length - i]:getID() == 3 then
-	--			table.remove(objects, length - i)
-	--		end
-	--	end
-	--end
 
-	-- if they collided, waiting = true
-	--[[if waiting then
-		-- wait for animation
-		if timer > 1.6 then
-			for i=0, length - 1 do
-				if objects[length - i].collided then
-					table.remove(objects, length - i)
-				end
-				waiting = false
-				timer = 0
-			end
-		end
-	end
-
-	timer = timer + dt--]]
-	
 	--check for when to end explosion animation and remove object
 	for i=0, length - 1 do
 		if objects[length - i].collided then
@@ -184,7 +159,7 @@ function Game:update(dt)
 			end
 		end
 	end
-	
+
 	--checks for win/lose states
 	length = table.getn(objects)
 	enemy_gone = true
@@ -196,7 +171,7 @@ function Game:update(dt)
 			player_gone = false
 		end
 	end
-	
+
 	if enemy_gone then
 		self:win()
 	elseif player_gone then
@@ -205,6 +180,9 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
+
+	love.graphics.translate(-player1:getX()/2, -player1:getY()/2)
+
 	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
 
@@ -216,9 +194,9 @@ function Game:draw(dt)
 	for _, o in ipairs(objects) do
 		o:draw()
 	end
-	
+
 	love.graphics.setFont(self.scorefont)
-	
+
 	love.graphics.printf(
 		scorestring .. score,
 		width - 300, 10,
@@ -229,7 +207,7 @@ end
 
 function Game:keyreleased(key)
 	player1:keyreleased(key)
-	
+
 	if key == 'escape' then
 		switchTo(Menu)
 	end
