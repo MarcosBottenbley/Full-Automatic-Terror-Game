@@ -61,7 +61,7 @@ function Player:update(dt, swidth, sheight)
 	 	self.x = self.x+self.vel*dt
 	end
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-	 	self.y = self.y + self.vel*dt
+	 	self.y = self.y+self.vel*dt
 	end
 	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
 	 	self.y = self.y-self.vel*dt
