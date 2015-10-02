@@ -20,7 +20,8 @@ local Player = {
 	frames = 5, states = 2,
 	delay = 0.08, sprites = {},
 	id = 2, collided = false,
-	bounding_rad = 25
+	bounding_rad = 25, angle1 = 0,
+	angle2 = 0
 }
 Player.__index = Player
 
@@ -55,10 +56,20 @@ function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-		self.x = self.x-self.vel*dt
+		--self.x = self.x-self.vel*dt
+		self.angle1 = self.angle1 - math.pi * 0.02
+
+		if self.angle1 <= -(math.pi * 2) then
+			self.angle1 = 0
+		end
 	end
 	if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-	 	self.x = self.x+self.vel*dt
+	 	--self.x = self.x+self.vel*dt
+	 	self.angle1 = self.angle1 + math.pi * 0.02
+
+		if self.angle1 >= math.pi * 2 then
+			self.angle1 = 0
+		end
 	end
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 	 	self.y = self.y+self.vel*dt
@@ -129,7 +140,7 @@ function Player:update(dt, swidth, sheight)
 end
 
 function Player:draw()
-	Object.draw(self,0,255,0)
+	Object.draw(self,0,255,0, self.angle1)
 end
 
 function Player:keyreleased(key)
@@ -142,8 +153,8 @@ end
 
 function Player:getHitBoxes( ... )
 	local hb = {}
-	local hb_1 = {self.x + self.width/2, self.y + 10, 10}
-	local hb_2 = {self.x + self.width/2, self.y + 39, 19}
+	local hb_1 = {self.x, self.y - 18.5, 10}
+	local hb_2 = {self.x, self.y + 10.5, 19}
 	table.insert(hb, hb_1)
 	table.insert(hb, hb_2)
 

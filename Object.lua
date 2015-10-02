@@ -80,9 +80,9 @@ function Object:update(dt)
 	end
 end
 
-function Object:draw(r,g,b)
+function Object:draw(r,g,b, angle)
 	if self.sprite_sheet ~= nil then
-		love.graphics.draw(self.sprite_sheet, self.sprites[self.current_state][self.current_frame], self.x, self.y)
+		love.graphics.draw(self.sprite_sheet, self.sprites[self.current_state][self.current_frame], self.x, self.y, angle, 1,1, self.width/2, self.height/2)
 	else
 		if r ~= nil and g ~= nil and b ~= nil then
 			love.graphics.setColor(r,g,b)

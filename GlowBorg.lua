@@ -46,7 +46,7 @@ end
 
 function GlowBorg:getHitBoxes( ... )
 	local hb = {}
-	local hb_1 = {self.x + self.width/2, self.y + self.height/2, self.bounding_rad}
+	local hb_1 = {self.x, self.y, self.bounding_rad}
 	table.insert(hb, hb_1)
 
 	return hb
