@@ -70,7 +70,7 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	for i = 1, 9 do
+	for i = 1, 39 do
 		local g = GlowBorg()
 		table.insert(objects, g)
 	end

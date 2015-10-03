@@ -31,8 +31,8 @@ setmetatable(GlowBorg, {
 })
 
 function GlowBorg:_init()
-	local x = math.random(width - self.width)
-	local y = 56
+	local x = math.random(bg_width - self.width)
+	local y = math.random(bg_height - self.height)
 	local v = math.random(40,80)
 	v = -v
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
