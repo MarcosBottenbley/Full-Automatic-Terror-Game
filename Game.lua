@@ -75,7 +75,7 @@ function Game:start()
 		table.insert(objects, g)
 	end
 
-	player1 = Player(bg_width/2, bg_height/2, 200)
+	player1 = Player(bg_width/2, bg_height/2, 100)
 	table.insert(objects, player1)
 end
 

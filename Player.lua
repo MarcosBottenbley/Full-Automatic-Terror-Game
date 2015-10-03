@@ -14,14 +14,14 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Player = {
-	vel = 200,
+	vel = 100,
 	img = "gfx/main_ship_sheet.png",
 	width = 42, height = 57,
 	frames = 5, states = 2,
 	delay = 0.08, sprites = {},
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = 0,
-	angle2 = 0
+	ang_vel = 0
 }
 Player.__index = Player
 
@@ -60,21 +60,20 @@ function Player:update(dt, swidth, sheight)
 
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		--self.x = self.x-self.vel*dt
-		self.angle1 = self.angle1 - math.pi * 0.02
-		self.angle2 = -math.pi * 0.02
-	end
-	if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
+		self.ang_vel = -math.pi * dt
+		self.angle1 = self.angle1 + self.ang_vel
+	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 	 	--self.x = self.x+self.vel*dt
-	 	self.angle1 = self.angle1 + math.pi * 0.02
-	 	self.angle2 = math.pi * 0.02
+		self.ang_vel = math.pi * dt
+	 	self.angle1 = self.angle1 + self.ang_vel
 	end
 
 
-	targetx1 = math.cos(self.angle2) * (self.hb_1[1] - self.x) - math.sin(self.angle2) * (self.hb_1[2] - self.y) + self.x
-	targety1 = math.sin(self.angle2) * (self.hb_1[1] - self.x) + math.cos(self.angle2) * (self.hb_1[2] - self.y) + self.y
+	targetx1 = math.cos(self.ang_vel) * (self.hb_1[1] - self.x) - math.sin(self.ang_vel) * (self.hb_1[2] - self.y) + self.x
+	targety1 = math.sin(self.ang_vel) * (self.hb_1[1] - self.x) + math.cos(self.ang_vel) * (self.hb_1[2] - self.y) + self.y
 
-	targetx2 = math.cos(self.angle2) * (self.hb_2[1] - self.x) - math.sin(self.angle2) * (self.hb_2[2] - self.y) + self.x
-	targety2 = math.sin(self.angle2) * (self.hb_2[1] - self.x) + math.cos(self.angle2) * (self.hb_2[2] - self.y) + self.y
+	targetx2 = math.cos(self.ang_vel) * (self.hb_2[1] - self.x) - math.sin(self.ang_vel) * (self.hb_2[2] - self.y) + self.x
+	targety2 = math.sin(self.ang_vel) * (self.hb_2[1] - self.x) + math.cos(self.ang_vel) * (self.hb_2[2] - self.y) + self.y
 
 	self.hb_1[1] = targetx1
 	self.hb_1[2] = targety1
@@ -85,25 +84,47 @@ function Player:update(dt, swidth, sheight)
 
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 	 	--self.y = self.y+self.vel*dt
-	 	self.y = self.y - (self.hb_1[2] - self.y) * dt
+	 	--[[self.y = self.y - (self.hb_1[2] - self.y) * dt
 	 	self.x = self.x - (self.hb_1[1] - self.x) * dt
 
 	 	self.hb_1[2] = self.hb_1[2] - ((self.y - self.height/2) - self.y) * dt
 	 	self.hb_1[1] = self.hb_1[1] - ((self.y - self.height/2) - self.x) * dt
 
 	 	self.hb_2[2] = self.hb_2[2] - (self.hb_1[2] - self.y) * dt
-	 	self.hb_2[1] = self.hb_2[1] - (self.hb_1[1] - self.x) * dt
+	 	self.hb_2[1] = self.hb_2[1] - (self.hb_1[1] - self.x) * dt--]]
+		
+		
+		
+		self.y = self.y + math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.x = self.x - math.cos(math.pi/2 - self.angle1)*self.vel*dt
+
+	 	self.hb_1[2] = self.hb_1[2] + math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.hb_1[1] = self.hb_1[1] - math.cos(math.pi/2 - self.angle1)*self.vel*dt
+
+	 	self.hb_2[2] = self.hb_2[2] + math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.hb_2[1] = self.hb_2[1] - math.cos(math.pi/2 - self.angle1)*self.vel*dt
 	end
 	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
 	 	--self.y = self.y-self.vel*dt
-	 	self.y = self.y + (self.hb_1[2] - self.y) * dt
+	 	--[[self.y = self.y + (self.hb_1[2] - self.y) * dt
 	 	self.x = self.x + (self.hb_1[1] - self.x) * dt
 
 	 	self.hb_1[2] = self.hb_1[2] + ((self.hb_1[2] + 30) - self.y) * dt
 	 	self.hb_1[1] = self.hb_1[1] + ((self.hb_1[1] + 30) - self.x) * dt
 
 	 	self.hb_2[2] = self.hb_2[2] + (self.hb_1[2] - self.y) * dt
-	 	self.hb_2[1] = self.hb_2[1] + (self.hb_1[1] - self.x) * dt
+	 	self.hb_2[1] = self.hb_2[1] + (self.hb_1[1] - self.x) * dt--]]
+		
+		self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+
+	 	self.hb_1[2] = self.hb_1[2] - math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.hb_1[1] = self.hb_1[1] + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+
+	 	self.hb_2[2] = self.hb_2[2] - math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.hb_2[1] = self.hb_2[1] + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+		
+		
 	end
 
 
@@ -181,7 +202,7 @@ function Player:keyreleased(key)
 	end
 
 	if key == 'left' or key == 'right' then
-		self.angle2 = 0
+		self.ang_vel = 0
 	end
 end
 
