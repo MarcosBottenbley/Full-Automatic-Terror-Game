@@ -208,4 +208,12 @@ function Player:getY()
 	return self.y
 end
 
+function Player:setX(newX)
+	self.x = newX
+end
+
+function Player:setY(newY)
+	self.y = newY
+end
+
 return Player

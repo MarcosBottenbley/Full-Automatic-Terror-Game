@@ -202,6 +202,23 @@ function Game:draw(dt)
 				love.graphics.circle("line", h[1], h[2], h[3], 100)
 			end
 		end
+
+		-- wrap around
+		if o:getID() == 2 then
+			if o:getX() < width/2 then
+				o:setX(bg_width - width/2 - 1)
+			end
+			if o:getY() < height/2 then
+				o:setY(bg_height - height/2 - 1)
+			end
+			if o:getX() > bg_width - width/2 then
+				o:setX(width/2 + 1)
+			end
+			if o:getY() > bg_height - height/2 then
+				o:setY(height/2 + 1)
+			end
+		end
+
 	end
 
 	love.graphics.setFont(self.scorefont)
