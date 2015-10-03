@@ -44,6 +44,9 @@ function Player:_init(x, y, v)
 		self.delay)
 
 	self.vel = v
+
+	self.hb_1 = {self.x, self.y - 18.5, 10}
+	self.hb_2 = {self.x, self.y + 10.5, 19}
 end
 
 function Player:load()
@@ -58,25 +61,52 @@ function Player:update(dt, swidth, sheight)
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		--self.x = self.x-self.vel*dt
 		self.angle1 = self.angle1 - math.pi * 0.02
-
-		if self.angle1 <= -(math.pi * 2) then
-			self.angle1 = 0
-		end
+		self.angle2 = -math.pi * 0.02
 	end
 	if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 	 	--self.x = self.x+self.vel*dt
 	 	self.angle1 = self.angle1 + math.pi * 0.02
-
-		if self.angle1 >= math.pi * 2 then
-			self.angle1 = 0
-		end
+	 	self.angle2 = math.pi * 0.02
 	end
+
+
+	targetx1 = math.cos(self.angle2) * (self.hb_1[1] - self.x) - math.sin(self.angle2) * (self.hb_1[2] - self.y) + self.x
+	targety1 = math.sin(self.angle2) * (self.hb_1[1] - self.x) + math.cos(self.angle2) * (self.hb_1[2] - self.y) + self.y
+
+	targetx2 = math.cos(self.angle2) * (self.hb_2[1] - self.x) - math.sin(self.angle2) * (self.hb_2[2] - self.y) + self.x
+	targety2 = math.sin(self.angle2) * (self.hb_2[1] - self.x) + math.cos(self.angle2) * (self.hb_2[2] - self.y) + self.y
+
+	self.hb_1[1] = targetx1
+	self.hb_1[2] = targety1
+
+	self.hb_2[1] = targetx2
+	self.hb_2[2] = targety2
+
+
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-	 	self.y = self.y+self.vel*dt
+	 	--self.y = self.y+self.vel*dt
+	 	self.y = self.y - (self.hb_1[2] - self.y) * dt
+	 	self.x = self.x - (self.hb_1[1] - self.x) * dt
+
+	 	self.hb_1[2] = self.hb_1[2] - ((self.y - self.height/2) - self.y) * dt
+	 	self.hb_1[1] = self.hb_1[1] - ((self.y - self.height/2) - self.x) * dt
+
+	 	self.hb_2[2] = self.hb_2[2] - (self.hb_1[2] - self.y) * dt
+	 	self.hb_2[1] = self.hb_2[1] - (self.hb_1[1] - self.x) * dt
 	end
 	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
-	 	self.y = self.y-self.vel*dt
+	 	--self.y = self.y-self.vel*dt
+	 	self.y = self.y + (self.hb_1[2] - self.y) * dt
+	 	self.x = self.x + (self.hb_1[1] - self.x) * dt
+
+	 	self.hb_1[2] = self.hb_1[2] + ((self.hb_1[2] + 30) - self.y) * dt
+	 	self.hb_1[1] = self.hb_1[1] + ((self.hb_1[1] + 30) - self.x) * dt
+
+	 	self.hb_2[2] = self.hb_2[2] + (self.hb_1[2] - self.y) * dt
+	 	self.hb_2[1] = self.hb_2[1] + (self.hb_1[1] - self.x) * dt
 	end
+
+
 	-- if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 	-- 	self.x = self.x-self.vel*dt
 	--
@@ -149,14 +179,16 @@ function Player:keyreleased(key)
 		local b = Bullet(self.x + (self.width/2) - 7.5, self.y - 10, -600) --magic numbers errywhere
 		table.insert(objects, b)
 	end
+
+	if key == 'left' or key == 'right' then
+		self.angle2 = 0
+	end
 end
 
 function Player:getHitBoxes( ... )
 	local hb = {}
-	local hb_1 = {self.x, self.y - 18.5, 10}
-	local hb_2 = {self.x, self.y + 10.5, 19}
-	table.insert(hb, hb_1)
-	table.insert(hb, hb_2)
+	table.insert(hb, self.hb_1)
+	table.insert(hb, self.hb_2)
 
 	return hb
 end
