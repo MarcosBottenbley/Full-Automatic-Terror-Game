@@ -52,6 +52,8 @@ function Game:load(arg)
 	bgm:setLooping(true)
 
 	background = love.graphics.newImage("gfx/large_bg_2.png")
+	bg_width = background:getWidth()
+	bg_height = background:getHeight()
 
 	enemies = {}
 	bullets = {}
@@ -73,7 +75,7 @@ function Game:start()
 		table.insert(objects, g)
 	end
 
-	player1 = Player(width/2, height/2, 200)
+	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
 end
 
@@ -181,7 +183,7 @@ end
 
 function Game:draw(dt)
 
-	love.graphics.translate(-player1:getX()/2, -player1:getY()/2)
+	love.graphics.translate(-player1:getX() + width/2, -player1:getY() + height/2)
 
 	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
