@@ -82,6 +82,9 @@ end
 
 function Object:draw(r,g,b, angle)
 	if self.sprite_sheet ~= nil then
+		if self.id == 3 then
+			print(angle)
+		end
 		love.graphics.draw (
 			self.sprite_sheet,
 			self.sprites[self.current_state][self.current_frame],

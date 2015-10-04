@@ -20,6 +20,8 @@ local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
 local title = "SPACE GAME 3000"
+local width = love.window.getWidth()
+local height = love.window.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
 --local adelt = 75
 
@@ -35,8 +37,6 @@ setmetatable(Menu, {
 })
 
 function Menu:load()
-	width = love.window.getWidth()
-	height = love.window.getHeight()
 
 	self.title_font = love.graphics.newFont("ka1.ttf", 52)
 	self.list_font = love.graphics.newFont("ka1.ttf", 30)
