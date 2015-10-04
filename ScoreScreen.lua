@@ -86,11 +86,6 @@ function ScoreScreen:draw()
 			30, (height/12 + self.height) + (i*30)
 		)
 	end
-	
-	--[[love.graphics.print(
-	"Number of Enemies Killed- 0\n\nNumber of Deaths- 0\n\nStatus of Enemy- TOAST",
-	center(width, self.width) - 30, (height/12) + 180
-	)--]]
 
 end
 

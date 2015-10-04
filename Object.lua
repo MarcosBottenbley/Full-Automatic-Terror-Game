@@ -82,9 +82,6 @@ end
 
 function Object:draw(r,g,b, angle)
 	if self.sprite_sheet ~= nil then
-		if self.id == 3 then
-			print(angle)
-		end
 		love.graphics.draw (
 			self.sprite_sheet,
 			self.sprites[self.current_state][self.current_frame],
@@ -92,13 +89,14 @@ function Object:draw(r,g,b, angle)
 			angle, 1,1,
 			self.width/2, self.height/2
 		)
-		if self.id == 2 then
+		--for testing
+		--[[if self.id == 2 then
 			love.graphics.setColor(0, 0, 255, 255)
 			love.graphics.circle("fill", self.x, self.y, 4, 100)
 			love.graphics.circle("fill", self.x, self.y + (self.height/2), 4, 100)
 			love.graphics.circle("fill", self.x, self.y - (self.height/2), 4, 100)
 			love.graphics.setColor(255, 255, 255, 255)
-		end
+		end--]]
 	else
 		if r ~= nil and g ~= nil and b ~= nil then
 			love.graphics.setColor(r,g,b)

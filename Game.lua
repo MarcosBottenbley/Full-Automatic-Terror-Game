@@ -115,7 +115,7 @@ function Game:update(dt)
 
 	local x = 1
 	for _, o in ipairs(objects) do
-		o:update(dt, width, height)
+		o:update(dt, bg_width, bg_height)
 
 		if o:getID() == 3 and o:exited_screen(bg_width, bg_height) then
 			table.remove(objects, x)
@@ -203,7 +203,7 @@ function Game:draw(dt)
 			end
 		end
 
-		-- don't wrap around
+		--wrap around
 		--[[if o:getID() == 2 then
 			if o:getX() < width/2 then
 				o:setX(bg_width - width/2 - 1)

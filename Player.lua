@@ -57,13 +57,11 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-
+	
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-		--self.x = self.x-self.vel*dt
 		self.ang_vel = -math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
 	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-	 	--self.x = self.x+self.vel*dt
 		self.ang_vel = math.pi * dt
 	 	self.angle1 = self.angle1 + self.ang_vel
 	end
@@ -83,19 +81,7 @@ function Player:update(dt, swidth, sheight)
 
 
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-	 	--self.y = self.y+self.vel*dt
-	 	--[[self.y = self.y - (self.hb_1[2] - self.y) * dt
-	 	self.x = self.x - (self.hb_1[1] - self.x) * dt
-
-	 	self.hb_1[2] = self.hb_1[2] - ((self.y - self.height/2) - self.y) * dt
-	 	self.hb_1[1] = self.hb_1[1] - ((self.y - self.height/2) - self.x) * dt
-
-	 	self.hb_2[2] = self.hb_2[2] - (self.hb_1[2] - self.y) * dt
-	 	self.hb_2[1] = self.hb_2[1] - (self.hb_1[1] - self.x) * dt--]]
-		
-		
-		
-		self.y = self.y + math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.y = self.y + math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.x = self.x - math.cos(math.pi/2 - self.angle1)*self.vel*dt
 
 	 	self.hb_1[2] = self.hb_1[2] + math.sin(math.pi/2 - self.angle1)*self.vel*dt
@@ -105,16 +91,6 @@ function Player:update(dt, swidth, sheight)
 	 	self.hb_2[1] = self.hb_2[1] - math.cos(math.pi/2 - self.angle1)*self.vel*dt
 	end
 	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
-	 	--self.y = self.y-self.vel*dt
-	 	--[[self.y = self.y + (self.hb_1[2] - self.y) * dt
-	 	self.x = self.x + (self.hb_1[1] - self.x) * dt
-
-	 	self.hb_1[2] = self.hb_1[2] + ((self.hb_1[2] + 30) - self.y) * dt
-	 	self.hb_1[1] = self.hb_1[1] + ((self.hb_1[1] + 30) - self.x) * dt
-
-	 	self.hb_2[2] = self.hb_2[2] + (self.hb_1[2] - self.y) * dt
-	 	self.hb_2[1] = self.hb_2[1] + (self.hb_1[1] - self.x) * dt--]]
-		
 		self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
 
@@ -123,8 +99,6 @@ function Player:update(dt, swidth, sheight)
 
 	 	self.hb_2[2] = self.hb_2[2] - math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.hb_2[1] = self.hb_2[1] + math.cos(math.pi/2 - self.angle1)*self.vel*dt
-		
-		
 	end
 
 
