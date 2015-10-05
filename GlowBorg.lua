@@ -38,10 +38,20 @@ function GlowBorg:_init()
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
-function GlowBorg:update(dt, swidth, sheight)
+function GlowBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
-
-	self.y = self.y + self.vy*dt
+	
+	print("PLAYER: " .. py .. " " .. px)
+	local angle = math.atan((py - self.y) / (px - self.x))
+	
+	--i suck at math
+	if px - self.x > 0 then
+		self.x = self.x + 50 * dt * math.cos(angle)
+		self.y = self.y + 50 * dt * math.sin(angle)
+	else
+		self.x = self.x - 50 * dt * math.cos(angle)
+		self.y = self.y - 50 * dt * math.sin(angle)
+	end
 end
 
 function GlowBorg:getHitBoxes( ... )

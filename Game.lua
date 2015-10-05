@@ -69,14 +69,14 @@ function Game:start()
 
 	enemy_gone = false
 	player_gone = false
+	
+	player1 = Player(bg_width/2, bg_height/2, 200)
+	table.insert(objects, player1)
 
-	for i = 1, 1 do
+	for i = 1, 9 do
 		local g = GlowBorg()
 		table.insert(objects, g)
 	end
-
-	player1 = Player(bg_width/2, bg_height/2, 200)
-	table.insert(objects, player1)
 end
 
 function Game:stop()
@@ -113,9 +113,16 @@ end
 function Game:update(dt)
 	time = time + dt
 
+	local playerx = 0
+	local playery = 0
 	local x = 1
 	for _, o in ipairs(objects) do
-		o:update(dt, bg_width, bg_height)
+		if x == 1 then
+			playerx = o:getX()
+			playery = o:getY()
+		end
+		
+		o:update(dt, bg_width, bg_height, playerx, playery)
 
 		if o:getID() == 3 and o:exited_screen(bg_width, bg_height) then
 			table.remove(objects, x)
