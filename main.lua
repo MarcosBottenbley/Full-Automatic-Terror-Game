@@ -20,7 +20,7 @@ once_l = false
 recent_score = 0
 
 highscores = {}
-default_scores = "\n5000\n4000\n3000\n2000\n1000"
+default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
 Title = require("Title")
 Game = require("Game")

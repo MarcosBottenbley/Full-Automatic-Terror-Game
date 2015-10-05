@@ -110,7 +110,7 @@ function Game:scoreCheck()
 		if score > tonumber(hs) then
 			recent_score = rank
 			table.insert(highscores, rank, score)
-			table.remove(highscores, 6)
+			table.remove(highscores, 7)
 			break
 		end
 	end
