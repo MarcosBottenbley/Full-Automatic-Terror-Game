@@ -205,12 +205,6 @@ function Game:draw(dt)
 	-- end camera
 
 	love.graphics.draw(background, 0, 0)
-	love.graphics.setFont(self.helpfont)
-
-	love.graphics.print(
-		help,
-		10, height - 20
-	)
 
 	for _, o in ipairs(objects) do
 		o:draw()
@@ -240,14 +234,22 @@ function Game:draw(dt)
 
 	end
 
-	love.graphics.setFont(self.scorefont)
+	love.graphics.translate(-x, -y)
 
+	love.graphics.setFont(self.helpfont)
+	love.graphics.print(
+		help,
+		10, height - 20
+	)
+
+	love.graphics.setFont(self.scorefont)
 	love.graphics.printf(
 		scorestring .. score,
 		width - 300, 10,
 		300,
 		"left"
 	)
+
 end
 
 function Game:keyreleased(key)
