@@ -14,7 +14,7 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Player = {
-	vel = 100,
+	vel = 200,
 	img = "gfx/main_ship_sheet.png",
 	width = 42, height = 57,
 	frames = 5, states = 2,

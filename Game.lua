@@ -75,7 +75,7 @@ function Game:start()
 		table.insert(objects, g)
 	end
 
-	player1 = Player(bg_width/2, bg_height/2, 100)
+	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
 end
 
@@ -183,6 +183,8 @@ end
 
 function Game:draw(dt)
 
+	
+
 	-- camera control
 	local x, y = -1, -1
 	local px, py = player1:getX(), player1:getY()
@@ -199,12 +201,10 @@ function Game:draw(dt)
 	-- end camera
 	
 	love.graphics.draw(background, 0, 0)
-	love.graphics.setFont(self.helpfont)
-
-	love.graphics.print(
-		help,
-		10, height - 20
-	)
+	
+	
+	
+	--love.graphics.translate(x, y)
 
 	for _, o in ipairs(objects) do
 		o:draw()
@@ -233,7 +233,16 @@ function Game:draw(dt)
 		end--]]
 
 	end
+	
+	love.graphics.translate(-x, -y)
+	
+	love.graphics.setFont(self.helpfont)
 
+	love.graphics.print(
+		help,
+		10, height - 20
+	)
+	
 	love.graphics.setFont(self.scorefont)
 
 	love.graphics.printf(
