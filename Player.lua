@@ -66,102 +66,37 @@ function Player:update(dt, swidth, sheight)
 	 	self.angle1 = self.angle1 + self.ang_vel
 	end
 
-
-	targetx1 = math.cos(self.ang_vel) * (self.hb_1[1] - self.x) - math.sin(self.ang_vel) * (self.hb_1[2] - self.y) + self.x
-	targety1 = math.sin(self.ang_vel) * (self.hb_1[1] - self.x) + math.cos(self.ang_vel) * (self.hb_1[2] - self.y) + self.y
-
-	targetx2 = math.cos(self.ang_vel) * (self.hb_2[1] - self.x) - math.sin(self.ang_vel) * (self.hb_2[2] - self.y) + self.x
-	targety2 = math.sin(self.ang_vel) * (self.hb_2[1] - self.x) + math.cos(self.ang_vel) * (self.hb_2[2] - self.y) + self.y
-
-	self.hb_1[1] = targetx1
-	self.hb_1[2] = targety1
-
-	self.hb_2[1] = targetx2
-	self.hb_2[2] = targety2
-
-
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 	 	self.y = self.y + math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.x = self.x - math.cos(math.pi/2 - self.angle1)*self.vel*dt
-
-	 	self.hb_1[2] = self.hb_1[2] + math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.hb_1[1] = self.hb_1[1] - math.cos(math.pi/2 - self.angle1)*self.vel*dt
-
-	 	self.hb_2[2] = self.hb_2[2] + math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.hb_2[1] = self.hb_2[1] - math.cos(math.pi/2 - self.angle1)*self.vel*dt
 	end
 	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
 		self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
-
-	 	self.hb_1[2] = self.hb_1[2] - math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.hb_1[1] = self.hb_1[1] + math.cos(math.pi/2 - self.angle1)*self.vel*dt
-
-	 	self.hb_2[2] = self.hb_2[2] - math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.hb_2[1] = self.hb_2[1] + math.cos(math.pi/2 - self.angle1)*self.vel*dt
 	end
+	
+	if self.x < 1 then
+		self.x = 1
+	end
+	
+	if self.y < 1 then
+		self.y = 1
+	end
+	
+	if self.x > (swidth - self.width) then
+		self.x = (swidth - self.width)
+	end
+	
+	if self.y > (sheight - self.height) then
+		self.y = (sheight - self.height)
+	end
+	
+	self.hb_1[1] = self.x + 18.5 * math.sin(self.angle1)
+	self.hb_1[2] = self.y - 18.5 * math.cos(self.angle1)
 
+	self.hb_2[1] = self.x - 10.5 * math.sin(self.angle1)
+	self.hb_2[2] = self.y + 10.5 * math.cos(self.angle1)
 
-	-- if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-	-- 	self.x = self.x-self.vel*dt
-	--
-	-- 	if self.x < 1 and not once_l then
-	-- 		blip:play()
-	-- 		once_l = true
-	-- 	elseif once_l and self.x >= 1 then
-	-- 		once_l = false
-	-- 	end
-	--
-	-- 	if self.x < 1 then
-	-- 		self.x = 1
-	-- 	end
-	--
-	-- end
-	--
-	-- if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-	-- 	self.x = self.x+self.vel*dt
-	--
-	-- 	if self.x > (swidth - self.width) and not once_r then
-	-- 		blip:play()
-	-- 		once_r = true
-	-- 	elseif once_r and self.x <= (swidth - self.width) then
-	-- 		once_r = false
-	-- 	end
-	--
-	-- 	if self.x > (swidth - self.width) then
-	-- 		self.x = (swidth - self.width)
-	-- 	end
-	-- end
-	--
-	-- if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-	-- 	self.y = self.y + self.vel*dt
-	--
-	-- 	if self.y > (sheight - self.height) and not once_d then
-	-- 		blip:play()
-	-- 		once_d = true
-	-- 	elseif once_d and self.y <= (sheight - self.height) then
-	-- 		once_d = false
-	-- 	end
-	--
-	-- 	if self.y > (sheight - self.height) then
-	-- 		self.y = (sheight - self.height)
-	-- 	end
-	-- end
-	--
-	-- if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
-	-- 	self.y = self.y-self.vel*dt
-	--
-	-- 	if self.y < 1 and not once_u then
-	-- 		blip:play()
-	-- 		once_u = true
-	-- 	elseif once_u and self.y >= 1 then
-	-- 		once_u = false
-	-- 	end
-	--
-	-- 	if self.y < 1 then
-	-- 		self.y = 1
-	-- 	end
-	-- end
 end
 
 function Player:draw()
@@ -193,6 +128,14 @@ function Player:explode()
 		--TODO: make uncollidable somehow?
 		self.exploded = true
 	end
+end
+
+function Player:setHitBoxes(x1, y1, x2, y2)
+	self.hb_1[1] = x1
+	self.hb_1[2] = y1
+
+	self.hb_2[1] = x2
+	self.hb_2[2] = y2
 end
 
 function Player:getX()
