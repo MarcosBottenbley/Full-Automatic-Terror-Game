@@ -41,6 +41,7 @@ function Game:load(arg)
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
+	PhantomShip = require("PhantomShip")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -51,7 +52,7 @@ function Game:load(arg)
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
-	background = love.graphics.newImage("gfx/large_bg_2.png")
+	background = love.graphics.newImage("gfx/large_bg.png")
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
 
@@ -73,8 +74,13 @@ function Game:start()
 	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
 
-	for i = 1, 9 do
+	for i = 1, 29 do
 		local g = GlowBorg()
+		table.insert(objects, g)
+	end
+
+	for i = 1, 29 do
+		local g = PhantomShip()
 		table.insert(objects, g)
 	end
 end
@@ -157,7 +163,7 @@ function Game:update(dt)
 	--check for when to end explosion animation and remove object
 	for i=0, length - 1 do
 		if objects[length - i].collided then
-			if objects[length - i].timer > .71 then
+			if objects[length - i].timer > .58 then
 				table.remove(objects, length - i)
 				score = score + 200
 				enemy_count = enemy_count - 1
@@ -190,8 +196,6 @@ end
 
 function Game:draw(dt)
 
-	
-
 	-- camera control
 	local x, y = -1, -1
 	local px, py = player1:getX(), player1:getY()
@@ -206,12 +210,8 @@ function Game:draw(dt)
 
 	love.graphics.translate(x, y)
 	-- end camera
-	
+
 	love.graphics.draw(background, 0, 0)
-	
-	
-	
-	--love.graphics.translate(x, y)
 
 	for _, o in ipairs(objects) do
 		o:draw()
@@ -240,24 +240,23 @@ function Game:draw(dt)
 		end--]]
 
 	end
-	
-	love.graphics.translate(-x, -y)
-	
-	love.graphics.setFont(self.helpfont)
 
+	love.graphics.translate(-x, -y)
+
+	love.graphics.setFont(self.helpfont)
 	love.graphics.print(
 		help,
 		10, height - 20
 	)
-	
-	love.graphics.setFont(self.scorefont)
 
+	love.graphics.setFont(self.scorefont)
 	love.graphics.printf(
 		scorestring .. score,
 		width - 300, 10,
 		300,
 		"left"
 	)
+
 end
 
 function Game:keyreleased(key)
@@ -300,10 +299,6 @@ function Game:touching(obj1, obj2)
 			end
 		end
 	end
-end
-
-function moveCamera()
-
 end
 
 return Game
