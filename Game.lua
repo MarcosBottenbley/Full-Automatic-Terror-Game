@@ -183,20 +183,21 @@ end
 
 function Game:draw(dt)
 
-	-- messy if statements
-	if (player1:getX() <= width/2 and player1:getY() > height/2) then
-		love.graphics.translate(-player1:getX(), -player1:getY() + height/2)
-	end
-	if (player1:getY() <= height/2 and player1:getX() > width/2) then
-		love.graphics.translate(-player1:getX() + width/2, -player1:getY())
-	end
-	if (player1:getX() <= width/2 and player1:getY() <= height/2) then
-		love.graphics.translate(-player1:getX(), -player1:getY())
-	end
-	if (player1:getX() > width/2 and player1:getY() > height/2) then
-		love.graphics.translate(-player1:getX() + width/2, -player1:getY() + height/2)
-	end
+	-- camera control
+	local x, y = 0, 0
+	local px, py = player1:getX(), player1:getY()
 
+	if (px <= width/2) then x = -px end
+	if (py <= height/2) then y = -py end
+	if (px >= bg_width - width/2) then x = -px + width end
+	if (py >= bg_height - height/2) then y = -py + height end
+
+	if (x == 0) then x = -px + width/2 end
+	if (y == 0) then y = -py + height/2 end
+
+	love.graphics.translate(x, y)
+	-- end camera
+	
 	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
 
@@ -283,6 +284,10 @@ function Game:touching(obj1, obj2)
 			end
 		end
 	end
+end
+
+function moveCamera()
+
 end
 
 return Game
