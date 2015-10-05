@@ -14,6 +14,7 @@ State = require("State")
 
 local ScoreScreen = {name = "HIGH SCORES"}
 local help = "Press any key to return to menu"
+local bg
 ScoreScreen.__index = ScoreScreen
 
 setmetatable(ScoreScreen, {
@@ -49,6 +50,8 @@ function ScoreScreen:load()
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
 	self.sound = love.audio.newSource("sfx/scorelow.ogg")
+
+	bg = love.graphics.newImage("gfx/hi_score.png")
 end
 
 function ScoreScreen:update(dt)
@@ -56,14 +59,16 @@ function ScoreScreen:update(dt)
 end
 
 function ScoreScreen:draw()
-	
+
+	love.graphics.draw(bg, 0, 0)
+
 	love.graphics.setFont(self.font2)
 	love.graphics.setColor(self:fadein())
 	love.graphics.print(
 		help,
 		10, height - 10
 	)
-	
+
 	love.graphics.setFont(self.font)
 	love.graphics.setColor(self:fadein())
 	love.graphics.print(
@@ -72,7 +77,7 @@ function ScoreScreen:draw()
 	)
 
 	love.graphics.setFont(love.graphics.newFont("ka1.ttf", 20))
-	
+
 	local length = table.getn(highscores)
 	for i = 1, length do
 		if i == recent_score then
@@ -80,7 +85,7 @@ function ScoreScreen:draw()
 		else
 			love.graphics.setColor(self:fadein())
 		end
-		
+
 		love.graphics.print(
 			i .. ". " .. highscores[i],
 			30, (height/12 + self.height) + (i*30)
