@@ -87,7 +87,7 @@ function Object:draw(r,g,b, angle)
 			self.sprites[self.current_state][self.current_frame],
 			self.x, self.y,
 			angle, 1,1,
-			self.width/2, self.height/2
+			self.width/2 - 1, self.height/2 - 1
 		)
 		--for testing
 		if self.id == 2 then
