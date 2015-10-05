@@ -184,16 +184,16 @@ end
 function Game:draw(dt)
 
 	-- camera control
-	local x, y = 0, 0
+	local x, y = -1, -1
 	local px, py = player1:getX(), player1:getY()
 
-	if (px <= width/2) then x = -px end
-	if (py <= height/2) then y = -py end
-	if (px >= bg_width - width/2) then x = -px + width end
-	if (py >= bg_height - height/2) then y = -py + height end
+	if (px <= width/2) then x = 0 end
+	if (py <= height/2) then y = 0 end
+	if (px >= bg_width - width/2) then x = -bg_width + width end
+	if (py >= bg_height - height/2) then y = -bg_height + height end
 
-	if (x == 0) then x = -px + width/2 end
-	if (y == 0) then y = -py + height/2 end
+	if (x == -1) then x = -px + width/2 end
+	if (y == -1) then y = -py + height/2 end
 
 	love.graphics.translate(x, y)
 	-- end camera
