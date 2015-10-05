@@ -70,7 +70,7 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	for i = 1, 39 do
+	for i = 1, 1 do
 		local g = GlowBorg()
 		table.insert(objects, g)
 	end
@@ -183,7 +183,19 @@ end
 
 function Game:draw(dt)
 
-	love.graphics.translate(-player1:getX() + width/2, -player1:getY() + height/2)
+	-- messy if statements
+	if (player1:getX() <= width/2 and player1:getY() > height/2) then
+		love.graphics.translate(-player1:getX(), -player1:getY() + height/2)
+	end
+	if (player1:getY() <= height/2 and player1:getX() > width/2) then
+		love.graphics.translate(-player1:getX() + width/2, -player1:getY())
+	end
+	if (player1:getX() <= width/2 and player1:getY() <= height/2) then
+		love.graphics.translate(-player1:getX(), -player1:getY())
+	end
+	if (player1:getX() > width/2 and player1:getY() > height/2) then
+		love.graphics.translate(-player1:getX() + width/2, -player1:getY() + height/2)
+	end
 
 	love.graphics.draw(background, 0, 0)
 	love.graphics.setFont(self.helpfont)
