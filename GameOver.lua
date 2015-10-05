@@ -12,7 +12,7 @@
 
 State = require("State")
 
-local GameOver = {name = "GAME OVER BROH", 
+local GameOver = {name = "GAME OVER BROH",
 help = "Press any key to continue"}
 GameOver.__index = GameOver
 
@@ -26,12 +26,12 @@ setmetatable(GameOver, {
 })
 
 function GameOver:load()
-	self.font = love.graphics.newFont("ka1.ttf", 74)
+	self.font = love.graphics.newFont("ka1.ttf", 50)
 	self.width = self.font:getWidth(self.name)
 	self.height = self.font:getHeight(self.name)
-	
+
 	self.fontsmaller = love.graphics.newFont("PressStart2P.ttf", 12)
-	
+
 	lose = love.audio.newSource("sfx/lose.ogg")
 	lose:setLooping(false)
 end
@@ -52,7 +52,7 @@ function GameOver:draw()
 		self.name,
 		center(width, self.width), center(height, self.height)
 	)
-	
+
 	if self.time > 2 then
 		love.graphics.setFont(self.fontsmaller)
 		love.graphics.print(
