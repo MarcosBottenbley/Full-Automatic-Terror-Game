@@ -76,10 +76,11 @@ function ScoreScreen:draw()
 		center(width, self.width), height/12
 	)
 
-	love.graphics.setFont(love.graphics.newFont("ka1.ttf", 20))
+	love.graphics.setFont(love.graphics.newFont("ka1.ttf", 32))
 
 	local length = table.getn(highscores)
-	for i = 1, length do
+	-- for i = 1, length do
+	for i = 1, 6 do
 		if i == recent_score then
 			love.graphics.setColor(self:fadein2())
 		else
@@ -88,8 +89,10 @@ function ScoreScreen:draw()
 
 		love.graphics.print(
 			i .. ". " .. highscores[i],
-			30, (height/12 + self.height) + (i*30)
+			width/2 - 100,
+			(height/12 + 100) + (i*50)
 		)
+		-- love.graphics.print(text, x, y, r, sx, sy, ox, oy, kx, ky)
 	end
 
 end
