@@ -216,12 +216,13 @@ function Game:draw(dt)
 	for _, o in ipairs(objects) do
 		o:draw()
 
-		if o:getID() == 2 or o:getID() == 1 then
+		--hitbox testing
+		--[[if o:getID() == 2 or o:getID() == 1 then
 			local t = o:getHitBoxes()
 			for _, h in ipairs(t) do
 				love.graphics.circle("line", h[1], h[2], h[3], 100)
 			end
-		end
+		end--]]
 
 		--wrap around
 		--[[if o:getID() == 2 then
