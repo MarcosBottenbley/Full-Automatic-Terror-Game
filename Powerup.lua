@@ -13,9 +13,12 @@
 Object = require("Object")
 
 local Powerup = {
-	img = "gfx/power_up.png"
+	img = "gfx/power_up.png",
+	width = 44, height = 47,
+	frames = 2, states = 1,
+	delay = 0.3, 
 	vx = 10, vy = 10,
-	sprites = {},
+	sprites = {}, bounding_rad = 22,
 	id = 5, collided = false
 }
 Powerup.__index = Powerup
@@ -84,6 +87,14 @@ end
 function Powerup:setPosition(x, y)
 	self.x = x
 	self.y = y
+end
+
+function Powerup:getHitBoxes( ... )
+	local hb = {}
+	local hb_1 = {self.x, self.y, self.bounding_rad}
+	table.insert(hb, hb_1)
+
+	return hb
 end
 
 return Powerup
