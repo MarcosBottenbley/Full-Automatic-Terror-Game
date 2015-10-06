@@ -1,11 +1,13 @@
 Object = require("Object")
+GlowBorg = require("GlowBorg")
 
 local playerx = 0
 local playery = 0
+local e
 
 local Spawn = {
   x = 10, y = 10,
-  rad = 100
+  rad = 100, id = 4
 }
 Spawn.__index = Spawn
 
@@ -22,7 +24,8 @@ function Spawn:_init(x,y,r,types)
   self.x = x
   self.y = y
   self.rad = r
-  self.types = types
+  self.type = types
+  self.spawned = false
 end
 
 function Spawn:update(dt,x,y)
@@ -30,9 +33,29 @@ function Spawn:update(dt,x,y)
   playery = y
 
   dist = self:calcDist()
+
+  if self.spawned == false then
+    if dist <= self.rad then
+      for i = 1, 5 do
+        if self.type == 'g' then
+          e = GlowBorg()
+        else
+          e = PhantomShip()
+        end
+        local spawnx = math.random(self.x) + self.x - self.rad
+        local spawny = math.random(self.y) + self.y - self.rad
+
+        e:setPosition(spawnx, spawny)
+    		table.insert(objects, e)
+
+        self.spawned = true
+    	end
+    end
+  end
 end
 
 function Spawn:calcDist()
-
-  return 
+  return math.sqrt((self.x - playerx)^2 + (self.y - playery)^2)
 end
+
+return Spawn

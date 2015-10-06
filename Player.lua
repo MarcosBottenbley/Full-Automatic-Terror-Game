@@ -57,7 +57,7 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-	
+
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.ang_vel = -math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
@@ -74,23 +74,23 @@ function Player:update(dt, swidth, sheight)
 		self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
 	end
-	
+
 	if self.x < 1 then
 		self.x = 1
 	end
-	
+
 	if self.y < 1 then
 		self.y = 1
 	end
-	
+
 	if self.x > (swidth - self.width) then
 		self.x = (swidth - self.width)
 	end
-	
+
 	if self.y > (sheight - self.height) then
 		self.y = (sheight - self.height)
 	end
-	
+
 	self.hb_1[1] = self.x + 18.5 * math.sin(self.angle1)
 	self.hb_1[2] = self.y - 18.5 * math.cos(self.angle1)
 

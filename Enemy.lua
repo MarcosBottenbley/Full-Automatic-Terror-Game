@@ -51,7 +51,7 @@ function Enemy:update(dt, swidth, sheight)
 	if self.x < 1 then
 		self.vx = math.abs(self.vx)
 	end
-	
+
 	if self.x > swidth-self.width then
 		self.vx = -1 * math.abs(self.vx)
 	end
@@ -59,11 +59,11 @@ function Enemy:update(dt, swidth, sheight)
 	if self.y < 1 then
 		self.vy = math.abs(self.vy)
 	end
-	
+
 	if self.y > sheight-self.height then
 		self.vy = -1 * math.abs(self.vy)
 	end
-	
+
 	self:explode()
 end
 
@@ -92,6 +92,11 @@ function Enemy:explode()
 		--TODO: make uncollidable somehow?
 		self.exploded = true
 	end
+end
+
+function Enemy:setPosition(x, y)
+	self.x = x
+	self.y = y
 end
 
 return Enemy

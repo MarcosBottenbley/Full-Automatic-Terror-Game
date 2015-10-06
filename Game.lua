@@ -42,6 +42,7 @@ function Game:load(arg)
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
 	PhantomShip = require("PhantomShip")
+	Spawn = require("Spawn")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -70,19 +71,33 @@ function Game:start()
 
 	enemy_gone = false
 	player_gone = false
-	
+
 	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
 
-	for i = 1, 29 do
-		local g = GlowBorg()
-		table.insert(objects, g)
-	end
+	table.insert(objects, Spawn(200, 400, 300, 'g'))
+	table.insert(objects, Spawn(1200, 1200, 100, 'f'))
 
-	for i = 1, 29 do
+	table.insert(objects, Spawn(500, 1000, 300, 'g'))
+	table.insert(objects, Spawn(1000, 200, 300, 'f'))
+
+	table.insert(objects, Spawn(1200, 1600, 300, 'g'))
+	table.insert(objects, Spawn(100, 1600, 300, 'g'))
+
+	local g = GlowBorg()
+	g:setPosition(100, 100)
+
+	table.insert(objects, g)
+
+	-- for i = 1, 29 do
+	-- 	local g = GlowBorg()
+	-- 	table.insert(objects, g)
+	-- end
+
+	--[[for i = 1, 9 do
 		local g = PhantomShip()
 		table.insert(objects, g)
-	end
+	end]]--
 end
 
 function Game:stop()
@@ -123,11 +138,17 @@ function Game:update(dt)
 	local playery = 0
 	local x = 1
 	for _, o in ipairs(objects) do
+		-- update Spawn
+
 		if x == 1 then
 			playerx = o:getX()
 			playery = o:getY()
 		end
-		
+
+		if o:getID() == 4 then
+			o:update(dt, playerx, playery)
+		end
+
 		o:update(dt, bg_width, bg_height, playerx, playery)
 
 		if o:getID() == 3 and o:exited_screen(bg_width, bg_height) then
@@ -142,7 +163,8 @@ function Game:update(dt)
 		for j = i + 1, length do
 			if objects[i]:getID() ~= objects[j]:getID() and
 			objects[i].collided == false and objects[j].collided == false then
-				if objects[i]:getID() == 1 or objects[j]:getID() == 1 then
+				if objects[i]:getID() == 1 or objects[j]:getID() == 1 and
+						objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
 					if self:touching(objects[i], objects[j]) then
 
 						-- objects collided
@@ -216,12 +238,12 @@ function Game:draw(dt)
 	for _, o in ipairs(objects) do
 		o:draw()
 
-		if o:getID() == 2 or o:getID() == 1 then
-			local t = o:getHitBoxes()
-			for _, h in ipairs(t) do
-				love.graphics.circle("line", h[1], h[2], h[3], 100)
-			end
-		end
+		-- if o:getID() == 2 or o:getID() == 1 then
+		-- 	local t = o:getHitBoxes()
+		-- 	for _, h in ipairs(t) do
+		-- 		love.graphics.circle("line", h[1], h[2], h[3], 100)
+		-- 	end
+		-- end
 
 		--wrap around
 		--[[if o:getID() == 2 then
@@ -268,6 +290,7 @@ function Game:keyreleased(key)
 end
 
 function Game:touching(obj1, obj2)
+
 	local hb_1 = obj1:getHitBoxes()
 	local hb_2 = obj2:getHitBoxes()
 

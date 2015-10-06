@@ -89,14 +89,7 @@ function Object:draw(r,g,b, angle)
 			angle, 1,1,
 			self.width/2 - 1, self.height/2 - 1
 		)
-		--for testing
-		if self.id == 2 then
-			love.graphics.setColor(0, 0, 255, 255)
-			love.graphics.circle("fill", self.x, self.y, 4, 100)
-			love.graphics.circle("fill", self.x, self.y + (self.height/2), 4, 100)
-			love.graphics.circle("fill", self.x, self.y - (self.height/2), 4, 100)
-			love.graphics.setColor(255, 255, 255, 255)
-		end
+
 	else
 		if r ~= nil and g ~= nil and b ~= nil then
 			love.graphics.setColor(r,g,b)

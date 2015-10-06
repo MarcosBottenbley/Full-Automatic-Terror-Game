@@ -17,7 +17,7 @@ local PhantomShip = {
 	width = 40, height = 52,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
-	bounding_rad = 20
+	bounding_rad = 20, type = 'f'
 }
 PhantomShip.__index = PhantomShip
 
@@ -39,9 +39,15 @@ function PhantomShip:_init()
 end
 
 function PhantomShip:update(dt, swidth, sheight)
-	Enemy.update(self, dt, swidth, sheight)
-
-	self.y = self.y + self.vy*dt
+	Object.update(self, dt)
+	
+	self.y = self.y - self.vy*dt
+	if self.x >= bg_width then
+		self.x = 0
+	end
+	if self.y >= bg_height then
+		self.y = 0
+	end
 end
 
 function PhantomShip:getHitBoxes( ... )

@@ -17,7 +17,7 @@ local GlowBorg = {
 	width = 60, height = 60,
 	frames = 6, states = 2,
 	delay = 0.12, sprites = {},
-	bounding_rad = 25
+	bounding_rad = 25, type = 'g'
 }
 GlowBorg.__index = GlowBorg
 
@@ -40,10 +40,10 @@ end
 
 function GlowBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
-	
+
 	print("PLAYER: " .. py .. " " .. px)
 	local angle = math.atan((py - self.y) / (px - self.x))
-	
+
 	--i suck at math
 	if px - self.x > 0 then
 		self.x = self.x + 50 * dt * math.cos(angle)
