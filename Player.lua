@@ -21,7 +21,7 @@ local Player = {
 	delay = 0.08, sprites = {},
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = 0,
-	ang_vel = 0
+	ang_vel = 0, powerup = false
 }
 Player.__index = Player
 
@@ -44,6 +44,7 @@ function Player:_init(x, y, v)
 		self.delay)
 
 	self.vel = v
+	self.powerup = false
 
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
@@ -106,8 +107,16 @@ end
 function Player:keyreleased(key)
 	if key == 'z' then
 		pew:play()
-		local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
-		table.insert(objects, b)
+		if self.powerup then
+			local b1 = Bullet(self.hb_1[1] + 10*math.cos(self.angle1), self.hb_1[2] + 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
+			local b2 = Bullet(self.hb_1[1] - 10*math.cos(self.angle1), self.hb_1[2] - 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
+			table.insert(objects, b1)
+			table.insert(objects, b2)
+		else
+			local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
+			table.insert(objects, b)
+		end
+		
 	end
 
 	if key == 'left' or key == 'right' then

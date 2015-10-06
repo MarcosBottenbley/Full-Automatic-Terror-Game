@@ -43,6 +43,7 @@ function Game:load(arg)
 	Bullet = require("Bullet")
 	PhantomShip = require("PhantomShip")
 	Spawn = require("Spawn")
+	Powerup = require("Powerup")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -74,6 +75,8 @@ function Game:start()
 
 	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
+	
+	powerup = Powerup(bg_width/2 + 300, bg_height/2 + 300, 0)
 
 	table.insert(objects, Spawn(200, 400, 300, 'g'))
 	table.insert(objects, Spawn(1200, 1200, 100, 'f'))
@@ -178,6 +181,13 @@ function Game:update(dt)
 
 					end
 				end
+				if objects[i]:getID() == 1 and objects[j]:getID() == 5 then
+					objects[i].powerup = true
+					objects[j].collided = true
+				elseif objects[i]:getID() == 5 and objects[j]:getID() == 1 then
+					objects[j].powerup = true
+					objects[i].collided = true
+				end
 			end
 		end
 	end
@@ -189,7 +199,7 @@ function Game:update(dt)
 				table.remove(objects, length - i)
 				score = score + 200
 				enemy_count = enemy_count - 1
-			elseif objects[length - i]:getID() == 3 then
+			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 then
 				table.remove(objects, length - i)
 			else
 				objects[length - i].timer = objects[length - i].timer + dt
