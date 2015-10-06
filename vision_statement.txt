@@ -1,0 +1,189 @@
+*******************************
+Rebecca Bushko
+Marcos Bottenbley
+Adam Ellenbogen
+David Miller
+*******************************
+Assignment 2
+*******************************
+
+------------------------
+Revised Vision
+------------------------
+Background Story:
+Your ship has been captured by enemy fighters and taken to another 
+sector of space. The overall goal in this game is to escape from 
+behind enemy lines and return home. This game does not involve any
+ally characters that will aid you; it places the emphasis on 
+being in space all alone. Your motivation is a combination of 
+survival and escape. You will explore individuals worlds trying 
+to escape the sector, encountering heavy resistance along the way.
+By completing objectives, you will travel to new areas. The 
+choices of objectives you complete will affect the course of 
+your game.
+
+
+Game Setting:
+This game takes place in several foreign sectors of space. Each 
+sector has its own unique effect that it has, creating new 
+obstacles for the player. It is difficult to say when this game 
+takes place because time dilation in space is very complex. 
+However, the technologies presented in both the enemy\'92s units 
+and in the upgrades that you find indicate that the game may take 
+place in the distant future. Each level is a wide area with a 
+handful of objectives (choices); therefore, exploration is key to 
+complete each level and advance in the game. In space, we will use 
+several obstacles that take advantage of the environment, 
+including asteroids, gravity fields, wormholes, and a few other 
+surprises. This game uses 8-directional movement.
+
+Level Design:
+So far, we have 3 levels planned out, each with its own signature 
+effect.
+
+Level 1: Asteroid Field: Hence its name, this level's gimmick is 
+asteroids floating around. This level by far contains the most 
+asteroids. This helps the player learn to control their ship 
+quickly and accurately in order to avoid or destroy the various 
+moving rocks. There are also a few enemies in this level so that 
+the player can learn to avoid or destroy their projectiles. This 
+level will either end with a warp gate or, depending on how much 
+time we have, a level boss that combines standard projectiles with 
+two tractor beam attacks: one grabs nearby asteroids and throws 
+them at you, and the other is a wide attack that pulls your ship 
+in and deals damage. This level is fairly linear and only has this 
+one objective.
+
+Level 2: Gravity Field: This level has a new gimmick: gravity 
+fields. Gravity fields looks like orange circles. However, they 
+pull your ship towards them. The force in which they pull varies 
+depending on how close you are to it. If your ship touches its 
+core, you take damage and are then freed from the pull for a few 
+seconds. There is also a mechanic where asteroids will orbit 
+around the core, increasing in speed and moving closer to the core 
+until they crumble when they reach it. This level will have 
+multiple objectives which will lead to one level or another. One 
+objective will be an offense mission to destroy an enemy power 
+source while the other will be to defend a crashed satellite from 
+enemy attackers. If the defense mission is chosen, you are 
+rewarded with a cloaking field. If the offense mission is chosen, 
+you gain some energy from the source and gain lightning blasts as 
+a result.
+
+
+Level 3: Wormhole Zone: The gimmick of this level is using 
+wormholes to warp from place to place. Wormholes appear in places 
+around the level and they take you to specific other places in the 
+level. These are necessary to guide your ship around impassable 
+objects. They can also be used defensively to escape an enemy 
+swarm or be used offensively to trick enemy ships into them. In 
+this level, enemy ships have the power to warp. Therefore, the 
+player will have to react quickly to surprise warped ambushes. 
+Asteroids also travel through wormholes upon contact. This level 
+will also likely have two objectives: one of which will give your 
+ship a drill to bore through asteroids while the other will grant 
+you area of effect shots in a cone in front of your ship.
+
+
+Game Mechanics:
+While there is no specific score in the game and the overall goal 
+is to reach the end of the game, the statistics of the number of 
+deaths, enemies of each type killed, etc. are kept. The basic 
+controls are 8-directional and, although a motion control system 
+similar to asteroids would be nostalgic, it seems like an overly 
+complicated motion scheme for what we are aiming for. There are 
+several types of power upgrades, some of which are permanent while 
+others are only temporary. In general, permanent upgrades are 
+smaller than the temporary ones. Upgrades can be characterized by 
+offense, defense, speed, along with some rarer upgrades such as 
+lightning blasts, sonic waves, or cloaking fields. The key to this 
+game is firepower; however, sometimes dexterity to avoid larger 
+obstacles is also necessary. This game does have distinct levels, 
+some of which will not even be visited during the first play 
+through because this game appears linear, but actually has several 
+paths to the goal. There are bosses, which will be largely figured 
+out later. While all of the levels are based on the themes of 
+exploration and achieving objectives, each level will have a new 
+special gimmick, some of which are described in the level design 
+section. The player will have both shield power and lives. There 
+are shield rechargers and upgrades. However, there are no bonus 
+lives. Because each level is exploring the environment, it is 
+possible to navigate forwards and backwards through the level. 
+Once the game is beaten, we plan on adding some extra features. 
+For example, only then can you revisit previous levels in the game. 
+There are also going to be a boss rush game mode and/or a sandbox 
+mode if we have time at the end.
+
+
+-----------------------
+Development Plan
+-----------------------
+Alpha Release: We expect that this version of the game will have a 
+single working level. Therefore, they are no warp gates between 
+levels. At this point, we should have our ship designed and 
+implemented. The ship should operate properly with 8-directional 
+motion and shooting mechanics. There will be a few enemies and a few 
+upgrades in consistent spots around the map. This level will also a 
+relatively simple boss and, when it is defeated, the player is 
+victorious. This will establish that death screens, victory screens, 
+statistics, and the majority of general mechanics are functional 
+before advancing to multiple different levels and enemy types.
+
+Beta Release: This should have everything from the alpha release, 
+with an added introduction screen and story. The number of levels 
+will also be increased to 3 with added between-level transition 
+mechanics. This will implement more enemy and power-up types and 
+abilities as well. Also, we should have a basic sound effects 
+template and musical score by this point.
+
+Gold Release: This game should be the game that was described in our 
+vision statement. It will have even more levels (most likely up to 5)
+along with several boss battles. If we have time, it will also 
+include arcade-style challenge modes such as sandbox and boss 
+battles.
+
+Section 2: Group Roles:
+
+To summarize, here are the responsibilities of all of us:
+
+Rebecca: Graphics, Programming
+Marcos: Programming
+Adam: Storyboard and Design, Programming
+David: Sound and Music, Programming
+
+All four members of our group will be doing some programming over 
+the course of the project. Marcos will be the lead programmer, as 
+this is his focus. In addition, Rebecca will be doing the graphics 
+and sprites, Adam will be doing the storyboard and design, and David 
+will be doing the sound effects and the music. It all fits together 
+like a puzzle. The story creates a general template for which the 
+game's details fit in and the design creates the ideas for what 
+the power-ups, enemies, and gimmicks do in order to give the game 
+proper difficulty. Graphics takes power-ups, enemies, and your ship 
+and brings them to life so that they can be later implemented. Sound 
+effects will play whenever certain events happen and music will 
+generally play over the course of the game (or level if the music is 
+different between each one). Finally, the programming brings all of 
+these aspects together and makes sure that everything works as 
+expected.
+
+Section 3: Major Risks:
+
+The first risk is that the idea becomes bloated from too many new 
+things being added, changing the idea of the game all the time. The 
+way that we plan to mitigate this is by voting on new ideas as a 
+team and making sure that everyone agrees on every idea. Also, we 
+will make a precise schedule so that we know what we can and cannot 
+fit into the game within our time limit.
+
+The second risk is that we fall behind by not following our precise 
+schedule. The way that we plan to mitigate this is by setting up 
+several weekly meetings to make sure that everyone is on track and, 
+if anyone is falling behind, to work together and make sure that we 
+can catch up in a timely manner.
+
+The third risk is computer death. This could result in losing key 
+files. The way that we plan to mitigate this is by regularly backing 
+up any project-related materials to our BitBucket repository (and 
+also DropBox if we feel that multiple backups are necessary).
+

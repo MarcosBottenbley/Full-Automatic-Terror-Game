@@ -22,15 +22,18 @@ concept (complete a certain objective while exploring a large area)
 
 Problem 2: Camera and Scrolling
 
-Our game has the screen center on the player's ship as it moves around 
+Our game has the screen center on the player's ship as it moves around
 the game world. Once the player reaches one of the predetermined boundaries
 for the arena (these are invisible right now, later they will be visible or
 we'll implement Asteroids-esque screen wrapping) the camera stops moving in
-that direction. Currently, we don't have a camera class (the movement is 
+that direction. Currently, we don't have a camera class (the movement is
 handled by a couple lines in the Game class) but we'll add one later to
 implement "juicy" effects.
 
 #Gameplay
+
+Please delete local data in your AppData folder (may be hidden)
+because the hi-score screen now accepts 6 hi-scores instead of 5.
 
 Move the ship with the arrow keys or WASD and press Z to shoot.
 Destroy all the enemies to win the game, but be careful, since
@@ -44,34 +47,34 @@ a main focus of our game is ship-to-ship combat.
 
 * Code
 	Coding done by Adam, David, Marcos, and Rebecca
-	
+
 	Code for states adapted from Peter's GameStates example
 * Music
 	Chiptunes taken from bitpuritans' '2A03 PURITANS' album
 	https://bitpuritans.bandcamp.com/album/2a03-puritans
 	Menu: TQ-Jam - Milky Fields
-	Game: Moot Booxlé - Ouroboros
+	Game: Moot Booxlï¿½ - Ouroboros
 	Scores: stinkbug - Dreamgate
 
 * Graphics
 	Sprite art by Rebecca Bushko
-	Menu Screen inspired by 
+	Menu Screen inspired by
 	http://www.capitalotc.com/wp-content/uploads/2015/01/chinas-first-unmanned-unar-mission.jpg
-	
+
 * Sound
 	Bump sound effect made using SFXR
 	http://www.drpetter.se/project_sfxr.html
-	
+
 	THX/Crank That mashup found on Soundcloud, using:
 	THX intro by James A. Moorer
 	Crank That (Soulja Boy) by DeAndre Cortez Way
-	
+
 	Voice clips for win/game over screens from Tales of Symphonia
 	(Namco, GameCube 2003)
-	
+
 * Font
 	Press Start 2P by codeman38
 	http://www.fontspace.com/codeman38/press-start-2p
-	
+
 	Karmatic Arcade by Vic Fieger
 	http://www.dafont.com/karmatic-arcade.font
