@@ -41,7 +41,6 @@ end
 function GlowBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 
-	print("PLAYER: " .. py .. " " .. px)
 	local angle = math.atan((py - self.y) / (px - self.x))
 
 	--i suck at math
