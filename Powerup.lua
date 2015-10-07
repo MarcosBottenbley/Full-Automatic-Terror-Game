@@ -36,10 +36,11 @@ function Powerup:load()
 	Object.load(self)
 end
 
-function Powerup:_init(x, y, v, img, width, height, frames, states, delay)
+function Powerup:_init(x, y, v)
 	self.vx = v
 	self.vy = v
-	Object._init(self, x, y, img, width, height, frames, states, delay)
+	self.collided = false
+	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
 function Powerup:draw()
