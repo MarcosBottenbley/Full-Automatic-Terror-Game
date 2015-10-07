@@ -116,7 +116,7 @@ function Player:keyreleased(key)
 			local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
 			table.insert(objects, b)
 		end
-		
+
 	end
 
 	if key == 'left' or key == 'right' then

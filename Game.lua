@@ -75,7 +75,7 @@ function Game:start()
 
 	player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
-	
+
 	powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
 	table.insert(objects, powerup)
 
@@ -92,16 +92,6 @@ function Game:start()
 	g:setPosition(100, 100)
 
 	table.insert(objects, g)
-
-	-- for i = 1, 29 do
-	-- 	local g = GlowBorg()
-	-- 	table.insert(objects, g)
-	-- end
-
-	--[[for i = 1, 9 do
-		local g = PhantomShip()
-		table.insert(objects, g)
-	end]]--
 end
 
 function Game:stop()
@@ -169,10 +159,8 @@ function Game:update(dt)
 	local length = table.getn(objects)
 	for i=1, length - 1 do
 		for j = i + 1, length do
-			if objects[i]:getID() ~= objects[j]:getID() and
-			objects[i].collided == false and objects[j].collided == false then
-				if objects[i]:getID() == 1 or objects[j]:getID() == 1 and
-						objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
+			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
+				if self:valid(objects[i], objects[j]) then
 					if self:touching(objects[i], objects[j]) then
 
 						-- objects collided
@@ -183,7 +171,6 @@ function Game:update(dt)
 						objects[i].current_frame = 1
 						objects[j].current_state = 2
 						objects[j].current_frame = 1
-
 					end
 				end
 				--shitty powerup collision code
@@ -236,6 +223,21 @@ function Game:update(dt)
 	end
 end
 
+function Game:valid(obj1, obj2)
+	local valid = false
+
+	local id_one = obj1:getID()
+	local id_two = obj2:getID()
+
+	if id_one ~= 4 and id_two ~= 4 then
+		if (id_one == 2 and id_two ~= 3) or (id_two == 2 and id_one ~= 3) or id_one == 1 or id_two == 1 then
+			valid = true
+		end
+	end
+
+	return valid
+end
+
 function Game:draw(dt)
 
 	-- camera control
@@ -258,12 +260,14 @@ function Game:draw(dt)
 	for _, o in ipairs(objects) do
 		o:draw()
 
-		-- if o:getID() == 2 or o:getID() == 1 then
-		-- 	local t = o:getHitBoxes()
-		-- 	for _, h in ipairs(t) do
-		-- 		love.graphics.circle("line", h[1], h[2], h[3], 100)
-		-- 	end
-		-- end
+		--if o:getID() == 2 or o:getID() == 1 then
+		--	local t = o:getHitBoxes()
+		--	for _, h in ipairs(t) do
+		--		love.graphics.setColor(255, 0, 0, 255)
+		--		love.graphics.circle("line", h[1], h[2], h[3], 100)
+		--		love.graphics.setColor(255, 255, 255, 255)
+		--	end
+		--end
 
 		--wrap around
 		--[[if o:getID() == 2 then

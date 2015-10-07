@@ -36,14 +36,14 @@ setmetatable(Bullet, {
 function Bullet:_init(x, y, v, a)
 	self.vel = v
 	self.angle = a
-	Object._init(self, x, y, 
-		self.img, 
+	Object._init(self, x, y,
+		self.img,
 		self.width,
 		self.height,
 		self.frames,
 		self.states,
 		self.delay)
-		
+
 	self.hb_1 = {self.x, self.y, self.bounding_rad}-- + self.width/2, self.y + 5, self.bounding_rad}
 end
 
@@ -52,7 +52,7 @@ function Bullet:update(dt, swidth, sheight)
 
 	self.y = self.y - math.sin(math.pi/2 - self.angle)*self.vel*dt
 	self.x = self.x + math.cos(math.pi/2 - self.angle)*self.vel*dt
-	
+
 	self.hb_1[2] = self.hb_1[2] - math.sin(math.pi/2 - self.angle)*self.vel*dt
 	self.hb_1[1] = self.hb_1[1] + math.cos(math.pi/2 - self.angle)*self.vel*dt
 

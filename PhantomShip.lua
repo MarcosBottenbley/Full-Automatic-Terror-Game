@@ -11,6 +11,7 @@
 --- dmill118@jhu.edu
 
 Enemy = require("Enemy")
+EnemyBullet = require("EnemyBullet")
 
 local time = 0
 
@@ -55,16 +56,12 @@ end
 function PhantomShip:shoot(dt,px,py)
 	time = time + dt
 	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
-		print("IN")
 
 		if time >= (love.timer.getFPS()/4) then
-			local b = Bullet(self.x, self.y+40, 600, math.pi)
+			local b = EnemyBullet(self.x, self.y+40, 600, math.pi)
 			table.insert(objects, b)
 			time = 0
 		end
-		
-	else
-	    print("OUT")
 	end
 end
 
