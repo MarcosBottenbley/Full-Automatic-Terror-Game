@@ -19,7 +19,7 @@ local EnemyBullet = {
 	width = 11, height = 38,
 	frames = 1, states = 2,
 	delay = 1, sprites = {},
-	id = 5, collided = false,
+	id = 6, collided = false,
 	bounding_rad = 5, angle = 0
 }
 EnemyBullet.__index = EnemyBullet

@@ -229,7 +229,7 @@ function Game:valid(obj1, obj2)
 	local id_one = obj1:getID()
 	local id_two = obj2:getID()
 
-	if id_one ~= 4 and id_two ~= 4 then
+	if id_one ~= 4 and id_two ~= 4 and id_one ~= 5 and id_two ~= 5 then
 		if (id_one == 2 and id_two ~= 3) or (id_two == 2 and id_one ~= 3) or id_one == 1 or id_two == 1 then
 			valid = true
 		end
