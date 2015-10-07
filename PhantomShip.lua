@@ -12,6 +12,8 @@
 
 Enemy = require("Enemy")
 
+local time = 0
+
 local PhantomShip = {
 	img = "gfx/phantom_ship.png",
 	width = 40, height = 52,
@@ -40,7 +42,7 @@ end
 
 function PhantomShip:update(dt, swidth, sheight)
 	Object.update(self, dt)
-	
+
 	self.y = self.y - self.vy*dt
 	if self.x >= bg_width then
 		self.x = 0
@@ -48,6 +50,26 @@ function PhantomShip:update(dt, swidth, sheight)
 	if self.y >= bg_height then
 		self.y = 0
 	end
+end
+
+function PhantomShip:shoot(dt,px,py)
+	time = time + dt
+	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
+		print("IN")
+
+		if time >= (love.timer.getFPS()/4) then
+			local b = Bullet(self.x, self.y+40, 600, math.pi)
+			table.insert(objects, b)
+			time = 0
+		end
+		
+	else
+	    print("OUT")
+	end
+end
+
+function PhantomShip:getType()
+	return self.type
 end
 
 function PhantomShip:getHitBoxes( ... )

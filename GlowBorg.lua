@@ -41,16 +41,21 @@ end
 function GlowBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 
+	--print("PLAYER: " .. py .. " " .. px)
 	local angle = math.atan((py - self.y) / (px - self.x))
 
 	--i suck at math
 	if px - self.x > 0 then
-		self.x = self.x + 50 * dt * math.cos(angle)
-		self.y = self.y + 50 * dt * math.sin(angle)
+		self.x = self.x + 150 * dt * math.cos(angle)
+		self.y = self.y + 150 * dt * math.sin(angle)
 	else
-		self.x = self.x - 50 * dt * math.cos(angle)
-		self.y = self.y - 50 * dt * math.sin(angle)
+		self.x = self.x - 150 * dt * math.cos(angle)
+		self.y = self.y - 150 * dt * math.sin(angle)
 	end
+end
+
+function GlowBorg:getType()
+	return self.type
 end
 
 function GlowBorg:getHitBoxes( ... )

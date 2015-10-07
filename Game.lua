@@ -159,6 +159,10 @@ function Game:update(dt)
 			table.remove(objects, x)
 		end
 
+		if o:getID() == 1 and o:getType() == 'f' then
+			o:shoot(dt,playerx,playery)
+		end
+
 		x = x + 1
 	end
 
