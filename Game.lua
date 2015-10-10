@@ -174,7 +174,8 @@ function Game:update(dt)
 
 		o:update(dt, bg_width, bg_height, playerx, playery)
 
-		if o:getID() == 3 and o:exited_screen(bg_width, bg_height) then
+		if o:getID() == 3 and
+			o:exited_screen(bg_width + player:getWidth(), bg_height + player:getHeight()) then
 			table.remove(objects, x)
 		end
 
@@ -371,7 +372,7 @@ end
 
 function Game:make(thing, x, y)
 	local obj
-	
+
 	if thing == "pla" then
 		player = Player(x, y, 200)
 		table.insert(objects, player)
@@ -389,7 +390,7 @@ function Game:make(thing, x, y)
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end
-	
+
 	table.insert(objects, obj)
 end
 
