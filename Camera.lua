@@ -11,7 +11,9 @@
 --- dmill118@jhu.edu
 
 local Camera = {
-	x = 0, y = 0
+	x = 0, y = 0,
+	pw = 0, ph = 0,
+	bgw = 0, bgh = 0
 }
 Camera.__index = Camera
 
@@ -23,9 +25,16 @@ setmetatable(Camera, {
 	end,
 })
 
-function Camera:_init()
+function Camera:_init(player_width, player_height, bg_width, bg_height)
+	-- initial position
 	self.x = 0
 	self.y = 0
+	-- player sprite
+	self.pw = player_width
+	self.ph = player_height
+	-- background
+	self.bgw = bg_width
+	self.bgh = bg_height
 end
 
 function Camera:move()
@@ -33,8 +42,11 @@ function Camera:move()
 
 	if (self.x <= width/2) then x = 0 end
 	if (self.y <= height/2) then y = 0 end
-	if (self.x >= bg_width - width/2) then x = -bg_width + width end
-	if (self.y >= bg_height - height/2) then y = -bg_height + height end
+
+	if (self.x >= self.bgw - width/2 - self.pw) then
+		x = -self.bgw + width + self.pw end
+	if (self.y >= self.bgh - height/2 - self.ph) then
+		y = -self.bgh + height + self.ph end
 
 	if (x == -1) then x = -self.x + width/2 end
 	if (y == -1) then y = -self.y + height/2 end

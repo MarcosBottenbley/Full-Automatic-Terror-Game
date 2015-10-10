@@ -163,4 +163,12 @@ function Player:setY(newY)
 	self.y = newY
 end
 
+function Player:getWidth()
+	return self.width
+end
+
+function Player:getHeight()
+	return self.height
+end
+
 return Player

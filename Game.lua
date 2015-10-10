@@ -12,7 +12,6 @@
 
 State = require("State")
 Camera = require("Camera")
-camera = Camera()
 
 local Game = {}
 local help = "Press Esc to return to menu"
@@ -94,6 +93,11 @@ function Game:start()
 	g:setPosition(100, 100)
 
 	table.insert(objects, g)
+
+	camera = Camera(
+			player1:getWidth(), player1:getHeight(),
+			bg_width, bg_height
+	)
 end
 
 function Game:stop()
