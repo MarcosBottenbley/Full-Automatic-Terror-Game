@@ -19,7 +19,7 @@ local selectwidths = {}
 local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
-local title = "SPACE GAME 3000"
+local title = "FULL AUTOMATIC\n          TERROR"
 local width = love.window.getWidth()
 local height = love.window.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
@@ -44,27 +44,27 @@ function Menu:load()
 
 	title_width = self.title_font:getWidth(title)
 	title_height = self.title_font:getHeight(title)
-	
+
 	for index,value in ipairs(Menu) do
 		widths[index] = self.list_font:getWidth(value)
 	end
-	
+
 	for index,value in ipairs(selects) do
 		selectwidths[index] = self.list_font:getWidth(value)
 	end
-	
+
 	menu_bgm = love.audio.newSource("sfx/menulow.ogg")
 	menu_bgm:setLooping(true)
-	
+
 	choose = love.audio.newSource("sfx/choose.ogg")
 	choose:setLooping(false)
-	
+
 	selected = love.audio.newSource("sfx/select.ogg")
 	selected:setLooping(false)
 
 	quitgame = love.audio.newSource("sfx/shutdown.mp3")
 	quitgame:setLooping(false)
-	
+
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
 
 	-- for flashing title
@@ -82,7 +82,7 @@ function Menu:update(dt)
 
 	--[[
 	alpha = alpha + adelt * dt
-	
+
 	if alpha <= 50 or alpha >= 255 then			for flashing title
 		adelt = -adelt
 	end
@@ -107,21 +107,21 @@ function Menu:draw()
 	--love.graphics.setColor(255,255,255,alpha)
 	love.graphics.print(
 		title,
-		width/2 - title_width/2, 75
+		width/2 - title_width/2, 50
 	)
 
 	-- draw the menu list
 	love.graphics.setFont(self.help_font)
 	love.graphics.setColor({255, 255, 255, 255})
 	item_space = 50 --hardcoded value (lua cant get size of table)
-	
+
 	love.graphics.print(
 		help,
 		10, height - 10
 	)
-	
+
 	love.graphics.setFont(self.list_font)
-	
+
 	for index,value in ipairs(Menu) do
 		if selector + 1 == index then
 			love.graphics.print(
@@ -142,20 +142,20 @@ function Menu:keyreleased(key)
 	if key == 'escape' then
 		love.event.quit()
 	end
-	
+
 	if key == 'up' then
 		selector = ((selector - 1) % 5)
 		selected:play()
 	end
-	
-	if key == 'down' then 
+
+	if key == 'down' then
 		selector = ((selector + 1) % 5)
 		selected:play()
 	end
-	
+
 	if key == 'return' then
 		choose:play()
-	
+
 		if selector == 0 then
 			love.timer.sleep(0.4)
 			switchTo(Game)

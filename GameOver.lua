@@ -32,7 +32,7 @@ function GameOver:load()
 
 	self.fontsmaller = love.graphics.newFont("PressStart2P.ttf", 12)
 
-	lose = love.audio.newSource("sfx/lose.ogg")
+	lose = love.audio.newSource("sfx/shutdown.mp3")
 	lose:setLooping(false)
 end
 
