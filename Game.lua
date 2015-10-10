@@ -20,6 +20,7 @@ local score = 0
 local enemy_count = 9
 local level = "level0"
 local create = {}
+local player
 
 local timer = 0
 local waiting = false
@@ -69,15 +70,15 @@ end
 function Game:start()
 	bgm:play()
 	
-	for line in love.filesystem.lines(level) do
+	--[[for line in love.filesystem.lines(level) do
 		obj, x, y = string.match(line, "(%a+)%((%d+),(%d+)%)")
 		thing = {obj, tonumber(x), tonumber(y)}
 		table.insert(create, thing)
-	end
+	end--]]
 	
-	for num, tuple in ipairs(create) do
+	--[[for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3])
-	end
+	end--]]
 
 	enemy_count = 9
 	score = 0
@@ -86,8 +87,8 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	--[[player1 = Player(bg_width/2, bg_height/2, 200)
-	table.insert(objects, player1)
+	player = Player(bg_width/2, bg_height/2, 200)
+	table.insert(objects, player)
 
 	powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
 	table.insert(objects, powerup)
@@ -105,10 +106,10 @@ function Game:start()
 	g:setPosition(100, 100)
 
 
-	table.insert(objects, g)--]]
+	table.insert(objects, g)
 
 	camera = Camera(
-			player1:getWidth(), player1:getHeight(),
+			player:getWidth(), player:getHeight(),
 			bg_width, bg_height
 	)
 end
@@ -260,7 +261,7 @@ end
 function Game:draw(dt)
 
 	-- coordinates
-	camera:position(player1:getX(), player1:getY())
+	camera:position(player:getX(), player:getY())
 	local cx, cy = camera:move()
 
 	-- move background
@@ -317,7 +318,7 @@ function Game:draw(dt)
 end
 
 function Game:keyreleased(key)
-	player1:keyreleased(key)
+	player:keyreleased(key)
 
 	if key == 'escape' then
 		switchTo(Menu)
@@ -363,7 +364,9 @@ function Game:make(thing, x, y)
 	local obj
 	
 	if thing == "pla" then
-		obj = Player(x, y, 200)
+		player = Player(x, y, 200)
+		table.insert(objects, player)
+		return
 	elseif thing == "ogb" then
 		obj = GlowBorg()
 		obj:setPosition(x, y)
