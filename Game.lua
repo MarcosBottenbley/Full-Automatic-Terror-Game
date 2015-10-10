@@ -18,7 +18,7 @@ local help = "Press Esc to return to menu"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local level = "level0"
+local level = "level/level0"
 local create = {}
 local player
 
@@ -57,12 +57,6 @@ function Game:load(arg)
 
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
-	
-	if not love.filesystem.exists("level0") then
-		love.filesystem.write("level0", level0)
-	elseif love.filesystem.read("level0", love.filesystem.getSize("level0")) ~= level0 then
-		love.filesystem.write("level0", level0)
-	end
 	
 	--default background
 	bg_string = "gfx/large_bg.png"

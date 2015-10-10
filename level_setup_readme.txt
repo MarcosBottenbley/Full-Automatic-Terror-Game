@@ -1,10 +1,7 @@
 Right now the editor's pretty limited.
-I'm not sure how to read out of a file that isn't in the save directory, 
-so I have the game create the level0 file if it doesn't exist using a 
-hardcoded string. This sort of defeats the whole purpose, though, and makes
-it even harder to actually design levels. I'll work on fixing it.
-
 In the meantime, though, this is the format for our level files.
+The level files are stored in the /level directory and the variable "level"
+in Game decides which file to read.
 
 Background (set at top of level)
 BG:[path of background image]
