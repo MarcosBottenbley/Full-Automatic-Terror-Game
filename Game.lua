@@ -61,6 +61,10 @@ function Game:load(arg)
 	background = love.graphics.newImage("gfx/large_bg.png")
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
+	
+	if not love.filesystem.exists("level0") then
+		love.filesystem.write("level0", level0)
+	end
 
 	enemies = {}
 	bullets = {}
@@ -70,15 +74,15 @@ end
 function Game:start()
 	bgm:play()
 	
-	--[[for line in love.filesystem.lines(level) do
+	for line in love.filesystem.lines(level) do
 		obj, x, y = string.match(line, "(%a+)%((%d+),(%d+)%)")
 		thing = {obj, tonumber(x), tonumber(y)}
 		table.insert(create, thing)
-	end--]]
+	end
 	
-	--[[for num, tuple in ipairs(create) do
+	for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3])
-	end--]]
+	end
 
 	enemy_count = 9
 	score = 0
@@ -87,26 +91,26 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	player = Player(bg_width/2, bg_height/2, 200)
-	table.insert(objects, player)
+	-- player = Player(bg_width/2, bg_height/2, 200)
+	-- table.insert(objects, player)
 
-	powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
-	table.insert(objects, powerup)
+	-- powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
+	-- table.insert(objects, powerup)
 
-	table.insert(objects, Spawn(200, 400, 300, 'g'))
-	table.insert(objects, Spawn(1200, 1200, 100, 'f'))
+	-- table.insert(objects, Spawn(200, 400, 300, 'g'))
+	-- table.insert(objects, Spawn(1200, 1200, 100, 'f'))
 
-	table.insert(objects, Spawn(500, 1000, 300, 'g'))
-	table.insert(objects, Spawn(1000, 200, 300, 'f'))
+	-- table.insert(objects, Spawn(500, 1000, 300, 'g'))
+	-- table.insert(objects, Spawn(1000, 200, 300, 'f'))
 
-	table.insert(objects, Spawn(1200, 1600, 300, 'g'))
-	table.insert(objects, Spawn(100, 1600, 300, 'g'))
+	-- table.insert(objects, Spawn(1200, 1600, 300, 'g'))
+	-- table.insert(objects, Spawn(100, 1600, 300, 'g'))
 
-	local g = GlowBorg()
-	g:setPosition(100, 100)
+	-- local g = GlowBorg()
+	-- g:setPosition(100, 100)
 
 
-	table.insert(objects, g)
+	-- table.insert(objects, g)
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
@@ -120,6 +124,11 @@ function Game:stop()
 	local length = table.getn(objects)
 	for i = 0, length - 1 do
 		table.remove(objects, length - i)
+	end
+	
+	length = table.getn(create)
+	for i = 0, length - 1 do
+		table.remove(create, length - i)
 	end
 end
 
@@ -376,7 +385,7 @@ function Game:make(thing, x, y)
 	elseif thing == "sgb" then
 		obj = Spawn(x, y, 300, 'g')
 	elseif thing == "sps" then
-		obj = Spawn(x, y, 300, 'f')
+		obj = Spawn(x, y, 100, 'f')
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end

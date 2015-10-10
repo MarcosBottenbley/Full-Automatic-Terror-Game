@@ -19,6 +19,9 @@ once_l = false
 
 recent_score = 0
 
+level0 = "pla(1000,1000)\npwr(950,950)\nsgb(200,400)\nsps(1200,1200)\nsgb(500,1000)"
+		.. "\nsps(1000,200)\nsgb(1200,1600)\nsgb(100,1600)\nogb(100,100)"
+
 highscores = {}
 default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
