@@ -69,13 +69,13 @@ end
 
 function Game:start()
 	bgm:play()
-	
+
 	--[[for line in love.filesystem.lines(level) do
 		obj, x, y = string.match(line, "(%a+)%((%d+),(%d+)%)")
 		thing = {obj, tonumber(x), tonumber(y)}
 		table.insert(create, thing)
 	end--]]
-	
+
 	--[[for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3])
 	end--]]
@@ -165,7 +165,8 @@ function Game:update(dt)
 
 		o:update(dt, bg_width, bg_height, playerx, playery)
 
-		if o:getID() == 3 and o:exited_screen(bg_width, bg_height) then
+		if o:getID() == 3 and
+			o:exited_screen(bg_width + player:getWidth(), bg_height + player:getHeight()) then
 			table.remove(objects, x)
 		end
 
@@ -362,7 +363,7 @@ end
 
 function Game:make(thing, x, y)
 	local obj
-	
+
 	if thing == "pla" then
 		player = Player(x, y, 200)
 		table.insert(objects, player)
@@ -380,7 +381,7 @@ function Game:make(thing, x, y)
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end
-	
+
 	table.insert(objects, obj)
 end
 

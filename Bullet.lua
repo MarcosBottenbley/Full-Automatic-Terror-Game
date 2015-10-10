@@ -62,10 +62,10 @@ function Bullet:draw()
 	Object.draw(self,0,255,0,self.angle)
 end
 
-function Bullet:exited_screen(swidth, sheight)
+function Bullet:exited_screen(width, height)
 	local y_pos = self.y + self.height
 	local x_pos = self.x + self.height
-	if y_pos < 0 or x_pos < 0 or y_pos > sheight or x_pos > swidth then
+	if y_pos < 0 or x_pos < 0 or y_pos > height or x_pos > width then
 		return true
 	end
 end
