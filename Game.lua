@@ -11,6 +11,8 @@
 --- dmill118@jhu.edu
 
 State = require("State")
+Camera = require("Camera")
+camera = Camera()
 
 local Game = {}
 local help = "Press Esc to return to menu"
@@ -240,20 +242,12 @@ end
 
 function Game:draw(dt)
 
-	-- camera control
-	local x, y = -1, -1
-	local px, py = player1:getX(), player1:getY()
+	-- coordinates
+	camera:position(player1:getX(), player1:getY())
+	local cx, cy = camera:move()
 
-	if (px <= width/2) then x = 0 end
-	if (py <= height/2) then y = 0 end
-	if (px >= bg_width - width/2) then x = -bg_width + width end
-	if (py >= bg_height - height/2) then y = -bg_height + height end
-
-	if (x == -1) then x = -px + width/2 end
-	if (y == -1) then y = -py + height/2 end
-
-	love.graphics.translate(x, y)
-	-- end camera
+	-- move background
+	love.graphics.translate(cx, cy)
 
 	love.graphics.draw(background, 0, 0)
 
@@ -286,8 +280,8 @@ function Game:draw(dt)
 		end--]]
 
 	end
-
-	love.graphics.translate(-x, -y)
+	-- move text
+	love.graphics.translate(-cx, -cy)
 
 	love.graphics.setFont(self.helpfont)
 	love.graphics.print(
