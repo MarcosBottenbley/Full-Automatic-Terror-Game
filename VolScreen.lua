@@ -13,7 +13,7 @@
 State = require("State")
 
 local VolScreen = {name = "Volume"}
-local help = "Use Up and Down Arrow Keys to Adjust Volume\nUse Any Other Key to Return to the Menu"
+local help = "Use Left and Right Arrow Keys to Adjust Volume\nPress escape to Return to the Menu"
 VolScreen.__index = VolScreen
 local i = 50;
 local max = "MAX"
@@ -47,6 +47,19 @@ end
 
 function VolScreen:update(dt)
 	self.time = self.time + dt
+
+	if love.keyboard.isDown('right') then
+		if (i < 100) then
+			i = i + 1
+		end
+		love.audio.setVolume((i*2)/100)
+	elseif love.keyboard.isDown('left') then
+		
+		if (i > 0) then
+			i = i - 1
+		end
+		love.audio.setVolume((i*2)/100)
+	end
 end
 
 function VolScreen:draw()
@@ -92,18 +105,24 @@ function VolScreen:draw()
 end
 
 function VolScreen:keyreleased(key)
-	if key == 'up' then
+	--[[
+	if key == 'right' then
 		if (i < 100) then
 			i = i + 1
 		end
 		love.audio.setVolume((i*2)/100)
-	elseif key == 'down' then
+	elseif key == 'left' then
 		
 		if (i > 0) then
 			i = i - 1
 		end
 		love.audio.setVolume((i*2)/100)
 	else
+		switchTo(Menu)
+	end
+	--]]
+
+	if key == 'escape' then
 		switchTo(Menu)
 	end
 end
