@@ -17,6 +17,8 @@ local help = "Press Esc to return to menu"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
+local level = "level0"
+local create = {}
 
 local timer = 0
 local waiting = false
@@ -65,6 +67,16 @@ end
 
 function Game:start()
 	bgm:play()
+	
+	for line in love.filesystem.lines(level) do
+		obj, x, y = string.match(line, "(%a+)%((%d+),(%d+)%)")
+		thing = {obj, tonumber(x), tonumber(y)}
+		table.insert(create, thing)
+	end
+	
+	for num, tuple in ipairs(create) do
+		self:make(tuple[1], tuple[2], tuple[3])
+	end
 
 	enemy_count = 9
 	score = 0
@@ -73,7 +85,7 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	player1 = Player(bg_width/2, bg_height/2, 200)
+	--[[player1 = Player(bg_width/2, bg_height/2, 200)
 	table.insert(objects, player1)
 
 	powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
@@ -91,7 +103,7 @@ function Game:start()
 	local g = GlowBorg()
 	g:setPosition(100, 100)
 
-	table.insert(objects, g)
+	table.insert(objects, g)--]]
 end
 
 function Game:stop()
@@ -346,6 +358,28 @@ function Game:touching(obj1, obj2)
 			end
 		end
 	end
+end
+
+function Game:make(thing, x, y)
+	local obj
+	
+	if thing == "pla" then
+		obj = Player(x, y, 200)
+	elseif thing == "ogb" then
+		obj = GlowBorg()
+		obj:setPosition(x, y)
+	elseif thing == "ops" then
+		obj = PhantomShip()
+		obj:setPosition(x, y)
+	elseif thing == "sgb" then
+		obj = Spawn(x, y, 300, 'g')
+	elseif thing == "sps" then
+		obj = Spawn(x, y, 300, 'f')
+	elseif thing == "pwr" then
+		obj = Powerup(x, y, 0)
+	end
+	
+	table.insert(objects, obj)
 end
 
 return Game
