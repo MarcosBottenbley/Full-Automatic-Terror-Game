@@ -18,7 +18,7 @@ local help = "Press Esc to return to menu"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local level = "level0"
+local level = "level/level0"
 local create = {}
 local player
 
@@ -58,14 +58,18 @@ function Game:load(arg)
 
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
-
-	background = love.graphics.newImage("gfx/large_bg.png")
+	
+	--default background
+	bg_string = "gfx/large_bg.png"
+	--looks for background filename in level file
+	for line in love.filesystem.lines(level) do
+		if string.find(line, "BG:") ~= nil then
+			bg_string = string.sub(line, 4)
+		end
+	end
+	background = love.graphics.newImage(bg_string)
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
-
-	if not love.filesystem.exists("level0") then
-		love.filesystem.write("level0", level0)
-	end
 
 	enemies = {}
 	bullets = {}
@@ -74,15 +78,19 @@ end
 
 function Game:start()
 	bgm:play()
-
+	
+	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(level) do
-		obj, x, y = string.match(line, "(%a+)%((%d+),(%d+)%)")
-		thing = {obj, tonumber(x), tonumber(y)}
-		table.insert(create, thing)
+		if string.find(line, "BG:") == nil then
+			obj, x, y, z, w = string.match(line, "(%a+)%((%d+),(%d+),(%d+),(%d+)%)")
+			thing = {obj, tonumber(x), tonumber(y), tonumber(z), tonumber(w)}
+			table.insert(create, thing)
+		end
 	end
-
+	
+	--creates objects in level from creation array
 	for num, tuple in ipairs(create) do
-		self:make(tuple[1], tuple[2], tuple[3])
+		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
 	end
 
 	enemy_count = 9
@@ -372,7 +380,10 @@ function Game:touching(obj1, obj2)
 	end
 end
 
-function Game:make(thing, x, y)
+--creates specified object based on three letter code and up to
+--four constructor arguments (this isn't great and will probably
+--be changed)
+function Game:make(thing, x, y, z, w)
 	local obj
 
 	if thing == "pla" then
@@ -386,9 +397,9 @@ function Game:make(thing, x, y)
 		obj = PhantomShip()
 		obj:setPosition(x, y)
 	elseif thing == "sgb" then
-		obj = Spawn(x, y, 300, 'g')
+		obj = Spawn(x, y, z, 'g')
 	elseif thing == "sps" then
-		obj = Spawn(x, y, 100, 'f')
+		obj = Spawn(x, y, z, 'f')
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end
