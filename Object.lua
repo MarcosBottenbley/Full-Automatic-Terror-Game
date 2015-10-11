@@ -81,6 +81,12 @@ function Object:update(dt)
 end
 
 function Object:draw(r,g,b, angle)
+	if r ~= nil and g ~= nil and b ~= nil then
+		love.graphics.setColor(r,g,b)
+	else
+		love.graphics.setColor(255,255,255,255)
+	end
+	
 	if self.sprite_sheet ~= nil then
 		love.graphics.draw (
 			self.sprite_sheet,
@@ -89,13 +95,7 @@ function Object:draw(r,g,b, angle)
 			angle, 1,1,
 			self.width/2 - 1, self.height/2 - 1
 		)
-
 	else
-		if r ~= nil and g ~= nil and b ~= nil then
-			love.graphics.setColor(r,g,b)
-		else
-			love.graphics.setColor(255,255,255,255)
-		end
 		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
 	love.graphics.setColor(255,255,255,255)

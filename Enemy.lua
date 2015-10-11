@@ -42,7 +42,7 @@ function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
 end
 
 function Enemy:draw()
-	Object.draw(self,255,0,0)
+	Object.draw(self,255,255,255)
 end
 
 function Enemy:update(dt, swidth, sheight)

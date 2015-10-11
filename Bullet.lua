@@ -59,7 +59,7 @@ function Bullet:update(dt, swidth, sheight)
 end
 
 function Bullet:draw()
-	Object.draw(self,0,255,0,self.angle)
+	Object.draw(self,255,255,255,self.angle)
 end
 
 function Bullet:exited_screen(width, height)
