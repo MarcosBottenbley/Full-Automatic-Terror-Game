@@ -396,6 +396,8 @@ function Game:make(thing, x, y, z, w)
 	elseif thing == "ops" then
 		obj = PhantomShip()
 		obj:setPosition(x, y)
+	elseif thing == "osb" then
+		obj = SunBoss(x, y)
 	elseif thing == "sgb" then
 		obj = Spawn(x, y, z, 'g')
 	elseif thing == "sps" then

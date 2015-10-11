@@ -16,6 +16,7 @@ pla = Player
 pwr = Powerup
 ogb = GlowBorg (object)
 ops = PhantomShip (object)
+osb = SunBoss (object)
 sgb = GlowBorg (spawner)
 sps = PhantomShip (spawner)
 
