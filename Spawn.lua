@@ -19,7 +19,8 @@ local e
 
 local Spawn = {
   x = 10, y = 10,
-  rad = 100, id = 4
+  rad = 100, id = 4,
+  pl_rad = 100
 }
 Spawn.__index = Spawn
 
@@ -32,38 +33,39 @@ setmetatable(Spawn, {
   end,
 })
 
-function Spawn:_init(x,y,r,types)
+function Spawn:_init(x,y,r,pr,types)
   self.x = x
   self.y = y
   self.rad = r
+  self.pl_rad = pr
   self.type = types
   self.spawned = false
 end
 
 function Spawn:update(dt,x,y)
-  playerx = x
-  playery = y
+	playerx = x
+	playery = y
 
-  dist = self:calcDist()
+	dist = self:calcDist()
 
-  if self.spawned == false then
-    if dist <= self.rad then
-      for i = 1, 5 do
-        if self.type == 'g' then
-          e = GlowBorg()
-        else
-          e = PhantomShip()
-        end
-        local spawnx = math.random(self.x) + self.x - self.rad
-        local spawny = math.random(self.y) + self.y - self.rad
+	if self.spawned == false then
+		if dist <= self.pl_rad then
+			for i = 1, 5 do
+				if self.type == 'g' then
+					e = GlowBorg()
+				else
+					e = PhantomShip()
+				end
+			local radial_pos = math.random(math.pi*2)
+			local spawnx = math.cos(radial_pos) * self.rad
+			local spawny = math.sin(radial_pos) * self.rad
 
-        e:setPosition(spawnx, spawny)
-    		table.insert(objects, e)
-
-        self.spawned = true
-    	end
-    end
-  end
+			e:setPosition(spawnx, spawny)
+				table.insert(objects, e)
+			end
+			self.spawned = true
+		end
+	end
 end
 
 function Spawn:calcDist()

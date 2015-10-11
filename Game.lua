@@ -128,33 +128,33 @@ function Game:start()
 			bg_width, bg_height
 	)
 
-	local rows = 6
-	local cols = 6
-	local id = 1
-	local bucket_width = bg_width/rows
-	local bucket_height = bg_height/cols
-	for i=1, rows do
-		buckets[i] = {}
-		for j=1, cols do
-			local temp = Bucket(i-1 * bucket_width,j-1 * bucket_height,bucket_width,bucket_height,i,j,rows,cols)
-			buckets[i][j]= temp
-		end
-	end
+	-- local rows = 6
+	-- local cols = 6
+	-- local id = 1
+	-- local bucket_width = bg_width/rows
+	-- local bucket_height = bg_height/cols
+	-- for i=1, rows do
+		-- buckets[i] = {}
+		-- for j=1, cols do
+			-- local temp = Bucket(i-1 * bucket_width,j-1 * bucket_height,bucket_width,bucket_height,i,j,rows,cols)
+			-- buckets[i][j]= temp
+		-- end
+	-- end
 
-	for x=1, rows do
-		for y=1, cols do
-			local nr = buckets[x][y]:getNeighborRows()
-			local nc = buckets[x][y]:getNeighborCols()
+	-- for x=1, rows do
+		-- for y=1, cols do
+			-- local nr = buckets[x][y]:getNeighborRows()
+			-- local nc = buckets[x][y]:getNeighborCols()
 
-			for n=1, 8 do
-				if nr[n] ~= nil and nc[n] ~= nil then
-					buckets[x][y]:addNeighbor(n,buckets[nr[n]][nc[n]])
-				else
-				    buckets[x][y]:addNeighbor(n,nil)
-				end
-			end
-		end
-	end
+			-- for n=1, 8 do
+				-- if nr[n] ~= nil and nc[n] ~= nil then
+					-- buckets[x][y]:addNeighbor(n,buckets[nr[n]][nc[n]])
+				-- else
+				    -- buckets[x][y]:addNeighbor(n,nil)
+				-- end
+			-- end
+		-- end
+	-- end
 end
 
 function Game:stop()
@@ -448,9 +448,9 @@ function Game:make(thing, x, y, z, w)
 	elseif thing == "osb" then
 		obj = SunBoss(x, y)
 	elseif thing == "sgb" then
-		obj = Spawn(x, y, z, 'g')
+		obj = Spawn(x, y, z, w, 'g')
 	elseif thing == "sps" then
-		obj = Spawn(x, y, z, 'f')
+		obj = Spawn(x, y, z, w, 'f')
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end
