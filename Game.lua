@@ -56,12 +56,12 @@ function Game:load(arg)
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
 
-	teleport = love.audio.newSource("sfx/teleport.mp3”)
+	teleport = love.audio.newSource("sfx/teleport.mp3")
 	teleport:setLooping(false)
 
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
-	
+
 	--default background
 	bg_string = "gfx/large_bg.png"
 	--looks for background filename in level file
@@ -82,7 +82,7 @@ end
 
 function Game:start()
 	bgm:play()
-	
+
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(level) do
 		if string.find(line, "BG:") == nil then
@@ -91,7 +91,7 @@ function Game:start()
 			table.insert(create, thing)
 		end
 	end
-	
+
 	--creates objects in level from creation array
 	for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
@@ -271,7 +271,7 @@ function Game:update(dt)
 	end
 
 	--check for when to end explosion animation and remove object.
-	--For enemies/player, this starts a .58 second timer so the 
+	--For enemies/player, this starts a .58 second timer so the
 	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
 	--the object will immediately be removed
 	for i=0, length - 1 do
@@ -320,12 +320,12 @@ function Game:valid(obj1, obj2)
 			valid = true
 		end
 	end
-	
+
 	--boss collision is handled elsewhere because we want it to have health
 	if (id_one == 1 and obj1:getType() == 'b') or (id_two == 1 and obj2:getType() == 'b') then
 		valid = false
 	end
-		
+
 
 	return valid
 end
