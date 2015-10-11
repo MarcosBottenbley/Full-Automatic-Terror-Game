@@ -331,7 +331,7 @@ function Game:update(dt)
 	enemy_gone = true
 	player_gone = true
 	for i=1, length do
-		if objects[i]:getID() == 1 then
+		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
 			enemy_gone = false
 		elseif objects[i]:getID() == 2 then
 			player_gone = false
