@@ -56,9 +56,12 @@ function Game:load(arg)
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
 
+	teleport = love.audio.newSource("sfx/teleport.mp3")
+	teleport:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
-	
+
 	--default background
 	bg_string = "gfx/large_bg.png"
 	--looks for background filename in level file
@@ -79,7 +82,7 @@ end
 
 function Game:start()
 	bgm:play()
-	
+
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(level) do
 		if string.find(line, "BG:") == nil then
@@ -88,7 +91,7 @@ function Game:start()
 			table.insert(create, thing)
 		end
 	end
-	
+
 	--creates objects in level from creation array
 	for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
@@ -128,6 +131,7 @@ function Game:start()
 			bg_width, bg_height
 	)
 
+<<<<<<< HEAD
 	--[[
 	local rows = 6
 	local cols = 6
@@ -161,6 +165,35 @@ function Game:setNeighbors(...)
 			end
 		end
 	end
+=======
+	-- local rows = 6
+	-- local cols = 6
+	-- local id = 1
+	-- local bucket_width = bg_width/rows
+	-- local bucket_height = bg_height/cols
+	-- for i=1, rows do
+		-- buckets[i] = {}
+		-- for j=1, cols do
+			-- local temp = Bucket(i-1 * bucket_width,j-1 * bucket_height,bucket_width,bucket_height,i,j,rows,cols)
+			-- buckets[i][j]= temp
+		-- end
+	-- end
+
+	-- for x=1, rows do
+		-- for y=1, cols do
+			-- local nr = buckets[x][y]:getNeighborRows()
+			-- local nc = buckets[x][y]:getNeighborCols()
+
+			-- for n=1, 8 do
+				-- if nr[n] ~= nil and nc[n] ~= nil then
+					-- buckets[x][y]:addNeighbor(n,buckets[nr[n]][nc[n]])
+				-- else
+				    -- buckets[x][y]:addNeighbor(n,nil)
+				-- end
+			-- end
+		-- end
+	-- end
+>>>>>>> 7c6bdf062af7862672631737e4a46d250eb42b7b
 end
 
 function Game:stop()
@@ -274,7 +307,7 @@ function Game:update(dt)
 	end
 
 	--check for when to end explosion animation and remove object.
-	--For enemies/player, this starts a .58 second timer so the 
+	--For enemies/player, this starts a .58 second timer so the
 	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
 	--the object will immediately be removed
 	for i=0, length - 1 do
@@ -323,12 +356,12 @@ function Game:valid(obj1, obj2)
 			valid = true
 		end
 	end
-	
+
 	--boss collision is handled elsewhere because we want it to have health
 	if (id_one == 1 and obj1:getType() == 'b') or (id_two == 1 and obj2:getType() == 'b') then
 		valid = false
 	end
-		
+
 
 	return valid
 end
@@ -454,9 +487,9 @@ function Game:make(thing, x, y, z, w)
 	elseif thing == "osb" then
 		obj = SunBoss(x, y)
 	elseif thing == "sgb" then
-		obj = Spawn(x, y, z, 'g')
+		obj = Spawn(x, y, z, w, 'g')
 	elseif thing == "sps" then
-		obj = Spawn(x, y, z, 'f')
+		obj = Spawn(x, y, z, w, 'f')
 	elseif thing == "pwr" then
 		obj = Powerup(x, y, 0)
 	end
