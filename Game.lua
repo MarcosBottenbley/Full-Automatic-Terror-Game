@@ -128,6 +128,7 @@ function Game:start()
 			bg_width, bg_height
 	)
 
+	--[[
 	local rows = 6
 	local cols = 6
 	local id = 1
@@ -140,7 +141,12 @@ function Game:start()
 			buckets[i][j]= temp
 		end
 	end
+	--]]
 
+	--self:setNeighbors()
+end
+
+function Game:setNeighbors(...)
 	for x=1, rows do
 		for y=1, cols do
 			local nr = buckets[x][y]:getNeighborRows()
