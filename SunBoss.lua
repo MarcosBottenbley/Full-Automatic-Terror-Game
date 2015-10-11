@@ -17,7 +17,8 @@ local SunBoss = {
 	width = 150, height = 150,
 	frames = 4, states = 2,
 	delay = 0.12, sprites = {},
-	bounding_rad = 60, type = 'b'
+	bounding_rad = 60, type = 'b',
+	health = 10
 }
 SunBoss.__index = SunBoss
 
@@ -42,13 +43,16 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 	--print("PLAYER: " .. py .. " " .. px)
 	local angle = math.atan((py - self.y) / (px - self.x))
 
-	--i suck at math
-	if px - self.x > 0 then
-		self.x = self.x + 150 * dt * math.cos(angle)
-		self.y = self.y + 150 * dt * math.sin(angle)
-	else
-		self.x = self.x - 150 * dt * math.cos(angle)
-		self.y = self.y - 150 * dt * math.sin(angle)
+	if self:distanceFrom(px, py) < 500 then
+		--move towards player (weird if statement because i don't
+		--totally understand the math)
+		if px - self.x > 0 then
+			self.x = self.x + 150 * dt * math.cos(angle)
+			self.y = self.y + 150 * dt * math.sin(angle)
+		else
+			self.x = self.x - 150 * dt * math.cos(angle)
+			self.y = self.y - 150 * dt * math.sin(angle)
+		end
 	end
 end
 
@@ -62,6 +66,11 @@ function SunBoss:getHitBoxes( ... )
 	table.insert(hb, hb_1)
 
 	return hb
+end
+
+--returns the distance between SunBoss' origin and (x, y)
+function SunBoss:distanceFrom(x, y)
+	return math.sqrt((x - self.x)^2 + (y - self.y)^2)
 end
 
 return SunBoss
