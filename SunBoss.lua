@@ -54,6 +54,10 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 			self.y = self.y - 150 * dt * math.sin(angle)
 		end
 	end
+	
+	if self.health < 1 then
+		self.collided = true
+	end
 end
 
 function SunBoss:getType()
@@ -71,6 +75,10 @@ end
 --returns the distance between SunBoss' origin and (x, y)
 function SunBoss:distanceFrom(x, y)
 	return math.sqrt((x - self.x)^2 + (y - self.y)^2)
+end
+
+function SunBoss:hit()
+	self.health = self.health - 1
 end
 
 return SunBoss

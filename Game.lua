@@ -242,7 +242,7 @@ function Game:update(dt)
 						objects[j].current_frame = 1
 					end
 				end
-				--shitty powerup collision code
+				--terrible collision code for stuff that doesn't explode
 				if objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
 					if self:touching(objects[i], objects[j]) then
 						if objects[i]:getID() == 2 and objects[j]:getID() == 5 then
@@ -252,20 +252,33 @@ function Game:update(dt)
 							objects[j].powerup = true
 							objects[i].collided = true
 						end
+						if objects[i]:getID() == 3 and objects[j]:getID() == 1 and
+						objects[j]:getType() == 'b' then
+							objects[i].collided = true
+							objects[j]:hit()
+						elseif objects[i]:getID() == 1 and objects[j]:getID() == 3 and
+						objects[i]:getType() == 'b'  then
+							objects[j].collided = true
+							objects[i]:hit()
+						end
 					end
 				end
 			end
 		end
 	end
 
-	--check for when to end explosion animation and remove object
+	--check for when to end explosion animation and remove object.
+	--For enemies/player, this starts a .58 second timer so the 
+	--explosion animation will play, but for bullet/powerup/boss (temp)
+	--the object will immediately be removed
 	for i=0, length - 1 do
 		if objects[length - i].collided then
 			if objects[length - i].timer > .58 then
 				table.remove(objects, length - i)
 				score = score + 200
 				enemy_count = enemy_count - 1
-			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 then
+			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
+			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') then
 				table.remove(objects, length - i)
 			else
 				objects[length - i].timer = objects[length - i].timer + dt
@@ -303,6 +316,12 @@ function Game:valid(obj1, obj2)
 			valid = true
 		end
 	end
+	
+	--boss collision is handled elsewhere because we want it to have health
+	if (id_one == 1 and obj1:getType() == 'b') or (id_two == 1 and obj2:getType() == 'b') then
+		valid = false
+	end
+		
 
 	return valid
 end
