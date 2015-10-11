@@ -44,7 +44,7 @@ function Powerup:_init(x, y, v)
 end
 
 function Powerup:draw()
-	Object.draw(self,255,0,0)
+	Object.draw(self,255,255,255)
 end
 
 function Powerup:update(dt, swidth, sheight)

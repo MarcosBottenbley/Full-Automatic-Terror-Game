@@ -101,7 +101,7 @@ function Player:update(dt, swidth, sheight)
 end
 
 function Player:draw()
-	Object.draw(self,0,255,0, self.angle1)
+	Object.draw(self,255,255,255, self.angle1)
 end
 
 function Player:keyreleased(key)

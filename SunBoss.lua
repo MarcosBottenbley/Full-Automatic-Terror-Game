@@ -18,8 +18,9 @@ local SunBoss = {
 	frames = 4, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
-	health = 10, time = 0, angle = 0,
-	vel = 100
+	health = 10, s_timer = 0,
+	d_timer = 0, angle = 0,
+	vel = 100, damaged = false
 }
 SunBoss.__index = SunBoss
 
@@ -36,8 +37,18 @@ function SunBoss:_init(x,y)
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
+function SunBoss:load()
+	Object.load(self)
+	bosshit = love.audio.newSource("sfx/bosshit.ogg")
+	bosshit:setLooping(false)
+end
+
 function SunBoss:update(dt, swidth, sheight, px, py)
-	self.time = self.time + dt
+	self.s_timer = self.s_timer + dt
+	if self.damaged then
+		self.d_timer = self.d_timer + dt
+	end
+	
 	Enemy.update(self, dt, swidth, sheight)
 	self.angle = self.angle + (math.pi/2)*dt
 
@@ -60,8 +71,21 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 		self.collided = true
 	end
 	
-	if self.time >= 0.25 then
+	if self.s_timer > 0.25 then
 		self:shoot()
+	end
+	
+	if self.d_timer > 0.2 then
+		self.damaged = false
+		self.d_timer = 0
+	end
+end
+
+function SunBoss:draw()
+	if self.damaged then
+		Object.draw(self,255,100,100)
+	else
+		Object.draw(self,255,255,255)
 	end
 end
 
@@ -84,12 +108,15 @@ end
 
 function SunBoss:hit()
 	self.health = self.health - 1
+	self.damaged = true
+	self.d_timer = 0
+	bosshit:play()
 end
 
 function SunBoss:shoot()
 	local b = EnemyBullet(self.x, self.y+40, 600, self.angle)
 	table.insert(objects, b)
-	self.time = 0
+	self.s_timer = 0
 end
 
 return SunBoss
