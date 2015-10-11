@@ -20,7 +20,8 @@ local EnemyBullet = {
 	frames = 1, states = 2,
 	delay = 1, sprites = {},
 	id = 6, collided = false,
-	bounding_rad = 5, angle = 0
+	bounding_rad = 5, angle = 0,
+	time = 0
 }
 EnemyBullet.__index = EnemyBullet
 
@@ -45,6 +46,15 @@ function EnemyBullet:_init(x, y, v, a)
 		self.delay)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}-- + self.width/2, self.y + 5, self.bounding_rad}
+end
+
+function EnemyBullet:update(dt, swidth, sheight)
+	Bullet.update(self, dt, swidth, sheight)
+
+	self.time = self.time + dt
+	if self.time > 1 then 
+		self.collided = true
+	end
 end
 
 return EnemyBullet

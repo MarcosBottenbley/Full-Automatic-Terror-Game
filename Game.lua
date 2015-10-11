@@ -269,7 +269,7 @@ function Game:update(dt)
 
 	--check for when to end explosion animation and remove object.
 	--For enemies/player, this starts a .58 second timer so the 
-	--explosion animation will play, but for bullet/powerup/boss (temp)
+	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
 	--the object will immediately be removed
 	for i=0, length - 1 do
 		if objects[length - i].collided then
@@ -278,7 +278,8 @@ function Game:update(dt)
 				score = score + 200
 				enemy_count = enemy_count - 1
 			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
-			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') then
+			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') or
+			objects[length - i]:getID() == 6 then
 				table.remove(objects, length - i)
 			else
 				objects[length - i].timer = objects[length - i].timer + dt

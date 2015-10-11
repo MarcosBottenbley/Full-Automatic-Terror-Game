@@ -18,7 +18,8 @@ local SunBoss = {
 	frames = 4, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
-	health = 10
+	health = 10, time = 0, angle = 0,
+	vel = 100
 }
 SunBoss.__index = SunBoss
 
@@ -32,31 +33,35 @@ setmetatable(SunBoss, {
 })
 
 function SunBoss:_init(x,y)
-	local v = math.random(40,80)
-	v = -v
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
 function SunBoss:update(dt, swidth, sheight, px, py)
+	self.time = self.time + dt
 	Enemy.update(self, dt, swidth, sheight)
+	self.angle = self.angle + (math.pi/2)*dt
 
 	--print("PLAYER: " .. py .. " " .. px)
-	local angle = math.atan((py - self.y) / (px - self.x))
+	local angle_p = math.atan((py - self.y) / (px - self.x))
 
 	if self:distanceFrom(px, py) < 500 then
 		--move towards player (weird if statement because i don't
 		--totally understand the math)
 		if px - self.x > 0 then
-			self.x = self.x + 150 * dt * math.cos(angle)
-			self.y = self.y + 150 * dt * math.sin(angle)
+			self.x = self.x + self.vel * dt * math.cos(angle_p)
+			self.y = self.y + self.vel * dt * math.sin(angle_p)
 		else
-			self.x = self.x - 150 * dt * math.cos(angle)
-			self.y = self.y - 150 * dt * math.sin(angle)
+			self.x = self.x - self.vel * dt * math.cos(angle_p)
+			self.y = self.y - self.vel * dt * math.sin(angle_p)
 		end
 	end
 	
 	if self.health < 1 then
 		self.collided = true
+	end
+	
+	if self.time >= 0.25 then
+		self:shoot()
 	end
 end
 
@@ -79,6 +84,12 @@ end
 
 function SunBoss:hit()
 	self.health = self.health - 1
+end
+
+function SunBoss:shoot()
+	local b = EnemyBullet(self.x, self.y+40, 600, self.angle)
+	table.insert(objects, b)
+	self.time = 0
 end
 
 return SunBoss
