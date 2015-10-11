@@ -36,6 +36,8 @@ setmetatable(Menu, {
 	end,
 })
 
+--- declares all menu sound effects, text, and text fonts
+
 function Menu:load()
 
 	self.title_font = love.graphics.newFont("ka1.ttf", 52)
@@ -72,6 +74,8 @@ function Menu:load()
 	timer2 = love.timer.getTime()
 end
 
+--- code for flashing title
+
 function Menu:update(dt)
 
 	timer2 = love.timer.getTime()
@@ -83,12 +87,14 @@ function Menu:update(dt)
 	--[[
 	alpha = alpha + adelt * dt
 
-	if alpha <= 50 or alpha >= 255 then			for flashing title
+	if alpha <= 50 or alpha >= 255 then
 		adelt = -adelt
 	end
 	--]]
 
 end
+
+--- creates the actual list and background
 
 function Menu:draw()
 
@@ -137,6 +143,8 @@ function Menu:draw()
 		end
 	end
 end
+
+--- selector operations and their sound effects
 
 function Menu:keyreleased(key)
 	if key == 'escape' then

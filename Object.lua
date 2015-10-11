@@ -28,6 +28,8 @@ setmetatable(Object, {
 	end,
 })
 
+--- initializes objects with position, image, size, frames, and other details
+
 function Object:_init(x, y, file, width, height, frames, states, delay)
 	self.x = x
 	self.y = y
@@ -80,6 +82,8 @@ function Object:update(dt)
 	end
 end
 
+--- handles sprite sheets for animating object movement
+
 function Object:draw(r,g,b, angle)
 	if r ~= nil and g ~= nil and b ~= nil then
 		love.graphics.setColor(r,g,b)
@@ -101,9 +105,25 @@ function Object:draw(r,g,b, angle)
 	love.graphics.setColor(255,255,255,255)
 end
 
+--- manually sets object x coordinate
+
+function Object:setX(newX)
+	self.x = newX
+end
+
+--- manually sets object y coordinate
+
+function Object:setY(newY)
+	self.y = newY
+end
+
+--- retrieves object x coordinate
+
 function Object:getX()
 	return self.x
 end
+
+--- retrieves object y coordinate
 
 function Object:getY()
 	return self.y

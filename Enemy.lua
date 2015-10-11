@@ -35,6 +35,9 @@ function Enemy:load()
 	boom:setLooping(false)
 end
 
+--- calls object initialization, sets position, speed, states, and other
+--- enemy details
+
 function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
 	self.vx = v
 	self.vy = v
@@ -44,6 +47,8 @@ end
 function Enemy:draw()
 	Object.draw(self,255,255,255)
 end
+
+--- called if an enemy dies, reduces speed and then explodes
 
 function Enemy:update(dt, swidth, sheight)
 	Object.update(self, dt)
@@ -67,6 +72,9 @@ function Enemy:update(dt, swidth, sheight)
 	self:explode()
 end
 
+--- reverses enemy direction in either x or y direction
+--- at random, maintains velocity
+
 function Enemy:bounce(side)
 	if side == 1 then
 		self.vx = -self.vx
@@ -74,6 +82,8 @@ function Enemy:bounce(side)
 		self.vy = -self.vy
 	end
 end
+
+--- decides whether bounce reverses x or y velocity
 
 function Enemy:direction()
 	if math.random(0,2) <= 1 then
@@ -85,6 +95,9 @@ function Enemy:direction()
 	end
 end
 
+--- on enemy death, increases score or sets boolean 
+--- of exploded to true
+
 function Enemy:explode()
 	if self.exploded == false and self.current_state == 2 then
 		--score = score + 200
@@ -93,6 +106,8 @@ function Enemy:explode()
 		self.exploded = true
 	end
 end
+
+--- manually moves an enemy to a set position
 
 function Enemy:setPosition(x, y)
 	self.x = x

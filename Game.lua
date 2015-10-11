@@ -56,6 +56,9 @@ function Game:load(arg)
 	blip = love.audio.newSource("sfx/bump.ogg")
 	blip:setLooping(false)
 
+	teleport = love.audio.newSource("sfx/teleport.mp3”)
+	teleport:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 	

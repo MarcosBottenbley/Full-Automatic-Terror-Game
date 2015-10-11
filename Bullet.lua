@@ -33,6 +33,8 @@ setmetatable(Bullet, {
 	end,
 })
 
+--- initial spawn information
+
 function Bullet:_init(x, y, v, a)
 	self.vel = v
 	self.angle = a
@@ -46,6 +48,8 @@ function Bullet:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}-- + self.width/2, self.y + 5, self.bounding_rad}
 end
+
+--- bullet, hitbox speed and direction
 
 function Bullet:update(dt, swidth, sheight)
 	Object.update(self, dt)
@@ -61,6 +65,8 @@ end
 function Bullet:draw()
 	Object.draw(self,255,255,255,self.angle)
 end
+
+--- handles when a bullet exits the map
 
 function Bullet:exited_screen(width, height)
 	local y_pos = self.y + self.height

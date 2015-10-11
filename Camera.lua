@@ -25,6 +25,8 @@ setmetatable(Camera, {
 	end,
 })
 
+--- starting camera position, player in center
+
 function Camera:_init(player_width, player_height, bg_width, bg_height)
 	-- initial position
 	self.x = 0
@@ -37,12 +39,15 @@ function Camera:_init(player_width, player_height, bg_width, bg_height)
 	self.bgh = bg_height
 end
 
+--- automatic camera position adjustment based on player 
+--- position relative to background
+
 function Camera:move()
 	local x, y = -1, -1
 
 	if (self.x <= width/2) then x = 0 end
 	if (self.y <= height/2) then y = 0 end
-
+	
 	if (self.x >= self.bgw - width/2 - self.pw) then
 		x = -self.bgw + width + self.pw end
 	if (self.y >= self.bgh - height/2 - self.ph) then
@@ -53,6 +58,8 @@ function Camera:move()
 
 	return x, y
 end
+
+--- manual camera adjustment to a set location
 
 function Camera:position(px, py)
 	self.x = px

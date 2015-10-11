@@ -33,6 +33,9 @@ setmetatable(PhantomShip, {
 	end,
 })
 
+--- initializes phantom ships with random positions but consistent
+--- movement speed
+
 function PhantomShip:_init()
 	local x = math.random(bg_width - self.width)
 	local y = math.random(bg_height - self.height)

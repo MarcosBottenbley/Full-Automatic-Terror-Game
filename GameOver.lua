@@ -25,6 +25,9 @@ setmetatable(GameOver, {
 	end,
 })
 
+--- loads the game over screen upon loss and initializes
+--- its sound effect
+
 function GameOver:load()
 	self.font = love.graphics.newFont("ka1.ttf", 50)
 	self.width = self.font:getWidth(self.name)
@@ -46,12 +49,15 @@ function GameOver:update(dt)
 end
 
 function GameOver:draw()
+	--- prints actual text in center
 	love.graphics.setFont(self.font)
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.print(
 		self.name,
 		center(width, self.width), center(height, self.height)
 	)
+
+	--- after 2 seconds, spawns help instructions at bottom of page
 
 	if self.time > 2 then
 		love.graphics.setFont(self.fontsmaller)
@@ -62,11 +68,15 @@ function GameOver:draw()
 	end
 end
 
+--- goes to score screen after key is pressed
+
 function GameOver:keyreleased(key)
 	if self.time > 1 then
 		switchTo(ScoreScreen)
 	end
 end
+
+--- upon losing the game, plays sound effect and starts timer
 
 function GameOver:start()
 	lose:play()

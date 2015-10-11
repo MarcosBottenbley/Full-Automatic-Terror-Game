@@ -34,6 +34,9 @@ setmetatable(EnemyBullet, {
 	end,
 })
 
+--- sets enemy bullet’s velocity, angle, position, images,
+--- states, frames, and delay
+
 function EnemyBullet:_init(x, y, v, a)
 	self.vel = v
 	self.angle = a
@@ -47,6 +50,8 @@ function EnemyBullet:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}-- + self.width/2, self.y + 5, self.bounding_rad}
 end
+
+--- makes bullets only last for 1 second of movement
 
 function EnemyBullet:update(dt, swidth, sheight)
 	Bullet.update(self, dt, swidth, sheight)
