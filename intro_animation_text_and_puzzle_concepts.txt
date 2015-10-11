@@ -2,19 +2,51 @@ Animation Intro Text:
 
 
 
-Your ship has been captured by a formidable 
-galactic empire.
+Your home planet, Trora, is located in the Meyliv Galaxy.
 
-You must escape from behind enemy lines 
-and return home.
+The nearby Zenith Nebula had drawn scientific minds from 
+around the universe to study its strange energy.
 
-However, these foreign sectors of space are 
-riddled with hostile forces and natural dangers.
+Trora's officials did not want this to escalate into an 
+energy race, for that would lead to war.
 
-All that stands between you and death is your 
-ship, its shields, and its weapons.
+However, they did not have the knowledge to harness the 
+energy alone. 
 
-Will you survive and reach your home planet?
+They made a deal that would satisfy everyone, but would 
+also leave Trora with an advantage.
+
+Everyone shared their knowledge and, as a result, they 
+were able to harness and contain the energy.
+
+As payment for their contributions, each participant was 
+given a share of the resource.
+
+However, Trora kept the most because they were closest to 
+the nebula.
+
+They used the Zenith Energy to create a line of 
+powerful spacecraft for their leader’s escort.
+
+You are the pilot of one of these ships.
+
+The residents of a another planet, Snides, sought these 
+ships in order to reverse engineer them.
+
+While they are masters of teleportation technology, they 
+could not match Trora’s speed and firepower.
+
+They ambushed you on your way back to Trora and captured 
+you.
+
+Several months have passed, and the enemy has created an 
+enhanced army of ships with the energy.
+
+As they were about to eliminate you, you somehow managed 
+to escape.
+
+You must survive and reach home in order to warn your 
+planet of the imminent threat.
 
 
 

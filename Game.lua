@@ -46,6 +46,7 @@ function Game:load(arg)
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
 	PhantomShip = require("PhantomShip")
+	SunBoss = require("SunBoss")
 	Spawn = require("Spawn")
 	Powerup = require("Powerup")
 
@@ -119,6 +120,7 @@ function Game:start()
 
 
 	-- table.insert(objects, g)
+	table.insert(objects, SunBoss(500, 500))
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
@@ -133,7 +135,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(objects, length - i)
 	end
-	
+
 	length = table.getn(create)
 	for i = 0, length - 1 do
 		table.remove(create, length - i)
@@ -394,6 +396,8 @@ function Game:make(thing, x, y, z, w)
 	elseif thing == "ops" then
 		obj = PhantomShip()
 		obj:setPosition(x, y)
+	elseif thing == "osb" then
+		obj = SunBoss(x, y)
 	elseif thing == "sgb" then
 		obj = Spawn(x, y, z, 'g')
 	elseif thing == "sps" then
