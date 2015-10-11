@@ -12,7 +12,7 @@
 
 State = require("State")
 
-local GameOver = {name = "GAME OVER BROH",
+local GameOver = {name = "GAME OVER",
 help = "Press any key to continue"}
 GameOver.__index = GameOver
 
@@ -44,6 +44,15 @@ function center(large, small)
 	return large/2 - small/2
 end
 
+function GameOver:fadein()
+	if self.time < 1 then
+		local c = lerp(0, 255, self.time/1)
+		return {c, c, c, 255}
+	else
+		return {255, 255, 255, 255}
+	end
+end
+
 function GameOver:update(dt)
 	self.time = self.time + dt
 end
@@ -51,7 +60,7 @@ end
 function GameOver:draw()
 	--- prints actual text in center
 	love.graphics.setFont(self.font)
-	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(self:fadein())
 	love.graphics.print(
 		self.name,
 		center(width, self.width), center(height, self.height)
