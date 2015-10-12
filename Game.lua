@@ -18,7 +18,7 @@ local help = "Press Esc to return to menu"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local level = "level/level0"
+local level = "level/level1"
 local create = {}
 local player
 
