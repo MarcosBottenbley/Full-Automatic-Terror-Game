@@ -11,24 +11,32 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 5: Scrolling Level Zero!
+Assignment 6: Stepping up to Level One
 
-Problem 1: Level Zero
+Problem 1: Level One
 
-In our game, "four screen-fulls of stuff" consists of a 2000x2000 arena
-with an 800x600 camera. The player is tasked with destroying all the
-enemies in the area, which would be similar to the gameplay of our final
-concept (complete a certain objective while exploring a large area)
+This first complete level has been completed. Our game also has an opening 
+story that can be skipped by pressing the spacebar or any other key. 
+It flashes through the text upon starting the game. The player wins by 
+destroying the boss on the level. The player loses by running out of health. 
+The invincibility feature is also implemented by pressing the "i" key. 
+More destroyed enemies means higher scores. We decided not to screen wrap yet
+because this would become confusing to the player without a mini-map.
 
-Problem 2: Camera and Scrolling
+Problem 2: Technical, Artistic, and Game Play Progress
 
-Our game has the screen center on the player's ship as it moves around
-the game world. Once the player reaches one of the predetermined boundaries
-for the arena (these are invisible right now, later they will be visible or
-we'll implement Asteroids-esque screen wrapping) the camera stops moving in
-that direction. Currently, we don't have a camera class (the movement is
-handled by a couple lines in the Game class) but we'll add one later to
-implement "juicy" effects.
+Upon laughing the game and selecting the play option, the player sees the 
+story unfold over some text. This is skip-able, in case they have already 
+seen it. We have an invincibility feature that is activated by pressing "i" 
+and deactivated by pressing it again. The boss has been added, with sound and 
+visual effects when it is hit and a firing sequence in a circle around itself. 
+This is useful for destroying enemies for you. We updated our game over and win 
+screens to look more professional as well. The player has health now, as shown 
+in the top left corner of the screen. The player also has a sound effect when 
+they are hit. The enemies also do not deal damage once they are destroyed. 
+Spatial hashing was also implemented.
+
+
 
 #Gameplay
 
