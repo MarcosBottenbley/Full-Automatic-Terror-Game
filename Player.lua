@@ -21,7 +21,9 @@ local Player = {
 	delay = 0.08, sprites = {},
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = 0,
-	ang_vel = 0, powerup = false
+	ang_vel = 0, powerup = false,
+	health = 5, invul = false,
+	d_timer = 0, damaged = false
 }
 Player.__index = Player
 
@@ -58,7 +60,20 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-
+	
+	-- if self.damaged then
+		-- self.d_timer = self.d_timer + dt
+	-- end
+	
+	-- if self.d_timer > 0.2 then
+		-- self.damaged = false
+		-- self.d_timer = 0
+	-- end
+	
+	-- if self.health < 1 then
+		-- self.collided = true
+	-- end
+	
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.ang_vel = -math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
@@ -169,6 +184,16 @@ end
 
 function Player:getHeight()
 	return self.height
+end
+
+function Player:hit()
+	self.health = self.health - 1
+	-- self.damaged = true
+	-- self.d_timer = 0
+end
+
+function Player:alive()
+	return self.health > 0
 end
 
 return Player
