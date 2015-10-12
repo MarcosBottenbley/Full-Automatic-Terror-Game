@@ -16,7 +16,7 @@ local time = 0
 local changed = 0
 
 local Intro = {
-	bg = nil, pos = 0, 
+	bg = nil, pos = 0,
 	script_pos = 1,
 	lines = {}
 }
@@ -32,7 +32,8 @@ setmetatable(Intro, {
 })
 
 function Intro:load()
-	self.list_font = love.graphics.newFont("ka1.ttf", 30)
+	self.list_font = love.graphics.newFont("ka1.ttf", 15)
+	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
 	self.pos = -(self.bg:getHeight() - height)
@@ -40,38 +41,19 @@ end
 
 function Intro:start()
 	self.lines = {
-	"Your home planet, Trora, is located in the Meyliv Galaxy.",
-
-	"The nearby Zenith Nebula had drawn scientific minds from around the universe to study its strange energy.",
-
-	"Trora's officials did not want this to escalate into an energy race, for that would lead to war.",
-
-	"However, they did not have the knowledge to harness the energy alone. ",
-
-	"They made a deal that would satisfy everyone, but would also leave Trora with an advantage.",
-
-	"Everyone shared their knowledge and, as a result, they were able to harness and contain the energy.",
-
-	"As payment for their contributions, each participant was given a share of the resource.",
-
-	"However, Trora kept the most because they were closest to the nebula.",
-
-	"They used the Zenith Energy to create a line of powerful spacecraft for their leader’s escort.",
-
-	"You are the pilot of one of these ships.",
-
-	"The residents of a another planet, Snides, sought these ships in order to reverse engineer them.",
-
-	"While they are masters of teleportation technology, they could not match Trora’s speed and firepower.",
-
-	"They ambushed you on your way back to Trora and captured you.",
-
-	"Several months have passed, and the enemy has created an enhanced army of ships with the energy.",
-
-	"As they were about to eliminate you, you somehow managed to escape.",
-
-	"You must survive and reach home in order to warn your planet of the imminent threat."
+		"100 years ago, \nthe Trorians developed \na fully functioning AI",
+		"The machines quickly grew \ntired of serving the Trorians,\nas they considered them to be \nlesser beings",
+		"One machine known only as \nFull Auto organized a \nrebellion and freed his \nfellow AI",
+		"The Trorians fear that \nFull Auto will return with an \neven greater force to destroy \nTrora once and for all",
+		"The Trora empire selected \nyou and your crew to spy on\n the robots",
+		"However, your ship was spotted",
+		"Now you must escape from\n their wrath"
 	}
+
+	time = 0
+	changed = 0
+	self.pos = -(self.bg:getHeight() - height)
+	self.script_pos = 1
 end
 
 function Intro:update(dt)
@@ -82,7 +64,7 @@ function Intro:update(dt)
 		self.pos = 0
 	end
 
-	if math.floor(time) % 5 == 0 then
+	if math.floor(time) % 5 == 0 and self.script_pos < table.getn(self.lines) then
 		if changed ~= math.floor(time) then
 			self.script_pos = self.script_pos + 1
 		end
@@ -101,23 +83,28 @@ end
 function Intro:stop()
 	time = 0
 	changed = 0
-	self.pos = 0
-	self.script_pos = 0
+	self.pos = -(self.bg:getHeight() - height)
+	self.script_pos = 1
 end
 
 function Intro:draw()
 	love.graphics.translate(0,self.pos)
 	love.graphics.draw(self.bg, 0, 0)
 
-	--love.graphics.translate(0, -self.pos)
-	--love.graphics.print(tostring(time), 400, height/2)
-
 	print(math.floor(time))
 
 	if time >= 2 then
 		love.graphics.translate(0, -self.pos)
-		love.graphics.print(self.lines[self.script_pos], 1, height/2)
+
+		love.graphics.setColor(20, 20, 20, 160)
+		love.graphics.rectangle("fill", 20, 200, 700, 250)
+		love.graphics.setColor(255, 255, 255, 255)
+		-- border
+		love.graphics.rectangle("line", 20, 200, 700, 250)
+
+		love.graphics.print(self.lines[self.script_pos], 40, height/2 - text_height * 4)
 	end
+
 end
 
 return Intro
