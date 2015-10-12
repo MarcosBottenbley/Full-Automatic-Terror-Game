@@ -18,7 +18,7 @@ local SunBoss = {
 	frames = 4, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
-	health = 10, s_timer = 0,
+	health = 20, s_timer = 0,
 	d_timer = 0, angle = 0,
 	vel = 100, damaged = false
 }
@@ -50,7 +50,7 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 	end
 	
 	Enemy.update(self, dt, swidth, sheight)
-	self.angle = self.angle + (math.pi/2)*dt
+	self.angle = self.angle + (math.pi/2)*dt*(7.66 - (self.health/3))
 
 	--print("PLAYER: " .. py .. " " .. px)
 	local angle_p = math.atan((py - self.y) / (px - self.x))
@@ -71,7 +71,8 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 		self.collided = true
 	end
 	
-	if self.s_timer > 0.25 then
+	--shots get faster as health gets lower
+	if self.s_timer > 0.5 / ((-9/19)*self.health + (191/19)) then
 		self:shoot()
 	end
 	

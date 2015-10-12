@@ -143,6 +143,10 @@ function Player:keyreleased(key)
 	if key == 'left' or key == 'right' then
 		self.ang_vel = 0
 	end
+	
+	if key == 'i' then
+		self.invul = not self.invul
+	end
 end
 
 function Player:getHitBoxes( ... )
@@ -193,7 +197,9 @@ function Player:getHeight()
 end
 
 function Player:hit()
-	self.health = self.health - 1
+	if not self.invul then
+		self.health = self.health - 1
+	end
 	self.damaged = true
 	self.d_timer = 0
 	playerhit:play()
