@@ -56,23 +56,25 @@ function Player:load()
 	Object.load(self)
 	pew = love.audio.newSource("sfx/pew.ogg")
 	pew:setLooping(false)
+	playerhit = love.audio.newSource("sfx/playerhit.ogg")
+	playerhit:setLooping(false)
 end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	
-	-- if self.damaged then
-		-- self.d_timer = self.d_timer + dt
-	-- end
+	if self.damaged then
+		self.d_timer = self.d_timer + dt
+	end
 	
-	-- if self.d_timer > 0.2 then
-		-- self.damaged = false
-		-- self.d_timer = 0
-	-- end
+	if self.d_timer > 0.2 then
+		self.damaged = false
+		self.d_timer = 0
+	end
 	
-	-- if self.health < 1 then
-		-- self.collided = true
-	-- end
+	if self.health < 1 then
+		self.collided = true
+	end
 	
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.ang_vel = -math.pi * dt
@@ -116,7 +118,11 @@ function Player:update(dt, swidth, sheight)
 end
 
 function Player:draw()
-	Object.draw(self,255,255,255, self.angle1)
+	if self.damaged then
+		Object.draw(self,155,155,155, self.angle1)
+	else
+		Object.draw(self,255,255,255, self.angle1)
+	end
 end
 
 function Player:keyreleased(key)
@@ -188,12 +194,17 @@ end
 
 function Player:hit()
 	self.health = self.health - 1
-	-- self.damaged = true
-	-- self.d_timer = 0
+	self.damaged = true
+	self.d_timer = 0
+	playerhit:play()
 end
 
 function Player:alive()
 	return self.health > 0
+end
+
+function Player:getHealth()
+	return self.health
 end
 
 return Player

@@ -388,8 +388,13 @@ function Game:draw(dt)
 		help,
 		10, height - 20
 	)
-
+	
 	love.graphics.setFont(self.scorefont)
+	love.graphics.print(
+		"HEALTH: " .. player:getHealth(),
+		10, 10
+	)
+
 	love.graphics.printf(
 		scorestring .. score,
 		width - 300, 10,
