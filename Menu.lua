@@ -166,7 +166,7 @@ function Menu:keyreleased(key)
 
 		if selector == 0 then
 			love.timer.sleep(0.4)
-			switchTo(Game)
+			switchTo(Intro)
 		elseif selector == 2 then
 			love.timer.sleep(0.4)
 			switchTo(VolScreen)
