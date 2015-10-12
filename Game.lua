@@ -21,6 +21,8 @@ local enemy_count = 9
 local level = "level/level0"
 local create = {}
 local player
+local bgm1
+local bgm2
 
 local timer = 0
 local waiting = false
@@ -61,6 +63,9 @@ function Game:load(arg)
 
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
+	
+	bg_invul = love.audio.newSource("sfx/invul.ogg")
+	bgm:setLooping(true)
 
 	--default background
 	bg_string = "gfx/large_bg.png"
@@ -82,6 +87,8 @@ end
 
 function Game:start()
 	bgm:play()
+	bgm1 = true
+	bgm2 = false
 
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(level) do
@@ -168,6 +175,7 @@ end
 
 function Game:stop()
 	bgm:stop()
+	bg_invul:stop()
 
 	local length = table.getn(objects)
 	for i = 0, length - 1 do
@@ -204,7 +212,19 @@ end
 
 function Game:update(dt)
 	time = time + dt
-
+	
+	if player.invul and bgm1 then
+		bgm:stop()
+		bg_invul:play()
+		bgm1 = false
+		bgm2 = true
+	elseif (not player.invul) and bgm2 then
+		bg_invul:stop()
+		bgm:play()
+		bgm1 = true
+		bgm2 = false
+	end
+	
 	local playerx = 0
 	local playery = 0
 	local x = 1

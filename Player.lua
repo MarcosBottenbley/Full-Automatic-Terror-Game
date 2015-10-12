@@ -23,7 +23,8 @@ local Player = {
 	bounding_rad = 25, angle1 = 0,
 	ang_vel = 0, powerup = false,
 	health = 5, invul = false,
-	d_timer = 0, damaged = false
+	d_timer = 0, damaged = false,
+	i_timer = 0
 }
 Player.__index = Player
 
@@ -76,6 +77,14 @@ function Player:update(dt, swidth, sheight)
 		self.collided = true
 	end
 	
+	if self.invul then
+		self.i_timer = self.i_timer + dt
+	end
+	
+	if self.i_timer > .25 then
+		self.i_timer = 0
+	end
+	
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.ang_vel = -math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
@@ -121,7 +130,11 @@ function Player:draw()
 	if self.damaged then
 		Object.draw(self,155,155,155, self.angle1)
 	else
-		Object.draw(self,255,255,255, self.angle1)
+		if self.i_timer > 0.125 then
+			Object.draw(self,255,255,0, self.angle1)
+		else
+			Object.draw(self,255,255,255, self.angle1)
+		end
 	end
 end
 
@@ -146,6 +159,7 @@ function Player:keyreleased(key)
 	
 	if key == 'i' then
 		self.invul = not self.invul
+		self.i_timer = 0
 	end
 end
 
