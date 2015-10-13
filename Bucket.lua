@@ -25,7 +25,7 @@ setmetatable(Bucket, {
 	end,
 })
 
-function Bucket:_init(x,y,width,height, row, col, rows, cols)
+function Bucket:_init(x, y, width, height, row, col, rows, cols)
 	self.x = x
 	self.y = y
 	self.width = width
@@ -34,6 +34,10 @@ function Bucket:_init(x,y,width,height, row, col, rows, cols)
 	self.col = col
 	self.rows = rows
 	self.cols = cols
+end
+
+function Bucket:printBucket( ... )
+	print("BUCKET MOTHERFUCKER!")
 end
 
 function Bucket:getX(...)
@@ -294,13 +298,18 @@ function Bucket:touching(obj1, obj2)
 end
 
 function Bucket:draw()
+	--[[
 	for _, o in ipairs(self.objects) do
 		o:draw()
 	end
+	--]]
 
-	local num = table.getn(self.objects)
+	--local num = table.getn(self.objects)
+	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-	love.love.graphics.print(tostring(num), self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
+	--love.graphics.print(tostring(num), self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
+	love.graphics.print("(" .. tostring(self.row) .. tostring(self.col) .. ")", self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Bucket:drawHitBoxes(obj)
