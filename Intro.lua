@@ -91,8 +91,6 @@ function Intro:draw()
 	love.graphics.translate(0,self.pos)
 	love.graphics.draw(self.bg, 0, 0)
 
-	print(math.floor(time))
-
 	if time >= 2 then
 		love.graphics.translate(0, -self.pos)
 

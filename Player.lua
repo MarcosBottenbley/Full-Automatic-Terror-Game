@@ -14,7 +14,8 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Player = {
-	vel = 200,
+	vel = 0, max_vel = 200,
+	accel = 0, max_accel = 800,
 	img = "gfx/main_ship_sheet.png",
 	width = 42, height = 57,
 	frames = 5, states = 2,
@@ -46,7 +47,7 @@ function Player:_init(x, y, v)
 		self.states,
 		self.delay)
 
-	self.vel = v
+	self.max_vel = v
 	self.powerup = false
 
 	self.hb_1 = {self.x, self.y - 18.5, 10}
@@ -93,15 +94,38 @@ function Player:update(dt, swidth, sheight)
 	 	self.angle1 = self.angle1 + self.ang_vel
 	end
 
+	--is the player moving
+	local moving = false
+	
+	--get acceleration (if not moving, accelerate opposite velocity)
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-	 	self.y = self.y + math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.x = self.x - math.cos(math.pi/2 - self.angle1)*self.vel*dt
+	 	self.accel = -self.max_accel
+		moving = true
+	elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then
+		self.accel = self.max_accel
+		moving = true
+	elseif self.vel > 0 then
+		self.accel = -self.max_accel
+	elseif self.vel < 0 then
+		self.accel = self.max_accel
+	else
+		self.accel = 0
 	end
-	if love.keyboard.isDown('up') or love.keyboard.isDown('w') then
-		self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+	
+	--accelerate (not past max velocity)
+	if (self.accel >= 0 and self.vel < self.max_vel) or
+		(self.accel <= 0 and self.vel > -self.max_vel) then
+		self.vel = self.vel + self.accel * dt
 	end
-
+		
+	--stop player from moving back and forth when not pressing up/down
+	if math.abs(self.vel) < 20 and not moving then
+		self.vel = 0
+	end
+	
+	self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
+	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+	
 	if self.x < 1 then
 		self.x = 1
 	end
