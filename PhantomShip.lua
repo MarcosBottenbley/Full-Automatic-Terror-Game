@@ -20,7 +20,8 @@ local PhantomShip = {
 	width = 40, height = 52,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
-	bounding_rad = 20, type = 'f'
+	bounding_rad = 20, type = 'f',
+	vel = 0
 }
 PhantomShip.__index = PhantomShip
 
@@ -37,17 +38,14 @@ setmetatable(PhantomShip, {
 --- movement speed
 
 function PhantomShip:_init()
-	local x = math.random(bg_width - self.width)
-	local y = math.random(bg_height - self.height)
-	local v = math.random(40,80)
-	v = -v
-	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.vel = math.random(40,80)
+	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
 function PhantomShip:update(dt, swidth, sheight)
 	Object.update(self, dt)
 
-	self.y = self.y - self.vy*dt
+	self.y = self.y + self.vel*dt
 	if self.x >= bg_width then
 		self.x = 0
 	end

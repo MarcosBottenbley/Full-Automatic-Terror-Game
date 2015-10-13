@@ -17,7 +17,8 @@ local GlowBorg = {
 	width = 60, height = 60,
 	frames = 6, states = 2,
 	delay = 0.12, sprites = {},
-	bounding_rad = 25, type = 'g'
+	bounding_rad = 25, type = 'g',
+	vel = 130
 }
 GlowBorg.__index = GlowBorg
 
@@ -31,11 +32,7 @@ setmetatable(GlowBorg, {
 })
 
 function GlowBorg:_init()
-	local x = math.random(bg_width - self.width)
-	local y = math.random(bg_height - self.height)
-	local v = math.random(40,80)
-	v = -v
-	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
 function GlowBorg:update(dt, swidth, sheight, px, py)
@@ -46,11 +43,11 @@ function GlowBorg:update(dt, swidth, sheight, px, py)
 
 	--i suck at math
 	if px - self.x > 0 then
-		self.x = self.x + 150 * dt * math.cos(angle)
-		self.y = self.y + 150 * dt * math.sin(angle)
+		self.x = self.x + self.vel * dt * math.cos(angle)
+		self.y = self.y + self.vel * dt * math.sin(angle)
 	else
-		self.x = self.x - 150 * dt * math.cos(angle)
-		self.y = self.y - 150 * dt * math.sin(angle)
+		self.x = self.x - self.vel * dt * math.cos(angle)
+		self.y = self.y - self.vel * dt * math.sin(angle)
 	end
 end
 
