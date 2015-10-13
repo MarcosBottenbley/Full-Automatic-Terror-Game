@@ -305,8 +305,13 @@ function Game:update(dt)
 			--player collision won't kill player unless health is at 1
 			if objects[length - i]:getID() == 2 and objects[length - i]:alive() then
 				objects[length - i]:hit()
-				objects[length - i].current_state = 1
-				objects[length - i].collided = false
+				if objects[length - i]:alive() then
+					objects[length - i].current_state = 1
+					objects[length - i].collided = false
+				else
+					objects[length - i].current_state = 2
+					objects[length - i].collided = true
+				end
 			elseif objects[length - i].timer > .58 then
 				table.remove(objects, length - i)
 				score = score + 200
@@ -317,6 +322,10 @@ function Game:update(dt)
 				table.remove(objects, length - i)
 			else
 				objects[length - i].timer = objects[length - i].timer + dt
+				if objects[length - i]:getID() == 2 then
+					objects[length - i].max_vel = 0--objects[length - i].max_vel / 1.1
+				end
+				objects[length - i].vel = 0--objects[length - i].vel / 1.1
 			end
 		end
 	end

@@ -19,7 +19,7 @@ local Player = {
 	img = "gfx/main_ship_sheet.png",
 	width = 42, height = 57,
 	frames = 5, states = 2,
-	delay = 0.08, sprites = {},
+	delay = 0.12, sprites = {},
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = 0,
 	ang_vel = 0, powerup = false,
@@ -119,7 +119,7 @@ function Player:update(dt, swidth, sheight)
 	end
 		
 	--stop player from moving back and forth when not pressing up/down
-	if math.abs(self.vel) < 20 and not moving then
+	if math.abs(self.vel) < self.max_vel / 10 and not moving then
 		self.vel = 0
 	end
 	
@@ -238,8 +238,10 @@ function Player:hit()
 	if not self.invul then
 		self.health = self.health - 1
 	end
-	self.damaged = true
-	self.d_timer = 0
+	if self:alive() then
+		self.damaged = true
+		self.d_timer = 0
+	end
 	playerhit:play()
 end
 
