@@ -63,6 +63,12 @@ function Game:load(arg)
 	teleport = love.audio.newSource("sfx/teleport.mp3")
 	teleport:setLooping(false)
 
+	error = love.audio.newSource("sfx/error.wav")
+	error:setLooping(false)
+
+	bombblast = love.audio.newSource("sfx/bomb.wav")
+	bombblast:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
@@ -426,6 +432,11 @@ function Game:draw(dt)
 	love.graphics.print(
 		"HEALTH: " .. player:getHealth(),
 		10, 10
+	)
+
+	love.graphics.print(
+		"BOMBS: " .. player:getBomb(),
+		250, 10
 	)
 
 	love.graphics.printf(
