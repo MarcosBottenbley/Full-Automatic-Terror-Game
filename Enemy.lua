@@ -114,4 +114,25 @@ function Enemy:setPosition(x, y)
 	self.y = y
 end
 
+function Enemy:getX()
+	return self.x
+end
+
+function Enemy:getY()
+	return self.y
+end
+
+--- determines if an enemy is on the player’s screen (bomb range)
+
+function Enemy:on_screen()
+	-- enemies not on the map are not on screen
+	if self.x < 0 or self.y < 0 or self.x > width or self.y > height then
+		return false
+	end
+	
+	-- we need the player’s current location
+	
+	
+end
+
 return Enemy
