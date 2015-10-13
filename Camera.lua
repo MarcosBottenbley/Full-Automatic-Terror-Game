@@ -39,7 +39,7 @@ function Camera:_init(player_width, player_height, bg_width, bg_height)
 	self.bgw = bg_width
 	self.bgh = bg_height
 	-- shake range
-	self.shake_range = 2
+	self.shake_range = 1.5
 end
 
 --- automatic camera position adjustment based on player

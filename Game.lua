@@ -262,6 +262,7 @@ function Game:update(dt)
 			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
 				if self:valid(objects[i], objects[j]) then
 					if self:touching(objects[i], objects[j]) then
+						love.timer.sleep(0.08)
 						-- objects collided
 						objects[i].collided = true
 						objects[j].collided = true
