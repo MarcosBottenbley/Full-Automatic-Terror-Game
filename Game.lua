@@ -24,6 +24,8 @@ local player
 local bgm1
 local bgm2
 
+local shake = false
+
 local timer = 0
 local waiting = false
 
@@ -61,9 +63,15 @@ function Game:load(arg)
 	teleport = love.audio.newSource("sfx/teleport.mp3")
 	teleport:setLooping(false)
 
+	error = love.audio.newSource("sfx/error.wav")
+	error:setLooping(false)
+
+	bombblast = love.audio.newSource("sfx/bomb.wav")
+	bombblast:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
-	
+
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
 
@@ -212,7 +220,7 @@ end
 
 function Game:update(dt)
 	time = time + dt
-	
+
 	if player.invul and bgm1 then
 		bgm:stop()
 		bg_invul:play()
@@ -224,7 +232,7 @@ function Game:update(dt)
 		bgm1 = true
 		bgm2 = false
 	end
-	
+
 	local playerx = 0
 	local playery = 0
 	local x = 1
@@ -260,7 +268,7 @@ function Game:update(dt)
 			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
 				if self:valid(objects[i], objects[j]) then
 					if self:touching(objects[i], objects[j]) then
-
+						love.timer.sleep(0.08)
 						-- objects collided
 						objects[i].collided = true
 						objects[j].collided = true
@@ -269,6 +277,8 @@ function Game:update(dt)
 						objects[i].current_frame = 1
 						objects[j].current_state = 2
 						objects[j].current_frame = 1
+						-- begin screen shake
+						shake = true
 					end
 				end
 				--terrible collision code for stuff that doesn't explode
@@ -300,7 +310,7 @@ function Game:update(dt)
 	--For enemies/player, this starts a .58 second timer so the
 	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
 	--the object will immediately be removed
-	for i=0, length - 1 do
+	for i = 0, length - 1 do
 		if objects[length - i].collided then
 			--player collision won't kill player unless health is at 1
 			if objects[length - i]:getID() == 2 and objects[length - i]:alive() then
@@ -312,10 +322,13 @@ function Game:update(dt)
 					objects[length - i].current_state = 2
 					objects[length - i].collided = true
 				end
+			-- remove objects that collided and end shake
 			elseif objects[length - i].timer > .58 then
 				table.remove(objects, length - i)
 				score = score + 200
 				enemy_count = enemy_count - 1
+				-- end the screen shake
+				shake = false
 			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
 			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') or
 			objects[length - i]:getID() == 6 then
@@ -365,7 +378,7 @@ function Game:valid(obj1, obj2)
 	if (id_one == 1 and obj1:getType() == 'b') or (id_two == 1 and obj2:getType() == 'b') then
 		valid = false
 	end
-	
+
 	return valid
 end
 
@@ -373,7 +386,13 @@ function Game:draw(dt)
 
 	-- coordinates
 	camera:position(player:getX(), player:getY())
-	local cx, cy = camera:move()
+	local cx, cy = 0, 0
+
+	if shake then
+		cx, cy = camera:shake()
+	else
+		cx, cy = camera:move()
+	end
 
 	-- move background
 	love.graphics.translate(cx, cy)
@@ -417,11 +436,16 @@ function Game:draw(dt)
 		help,
 		10, height - 20
 	)
-	
+
 	love.graphics.setFont(self.scorefont)
 	love.graphics.print(
 		"HEALTH: " .. player:getHealth(),
 		10, 10
+	)
+
+	love.graphics.print(
+		"BOMBS: " .. player:getBomb(),
+		250, 10
 	)
 
 	love.graphics.printf(

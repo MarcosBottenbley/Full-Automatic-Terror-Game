@@ -23,7 +23,7 @@ local Player = {
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = 0,
 	ang_vel = 0, powerup = false,
-	health = 5, invul = false,
+	health = 5, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
 	i_timer = 0
 }
@@ -185,6 +185,18 @@ function Player:keyreleased(key)
 		self.invul = not self.invul
 		self.i_timer = 0
 	end
+
+	if key == 'b' then
+		if self.exploded == true then
+		end
+		if self.bomb == 0 then
+			error:play()
+		else
+			self.bomb = self.bomb - 1
+			bombblast:play()
+		end
+	end
+
 end
 
 function Player:getHitBoxes( ... )
@@ -251,6 +263,10 @@ end
 
 function Player:getHealth()
 	return self.health
+end
+
+function Player:getBomb()
+	return self.bomb
 end
 
 return Player

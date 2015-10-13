@@ -13,7 +13,8 @@
 local Camera = {
 	x = 0, y = 0,
 	pw = 0, ph = 0,
-	bgw = 0, bgh = 0
+	bgw = 0, bgh = 0,
+	shake_range = 0
 }
 Camera.__index = Camera
 
@@ -37,9 +38,11 @@ function Camera:_init(player_width, player_height, bg_width, bg_height)
 	-- background
 	self.bgw = bg_width
 	self.bgh = bg_height
+	-- shake range
+	self.shake_range = 1.5
 end
 
---- automatic camera position adjustment based on player 
+--- automatic camera position adjustment based on player
 --- position relative to background
 
 function Camera:move()
@@ -47,7 +50,7 @@ function Camera:move()
 
 	if (self.x <= width/2) then x = 0 end
 	if (self.y <= height/2) then y = 0 end
-	
+
 	if (self.x >= self.bgw - width/2 - self.pw) then
 		x = -self.bgw + width + self.pw end
 	if (self.y >= self.bgh - height/2 - self.ph) then
@@ -59,11 +62,21 @@ function Camera:move()
 	return x, y
 end
 
+function Camera:shake()
+	local x, y = self:move()
+	local shake_amt = love.math.random(-self.shake_range, self.shake_range)
+
+	return (x + shake_amt), (y + shake_amt)
+end
 --- manual camera adjustment to a set location
 
 function Camera:position(px, py)
 	self.x = px
 	self.y = py
+end
+
+function Camera:setShake(shake_amt)
+	self.shake_range = shake_amt
 end
 
 return Camera
