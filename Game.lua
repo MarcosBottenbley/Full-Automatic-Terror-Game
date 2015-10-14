@@ -25,6 +25,7 @@ local bgm1
 local bgm2
 
 local shake = false
+local parallax = 10
 
 local timer = 0
 local waiting = false
@@ -86,6 +87,8 @@ function Game:load(arg)
 	background = love.graphics.newImage(bg_string)
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
+	-- for parallax
+	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
 
 	enemies = {}
 	bullets = {}
@@ -268,7 +271,7 @@ function Game:update(dt)
 			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
 				if self:valid(objects[i], objects[j]) then
 					if self:touching(objects[i], objects[j]) then
-						love.timer.sleep(0.08)
+						-- love.timer.sleep(0.08)
 						-- objects collided
 						objects[i].collided = true
 						objects[j].collided = true
@@ -396,8 +399,12 @@ function Game:draw(dt)
 
 	-- move background
 	love.graphics.translate(cx, cy)
-
 	love.graphics.draw(background, 0, 0)
+	-- parallax
+	love.graphics.translate(cx/2 + parallax, cy/2 + parallax)
+	love.graphics.draw(overlay, 0, 0)
+
+	love.graphics.translate(-cx/2 - parallax, -cy/2 - parallax)
 
 	for _, o in ipairs(objects) do
 		o:draw()
