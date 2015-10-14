@@ -401,10 +401,10 @@ function Game:draw(dt)
 	love.graphics.translate(cx, cy)
 	love.graphics.draw(background, 0, 0)
 	-- parallax
-	love.graphics.translate(cx/2 + parallax, cy/2 + parallax)
+	love.graphics.translate(cx/parallax, cy/parallax)
 	love.graphics.draw(overlay, 0, 0)
 
-	love.graphics.translate(-cx/2 - parallax, -cy/2 - parallax)
+	love.graphics.translate(-cx/parallax, -cy/parallax)
 
 	for _, o in ipairs(objects) do
 		o:draw()
