@@ -69,6 +69,10 @@ function Enemy:update(dt, swidth, sheight)
 		self.vy = -1 * math.abs(self.vy)
 	end
 
+	--if self.inbombrange() and player.keyreleased('b') and player.bomb > 0 then
+	--	self:explode()
+	--end
+	
 	self:explode()
 end
 
@@ -124,15 +128,17 @@ end
 
 --- determines if an enemy is on the player’s screen (bomb range)
 
-function Enemy:on_screen()
-	-- enemies not on the map are not on screen
-	if self.x < 0 or self.y < 0 or self.x > width or self.y > height then
-		return false
-	end
-	
+--function Enemy:inbombrange()
 	-- we need the player’s current location
-	
-	
+	--local px = player.getX()
+	--local py = player.getY()
+	--if self.distanceFrom(px, py) < 300 then
+	--	return true
+	--end
+--end
+
+function Enemy:distanceFrom(x, y)
+	return math.sqrt((x - self.x)^2 + (y - self.y)^2)
 end
 
 return Enemy

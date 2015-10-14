@@ -194,8 +194,12 @@ function Player:keyreleased(key)
 		else
 			self.bomb = self.bomb - 1
 			bombblast:play()
-			--- TODO: Flash Screen White for 1 Second
+			--- TODO: Flash Screen White
+			
+			
 			--- TODO: Kill All Non-Boss Enemies on Screen
+			
+
 		end
 	end
 
