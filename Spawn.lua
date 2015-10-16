@@ -19,6 +19,7 @@ local e
 
 local Spawn = {
   x = 10, y = 10,
+  width = 0, height = 0,
   rad = 100, id = 4,
   pl_rad = 100
 }

@@ -55,6 +55,7 @@ function Game:load(arg)
 	Spawn = require("Spawn")
 	DoubleShot = require("DoubleShot")
 	Repair = require("Repair")
+	SpeedUp = require("SpeedUp")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -295,6 +296,8 @@ function Game:update(dt)
 								objects[i].double = true
 							elseif objects[j]:getType() == 'r' then
 								objects[i].health = objects[i].health + 2
+							elseif objects[j]:getType() == 'sp' then
+								objects[i].max_vel = objects[i].max_vel + 100
 							end
 							objects[j].collided = true
 						elseif objects[i]:getID() == 5 and objects[j]:getID() == 2 then
@@ -303,6 +306,8 @@ function Game:update(dt)
 								objects[j].double = true
 							elseif objects[i]:getType() == 'r' then
 								objects[j].health = objects[j].health + 2
+							elseif objects[i]:getType() == 'sp' then
+								objects[j].max_vel = objects[j].max_vel + 100
 							end
 							objects[i].collided = true
 						end
@@ -546,6 +551,8 @@ function Game:make(thing, x, y, z, w)
 		obj = DoubleShot(x, y, 0)
 	elseif thing == "rep" then
 		obj = Repair(x, y, 0)
+	elseif thing == "spd" then
+		obj = SpeedUp(x, y, 0)
 	end
 
 	table.insert(objects, obj)
