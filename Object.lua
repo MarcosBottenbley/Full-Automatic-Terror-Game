@@ -34,21 +34,27 @@ function Object:_init(x, y, file, width, height, frames, states, delay)
 	self.x = x
 	self.y = y
 
-	self.sprite_sheet = love.graphics.newImage(file)
+	if file ~= nil then
+		self.sprite_sheet = love.graphics.newImage(file)
+		self.sheet_width = self.sprite_sheet:getWidth()
+		self.sheet_height = self.sprite_sheet:getHeight()
+	end
 
 	self.width = width 	--width of each sprite in the frame
 	self.height = height	--height of each sprite in the frame
 
-	self.frames = frames	--number of frames
-	self.states = states	--number of states (different animations)
-
-	self.delay = delay		--delay between changing frames
+	if states ~= nil then
+		self.frames = frames	--number of frames
+		self.states = states	--number of states (different animations)
+		self.delay = delay		--delay between changing frames
+	else
+		self.frames = 0
+		self.states = 0
+		self.delay = 0
+	end
 
 	self.current_frame = 1
 	self.current_state = 1
-
-	self.sheet_width = self.sprite_sheet:getWidth()
-	self.sheet_height = self.sprite_sheet:getHeight()
 
 	self.timer = 0
 
@@ -76,7 +82,7 @@ end
 function Object:update(dt)
 	self.delta = self.delta + dt
 
-	if self.delta >= self.delay then
+	if self.delay > 0 and self.delta >= self.delay then
 		self.current_frame = (self.current_frame % self.frames) + 1
 		self.delta = 0
 	end

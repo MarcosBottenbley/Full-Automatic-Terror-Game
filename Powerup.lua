@@ -13,12 +13,9 @@
 Object = require("Object")
 
 local Powerup = {
-	img = "gfx/power_up.png",
-	width = 44, height = 47,
-	frames = 2, states = 1,
-	delay = 0.3, 
+	width = 40, height = 40,
 	vx = 10, vy = 10,
-	sprites = {}, bounding_rad = 22,
+	bounding_rad = 20,
 	id = 5, collided = false
 }
 Powerup.__index = Powerup
@@ -31,10 +28,6 @@ setmetatable(Powerup, {
 		return self
 	end,
 })
-
-function Powerup:load()
-	Object.load(self)
-end
 
 function Powerup:_init(x, y, v)
 	self.vx = v
@@ -96,6 +89,10 @@ function Powerup:getHitBoxes( ... )
 	table.insert(hb, hb_1)
 
 	return hb
+end
+
+function Powerup:getType()
+	return self.type
 end
 
 return Powerup

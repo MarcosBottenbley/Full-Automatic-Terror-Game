@@ -53,7 +53,8 @@ function Game:load(arg)
 	PhantomShip = require("PhantomShip")
 	SunBoss = require("SunBoss")
 	Spawn = require("Spawn")
-	Powerup = require("Powerup")
+	DoubleShot = require("DoubleShot")
+	Repair = require("Repair")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -287,13 +288,25 @@ function Game:update(dt)
 				--terrible collision code for stuff that doesn't explode
 				if objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
 					if self:touching(objects[i], objects[j]) then
+						--collision between player and powerup
 						if objects[i]:getID() == 2 and objects[j]:getID() == 5 then
-							objects[i].powerup = true
+							--checks for type of powerup to determine effects
+							if objects[j]:getType() == 'ds' then
+								objects[i].double = true
+							elseif objects[j]:getType() == 'r' then
+								objects[i].health = objects[i].health + 2
+							end
 							objects[j].collided = true
 						elseif objects[i]:getID() == 5 and objects[j]:getID() == 2 then
-							objects[j].powerup = true
+							--checks for type of powerup to determine effects
+							if objects[i]:getType() == 'ds' then
+								objects[j].double = true
+							elseif objects[i]:getType() == 'r' then
+								objects[j].health = objects[j].health + 2
+							end
 							objects[i].collided = true
 						end
+						--collision between boss and player bullet
 						if objects[i]:getID() == 3 and objects[j]:getID() == 1 and
 						objects[j]:getType() == 'b' then
 							objects[i].collided = true
@@ -530,7 +543,9 @@ function Game:make(thing, x, y, z, w)
 	elseif thing == "sps" then
 		obj = Spawn(x, y, z, w, 'f')
 	elseif thing == "pwr" then
-		obj = Powerup(x, y, 0)
+		obj = DoubleShot(x, y, 0)
+	elseif thing == "rep" then
+		obj = Repair(x, y, 0)
 	end
 
 	table.insert(objects, obj)
