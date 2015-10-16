@@ -25,7 +25,7 @@ local Player = {
 	ang_vel = 0, double = false,
 	health = 5, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
-	i_timer = 0
+	i_timer = 0, missile = false
 }
 Player.__index = Player
 
@@ -165,7 +165,11 @@ end
 function Player:keyreleased(key)
 	if key == 'z' then
 		pew:play()
-		if self.double then
+		if self.missile then
+			local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
+			table.insert(objects, m)
+		elseif self.double then
+			--code
 			local b1 = Bullet(self.hb_1[1] + 10*math.cos(self.angle1), self.hb_1[2] + 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
 			local b2 = Bullet(self.hb_1[1] - 10*math.cos(self.angle1), self.hb_1[2] - 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
 			table.insert(objects, b1)
@@ -201,6 +205,14 @@ function Player:keyreleased(key)
 			
 
 		end
+	end
+	
+	if key == '1' then
+		self.missile = false
+	end
+	
+	if key == '2' then
+		self.missile = true
 	end
 
 end

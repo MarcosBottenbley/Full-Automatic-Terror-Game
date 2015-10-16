@@ -56,6 +56,7 @@ function Game:load(arg)
 	DoubleShot = require("DoubleShot")
 	Repair = require("Repair")
 	SpeedUp = require("SpeedUp")
+	Missile = require("Missile")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -427,14 +428,14 @@ function Game:draw(dt)
 	for _, o in ipairs(objects) do
 		o:draw()
 
-		--if o:getID() == 2 or o:getID() == 1 then
-		--	local t = o:getHitBoxes()
-		--	for _, h in ipairs(t) do
-		--		love.graphics.setColor(255, 0, 0, 255)
-		--		love.graphics.circle("line", h[1], h[2], h[3], 100)
-		--		love.graphics.setColor(255, 255, 255, 255)
-		--	end
-		--end
+		if o:getID() == 2 or o:getID() == 1 or o:getID() == 3 then
+			local t = o:getHitBoxes()
+			for _, h in ipairs(t) do
+				love.graphics.setColor(255, 0, 0, 255)
+				love.graphics.circle("line", h[1], h[2], h[3], 100)
+				love.graphics.setColor(255, 255, 255, 255)
+			end
+		end
 
 		--wrap around
 		--[[if o:getID() == 2 then
