@@ -257,7 +257,7 @@ function Game:update(dt)
 		o:update(dt, bg_width, bg_height, playerx, playery)
 
 		if o:getID() == 3 and
-			o:exited_screen(bg_width + player:getWidth(), bg_height + player:getHeight()) then
+			o:exited_map(bg_width + player:getWidth(), bg_height + player:getHeight()) then
 			table.remove(objects, x)
 		end
 

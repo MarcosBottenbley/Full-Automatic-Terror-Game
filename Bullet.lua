@@ -68,7 +68,7 @@ end
 
 --- handles when a bullet exits the map
 
-function Bullet:exited_screen(width, height)
+function Bullet:exited_map(width, height)
 	local y_pos = self.y + self.height
 	local x_pos = self.x + self.height
 	if y_pos < 0 or x_pos < 0 or y_pos > height or x_pos > width then

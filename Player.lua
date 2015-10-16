@@ -198,10 +198,12 @@ function Player:keyreleased(key)
 		else
 			self.bomb = self.bomb - 1
 			bombblast:play()
-			--- TODO: Flash Screen White
 			
-			
-			--- TODO: Kill All Non-Boss Enemies on Screen
+			--- fire bullets in all directions
+			for q = 1, 360, 1 do
+				local bomb_b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1 + q)
+				table.insert(objects, bomb_b)
+			end 
 			
 
 		end
