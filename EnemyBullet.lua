@@ -54,11 +54,20 @@ end
 --- makes bullets only last for 1 second of movement
 
 function EnemyBullet:update(dt, swidth, sheight)
-	Bullet.update(self, dt, swidth, sheight)
+	Object.update(self, dt)
+
+	self.y = self.y - math.sin(math.pi/2 - self.angle)*self.vel*dt
+	self.x = self.x + math.cos(math.pi/2 - self.angle)*self.vel*dt
+
+	self.hb_1[2] = self.hb_1[2] - math.sin(math.pi/2 - self.angle)*self.vel*dt
+	self.hb_1[1] = self.hb_1[1] + math.cos(math.pi/2 - self.angle)*self.vel*dt
+
+	-- makes bullets only last for 1 seconds of movement
 
 	self.time = self.time + dt
-	if self.time > 1 then 
-		self.collided = true
+
+	if self.time > 1 then
+	 	self.collided = true
 	end
 end
 
