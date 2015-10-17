@@ -154,12 +154,11 @@ function Bucket:isInside(obj)
 	return valid
 end
 
-function Bucket:update(dt,px,py)
-	--[[
+function Bucket:update(dt,objects)
 	local playerx = 0
 	local playery = 0
 	local x = 1
-	for _, o in ipairs(self.objects) do
+	for _, o in ipairs(objects) do
 		-- update Spawn
 
 		if x == 1 then
@@ -185,32 +184,43 @@ function Bucket:update(dt,px,py)
 		x = x + 1
 	end
 
-	local length = table.getn(self.objects)
+	local length = table.getn(objects)
 	for i=1, length - 1 do
 		for j = i + 1, length do
-			if self.objects[i]:getID() ~= self.objects[j]:getID() and self.objects[i].collided == false and self.objects[j].collided == false then
-				if self:valid(self.objects[i], self.objects[j]) then
-					if self:touching(self.objects[i], self.objects[j]) then
-
-						-- self.objects collided
-						self.objects[i].collided = true
-						self.objects[j].collided = true
+			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
+				if self:valid(objects[i], objects[j]) then
+					if self:touching(objects[i], objects[j]) then
+						love.timer.sleep(0.08)
+						-- objects collided
+						objects[i].collided = true
+						objects[j].collided = true
 						-- set to explode
-						self.objects[i].current_state = 2
-						self.objects[i].current_frame = 1
-						self.objects[j].current_state = 2
-						self.objects[j].current_frame = 1
+						objects[i].current_state = 2
+						objects[i].current_frame = 1
+						objects[j].current_state = 2
+						objects[j].current_frame = 1
+						-- begin screen shake
+						shake = true
 					end
 				end
-				--shitty powerup collision code
-				if self.objects[i]:getID() ~= 4 and self.objects[j]:getID() ~= 4 then
-					if self:touching(self.objects[i], self.objects[j]) then
-						if self.objects[i]:getID() == 2 and self.objects[j]:getID() == 5 then
-							self.objects[i].powerup = true
-							self.objects[j].collided = true
-						elseif self.objects[i]:getID() == 5 and self.objects[j]:getID() == 2 then
-							self.objects[j].powerup = true
-							self.objects[i].collided = true
+				--terrible collision code for stuff that doesn't explode
+				if objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
+					if self:touching(objects[i], objects[j]) then
+						if objects[i]:getID() == 2 and objects[j]:getID() == 5 then
+							objects[i].powerup = true
+							objects[j].collided = true
+						elseif objects[i]:getID() == 5 and objects[j]:getID() == 2 then
+							objects[j].powerup = true
+							objects[i].collided = true
+						end
+						if objects[i]:getID() == 3 and objects[j]:getID() == 1 and
+						objects[j]:getType() == 'b' then
+							objects[i].collided = true
+							objects[j]:hit()
+						elseif objects[i]:getID() == 1 and objects[j]:getID() == 3 and
+						objects[i]:getType() == 'b'  then
+							objects[j].collided = true
+							objects[i]:hit()
 						end
 					end
 				end
@@ -218,21 +228,42 @@ function Bucket:update(dt,px,py)
 		end
 	end
 
-	--check for when to end explosion animation and remove object
-	for i=0, length - 1 do
-		if self.objects[length - i].collided then
-			if self.objects[length - i].timer > .58 then
-				table.remove(self.objects, length - i)
+	--check for when to end explosion animation and remove object.
+	--For enemies/player, this starts a .58 second timer so the
+	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
+	--the object will immediately be removed
+	for i = 0, length - 1 do
+		if objects[length - i].collided then
+			--player collision won't kill player unless health is at 1
+			if objects[length - i]:getID() == 2 and objects[length - i]:alive() then
+				objects[length - i]:hit()
+				if objects[length - i]:alive() then
+					objects[length - i].current_state = 1
+					objects[length - i].collided = false
+				else
+					objects[length - i].current_state = 2
+					objects[length - i].collided = true
+				end
+			-- remove objects that collided and end shake
+			elseif objects[length - i].timer > .58 then
+				table.remove(objects, length - i)
 				score = score + 200
 				enemy_count = enemy_count - 1
-			elseif self.objects[length - i]:getID() == 3  or self.objects[length - i]:getID() == 5 then
-				table.remove(self.objects, length - i)
+				-- end the screen shake
+				shake = false
+			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
+			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') or
+			objects[length - i]:getID() == 6 then
+				table.remove(objects, length - i)
 			else
-				self.objects[length - i].timer = self.objects[length - i].timer + dt
+				objects[length - i].timer = objects[length - i].timer + dt
+				if objects[length - i]:getID() == 2 then
+					objects[length - i].max_vel = 0--objects[length - i].max_vel / 1.1
+				end
+				objects[length - i].vel = 0--objects[length - i].vel / 1.1
 			end
 		end
 	end
-	--]]
 
 	--checks to see if any of the self.objects went to neighbor
 	for _, o in ipairs(self.objects) do
@@ -308,7 +339,6 @@ function Bucket:draw()
 	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 	--love.graphics.print(tostring(num), self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
-	love.graphics.print("(" .. tostring(self.row) .. tostring(self.col) .. ")", self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 
