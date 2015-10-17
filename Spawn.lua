@@ -41,6 +41,8 @@ function Spawn:_init(x,y,r,pr,types)
   self.pl_rad = pr
   self.type = types
   self.spawned = false
+
+  self.validCollisions = {}
 end
 
 function Spawn:update(dt,x,y)

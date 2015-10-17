@@ -47,7 +47,9 @@ function Bullet:_init(x, y, v, a)
 		self.states,
 		self.delay)
 
-	self.hb_1 = {self.x, self.y, self.bounding_rad}-- + self.width/2, self.y + 5, self.bounding_rad}
+	self.hb_1 = {self.x, self.y, self.bounding_rad}
+
+	self.validCollisions = {2}
 end
 
 --- bullet, hitbox speed and direction

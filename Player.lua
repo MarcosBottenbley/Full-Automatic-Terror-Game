@@ -53,6 +53,8 @@ function Player:_init(x, y, v)
 
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
+
+	self.validCollisions = {1,3}
 end
 
 function Player:load()

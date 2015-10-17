@@ -16,7 +16,8 @@ local Object= {
 	x = 10, y = 10,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
-	id = 0, collided = false
+	id = 0, collided = false,
+	validCollisions = {}
 }
 Object.__index = Object
 
@@ -61,6 +62,7 @@ function Object:_init(x, y, file, width, height, frames, states, delay)
 	self.exploded = false
 
 	self:load()
+	self.validCollisions = {0}
 end
 
 function Object:load()
@@ -145,6 +147,10 @@ end
 
 function Object:explode()
 
+end
+
+function Object:getValid(...)
+	return self.validCollisions
 end
 
 return Object
