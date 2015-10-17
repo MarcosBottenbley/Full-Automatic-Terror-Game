@@ -403,16 +403,16 @@ function Game:draw(dt)
 		cx, cy = camera:move()
 	end
 
+	-- zoom in
+		if time < 0.8 then
+			v = time / 0.8;
+			v = 1 - (1 - v) * (1 - v)
+			X = (1 * v) + (2 * (1 - v))
+			love.graphics.scale(1/X, 1/X)
+		end
+
 	-- move background
 	love.graphics.translate(cx, cy)
-	-- zoom in
-	if time < 0.8 then
-		v = time / 0.8;
-		v = 1 - (1 - v) * (1 - v)
-		X = (1 * v) + (2 * (1 - v))
-		love.graphics.scale(1/X, 1/X)
-	end
-
 	love.graphics.draw(background, 0, 0)
 	-- parallax
 	love.graphics.translate(cx/parallax, cy/parallax)
@@ -450,13 +450,14 @@ function Game:draw(dt)
 
 	end
 	-- move text
+	-- zoom in
+	love.graphics.translate(-cx, -cy)
 	if time < 0.8 then
 		v = time / 0.8;
 		v = 1 - (1 - v) * (1 - v)
 		X = (1 * v) + (2 * (1 - v))
 		love.graphics.scale(X, X)
 	end
-	love.graphics.translate(-cx, -cy)
 
 	love.graphics.setFont(self.helpfont)
 	love.graphics.print(
