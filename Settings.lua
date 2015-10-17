@@ -13,15 +13,26 @@
 State = require("State")
 
 local Settings = {name = "Volume"}
-local categories = {"audio", "video", "controls",
-										 {"main", "sfx", "music"},
-										 {"parallax", "brightness", "resolution", "full screen"},
-										 {"rebind"}}
-local selector = 1
-local vselector = 1
+local categories = {"audio", "video", "controls", 
+{"main"}, 
+{"parallax", "brightness", "resolution", "full screen"}, 
+{"rebind"}}
 
-local help = "Use Left and Right Arrow Keys to Adjust Volume\nPress escape to Return to the Menu"
+local selector = 1
+--- selector 1 is audio
+--- selector 2 is video
+--- selector 3 is controls
+
+local vselector = 1
+--- vselector 1 is main, parallax, rebind
+--- vselector 2 is brightness
+--- vselector 3 is resolution
+--- vselector 4 is full screen
+
+local help = "Use Up and Down Arrow Keys to Adjust Volume\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 Settings.__index = Settings
+local help2 = "Use Up and Down Arrow Keys to Adjust Video Setting\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Enter to Select, Use Escape to Return to the Menu"
+local help3 = "Use Enter to Rebind Controls\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 local i = 50;
 local max = "MAX"
 local min = "MIN"
@@ -60,13 +71,12 @@ end
 function Settings:update(dt)
 	self.time = self.time + dt
 
-	if love.keyboard.isDown('right') then
+	if love.keyboard.isDown('up') and selector == 1 then
 		if (i < 100) then
 			i = i + 1
 		end
 		love.audio.setVolume((i*2)/100)
-	elseif love.keyboard.isDown('left') then
-
+	elseif love.keyboard.isDown('down') and selector == 1 then
 		if (i > 0) then
 			i = i - 1
 		end
@@ -78,98 +88,118 @@ function Settings:draw()
 
 	-- print the top list
 	love.graphics.setFont(self.font)
-	for i = 1, 3 do
-		if i == selector then
-			love.graphics.setColor(255, 0, 0, 255)
+	for j = 1, 3 do
+		if j == selector then
+		 	love.graphics.setColor(255, 0, 0, 255)
 		end
 		love.graphics.print(
-			categories[i],
-			30 + 220 * (i - 1), 30
+			categories[j],
+			30 + 220 * (j - 1), 30
 		)
 		-- reset if not red
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
 	-- print the contents
-	for i = 1, table.getn(categories[selector + 3]) do
-		if i == vselector then
+		
+	for k = 1, table.getn(categories[selector + 3]) do
+		if k == vselector then
 			love.graphics.setColor(255, 0, 0, 255)
 		end
 		love.graphics.print(
-			categories[selector + 3][i],
-			30, 90 + 50 * (i - 1)
+			categories[selector + 3][k],
+			30, 90 + 50 * (k - 1)
 		)
+
 		-- reset if not red
 		love.graphics.setColor(255, 255, 255, 255)
 	end
+	
+	-- if we are on the volume tab, print the volume
 
-	love.graphics.print(
-		selector,
-		400, 400
-	)
+	if selector == 1 then
+		if i == 0 then
+			love.graphics.print(
+				min .. " volume",
+				250, 350
+			)
+		elseif i == 100 then
+			love.graphics.print(
+				max .. " volume",
+				250, 350
+			)
+		else
+			love.graphics.print(
+				i .. " percent",
+				250, 350
+			)
+		end
+	end
 
 	love.graphics.setFont(self.font2)
 	love.graphics.setColor(self:fadein())
-	love.graphics.print(
-		help,
-		10, height - 25
-	)
-
-	-- love.graphics.setFont(self.font)
-	-- love.graphics.setColor(self:fadein())
-	-- love.graphics.print(
-	-- 	self.name,
-	-- 	center(width, self.width), height/12
-	-- )
-	--
-	-- love.graphics.setFont(love.graphics.newFont("ka1.ttf", 40))
-	--
-	-- love.graphics.printf(
-	-- 	"Master Volume:  ",
-	-- 	0, 200, 800, 'center'
-	-- )
-	--
-	--
-	-- if i == 100 then
-	-- 	love.graphics.printf(
-	-- 		max,
-	-- 		0, 300, 800, 'center'
-	-- 	)
-	-- elseif i == 0 then
-	-- 	love.graphics.printf(
-	-- 		min,
-	-- 		0, 300, 800, 'center'
-	-- 	)
-	-- else
-	-- 	love.graphics.printf(
-	-- 		i,
-	-- 		0, 300, 800, 'center'
-	-- 	)	end
+	
+	if selector == 1 then
+		love.graphics.print(
+			help,
+			10, height - 35
+		)
+	elseif selector == 2 then
+		love.graphics.print(
+			help2,
+			10, height - 35
+		)
+	else
+		love.graphics.print(
+			help3,
+			10, height - 35
+		)
+	end
 
 end
 
 function Settings:keyreleased(key)
 
 	if key == 'right' then
-		selector = ((selector - 1) % 3) + 1
+		if selector == 3 then
+			selector = 1
+		else
+			selector = selector + 1
+		end
 		selected:play()
 		vselector = 1
 	end
 
 	if key == 'left' then
-		selector = ((selector + 1) % 3) + 1
+		if selector == 1 then
+			selector = 3
+		else 
+			selector = selector - 1
+		end
 		selected:play()
 		vselector = 1
 	end
 
-	if key == 'down' then
-		vselector = ((vselector + 1) % table.getn(categories[selector + 3]) + 1)
+	if key == 'down' and selector == 2 then
+		if vselector == 4 then
+			vselector = 1
+		else
+			vselector = vselector + 1
+		end
 		selected:play()
 	end
 
-	if key == 'up' then
-		vselector = ((vselector - 1) % table.getn(categories[selector + 3]) + 1)
+	if key == 'up' and selector == 2 then
+		if vselector == 1 then
+			vselector = 4
+		else
+			vselector = vselector - 1
+		end
 		selected:play()
+	end
+
+	if key == 'return' and selector ~= 1 then
+		choose:play()
 	end
 
 	if key == 'escape' then
