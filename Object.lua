@@ -137,6 +137,14 @@ function Object:getY()
 	return self.y
 end
 
+function Object:getWidth(...)
+	return self.width
+end
+
+function Object:getHeight(...)
+	return self.height
+end
+
 function Object:getID( ... )
 	return self.id
 end

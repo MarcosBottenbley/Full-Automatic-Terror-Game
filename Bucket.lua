@@ -11,9 +11,9 @@
 --- dmill118@jhu.edu
 
 local Bucket = {
-	objects = {},
+	objs = {},
 	row = 0, col = 0,
-	ID = 0, neighbors = {}
+	ID = 0
 }
 Bucket.__index = Bucket
 
@@ -25,7 +25,7 @@ setmetatable(Bucket, {
 	end,
 })
 
-function Bucket:_init(x, y, width, height, row, col, rows, cols)
+function Bucket:_init(x, y, width, height, row, col, rows, cols, id)
 	self.x = x
 	self.y = y
 	self.width = width
@@ -34,10 +34,7 @@ function Bucket:_init(x, y, width, height, row, col, rows, cols)
 	self.col = col
 	self.rows = rows
 	self.cols = cols
-end
-
-function Bucket:printBucket( ... )
-	print("BUCKET MOTHERFUCKER!")
+	self.ID = id
 end
 
 function Bucket:getX(...)
@@ -125,156 +122,47 @@ function Bucket:addNeighbor(n, neighbor)
 end
 
 function Bucket:add(obj)
-	if self:isInside(obj) then
-		table.insert(self.objects, obj)
+	if self:contains(obj) and not self:alreadyContains(obj) then
+		table.insert(self.objs, obj)
 	end
 end
 
 function Bucket:remove()
 	local x = 1
-	for _, o in ipairs(self.objects) do
-		if self:isInside(o) == false then
-			table.remove(self.objects, x)
+	for _, o in ipairs(self.objs) do
+		if not self:contains(o) then
+			table.remove(self.objs, x)
 		end
 		x = x + 1
 	end
 end
 
-function Bucket:isInside(obj)
+function Bucket:contains(obj)
 	local valid = false
 	local x = obj:getX()
 	local y = obj:getY()
-	local width = obj:getWidth()
-	local height = obj:getHeight()
-	if x - width >= self.x or x + width <= self.x + self.width then
-		if y - height >= self.y or y + height <= self.y + self.height then
+	local owidth = obj:getWidth()
+	local oheight = obj:getHeight()
+	if x - owidth >= self.x or x + owidth <= self.x + self.width then
+		if y - oheight >= self.y or y + oheight <= self.y + self.height then
 			valid = true
 		end
 	end
 	return valid
 end
 
-function Bucket:update(dt,objects)
-	local playerx = 0
-	local playery = 0
-	local x = 1
-	for _, o in ipairs(objects) do
-		-- update Spawn
-
-		if x == 1 then
-			playerx = o:getX()
-			playery = o:getY()
-		end
-
-		if o:getID() == 4 then
-			o:update(dt, playerx, playery)
-		end
-
-		o:update(dt, bg_width, bg_height, playerx, playery)
-
-		if o:getID() == 3 and
-			o:exited_map(bg_width + player:getWidth(), bg_height + player:getHeight()) then
-			table.remove(self.objects, x)
-		end
-
-		if o:getID() == 1 and o:getType() == 'f' then
-			o:shoot(dt,playerx,playery)
-		end
-
-		x = x + 1
-	end
-
-	local length = table.getn(objects)
-	for i=1, length - 1 do
-		for j = i + 1, length do
-			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
-				if self:valid(objects[i], objects[j]) then
-					if self:touching(objects[i], objects[j]) then
-						love.timer.sleep(0.08)
-						-- objects collided
-						objects[i].collided = true
-						objects[j].collided = true
-						-- set to explode
-						objects[i].current_state = 2
-						objects[i].current_frame = 1
-						objects[j].current_state = 2
-						objects[j].current_frame = 1
-						-- begin screen shake
-						shake = true
-					end
-				end
-				--terrible collision code for stuff that doesn't explode
-				if objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
-					if self:touching(objects[i], objects[j]) then
-						if objects[i]:getID() == 2 and objects[j]:getID() == 5 then
-							objects[i].powerup = true
-							objects[j].collided = true
-						elseif objects[i]:getID() == 5 and objects[j]:getID() == 2 then
-							objects[j].powerup = true
-							objects[i].collided = true
-						end
-						if objects[i]:getID() == 3 and objects[j]:getID() == 1 and
-						objects[j]:getType() == 'b' then
-							objects[i].collided = true
-							objects[j]:hit()
-						elseif objects[i]:getID() == 1 and objects[j]:getID() == 3 and
-						objects[i]:getType() == 'b'  then
-							objects[j].collided = true
-							objects[i]:hit()
-						end
-					end
-				end
-			end
+function Bucket:alreadyContains(obj)
+	local valid = false
+	for _, o in ipairs(self.objs) do
+		if o == obj then
+			valid = true
 		end
 	end
 
-	--check for when to end explosion animation and remove object.
-	--For enemies/player, this starts a .58 second timer so the
-	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
-	--the object will immediately be removed
-	for i = 0, length - 1 do
-		if objects[length - i].collided then
-			--player collision won't kill player unless health is at 1
-			if objects[length - i]:getID() == 2 and objects[length - i]:alive() then
-				objects[length - i]:hit()
-				if objects[length - i]:alive() then
-					objects[length - i].current_state = 1
-					objects[length - i].collided = false
-				else
-					objects[length - i].current_state = 2
-					objects[length - i].collided = true
-				end
-			-- remove objects that collided and end shake
-			elseif objects[length - i].timer > .58 then
-				table.remove(objects, length - i)
-				score = score + 200
-				enemy_count = enemy_count - 1
-				-- end the screen shake
-				shake = false
-			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
-			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') or
-			objects[length - i]:getID() == 6 then
-				table.remove(objects, length - i)
-			else
-				objects[length - i].timer = objects[length - i].timer + dt
-				if objects[length - i]:getID() == 2 then
-					objects[length - i].max_vel = 0--objects[length - i].max_vel / 1.1
-				end
-				objects[length - i].vel = 0--objects[length - i].vel / 1.1
-			end
-		end
-	end
+	return valid
+end
 
-	--checks to see if any of the self.objects went to neighbor
-	for _, o in ipairs(self.objects) do
-		for i=1, 8 do
-			if self.neighbors[i] ~= nil then
-				self.neighbors[i]:add(o)
-			end
-		end
-	end
-
-	--checks to see if any self.objects left
+function Bucket:update()
 	self:remove()
 end
 
@@ -329,28 +217,17 @@ function Bucket:touching(obj1, obj2)
 end
 
 function Bucket:draw()
-	--[[
-	for _, o in ipairs(self.objects) do
-		o:draw()
+	local num = table.getn(self.objs)
+	print(self.objs)
+	if num > 0 then
+		love.graphics.setColor(0,255,0,255)
+	else
+		love.graphics.setColor(255,0,0,255)
 	end
-	--]]
 
-	--local num = table.getn(self.objects)
-	love.graphics.setColor(255,0,0,255)
 	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-	--love.graphics.print(tostring(num), self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
+	love.graphics.print(tostring(num), self.x + self.width/2, self.y + self.height/2)
 	love.graphics.setColor(255, 255, 255, 255)
-end
-
-function Bucket:drawHitBoxes(obj)
-	if obj:getID() == 2 or obj:getID() == 1 then
-		local t = o:getHitBoxes()
-		for _, h in ipairs(t) do
-			love.graphics.setColor(255, 0, 0, 255)
-			love.graphics.circle("line", h[1], h[2], h[3], 100)
-			love.graphics.setColor(255, 255, 255, 255)
-		end
-	end
 end
 
 return Bucket

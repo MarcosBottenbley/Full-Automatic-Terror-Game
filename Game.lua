@@ -57,6 +57,7 @@ function Game:load(arg)
 	Repair = require("Repair")
 	SpeedUp = require("SpeedUp")
 	Missile = require("Missile")
+	ScreenTable = require("ScreenTable")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -96,7 +97,6 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
-	buckets = {}
 end
 
 function Game:start()
@@ -126,29 +126,14 @@ function Game:start()
 	player_gone = false
 
 	-- table.insert(objects, g)
-	table.insert(objects, SunBoss(500, 500))
+	-- table.insert(objects, SunBoss(500, 500))
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
 			bg_width, bg_height
 	)
 
-	--[[
-	local rows = 6
-	local cols = 6
-	local id = 1
-	local bucket_width = bg_width/rows
-	local bucket_height = bg_height/cols
-	for i=1, rows do
-		buckets[i] = {}
-		for j=1, cols do
-			local temp = Bucket(i-1 * bucket_width,j-1 * bucket_height,bucket_width,bucket_height,i,j,rows,cols)
-			buckets[i][j]= temp
-		end
-	end
-	--]]
-
-	--self:setNeighbors()
+	ST = ScreenTable(10,10,bg_width,bg_height)
 end
 
 function Game:setNeighbors(...)
@@ -208,6 +193,7 @@ end
 function Game:update(dt)
 	time = time + dt
 
+	ST:update(objects)
 	if player.invul and bgm1 then
 		bgm:stop()
 		bg_invul:play()
@@ -359,7 +345,7 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		self:win()
+		--self:win()
 	elseif player_gone then
 		self:lose()
 	end
@@ -404,6 +390,7 @@ function Game:draw(dt)
 	-- move background
 	love.graphics.translate(cx, cy)
 	love.graphics.draw(background, 0, 0)
+	ST:draw()
 	-- parallax
 	love.graphics.translate(cx/parallax, cy/parallax)
 	love.graphics.draw(overlay, 0, 0)
@@ -541,7 +528,7 @@ function Game:make(thing, x, y, z, w)
 		obj = SpeedUp(x, y, 0)
 	end
 
-	table.insert(objects, obj)
+	--table.insert(objects, obj)
 end
 
 return Game

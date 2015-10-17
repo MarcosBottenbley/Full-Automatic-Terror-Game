@@ -10,7 +10,13 @@
 --- David Miller
 --- dmill118@jhu.edu
 
-local ScreenTable = {}
+Bucket = require("Bucket")
+
+local ScreenTable = {
+	rows, cols,
+	buckets = {}, bucket_width,
+	bucket_height
+}
 ScreenTable.__index = ScreenTable
 
 setmetatable(ScreenTable, {
@@ -22,29 +28,56 @@ setmetatable(ScreenTable, {
 })
 
 function ScreenTable:_init(rows, cols, swidth, sheight)
-	local bucket_width = swidth/rows
-	local bucket_height = sheight/cols
-	for i=1, rows do
-		buckets[i] = {}
-		for j=1, cols do
-			local temp = Bucket(i-1 * bucket_width,j-1 * bucket_height,bucket_width,bucket_height,i,j,rows,cols)
-			buckets[i][j]= temp
-		end
-	end
+	self.rows = rows
+	self.cols = cols
+	self.bucket_width = swidth/rows
+	self.bucket_height = sheight/cols
+	local id = 0
+	for i=1, self.rows do
+		self.buckets[i] = {}
+		for j=1, self.cols do
+			local temp = Bucket((i-1) * self.bucket_width,
+								(j-1)* self.bucket_height,
+								self.bucket_width,
+								self.bucket_height,
+								i,
+								j,
+								self.rows,
+								self.cols,
+								id)
 
-	--sets neighbors
-	for x=1, rows do
-		for y=1, cols do
-			local nr = buckets[x][y]:getNeighborRows()
-			local nc = buckets[x][y]:getNeighborCols()
-
-			for n=1, 8 do
-				if nr[n] ~= nil and nc[n] ~= nil then
-					buckets[x][y]:addNeighbor(n,buckets[nr[n]][nc[n]])
-				else
-				    buckets[x][y]:addNeighbor(n,nil)
-				end
-			end
+			self.buckets[i][j] = temp
+			id = id + 1
 		end
 	end
 end
+
+function ScreenTable:update(objs)
+	for _, o in ipairs(objs) do
+		self:insert(o)
+	end
+
+	for i = 1, self.rows do
+		for j = 1, self.cols do
+			self.buckets[i][j]:update()
+		end
+	end
+end
+
+function ScreenTable:insert(obj)
+	for i = 1, self.rows do
+		for j = 1, self.cols do
+			self.buckets[i][j]:add(obj)
+		end
+	end
+end
+
+function ScreenTable:draw(...)
+	for i = 1, self.rows do
+		for j = 1, self.cols do
+			self.buckets[i][j]:draw()
+		end
+	end
+end
+
+return ScreenTable
