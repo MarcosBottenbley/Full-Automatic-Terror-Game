@@ -21,7 +21,7 @@ local Player = {
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	id = 2, collided = false,
-	bounding_rad = 25, angle1 = 0,
+	bounding_rad = 25, angle1 = math.pi/2,
 	ang_vel = 0, double = false,
 	health = 5, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
@@ -94,10 +94,10 @@ function Player:update(dt, swidth, sheight)
 	end
 
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-		self.ang_vel = -math.pi * dt
+		self.ang_vel = math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
 	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-		self.ang_vel = math.pi * dt
+		self.ang_vel = -math.pi * dt
 	 	self.angle1 = self.angle1 + self.ang_vel
 	end
 
@@ -130,8 +130,8 @@ function Player:update(dt, swidth, sheight)
 		self.vel = 0
 	end
 
-	self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
-	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
+	self.y = self.y - math.sin(self.angle1)*self.vel*dt
+	self.x = self.x + math.cos(self.angle1)*self.vel*dt
 
 	if self.x < 1 then
 		self.x = 1
@@ -149,23 +149,24 @@ function Player:update(dt, swidth, sheight)
 		self.y = (sheight - self.height)
 	end
 
-	self.hb_1[1] = self.x + 18.5 * math.sin(self.angle1)
-	self.hb_1[2] = self.y - 18.5 * math.cos(self.angle1)
+	self.hb_1[1] = self.x + 18.5 * math.cos(self.angle1)
+	self.hb_1[2] = self.y - 18.5 * math.sin(self.angle1)
 
-	self.hb_2[1] = self.x - 10.5 * math.sin(self.angle1)
-	self.hb_2[2] = self.y + 10.5 * math.cos(self.angle1)
+	self.hb_2[1] = self.x - 10.5 * math.cos(self.angle1)
+	self.hb_2[2] = self.y + 10.5 * math.sin(self.angle1)
 
 	self.flash_timer = self.flash_timer + dt
 end
 
 function Player:draw()
+	local draw_angle = math.pi/2 - self.angle1
 	if self.damaged then
-		Object.draw(self,155,155,155, self.angle1)
+		Object.draw(self,155,155,155, draw_angle)
 	else
 		if self.i_timer > 0.125 then
-			Object.draw(self,255,255,0, self.angle1)
+			Object.draw(self,255,255,0, draw_angle)
 		else
-			Object.draw(self,255,255,255, self.angle1)
+			Object.draw(self,255,255,255, draw_angle)
 		end
 	end
 end

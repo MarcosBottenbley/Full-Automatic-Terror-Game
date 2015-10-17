@@ -59,7 +59,7 @@ function PhantomShip:shoot(dt,px,py)
 	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
 
 		if time >= (love.timer.getFPS()/4) then
-			local b = EnemyBullet(self.x, self.y+40, 600, math.pi)
+			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
 			table.insert(objects, b)
 			time = 0
 		end

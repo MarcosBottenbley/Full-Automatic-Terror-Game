@@ -14,11 +14,12 @@ Object = require("Object")
 math.randomseed(os.time())
 
 local Missile = {
-	vel = 350,
+	vel = 350, turnSpeed = math.pi*(3/2),
+	lockDistance, lockTime,
 	id = 3, collided = false,
 	width = 10, height = 10,
 	bounding_rad = 12.5, angle = 0,
-	target_x, target_y,
+	target_x, target_y, target,
 	hb_1
 }
 Missile.__index = Missile
@@ -52,29 +53,37 @@ end
 
 function Missile:update(dt)
 	local closestDist = 600
+	self.target_x = nil
+	self.target_y = nil
 	for _, o in ipairs(objects) do
 		if self:dist(o) < closestDist and o:getID() == 1 then
 			self.target_x = o:getX()
 			self.target_y = o:getY()
+			self.target = o
 			closestDist = self:dist(o)
 		end
 	end
 	
+	local target_angle = 0
 	if self.target_x ~= nil and self.target_y ~= nil then
-		local target_angle = math.atan((self.target_y - self.y) / (self.target_x - self.x))
-
-		--i still suck at math
 		if self.target_x - self.x > 0 then
-			self.x = self.x + self.vel * dt * math.cos(target_angle)
-			self.y = self.y + self.vel * dt * math.sin(target_angle)
+			target_angle = math.atan(-(self.target_y - self.y) / (self.target_x - self.x))
+			if target_angle < 0 then
+				target_angle = target_angle + math.pi*2
+			end
 		else
-			self.x = self.x - self.vel * dt * math.cos(target_angle)
-			self.y = self.y - self.vel * dt * math.sin(target_angle)
+			target_angle = math.atan(-(self.target_y - self.y) / (self.target_x - self.x)) + math.pi
 		end
 	else
-		self.y = self.y - math.sin(math.pi/2 - self.angle)*self.vel*dt
-		self.x = self.x + math.cos(math.pi/2 - self.angle)*self.vel*dt
+		target_angle = self.angle
 	end
+	
+	local rotate = self:angleDir(self.angle, target_angle)
+	local angvel = rotate * self.turnSpeed * dt
+	self.angle = self.angle + angvel
+	
+	self.y = self.y - (math.sin(self.angle)*self.vel*dt)
+	self.x = self.x + (math.cos(self.angle)*self.vel*dt)
 	
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 end
@@ -83,9 +92,9 @@ function Missile:draw()
 	love.graphics.setColor(255,188,188,188)
 	
 	local vertices = {
-	self.x, self.y, 
-	self.x + 12.5, self.y + 21.65, 
-	self.x + 25, self.y
+	self.x - 12.5, self.y - 10.825,
+	self.x + 12.5, self.y - 10.825,
+	self.x, self.y + 10.825
 	}
 	
 	love.graphics.polygon('fill', vertices)
@@ -105,6 +114,21 @@ end
 
 function Missile:dist(obj)
 	return math.sqrt((obj:getX() - self.x)^2 + (obj:getY() - self.y)^2)
+end
+
+function Missile:angleDir(a_start, a_finish)
+	local diff = a_start - a_finish
+	
+	if math.abs(diff) > math.pi then
+		if diff > 0 then return 1
+		else return -1
+		end
+	elseif math.abs(diff) < math.pi then
+		if diff < 0 then return 1
+		elseif diff > 0 then return -1
+		else return 0
+		end
+	end
 end
 
 function Missile:getHitBoxes( ... )
