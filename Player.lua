@@ -200,8 +200,8 @@ function Player:keyreleased(key)
 			bombblast:play()
 			
 			--- fire bullets in all directions
-			for q = 1, 360, 1 do
-				local bomb_b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1 + q)
+			for q = 0, 2*math.pi, math.pi/45 do
+				local bomb_b = Bullet(self.hb_1[1], self.hb_1[2], 400, q)
 				table.insert(objects, bomb_b)
 			end 
 			

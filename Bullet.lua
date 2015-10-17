@@ -20,7 +20,8 @@ local Bullet = {
 	frames = 1, states = 2,
 	delay = 1, sprites = {},
 	id = 3, collided = false,
-	bounding_rad = 5, angle = 0
+	bounding_rad = 5, angle = 0,
+	time = 0
 }
 Bullet.__index = Bullet
 
@@ -60,6 +61,13 @@ function Bullet:update(dt, swidth, sheight)
 	self.hb_1[2] = self.hb_1[2] - math.sin(math.pi/2 - self.angle)*self.vel*dt
 	self.hb_1[1] = self.hb_1[1] + math.cos(math.pi/2 - self.angle)*self.vel*dt
 
+	-- makes bullets only last for 0.8 seconds of movement
+
+	self.time = self.time + dt
+
+	if self.time > 0.8 then
+	 	self.collided = true
+	end
 end
 
 function Bullet:draw()
