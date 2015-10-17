@@ -152,12 +152,12 @@ function Menu:keyreleased(key)
 	end
 
 	if key == 'up' then
-		selector = ((selector - 1) % 5)
+		selector = ((selector - 1) % 4)
 		selected:play()
 	end
 
 	if key == 'down' then
-		selector = ((selector + 1) % 5)
+		selector = ((selector + 1) % 4)
 		selected:play()
 	end
 

@@ -25,7 +25,8 @@ local Player = {
 	ang_vel = 0, double = false,
 	health = 5, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
-	i_timer = 0, missile = false
+	i_timer = 0, missile = false,
+	bomb_flash = false, flash_timer = .6
 }
 Player.__index = Player
 
@@ -64,28 +65,32 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-	
+
+	if self.flash_timer > .58 then
+		self.bomb_flash = false
+	end
+
 	if self.damaged then
 		self.d_timer = self.d_timer + dt
 	end
-	
+
 	if self.d_timer > 0.2 then
 		self.damaged = false
 		self.d_timer = 0
 	end
-	
+
 	if self.health < 1 then
 		self.collided = true
 	end
-	
+
 	if self.invul then
 		self.i_timer = self.i_timer + dt
 	end
-	
+
 	if self.i_timer > .25 then
 		self.i_timer = 0
 	end
-	
+
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		self.ang_vel = -math.pi * dt
 		self.angle1 = self.angle1 + self.ang_vel
@@ -96,7 +101,7 @@ function Player:update(dt, swidth, sheight)
 
 	--is the player moving
 	local moving = false
-	
+
 	--get acceleration (if not moving, accelerate opposite velocity)
 	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 	 	self.accel = -self.max_accel
@@ -111,21 +116,21 @@ function Player:update(dt, swidth, sheight)
 	else
 		self.accel = 0
 	end
-	
+
 	--accelerate (not past max velocity)
 	if (self.accel >= 0 and self.vel < self.max_vel) or
 		(self.accel <= 0 and self.vel > -self.max_vel) then
 		self.vel = self.vel + self.accel * dt
 	end
-		
+
 	--stop player from moving back and forth when not pressing up/down
 	if math.abs(self.vel) < self.max_vel / 10 and not moving then
 		self.vel = 0
 	end
-	
+
 	self.y = self.y - math.sin(math.pi/2 - self.angle1)*self.vel*dt
 	self.x = self.x + math.cos(math.pi/2 - self.angle1)*self.vel*dt
-	
+
 	if self.x < 1 then
 		self.x = 1
 	end
@@ -148,6 +153,7 @@ function Player:update(dt, swidth, sheight)
 	self.hb_2[1] = self.x - 10.5 * math.sin(self.angle1)
 	self.hb_2[2] = self.y + 10.5 * math.cos(self.angle1)
 
+	self.flash_timer = self.flash_timer + dt
 end
 
 function Player:draw()
@@ -184,39 +190,46 @@ function Player:keyreleased(key)
 	if key == 'left' or key == 'right' then
 		self.ang_vel = 0
 	end
-	
+
 	if key == 'i' then
 		self.invul = not self.invul
 		self.i_timer = 0
 	end
 
 	if key == 'b' then
-		if self.exploded == true then
-		end
+		-- if self.exploded == true then
+		-- end
 		if self.bomb == 0 then
 			error:play()
 		else
 			self.bomb = self.bomb - 1
 			bombblast:play()
-			
-			--- fire bullets in all directions
-			for q = 1, 360, 1 do
-				local bomb_b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1 + q)
-				table.insert(objects, bomb_b)
-			end 
-			
+
+			local length = table.getn(objects)
+			-- loop through objects and remove enemies close to player
+			for i = 0, length - 1 do
+				local o = objects[length - i]
+			  if (o:getX() > self.x - width/2 or o:getX() < self.x + width/2) and
+				(o:getY() > self.y - height/2 or o:getY() < self.y + height/2) and
+				(o:getID() == 1) then
+					if o:getType() ~= 'b' then
+				  	table.remove(objects, length - i)
+						self.bomb_flash = true
+						self.flash_timer = 0
+					end
+				end
+			end
 
 		end
 	end
-	
+
 	if key == '1' then
 		self.missile = false
 	end
-	
+
 	if key == '2' then
 		self.missile = true
 	end
-
 end
 
 function Player:getHitBoxes( ... )
@@ -287,6 +300,10 @@ end
 
 function Player:getBomb()
 	return self.bomb
+end
+
+function Player:flash()
+	return self.bomb_flash
 end
 
 return Player

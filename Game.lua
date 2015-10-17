@@ -125,25 +125,6 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	-- player = Player(bg_width/2, bg_height/2, 200)
-	-- table.insert(objects, player)
-
-	-- powerup = Powerup(bg_width/2 - 50, bg_height/2 - 50, 0)
-	-- table.insert(objects, powerup)
-
-	-- table.insert(objects, Spawn(200, 400, 300, 'g'))
-	-- table.insert(objects, Spawn(1200, 1200, 100, 'f'))
-
-	-- table.insert(objects, Spawn(500, 1000, 300, 'g'))
-	-- table.insert(objects, Spawn(1000, 200, 300, 'f'))
-
-	-- table.insert(objects, Spawn(1200, 1600, 300, 'g'))
-	-- table.insert(objects, Spawn(100, 1600, 300, 'g'))
-
-	-- local g = GlowBorg()
-	-- g:setPosition(100, 100)
-
-
 	-- table.insert(objects, g)
 	table.insert(objects, SunBoss(500, 500))
 
@@ -406,6 +387,10 @@ end
 
 function Game:draw(dt)
 
+	if player:flash() then
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
+	end
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
