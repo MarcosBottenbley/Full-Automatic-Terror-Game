@@ -217,12 +217,11 @@ function Player:keyreleased(key)
 				(o:getID() == 1) then
 					if o:getType() ~= 'b' then
 				  	table.remove(objects, length - i)
-						self.bomb_flash = true
-						self.flash_timer = 0
 					end
 				end
+				self.bomb_flash = true
+				self.flash_timer = 0
 			end
-
 		end
 	end
 
@@ -306,7 +305,12 @@ function Player:getBomb()
 end
 
 function Player:flash()
+	love.timer.sleep(0.04)
 	return self.bomb_flash
+end
+
+function Player:getFlashTimer()
+	return self.flash_timer
 end
 
 return Player
