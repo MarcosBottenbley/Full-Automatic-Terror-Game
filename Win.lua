@@ -87,6 +87,9 @@ function Win:keyreleased(key)
 	end
 end
 
+function Win:keypressed(key)
+end
+
 function Win:start()
 	victory:play()
 	self.time = 0

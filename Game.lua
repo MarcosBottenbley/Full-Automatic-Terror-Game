@@ -476,6 +476,9 @@ function Game:keyreleased(key)
 	end
 end
 
+function Game:keypressed(key)
+end
+
 function Game:touching(obj1, obj2)
 
 	local hb_1 = obj1:getHitBoxes()

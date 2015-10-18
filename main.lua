@@ -12,10 +12,24 @@
 
 time = 0
 
-once_u = false
-once_d = false
-once_r = false
-once_l = false
+controls = {
+	-- menu_up = 'up',
+	-- menu_down = 'down',
+	-- menu_left = 'left',
+	-- menu_right = 'right',
+	-- menu_select = 'enter',
+	-- menu_back = 'esc',
+	
+	player_up = 'up',
+	player_down = 'down',
+	player_left = 'left',
+	player_right = 'right',
+	fire = 'z',
+	bomb = 'x',
+	weapon = '1',
+	invul = 'i'
+}
+	
 
 recent_score = 0
 
@@ -89,6 +103,10 @@ end
 
 function love.keyreleased(key)
 	current:keyreleased(key)
+end
+
+function love.keypressed(key)
+	current:keypressed(key)
 end
 
 function love.quit()

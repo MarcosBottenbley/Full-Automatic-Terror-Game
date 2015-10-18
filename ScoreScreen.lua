@@ -101,6 +101,9 @@ function ScoreScreen:keyreleased(key)
 	switchTo(Menu)
 end
 
+function ScoreScreen:keypressed(key)
+end
+
 function ScoreScreen:start()
 	self.time = 0
 	self.sound:play()

@@ -80,6 +80,9 @@ function Intro:keyreleased(key)
 	switchTo(Game)
 end
 
+function Intro:keypressed(key)
+end
+
 function Intro:stop()
 	time = 0
 	changed = 0
