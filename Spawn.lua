@@ -42,7 +42,7 @@ function Spawn:_init(x,y,r,pr,types)
   self.type = types
   self.spawned = false
 
-  self.validCollisions = {}
+  self.validCollisions = {-1}
 end
 
 function Spawn:update(dt,x,y)

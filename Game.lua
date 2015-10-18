@@ -126,7 +126,7 @@ function Game:start()
 	player_gone = false
 
 	-- table.insert(objects, g)
-	-- table.insert(objects, SunBoss(500, 500))
+	table.insert(objects, SunBoss(500, 500))
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
@@ -134,23 +134,6 @@ function Game:start()
 	)
 
 	ST = ScreenTable(10,10,bg_width,bg_height)
-end
-
-function Game:setNeighbors(...)
-	for x=1, rows do
-		for y=1, cols do
-			local nr = buckets[x][y]:getNeighborRows()
-			local nc = buckets[x][y]:getNeighborCols()
-
-			for n=1, 8 do
-				if nr[n] ~= nil and nc[n] ~= nil then
-					buckets[x][y]:addNeighbor(n,buckets[nr[n]][nc[n]])
-				else
-				    buckets[x][y]:addNeighbor(n,nil)
-				end
-			end
-		end
-	end
 end
 
 function Game:stop()
@@ -193,7 +176,8 @@ end
 function Game:update(dt)
 	time = time + dt
 
-	ST:update(objects)
+	ST:update(dt, objects)
+
 	if player.invul and bgm1 then
 		bgm:stop()
 		bg_invul:play()
@@ -235,6 +219,7 @@ function Game:update(dt)
 		x = x + 1
 	end
 
+	--[[
 	local length = table.getn(objects)
 	for i=1, length - 1 do
 		for j = i + 1, length do
@@ -331,6 +316,7 @@ function Game:update(dt)
 			end
 		end
 	end
+	--]]
 
 	--checks for win/lose states
 	length = table.getn(objects)
@@ -345,7 +331,7 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		time = 0
+		--time = 0
 		--self:win()
 	elseif player_gone then
 		time = 0
@@ -390,12 +376,12 @@ function Game:draw(dt)
 	end
 
 	-- zoom in
-		if time < 0.8 then
-			v = time / 0.8;
-			v = 1 - (1 - v) * (1 - v)
-			X = (1 * v) + (2 * (1 - v))
-			love.graphics.scale(1/X, 1/X)
-		end
+	if time < 0.8 then
+		v = time / 0.8;
+		v = 1 - (1 - v) * (1 - v)
+		X = (1 * v) + (2 * (1 - v))
+		love.graphics.scale(1/X, 1/X)
+	end
 
 	-- move background
 	love.graphics.translate(cx, cy)
@@ -469,6 +455,9 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
+
+	fps = love.timer.getFPS()
+	love.graphics.print(tostring(fps), 700, 10)
 
 end
 
@@ -546,7 +535,7 @@ function Game:make(thing, x, y, z, w)
 		obj = SpeedUp(x, y, 0)
 	end
 
-	--table.insert(objects, obj)
+	table.insert(objects, obj)
 end
 
 return Game

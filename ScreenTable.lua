@@ -52,14 +52,14 @@ function ScreenTable:_init(rows, cols, swidth, sheight)
 	end
 end
 
-function ScreenTable:update(objs)
+function ScreenTable:update(dt, objs)
 	for _, o in ipairs(objs) do
 		self:insert(o)
 	end
 
 	for i = 1, self.rows do
 		for j = 1, self.cols do
-			self.buckets[i][j]:update()
+			self.buckets[i][j]:update(dt)
 		end
 	end
 end

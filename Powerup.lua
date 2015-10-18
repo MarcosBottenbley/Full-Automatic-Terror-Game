@@ -34,6 +34,8 @@ function Powerup:_init(x, y, v)
 	self.vy = v
 	self.collided = false
 	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
+
+	self.validCollisions = {2}
 end
 
 function Powerup:draw()
@@ -93,6 +95,11 @@ end
 
 function Powerup:getType()
 	return self.type
+end
+
+function Powerup:getValid(...)
+	local table = {2}
+	return table
 end
 
 return Powerup

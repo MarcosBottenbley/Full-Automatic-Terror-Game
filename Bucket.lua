@@ -11,7 +11,6 @@
 --- dmill118@jhu.edu
 
 local Bucket = {
-	objs = {},
 	row = 0, col = 0,
 	ID = 0
 }
@@ -35,115 +34,52 @@ function Bucket:_init(x, y, width, height, row, col, rows, cols, id)
 	self.rows = rows
 	self.cols = cols
 	self.ID = id
-end
-
-function Bucket:getX(...)
-	return self.x
-end
-
-function Bucket:getY(...)
-	return self.y
-end
-
-function Bucket:getWidth(...)
-	return self.width
-end
-
-function Bucket:getHeight(...)
-	return self.height
-end
-
-function Bucket:getNeighborRows(...)
-	local nrows = {}
-
-	--middle rows
-	nrows[4] = self.row
-	nrows[5] = self.row
-
-	--top rows
-	if self.row - 1 > 0 then
-		nrows[1] = self.row - 1
-		nrows[2] = self.row - 1
-		nrows[3] = self.row - 1
-	else
-	    nrows[1] = nil
-		nrows[2] = nil
-		nrows[3] = nil
-	end
-
-	--bottom rows
-	if self.row + 1 < self.rows then
-		nrows[6] = self.row + 1
-		nrows[7] = self.row + 1
-		nrows[8] = self.row + 1
-	else
-	    nrows[6] = nil
-		nrows[7] = nil
-		nrows[8] = nil
-	end
-
-	return nrows
-end
-
-function Bucket:getNeighborCols(...)
-	local ncols = {}
-
-	--middle columns
-	ncols[4] = self.col
-	ncols[5] = self.col
-
-	--top columns
-	if self.col - 1 > 0 then
-		ncols[1] = self.col - 1
-		ncols[2] = self.col - 1
-		ncols[3] = self.col - 1
-	else
-	    ncols[1] = nil
-		ncols[2] = nil
-		ncols[3] = nil
-	end
-
-	--bottom columns
-	if self.col + 1 < self.cols then
-		ncols[6] = self.col + 1
-		ncols[7] = self.col + 1
-		ncols[8] = self.col + 1
-	else
-	    ncols[6] = nil
-		ncols[7] = nil
-		ncols[8] = nil
-	end
-
-	return ncols
-end
-
-function Bucket:addNeighbor(n, neighbor)
-	self.neighbors[n] = neighbor
+	self.objects = {}
 end
 
 function Bucket:add(obj)
 	if self:contains(obj) and not self:alreadyContains(obj) then
-		table.insert(self.objs, obj)
+		table.insert(self.objects, obj)
 	end
 end
 
 function Bucket:remove()
 	local x = 1
-	for _, o in ipairs(self.objs) do
+	for _, o in ipairs(self.objects) do
 		if not self:contains(o) then
-			table.remove(self.objs, x)
+			table.remove(self.objects, x)
 		end
 		x = x + 1
 	end
 end
 
 function Bucket:contains(obj)
-	return false
+	local valid = false
+	if obj:getID() ~= 4 then
+		local hb = obj:getHitBoxes()
+
+		for _, b in ipairs(hb) do
+			if b[1] + b[3] >= self.x and b[1] - b[3] <= self.x + self.width then
+				if b[2] + b[3] >= self.y and b[2] - b[3] <= self.y + self.height then
+					valid = true
+				end
+			end
+		end
+	else
+		local x = obj:getX()
+		local y = obj:getY()
+		if x >= self.x and x <= self.x + self.width then
+			if y >= self.y and y <= self.y + self.height then
+				valid = true
+			end
+		end
+	end
+	return valid
 end
 
 function Bucket:alreadyContains(obj)
 	local valid = false
-	for _, o in ipairs(self.objs) do
+	for _, o in ipairs(self.objects) do
 		if o == obj then
 			valid = true
 		end
@@ -152,18 +88,28 @@ function Bucket:alreadyContains(obj)
 	return valid
 end
 
-function Bucket:update()
+function Bucket:update(dt)
+	local length = table.getn(self.objects)
+	for i=1, length - 1 do
+		for j = i + 1, length do
+			if self:valid(self.objects[i], self.objects[j]) then
+				if self:touching(self.objects[i], self.objects[j]) then
+					print("collision: " .. tostring(self.objects[i]:getID()) .. " " .. tostring(self.objects[j]:getID()))
+				end
+			end
+		end
+	end
 	self:remove()
 end
 
 function Bucket:valid(obj1, obj2)
 	local valid = false
 
-	local id_one = obj1:getID()
-	local id_two = obj2:getID()
+	local vc1 = obj1:getValid()
+	local vc2 = obj2:getValid()
 
-	if id_one ~= 4 and id_two ~= 4 and id_one ~= 5 and id_two ~= 5 then
-		if (id_one == 2 and id_two ~= 3) or (id_two == 2 and id_one ~= 3) or id_one == 1 or id_two == 1 then
+	for _, c in ipairs(vc1) do
+		if c == obj2:getID() then
 			valid = true
 		end
 	end
@@ -172,7 +118,6 @@ function Bucket:valid(obj1, obj2)
 end
 
 function Bucket:touching(obj1, obj2)
-
 	local hb_1 = obj1:getHitBoxes()
 	local hb_2 = obj2:getHitBoxes()
 
@@ -207,14 +152,14 @@ function Bucket:touching(obj1, obj2)
 end
 
 function Bucket:draw()
-	local num = table.getn(self.objs)
+	local num = table.getn(self.objects)
 	if num > 0 then
 		love.graphics.setColor(0,255,0,255)
 	else
 		love.graphics.setColor(255,0,0,255)
 	end
 
-	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+	love.graphics.rectangle("line", self.x, self.y, self.width-1, self.height-1)
 	love.graphics.print(tostring(num), self.x + self.width/2, self.y + self.height/2)
 	love.graphics.setColor(255, 255, 255, 255)
 end

@@ -17,7 +17,6 @@ local Object= {
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
 	id = 0, collided = false,
-	validCollisions = {}
 }
 Object.__index = Object
 
