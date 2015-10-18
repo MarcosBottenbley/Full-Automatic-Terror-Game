@@ -33,6 +33,9 @@ end
 function State:keyreleased(key)
 end
 
+function State:keypressed(key)
+end
+
 function State:start()
 end
 

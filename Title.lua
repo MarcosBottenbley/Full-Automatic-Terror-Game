@@ -64,6 +64,9 @@ function Title:keyreleased(key)
 	end
 end
 
+function Title:keypressed(key)
+end
+
 function Title:start()
 	self.time = 0
 	self.sound:play()

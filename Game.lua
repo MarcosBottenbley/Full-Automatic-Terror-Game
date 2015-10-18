@@ -46,6 +46,7 @@ setmetatable(Game, {
 
 function Game:load(arg)
 	math.randomseed(os.time())
+	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
@@ -91,6 +92,7 @@ function Game:load(arg)
 	background = love.graphics.newImage(bg_string)
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
+
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
 
@@ -175,6 +177,7 @@ end
 
 function Game:update(dt)
 	time = time + dt
+	timer = timer + dt
 
 	ST:update(dt, objects)
 
@@ -361,10 +364,6 @@ end
 
 function Game:draw(dt)
 
-	if player:flash() then
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
-	end
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
@@ -459,6 +458,13 @@ function Game:draw(dt)
 	fps = love.timer.getFPS()
 	love.graphics.print(tostring(fps), 700, 10)
 
+	if player:flash() then
+		local t = player:getFlashTimer() + .6
+		local alpha = (255 * t)
+		love.graphics.setColor(255, 255, 255, alpha)
+		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
+	end
+
 end
 
 function Game:keyreleased(key)
@@ -468,6 +474,9 @@ function Game:keyreleased(key)
 		time = 0
 		switchTo(Menu)
 	end
+end
+
+function Game:keypressed(key)
 end
 
 function Game:touching(obj1, obj2)

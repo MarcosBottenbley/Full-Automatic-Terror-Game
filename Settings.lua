@@ -207,6 +207,9 @@ function Settings:keyreleased(key)
 	end
 end
 
+function Settings:keypressed(key)
+end
+
 function Settings:start()
 	self.time = 0
 	self.sound:play()

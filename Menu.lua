@@ -182,6 +182,9 @@ function Menu:keyreleased(key)
 	end
 end
 
+function Menu:keypressed(key)
+end
+
 function Menu:start()
 	menu_bgm:play()
 end

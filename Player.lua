@@ -49,7 +49,6 @@ function Player:_init(x, y, v)
 		self.delay)
 
 	self.max_vel = v
-	self.double = false
 
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
@@ -93,13 +92,13 @@ function Player:update(dt, swidth, sheight)
 		self.i_timer = 0
 	end
 
+	--turn left or right
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-		self.ang_vel = math.pi * dt
-		self.angle1 = self.angle1 + self.ang_vel
+		self:turn(1)
 	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-		self.ang_vel = -math.pi * dt
-	 	self.angle1 = self.angle1 + self.ang_vel
+		self:turn(-1)
 	end
+	self.angle1 = self.angle1 + self.ang_vel * dt
 
 	--is the player moving
 	local moving = false
@@ -173,21 +172,7 @@ end
 
 function Player:keyreleased(key)
 	if key == 'z' then
-		pew:play()
-		if self.missile then
-			local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
-			table.insert(objects, m)
-		elseif self.double then
-			--code
-			local b1 = Bullet(self.hb_1[1] + 10*math.cos(self.angle1), self.hb_1[2] + 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
-			local b2 = Bullet(self.hb_1[1] - 10*math.cos(self.angle1), self.hb_1[2] - 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
-			table.insert(objects, b1)
-			table.insert(objects, b2)
-		else
-			local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
-			table.insert(objects, b)
-		end
-
+		self:fire()
 	end
 
 	if key == 'left' or key == 'right' then
@@ -195,44 +180,75 @@ function Player:keyreleased(key)
 	end
 
 	if key == 'i' then
-		self.invul = not self.invul
-		self.i_timer = 0
+		self:toggleInvul()
 	end
 
 	if key == 'b' then
-		-- if self.exploded == true then
-		-- end
-		if self.bomb == 0 then
-			error:play()
-		else
-			self.bomb = self.bomb - 1
-			bombblast:play()
-
-			local length = table.getn(objects)
-			-- loop through objects and remove enemies close to player
-			for i = 0, length - 1 do
-				local o = objects[length - i]
-			  if (o:getX() > self.x - width/2 or o:getX() < self.x + width/2) and
-				(o:getY() > self.y - height/2 or o:getY() < self.y + height/2) and
-				(o:getID() == 1) then
-					if o:getType() ~= 'b' then
-				  	table.remove(objects, length - i)
-						self.bomb_flash = true
-						self.flash_timer = 0
-					end
-				end
-			end
-
-		end
+		self:useBomb()
 	end
 
 	if key == '1' then
-		self.missile = false
+		self:weaponSelect()
 	end
+end
 
-	if key == '2' then
-		self.missile = true
+--Changes the player's angle based on the direction passed in.
+--Passing in 1 increases the angle (turns left) and -1 decreases
+--the angle (turns right).
+function Player:turn(direction)
+	if direction == 1 or direction == -1 then
+		self.ang_vel = math.pi * direction
 	end
+end
+
+function Player:fire()
+	pew:play()
+	if self.missile then
+		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
+		table.insert(objects, m)
+	elseif self.double then
+		--code
+		local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.angle1), self.hb_1[2] + 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
+		local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.angle1), self.hb_1[2] - 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
+		table.insert(objects, b1)
+		table.insert(objects, b2)
+	else
+		local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
+		table.insert(objects, b)
+	end
+end
+
+function Player:weaponSelect()
+	self.missile = not self.missile
+end
+
+function Player:useBomb()
+	if self.bomb == 0 then
+		error:play()
+	else
+		self.bomb = self.bomb - 1
+		bombblast:play()
+
+		local length = table.getn(objects)
+		-- loop through objects and remove enemies close to player
+		for i = 0, length - 1 do
+			local o = objects[length - i]
+		  if (o:getX() > self.x - width/2 or o:getX() < self.x + width/2) and
+			(o:getY() > self.y - height/2 or o:getY() < self.y + height/2) and
+			(o:getID() == 1) then
+				if o:getType() ~= 'b' then
+				table.remove(objects, length - i)
+				end
+			end
+			self.bomb_flash = true
+			self.flash_timer = 0
+		end
+	end
+end
+
+function Player:toggleInvul()
+	self.invul = not self.invul
+	self.i_timer = 0
 end
 
 function Player:getHitBoxes( ... )
@@ -306,7 +322,12 @@ function Player:getBomb()
 end
 
 function Player:flash()
+	--love.timer.sleep(0.04)
 	return self.bomb_flash
+end
+
+function Player:getFlashTimer()
+	return self.flash_timer
 end
 
 return Player

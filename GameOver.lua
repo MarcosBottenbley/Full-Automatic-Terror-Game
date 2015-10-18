@@ -85,6 +85,9 @@ function GameOver:keyreleased(key)
 	end
 end
 
+function GameOver:keypressed(key)
+end
+
 --- upon losing the game, plays sound effect and starts timer
 
 function GameOver:start()

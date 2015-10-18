@@ -61,6 +61,9 @@ function Studio:keyreleased(key)
 	end
 end
 
+function Studio:keypressed(key)
+end
+
 function Studio:start()
 	self.time = 0
 end
