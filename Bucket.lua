@@ -138,17 +138,7 @@ function Bucket:remove()
 end
 
 function Bucket:contains(obj)
-	local valid = false
-	local x = obj:getX()
-	local y = obj:getY()
-	local owidth = obj:getWidth()
-	local oheight = obj:getHeight()
-	if x - owidth >= self.x or x + owidth <= self.x + self.width then
-		if y - oheight >= self.y or y + oheight <= self.y + self.height then
-			valid = true
-		end
-	end
-	return valid
+	return false
 end
 
 function Bucket:alreadyContains(obj)
@@ -218,7 +208,6 @@ end
 
 function Bucket:draw()
 	local num = table.getn(self.objs)
-	print(self.objs)
 	if num > 0 then
 		love.graphics.setColor(0,255,0,255)
 	else

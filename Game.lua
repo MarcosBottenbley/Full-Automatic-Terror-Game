@@ -345,8 +345,10 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
+		time = 0
 		--self:win()
 	elseif player_gone then
+		time = 0
 		self:lose()
 	end
 end
@@ -386,6 +388,14 @@ function Game:draw(dt)
 	else
 		cx, cy = camera:move()
 	end
+
+	-- zoom in
+		if time < 0.8 then
+			v = time / 0.8;
+			v = 1 - (1 - v) * (1 - v)
+			X = (1 * v) + (2 * (1 - v))
+			love.graphics.scale(1/X, 1/X)
+		end
 
 	-- move background
 	love.graphics.translate(cx, cy)
@@ -427,7 +437,14 @@ function Game:draw(dt)
 
 	end
 	-- move text
+	-- zoom in
 	love.graphics.translate(-cx, -cy)
+	if time < 0.8 then
+		v = time / 0.8;
+		v = 1 - (1 - v) * (1 - v)
+		X = (1 * v) + (2 * (1 - v))
+		love.graphics.scale(X, X)
+	end
 
 	love.graphics.setFont(self.helpfont)
 	love.graphics.print(
@@ -459,6 +476,7 @@ function Game:keyreleased(key)
 	player:keyreleased(key)
 
 	if key == 'escape' then
+		time = 0
 		switchTo(Menu)
 	end
 end
