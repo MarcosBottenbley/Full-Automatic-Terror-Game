@@ -12,7 +12,7 @@
 
 math.randomseed(os.time())
 
-local Object= {
+local Object = {
 	x = 10, y = 10,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
@@ -158,6 +158,14 @@ end
 
 function Object:getValid(...)
 	return self.validCollisions
+end
+
+function Object:onCollision(...)
+	-- body
+end
+
+function Object:onDeath(...)
+
 end
 
 return Object

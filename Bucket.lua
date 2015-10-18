@@ -94,12 +94,12 @@ function Bucket:update(dt)
 		for j = i + 1, length do
 			if self:valid(self.objects[i], self.objects[j]) then
 				if self:touching(self.objects[i], self.objects[j]) then
-					print("collision: " .. tostring(self.objects[i]:getID()) .. " " .. tostring(self.objects[j]:getID()))
+
 				end
 			end
 		end
 	end
-	self:remove()
+	--self:remove()
 end
 
 function Bucket:valid(obj1, obj2)
@@ -155,13 +155,14 @@ function Bucket:draw()
 	local num = table.getn(self.objects)
 	if num > 0 then
 		love.graphics.setColor(0,255,0,255)
-	else
-		love.graphics.setColor(255,0,0,255)
+		love.graphics.rectangle("line", self.x, self.y, self.width-1, self.height-1)
+		love.graphics.print(tostring(num), self.x + self.width/2, self.y + self.height/2)
 	end
-
-	love.graphics.rectangle("line", self.x, self.y, self.width-1, self.height-1)
-	love.graphics.print(tostring(num), self.x + self.width/2, self.y + self.height/2)
 	love.graphics.setColor(255, 255, 255, 255)
+end
+
+function Bucket:getNumObjects(...)
+	return table.getn(self.objects)
 end
 
 return Bucket

@@ -37,7 +37,7 @@ function ScreenTable:_init(rows, cols, swidth, sheight)
 		self.buckets[i] = {}
 		for j=1, self.cols do
 			local temp = Bucket((i-1) * self.bucket_width,
-								(j-1)* self.bucket_height,
+								(j-1) * self.bucket_height,
 								self.bucket_width,
 								self.bucket_height,
 								i,
@@ -59,12 +59,18 @@ function ScreenTable:update(dt, objs)
 
 	for i = 1, self.rows do
 		for j = 1, self.cols do
-			self.buckets[i][j]:update(dt)
+			if self.buckets[i][j]:getNumObjects() > 1 then
+				self.buckets[i][j]:update(dt)
+			end
+			self.buckets[i][j]:remove()
 		end
 	end
 end
 
 function ScreenTable:insert(obj)
+	--local col = obj:getX() / self.bucket_width
+	--local row = obj:getY() / self.bucket_height
+	--print("ROW: " .. tostring(math.ceil(row)) .. " " .. "COL: " .. tostring(math.ceil(col)))
 	for i = 1, self.rows do
 		for j = 1, self.cols do
 			self.buckets[i][j]:add(obj)
