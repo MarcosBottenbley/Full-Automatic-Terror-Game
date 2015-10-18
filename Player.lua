@@ -49,7 +49,6 @@ function Player:_init(x, y, v)
 		self.delay)
 
 	self.max_vel = v
-	self.double = false
 
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
@@ -179,8 +178,8 @@ function Player:keyreleased(key)
 			table.insert(objects, m)
 		elseif self.double then
 			--code
-			local b1 = Bullet(self.hb_1[1] + 10*math.cos(self.angle1), self.hb_1[2] + 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
-			local b2 = Bullet(self.hb_1[1] - 10*math.cos(self.angle1), self.hb_1[2] - 10*math.sin(self.angle1), 600, self.angle1) --magic numbers errywhere
+			local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.angle1), self.hb_1[2] + 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
+			local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.angle1), self.hb_1[2] - 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
 			table.insert(objects, b1)
 			table.insert(objects, b2)
 		else
@@ -232,6 +231,33 @@ function Player:keyreleased(key)
 
 	if key == '2' then
 		self.missile = true
+	end
+end
+
+--Changes the player's angle based on the direction passed in.
+--Passing in 1 increases the angle (turns left) and -1 decreases
+--the angle (turns right).
+function Player:turn(direction)
+	if direction == 1 or direction == -1 then
+		self.ang_vel = math.pi * direction * dt
+		self.angle1 = self.angle1 + self.ang_vel
+	end
+end
+
+function Player:fire()
+	pew:play()
+	if self.missile then
+		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
+		table.insert(objects, m)
+	elseif self.double then
+		--code
+		local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.angle1), self.hb_1[2] + 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
+		local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.angle1), self.hb_1[2] - 10*math.cos(self.angle1), 600, self.angle1) --magic numbers errywhere
+		table.insert(objects, b1)
+		table.insert(objects, b2)
+	else
+		local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.angle1) --magic numbers errywhere
+		table.insert(objects, b)
 	end
 end
 
