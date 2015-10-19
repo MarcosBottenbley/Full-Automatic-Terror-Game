@@ -48,6 +48,7 @@ function Missile:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 	self.target = nil
+	self.validCollisions = {1}
 end
 
 --- Missile, hitbox speed and direction
@@ -149,6 +150,10 @@ function Missile:getHitBoxes( ... )
 	local hb = {}
 	table.insert(hb, self.hb_1)
 	return hb
+end
+
+function Missile:collide(obj)
+	self.dead = true
 end
 
 return Missile

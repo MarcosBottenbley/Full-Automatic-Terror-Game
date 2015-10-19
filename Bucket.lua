@@ -90,6 +90,15 @@ end
 
 function Bucket:update(dt)
 	local length = table.getn(self.objects)
+	
+	for i=1, length do
+		if self.objects[(length + 1) - i]:isDead() then
+			table.remove(self.objects,(length + 1) - i)
+		end
+	end
+	
+	length = table.getn(self.objects)
+	
 	for i=1, length - 1 do
 		for j = i + 1, length do
 			if self:valid(self.objects[i], self.objects[j]) then
@@ -101,11 +110,7 @@ function Bucket:update(dt)
 		end
 	end
 	
-	for i=1, length do
-		if self.objects[(length + 1) - i]:isDead() then
-			table.remove(self.objects,(length + 1) - i)
-		end
-	end
+	
 	--self:remove()
 end
 

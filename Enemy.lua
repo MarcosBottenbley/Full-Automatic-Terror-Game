@@ -143,7 +143,6 @@ function Enemy:distanceFrom(x, y)
 end
 
 function Enemy:collide(obj)
-	print("DESTROYED")
 	self.dead = true
 	self.validCollisions = {}
 end

@@ -332,7 +332,6 @@ end
 
 function Player:collide(obj)
 	if obj:getID() == 1 or obj:getID() == 6 then
-		print("HIT")
 		self:hit()
 		if not self:alive() then
 			self.dead = true

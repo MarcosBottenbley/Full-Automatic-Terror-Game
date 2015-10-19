@@ -93,4 +93,8 @@ function Bullet:getHitBoxes( ... )
 	return hb
 end
 
+function Bullet:collide(obj)
+	self.dead = true
+end
+
 return Bullet

@@ -102,4 +102,8 @@ function Powerup:getValid(...)
 	return table
 end
 
+function Powerup:collide(obj)
+	self.dead = true
+end
+
 return Powerup

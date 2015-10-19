@@ -114,10 +114,23 @@ function SunBoss:hit()
 	bosshit:play()
 end
 
+function SunBoss:alive()
+	return self.health > 0
+end
+
 function SunBoss:shoot()
 	local b = EnemyBullet(self.x, self.y+40, 600, self.angle)
 	table.insert(objects, b)
 	self.s_timer = 0
+end
+
+function SunBoss:collide(obj)
+	if obj:getID() == 3 then
+		self:hit()
+		if not self:alive() then
+			self.dead = true
+		end
+	end
 end
 
 return SunBoss

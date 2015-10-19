@@ -221,7 +221,6 @@ function Game:update(dt)
 		end
 		
 		if o:isDead() then
-			print("REMOVING OBJECT " .. x)
 			table.remove(objects, x)
 		end
 
