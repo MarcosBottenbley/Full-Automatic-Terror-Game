@@ -548,6 +548,8 @@ function Game:make(thing, x, y, z, w)
 		obj = Repair(x, y, 0)
 	elseif thing == "spd" then
 		obj = SpeedUp(x, y, 0)
+	elseif thing == "wrm" then
+		obj = Wormhole(x, y)
 	end
 
 	table.insert(objects, obj)

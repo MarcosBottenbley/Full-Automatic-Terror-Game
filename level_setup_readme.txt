@@ -7,7 +7,7 @@ Background (set at top of level)
 BG:[path of background image]
 
 Objects
-[three letter code representing object](x,y,z,w) 
+[three letter code representing object](x,y,z,w)
 where x,y,z,w are all arguments for constructor of object. If
 the objects' constructor takes less than four arguments, then fill the rest
 in as zero. Again, this is less than ideal and I'm working on it.
@@ -19,6 +19,7 @@ ops = PhantomShip (object)
 osb = SunBoss (object)
 sgb = GlowBorg (spawner)
 sps = PhantomShip (spawner)
+wrm = Wormhole
 
 
 Here's our "level zero" file for an example:
