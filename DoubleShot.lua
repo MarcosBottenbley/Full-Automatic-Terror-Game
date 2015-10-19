@@ -36,7 +36,6 @@ function DoubleShot:_init(x, y, v)
 	self.vx = v
 	self.vy = v
 	self.collided = false
-	print(self.states)
 	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 

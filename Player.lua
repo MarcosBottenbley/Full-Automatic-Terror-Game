@@ -26,7 +26,8 @@ local Player = {
 	health = 50, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
 	i_timer = 0, missile = false,
-	bomb_flash = false, flash_timer = .6
+	bomb_flash = false, flash_timer = .6,
+	teleporttimer = 0
 }
 Player.__index = Player
 
@@ -66,6 +67,8 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
+
+	self.teleporttimer = self.teleporttimer + dt
 
 	if self.flash_timer > .58 then
 		self.bomb_flash = false
@@ -348,7 +351,11 @@ function Player:collide(obj)
 		end
 	-- wormhole
 	elseif obj:getID() == 7 then
-		self.x, self.y = obj:teleport()
+		if self.teleporttimer > 5 then
+			self.teleporttimer = 0
+			self.x, self.y = obj:teleport()
+			teleport:play()
+		end
 		-- love.timer.sleep(0.2)
 	end
 end

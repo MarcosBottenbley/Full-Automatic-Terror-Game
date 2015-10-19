@@ -19,7 +19,7 @@ local SunBoss = {
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
 	health = 40, s_timer = 0,
-	d_timer = 0, angle = 0,
+	dmg_timer = 0, angle = 0,
 	vel = 100, damaged = false
 }
 SunBoss.__index = SunBoss
@@ -44,12 +44,13 @@ function SunBoss:load()
 end
 
 function SunBoss:update(dt, swidth, sheight, px, py)
+	Enemy.update(self, dt, swidth, sheight)
+	
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
-		self.d_timer = self.d_timer + dt
+		self.dmg_timer = self.dmg_timer + dt
 	end
 	
-	Enemy.update(self, dt, swidth, sheight)
 	self.angle = self.angle + (math.pi/2)*dt*(7.66 - (self.health/6))
 
 	--print("PLAYER: " .. py .. " " .. px)
@@ -76,9 +77,9 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 		self:shoot()
 	end
 	
-	if self.d_timer > 0.2 then
+	if self.dmg_timer > 0.2 then
 		self.damaged = false
-		self.d_timer = 0
+		self.dmg_timer = 0
 	end
 end
 
@@ -110,7 +111,7 @@ end
 function SunBoss:hit()
 	self.health = self.health - 1
 	self.damaged = true
-	self.d_timer = 0
+	self.dmg_timer = 0
 	bosshit:play()
 end
 
@@ -128,7 +129,10 @@ function SunBoss:collide(obj)
 	if obj:getID() == 3 then
 		self:hit()
 		if not self:alive() then
-			self.dead = true
+			self.validCollisions = {}
+			self.collided = true
+			self.current_state = 2
+			self.current_frame = 1
 		end
 	end
 end
