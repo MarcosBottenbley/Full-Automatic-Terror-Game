@@ -17,7 +17,7 @@ local Wormhole = {
 	vx = 20, vy = 20,
 	xset = 0, yset = 0,
 	bounding_rad = 40,
-	id = 7, collided = false
+	id = 7, collided = false,
 }
 
 Wormhole.__index = Wormhole
@@ -36,9 +36,7 @@ setmetatable(Wormhole, {
 -- xset is the x offset upon being spawned there, either 0, 1, or -1 * certain distance
 -- yset is the y offset upon being spawned there, either 0, 1, or -1 * certain distance
 
-function Wormhole:_init(x, y, v, xset, yset)
-	self.vx = v
-	self.vy = v
+function Wormhole:_init(x, y)
 	self.collided = false
 	self.xset = xset
 	self.yset = yset
@@ -52,7 +50,7 @@ function Wormhole:_init(x, y, v, xset, yset)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 
-	self.validCollisions = {3}
+	self.validCollisions = {2}
 end
 
 function Wormhole:draw()
@@ -61,40 +59,16 @@ end
 
 function Wormhole:update(dt, swidth, sheight)
 	Object.update(self, dt)
-
-	if self.x < 1 then
-		self.vx = math.abs(self.vx)
-	end
-
-	if self.x > swidth-self.width then
-		self.vx = -1 * math.abs(self.vx)
-	end
-
-	if self.y < 1 then
-		self.vy = math.abs(self.vy)
-	end
-
-	if self.y > sheight-self.height then
-		self.vy = -1 * math.abs(self.vy)
-	end
 end
 
-function Wormhole:bounce(side)
-	if side == 1 then
-		self.vx = -self.vx
-	else
-		self.vy = -self.vy
-	end
+function Wormhole:setTeleport(wormhole)
+	self.tele = wormhole
 end
 
-function Wormhole:direction()
-	if math.random(0,2) <= 1 then
-		if math.random(0,2) >= 1 then
-			self:bounce(0)
-		else
-			self:bounce(1)
-		end
-	end
+function Wormhole:teleport()
+	local x = self.tele:getX()
+	local y = self.tele:getY()
+	return x, y
 end
 
 function Wormhole:setPosition(x, y)
@@ -119,5 +93,9 @@ function Wormhole:getValid(...)
 	return table
 end
 
+function Wormhole:onCollision()
+	-- if it's the player, teleport the player
+	-- player.setPosition(self:teleport())
+end
 
 return Wormhole
