@@ -82,7 +82,6 @@ function Enemy:update(dt, swidth, sheight)
 	end
 	
 	if self.d_timer > self.frames * self.delay - .02 then
-		print("she was ded")
 		self.dead = true
 	end
 end
@@ -153,7 +152,6 @@ function Enemy:distanceFrom(x, y)
 end
 
 function Enemy:collide(obj)
-	print(self.id .. " was ded")
 	self.validCollisions = {}
 	self.collided = true
 	self.current_state = 2
