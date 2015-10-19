@@ -33,6 +33,8 @@ local waiting = false
 local enemy_gone = false
 local player_gone = false
 
+local wormholes = {}
+
 Game.__index = Game
 
 setmetatable(Game, {
@@ -119,6 +121,17 @@ function Game:start()
 	--creates objects in level from creation array
 	for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
+	end
+
+	-- set up wormholes
+	for i = 1, table.getn(objects) do
+		if objects[i]:getID() == 7 then
+			table.insert(wormholes, objects[i])
+		end
+	end
+	-- give wormholes teleports
+	for i = 1, table.getn(wormholes) do
+		wormholes[i]:setTeleport(wormholes[(i + 1) % table.getn(wormholes)])
 	end
 
 	enemy_count = 9
@@ -219,7 +232,7 @@ function Game:update(dt)
 		if o:getID() == 1 and o:getType() == 'f' then
 			o:shoot(dt,playerx,playery)
 		end
-		
+
 		if o:isDead() then
 			table.remove(objects, x)
 		end
