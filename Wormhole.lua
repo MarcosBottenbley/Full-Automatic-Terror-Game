@@ -90,11 +90,10 @@ function Wormhole:getType()
 end
 
 function Wormhole:getValid(...)
-	local table = {3}
-	return table
+	return self.validCollisions
 end
 
-function Wormhole:collide()
+function Wormhole:collide(obj)
 	-- if it's the player, teleport the player
 	-- player.setPosition(self:teleport())
 end
