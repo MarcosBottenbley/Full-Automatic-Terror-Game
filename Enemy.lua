@@ -152,7 +152,6 @@ function Enemy:distanceFrom(x, y)
 end
 
 function Enemy:collide(obj)
-	print(self.type)
 	self.validCollisions = {}
 	self.collided = true
 	self.current_state = 2
