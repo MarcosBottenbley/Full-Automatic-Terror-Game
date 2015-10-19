@@ -16,7 +16,8 @@ math.randomseed(os.time())
 local Enemy = {
 	vx = 10, vy = 10,
 	sprites = {},
-	id = 1, collided = false
+	id = 1, collided = false,
+	d_timer = 0
 }
 Enemy.__index = Enemy
 
@@ -75,6 +76,14 @@ function Enemy:update(dt, swidth, sheight)
 	--end
 	
 	self:explode()
+	
+	if self.collided then
+		self.d_timer = self.d_timer + dt
+	end
+	
+	if self.d_timer > self.frames * self.delay - .02 then
+		self.dead = true
+	end
 end
 
 --- reverses enemy direction in either x or y direction
@@ -143,8 +152,11 @@ function Enemy:distanceFrom(x, y)
 end
 
 function Enemy:collide(obj)
-	self.dead = true
+	print(self.type)
 	self.validCollisions = {}
+	self.collided = true
+	self.current_state = 2
+	self.current_frame = 1
 end
 
 return Enemy

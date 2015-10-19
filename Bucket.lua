@@ -125,6 +125,10 @@ function Bucket:valid(obj1, obj2)
 			valid = true
 		end
 	end
+	
+	if obj1.collided or obj2.collided then
+		valid = false
+	end
 
 	return valid
 end
