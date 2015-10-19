@@ -13,9 +13,10 @@
 Powerup = require("Powerup")
 
 local Repair = {
-	width = 35, height = 35,
-	--frames = 2, states = 1,
-	--delay = 0.3, 
+	img = "gfx/fix_power_up.png",
+	width = 44, height = 47,
+	frames = 2, states = 1,
+	delay = 0.3,
 	vx = 10, vy = 10,
 	sprites = {}, bounding_rad = 22,
 	id = 5, type = 'r', collided = false
@@ -39,7 +40,7 @@ function Repair:_init(x, y, v)
 end
 
 function Repair:draw()
-	Object.draw(self,75,150,255)
+	Object.draw(self,255,255,255)
 end
 
 return Repair

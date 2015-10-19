@@ -13,9 +13,10 @@
 Powerup = require("Powerup")
 
 local SpeedUp = {
-	width = 20, height = 20,
-	--frames = 2, states = 1,
-	--delay = 0.3, 
+	img = "gfx/speed_power_up.png",
+	width = 44, height = 47,
+	frames = 2, states = 1,
+	delay = 0.3,
 	vx = 10, vy = 10,
 	sprites = {}, bounding_rad = 15,
 	id = 5, type = 'sp', collided = false
@@ -39,7 +40,7 @@ function SpeedUp:_init(x, y, v)
 end
 
 function SpeedUp:draw()
-	Object.draw(self,255,0,255)
+	Object.draw(self,255,255,255)
 end
 
 return SpeedUp
