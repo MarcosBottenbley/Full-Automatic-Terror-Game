@@ -15,7 +15,7 @@ State = require("State")
 local Settings = {name = "Volume"}
 local categories = {"audio", "video", "controls", 
 {"main"}, 
-{"parallax", "brightness", "resolution", "full screen"}, 
+{"parallax"}, 
 {"rebind"}}
 
 local selector = 1
@@ -31,9 +31,10 @@ local vselector = 1
 
 local help = "Use Up and Down Arrow Keys to Adjust Volume\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 Settings.__index = Settings
-local help2 = "Use Up and Down Arrow Keys to Adjust Video Setting\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Enter to Select, Use Escape to Return to the Menu"
+local help2 = "Use Up and Down Arrow Keys to Adjust Parallax Setting\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 local help3 = "Use Enter to Rebind Controls\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 local i = 50;
+local x = 5;
 local max = "MAX"
 local min = "MIN"
 
@@ -82,6 +83,17 @@ function Settings:update(dt)
 		end
 		love.audio.setVolume((i*2)/100)
 	end
+
+	--- if love.keyboard.isDown('up') and selector == 2 then
+	--- 	if (x < 10) then
+	--- 		x = x + 1
+	--- 	end
+	--- elseif love.keyboard.isDown('down') and selector == 2 then
+	--- 	if (x > 1) then
+	--- 		x = x - 1
+	--- 	end
+	--- end
+
 end
 
 function Settings:draw()
@@ -136,6 +148,25 @@ function Settings:draw()
 		end
 	end
 
+	if selector == 2 then
+		if x == 1 then
+			love.graphics.print(
+				min .. " parallax",
+				250, 350
+			)
+		elseif x == 10 then
+			love.graphics.print(
+				max .. " parallax",
+				250, 350
+			)
+		else
+			love.graphics.print(
+				"parallax: " .. x,
+				250, 350
+			)
+		end
+	end
+
 	love.graphics.setFont(self.font2)
 	love.graphics.setColor(self:fadein())
 	
@@ -180,25 +211,15 @@ function Settings:keyreleased(key)
 		vselector = 1
 	end
 
-	if key == 'down' and selector == 2 then
-		if vselector == 4 then
-			vselector = 1
-		else
-			vselector = vselector + 1
-		end
-		selected:play()
+	if key == 'down' and selector == 2 and x > 1 then
+		x = x - 1
 	end
 
-	if key == 'up' and selector == 2 then
-		if vselector == 1 then
-			vselector = 4
-		else
-			vselector = vselector - 1
-		end
-		selected:play()
+	if key == 'up' and selector == 2 and x < 10 then
+		x = x + 1
 	end
 
-	if key == 'return' and selector ~= 1 then
+	if key == 'return' and selector == 3 then
 		choose:play()
 	end
 

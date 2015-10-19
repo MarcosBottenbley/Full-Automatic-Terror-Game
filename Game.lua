@@ -58,6 +58,7 @@ function Game:load(arg)
 	Repair = require("Repair")
 	SpeedUp = require("SpeedUp")
 	Missile = require("Missile")
+	Wormhole = require("Wormhole")
 	ScreenTable = require("ScreenTable")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
