@@ -53,7 +53,7 @@ function Player:_init(x, y, v)
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
 
-	self.validCollisions = {1,6,5}
+	self.validCollisions = {1,6,5,7}
 end
 
 function Player:load()
@@ -331,11 +331,13 @@ function Player:getFlashTimer()
 end
 
 function Player:collide(obj)
+	-- enemy
 	if obj:getID() == 1 or obj:getID() == 6 then
 		self:hit()
 		if not self:alive() then
 			self.dead = true
 		end
+	-- powerup
 	elseif obj:getID() == 5 then
 		if obj:getType() == 'ds' then
 			self.double = true
@@ -344,6 +346,10 @@ function Player:collide(obj)
 		elseif obj:getType() == 'sp' then
 			self.max_vel = self.max_vel + 100
 		end
+	-- wormhole
+	elseif obj:getID() == 7 then
+		self.x, self.y = obj:teleport()
+		-- love.timer.sleep(0.2)
 	end
 end
 

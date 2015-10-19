@@ -129,9 +129,17 @@ function Game:start()
 			table.insert(wormholes, objects[i])
 		end
 	end
+
+	for i = 1, table.getn(wormholes) do
+		-- print(wormholes[i]:getY())
+	end
 	-- give wormholes teleports
 	for i = 1, table.getn(wormholes) do
-		wormholes[i]:setTeleport(wormholes[(i + 1) % table.getn(wormholes)])
+		local worm = wormholes[(i + 1) % table.getn(wormholes) + 1]
+		wormholes[i]:setTeleport(worm:getX(), worm:getY())
+		print("i: " .. i .. " "
+					.. wormholes[i]:getX() .. " " .. wormholes[i]:getY() .. " "
+					.. worm:getX() .. " " .. worm:getY())
 	end
 
 	enemy_count = 9

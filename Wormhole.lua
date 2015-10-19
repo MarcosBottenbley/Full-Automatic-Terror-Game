@@ -13,11 +13,12 @@
 Object = require("Object")
 
 local Wormhole = {
-	width = 80, height = 80,
+	width = 40, height = 40,
 	vx = 20, vy = 20,
 	xset = 0, yset = 0,
-	bounding_rad = 40,
+	bounding_rad = 80,
 	id = 7, collided = false,
+	tele_x = 0, tele_y = 0
 }
 
 Wormhole.__index = Wormhole
@@ -40,6 +41,8 @@ function Wormhole:_init(x, y)
 	self.collided = false
 	self.xset = xset
 	self.yset = yset
+	self.tele_x = 0
+	self.tele_y = 0
 	Object._init(self, x, y,
 		self.img,
 		self.width,
@@ -49,7 +52,6 @@ function Wormhole:_init(x, y)
 		self.delay)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
-
 	self.validCollisions = {2}
 end
 
@@ -61,14 +63,13 @@ function Wormhole:update(dt, swidth, sheight)
 	Object.update(self, dt)
 end
 
-function Wormhole:setTeleport(wormhole)
-	self.tele = wormhole
+function Wormhole:setTeleport(tx, ty)
+	self.tele_x = tx
+	self.tele_y = ty
 end
 
 function Wormhole:teleport()
-	local x = self.tele:getX()
-	local y = self.tele:getY()
-	return x, y
+	return self.tele_x, self.tele_y
 end
 
 function Wormhole:setPosition(x, y)
@@ -93,7 +94,7 @@ function Wormhole:getValid(...)
 	return table
 end
 
-function Wormhole:onCollision()
+function Wormhole:collide()
 	-- if it's the player, teleport the player
 	-- player.setPosition(self:teleport())
 end
