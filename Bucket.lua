@@ -94,12 +94,25 @@ function Bucket:update(dt)
 		for j = i + 1, length do
 			if self:valid(self.objects[i], self.objects[j]) then
 				if self:touching(self.objects[i], self.objects[j]) then
+					self.objects[i]:collision(self.objects[j])
+					self.objects[j]:collision(self.objects[i])
 
+					if self.objects[i]:isDead() then
+						self:dead(self.objects[i])
+					end
+
+					if self.objects[j]:isDead() then
+						self:dead(self.objects[j])
+					end
 				end
 			end
 		end
 	end
 	--self:remove()
+end
+
+function Bucket:dead(obj)
+
 end
 
 function Bucket:valid(obj1, obj2)
