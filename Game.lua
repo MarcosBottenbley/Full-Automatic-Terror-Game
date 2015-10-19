@@ -219,6 +219,11 @@ function Game:update(dt)
 		if o:getID() == 1 and o:getType() == 'f' then
 			o:shoot(dt,playerx,playery)
 		end
+		
+		if o:isDead() then
+			print("REMOVING OBJECT " .. x)
+			table.remove(objects, x)
+		end
 
 		x = x + 1
 	end

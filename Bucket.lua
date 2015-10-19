@@ -94,18 +94,16 @@ function Bucket:update(dt)
 		for j = i + 1, length do
 			if self:valid(self.objects[i], self.objects[j]) then
 				if self:touching(self.objects[i], self.objects[j]) then
-					self.objects[i]:collision(self.objects[j])
-					self.objects[j]:collision(self.objects[i])
-
-					if self.objects[i]:isDead() then
-						table.remove(self.objects,i)
-					end
-
-					if self.objects[j]:isDead() then
-						table.remove(self.objects,j)
-					end
+					self.objects[i]:collide(self.objects[j])
+					self.objects[j]:collide(self.objects[i])
 				end
 			end
+		end
+	end
+	
+	for i=1, length do
+		if self.objects[(length + 1) - i]:isDead() then
+			table.remove(self.objects,(length + 1) - i)
 		end
 	end
 	--self:remove()

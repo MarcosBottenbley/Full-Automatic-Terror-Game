@@ -142,4 +142,10 @@ function Enemy:distanceFrom(x, y)
 	return math.sqrt((x - self.x)^2 + (y - self.y)^2)
 end
 
+function Enemy:collide(obj)
+	print("DESTROYED")
+	self.dead = true
+	self.validCollisions = {}
+end
+
 return Enemy

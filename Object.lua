@@ -161,16 +161,12 @@ function Object:getValid(...)
 	return self.validCollisions
 end
 
-function Object:onCollision(...)
+function Object:collide(obj)
 	
 end
 
-function Object:onDeath(...)
-
-end
-
-function Object:isDead(...)
-	return dead
+function Object:isDead()
+	return self.dead
 end
 
 return Object

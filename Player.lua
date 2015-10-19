@@ -23,7 +23,7 @@ local Player = {
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 5, bomb = 3, invul = false,
+	health = 50, bomb = 3, invul = false,
 	d_timer = 0, damaged = false,
 	i_timer = 0, missile = false,
 	bomb_flash = false, flash_timer = .6
@@ -328,6 +328,24 @@ end
 
 function Player:getFlashTimer()
 	return self.flash_timer
+end
+
+function Player:collide(obj)
+	if obj:getID() == 1 or obj:getID() == 6 then
+		print("HIT")
+		self:hit()
+		if not self:alive() then
+			self.dead = true
+		end
+	elseif obj:getID() == 5 then
+		if obj:getType() == 'ds' then
+			self.double = true
+		elseif obj:getType() == 'r' then
+			self.health = self.health + 2
+		elseif obj:getType() == 'sp' then
+			self.max_vel = self.max_vel + 100
+		end
+	end
 end
 
 return Player
