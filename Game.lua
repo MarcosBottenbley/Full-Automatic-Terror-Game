@@ -149,7 +149,6 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	-- table.insert(objects, g)
 	table.insert(objects, SunBoss(500, 500))
 
 	camera = Camera(
@@ -248,105 +247,6 @@ function Game:update(dt)
 		x = x + 1
 	end
 
-	--[[
-	local length = table.getn(objects)
-	for i=1, length - 1 do
-		for j = i + 1, length do
-			if objects[i]:getID() ~= objects[j]:getID() and objects[i].collided == false and objects[j].collided == false then
-				if self:valid(objects[i], objects[j]) then
-					if self:touching(objects[i], objects[j]) then
-						-- love.timer.sleep(0.08)
-						-- objects collided
-						objects[i].collided = true
-						objects[j].collided = true
-						-- set to explode
-						objects[i].current_state = 2
-						objects[i].current_frame = 1
-						objects[j].current_state = 2
-						objects[j].current_frame = 1
-						-- begin screen shake
-						shake = true
-					end
-				end
-				--terrible collision code for stuff that doesn't explode
-				if objects[i]:getID() ~= 4 and objects[j]:getID() ~= 4 then
-					if self:touching(objects[i], objects[j]) then
-						--collision between player and powerup
-						if objects[i]:getID() == 2 and objects[j]:getID() == 5 then
-							--checks for type of powerup to determine effects
-							if objects[j]:getType() == 'ds' then
-								objects[i].double = true
-							elseif objects[j]:getType() == 'r' then
-								objects[i].health = objects[i].health + 2
-							elseif objects[j]:getType() == 'sp' then
-								objects[i].max_vel = objects[i].max_vel + 100
-							end
-							objects[j].collided = true
-						elseif objects[i]:getID() == 5 and objects[j]:getID() == 2 then
-							--checks for type of powerup to determine effects
-							if objects[i]:getType() == 'ds' then
-								objects[j].double = true
-							elseif objects[i]:getType() == 'r' then
-								objects[j].health = objects[j].health + 2
-							elseif objects[i]:getType() == 'sp' then
-								objects[j].max_vel = objects[j].max_vel + 100
-							end
-							objects[i].collided = true
-						end
-						--collision between boss and player bullet
-						if objects[i]:getID() == 3 and objects[j]:getID() == 1 and
-						objects[j]:getType() == 'b' then
-							objects[i].collided = true
-							objects[j]:hit()
-						elseif objects[i]:getID() == 1 and objects[j]:getID() == 3 and
-						objects[i]:getType() == 'b'  then
-							objects[j].collided = true
-							objects[i]:hit()
-						end
-					end
-				end
-			end
-		end
-	end
-
-	--check for when to end explosion animation and remove object.
-	--For enemies/player, this starts a .58 second timer so the
-	--explosion animation will play, but for bullet/enemybullet/powerup/boss (temp)
-	--the object will immediately be removed
-	for i = 0, length - 1 do
-		if objects[length - i].collided then
-			--player collision won't kill player unless health is at 1
-			if objects[length - i]:getID() == 2 and objects[length - i]:alive() then
-				objects[length - i]:hit()
-				if objects[length - i]:alive() then
-					objects[length - i].current_state = 1
-					objects[length - i].collided = false
-				else
-					objects[length - i].current_state = 2
-					objects[length - i].collided = true
-				end
-			-- remove objects that collided and end shake
-			elseif objects[length - i].timer > .58 then
-				table.remove(objects, length - i)
-				score = score + 200
-				enemy_count = enemy_count - 1
-				-- end the screen shake
-				shake = false
-			elseif objects[length - i]:getID() == 3  or objects[length - i]:getID() == 5 or
-			(objects[length - i]:getID() == 1 and objects[length - i]:getType() == 'b') or
-			objects[length - i]:getID() == 6 then
-				table.remove(objects, length - i)
-			else
-				objects[length - i].timer = objects[length - i].timer + dt
-				if objects[length - i]:getID() == 2 then
-					objects[length - i].max_vel = 0--objects[length - i].max_vel / 1.1
-				end
-				objects[length - i].vel = 0--objects[length - i].vel / 1.1
-			end
-		end
-	end
-	--]]
-
 	--checks for win/lose states
 	length = table.getn(objects)
 	enemy_gone = true
@@ -420,32 +320,7 @@ function Game:draw(dt)
 
 	for _, o in ipairs(objects) do
 		o:draw()
-
-		if o:getID() == 2 or o:getID() == 1 or o:getID() == 3 then
-			local t = o:getHitBoxes()
-			for _, h in ipairs(t) do
-				love.graphics.setColor(255, 0, 0, 255)
-				love.graphics.circle("line", h[1], h[2], h[3], 100)
-				love.graphics.setColor(255, 255, 255, 255)
-			end
-		end
-
-		--wrap around
-		--[[if o:getID() == 2 then
-			if o:getX() < width/2 then
-				o:setX(bg_width - width/2 - 1)
-			end
-			if o:getY() < height/2 then
-				o:setY(bg_height - height/2 - 1)
-			end
-			if o:getX() > bg_width - width/2 then
-				o:setX(width/2 + 1)
-			end
-			if o:getY() > bg_height - height/2 then
-				o:setY(height/2 + 1)
-			end
-		end--]]
-
+		self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
@@ -490,7 +365,15 @@ function Game:draw(dt)
 		love.graphics.setColor(255, 255, 255, alpha)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
+end
 
+function Game:drawHitboxes(obj)
+	local t = o:getHitBoxes()
+	for _, h in ipairs(t) do
+		love.graphics.setColor(255, 0, 0, 255)
+		love.graphics.circle("line", h[1], h[2], h[3], 100)
+		love.graphics.setColor(255, 255, 255, 255)
+	end
 end
 
 function Game:keyreleased(key)
@@ -503,6 +386,7 @@ function Game:keyreleased(key)
 end
 
 function Game:keypressed(key)
+	--body
 end
 
 function Game:touching(obj1, obj2)
