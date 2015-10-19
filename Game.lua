@@ -33,6 +33,8 @@ local waiting = false
 local enemy_gone = false
 local player_gone = false
 
+local wormholes = {}
+
 Game.__index = Game
 
 setmetatable(Game, {
@@ -100,7 +102,6 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
-	local wormholes = {}
 end
 
 function Game:start()
@@ -131,7 +132,7 @@ function Game:start()
 	-- give wormholes teleports
 	for i = 1, table.getn(wormholes) do
 		wormholes[i]:setTeleport(wormholes[(i + 1) % table.getn(wormholes)])
-	end	
+	end
 
 	enemy_count = 9
 	score = 0
@@ -231,7 +232,7 @@ function Game:update(dt)
 		if o:getID() == 1 and o:getType() == 'f' then
 			o:shoot(dt,playerx,playery)
 		end
-		
+
 		if o:isDead() then
 			print("REMOVING OBJECT " .. x)
 			table.remove(objects, x)
