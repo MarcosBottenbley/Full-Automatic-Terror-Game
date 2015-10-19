@@ -149,8 +149,6 @@ function Game:start()
 	enemy_gone = false
 	player_gone = false
 
-	table.insert(objects, SunBoss(500, 500))
-
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
 			bg_width, bg_height
@@ -260,8 +258,8 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		--time = 0
-		--self:win()
+		time = 0
+		self:win()
 	elseif player_gone then
 		time = 0
 		self:lose()
