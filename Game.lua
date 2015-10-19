@@ -231,9 +231,8 @@ function Game:update(dt)
 
 		o:update(dt, bg_width, bg_height, playerx, playery)
 
-		if o:getID() == 3 and
-			o:exited_map(bg_width + player:getWidth(), bg_height + player:getHeight()) then
-			table.remove(objects, x)
+		if o:getID() == 3 or o:getID() == 6 then
+			o:exited_map(bg_width + player:getWidth(), bg_height + player:getHeight())
 		end
 
 		if o:getID() == 1 and o:getType() == 'f' then

@@ -76,13 +76,12 @@ function Bullet:draw()
 	Object.draw(self, 255, 255, 255, math.pi/2 - self.angle)
 end
 
---- handles when a bullet exits the map
-
+-- handles when a bullet exits the map
 function Bullet:exited_map(width, height)
 	local y_pos = self.y + self.height
 	local x_pos = self.x + self.height
 	if y_pos < 0 or x_pos < 0 or y_pos > height or x_pos > width then
-		return true
+		self.dead = true
 	end
 end
 
