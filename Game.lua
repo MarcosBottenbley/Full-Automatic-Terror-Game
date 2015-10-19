@@ -368,11 +368,13 @@ function Game:draw(dt)
 end
 
 function Game:drawHitboxes(obj)
-	local t = o:getHitBoxes()
-	for _, h in ipairs(t) do
-		love.graphics.setColor(255, 0, 0, 255)
-		love.graphics.circle("line", h[1], h[2], h[3], 100)
-		love.graphics.setColor(255, 255, 255, 255)
+	local t = obj:getHitBoxes()
+	if obj:getID() ~= 4 then
+		for _, h in ipairs(t) do
+			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.circle("line", h[1], h[2], h[3], 100)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
 	end
 end
 
