@@ -17,6 +17,7 @@ local Object = {
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
 	id = 0, collided = false,
+	dead = false
 }
 Object.__index = Object
 
@@ -161,11 +162,15 @@ function Object:getValid(...)
 end
 
 function Object:onCollision(...)
-	-- body
+	
 end
 
 function Object:onDeath(...)
 
+end
+
+function Object:isDead(...)
+	return dead
 end
 
 return Object
