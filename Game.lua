@@ -100,6 +100,7 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
+	local wormholes = {}
 end
 
 function Game:start()
@@ -120,6 +121,17 @@ function Game:start()
 	for num, tuple in ipairs(create) do
 		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
 	end
+
+	-- set up wormholes
+	for i = 1, table.getn(objects) do
+		if objects[i]:getID() == 7 then
+			table.insert(wormholes, objects[i])
+		end
+	end
+	-- give wormholes teleports
+	for i = 1, table.getn(wormholes) do
+		wormholes[i]:setTeleport(wormholes[(i + 1) % table.getn(wormholes)])
+	end	
 
 	enemy_count = 9
 	score = 0
