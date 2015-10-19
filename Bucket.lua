@@ -98,21 +98,17 @@ function Bucket:update(dt)
 					self.objects[j]:collision(self.objects[i])
 
 					if self.objects[i]:isDead() then
-						self:dead(self.objects[i])
+						table.remove(self.objects,i)
 					end
 
 					if self.objects[j]:isDead() then
-						self:dead(self.objects[j])
+						table.remove(self.objects,j)
 					end
 				end
 			end
 		end
 	end
 	--self:remove()
-end
-
-function Bucket:dead(obj)
-
 end
 
 function Bucket:valid(obj1, obj2)
