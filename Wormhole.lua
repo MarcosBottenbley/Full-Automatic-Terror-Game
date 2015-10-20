@@ -13,10 +13,13 @@
 Object = require("Object")
 
 local Wormhole = {
-	width = 40, height = 40,
+	img = "gfx/wormhole.png",
+	frames = 9, states = 1,
+	delay = 0.06,
+	width = 80, height = 80,
 	vx = 20, vy = 20,
 	xset = 0, yset = 0,
-	bounding_rad = 80,
+	bounding_rad = 30,
 	id = 7, collided = false,
 	tele_x = 0, tele_y = 0
 }
@@ -55,13 +58,13 @@ function Wormhole:_init(x, y)
 	self.validCollisions = {2}
 end
 
-function Wormhole:draw()
-	Object.draw(self, 255, 255, 255)
-end
-
-function Wormhole:update(dt, swidth, sheight)
-	Object.update(self, dt)
-end
+-- function Wormhole:draw()
+--  	Object.draw(self, 255, 255, 255)
+-- end
+--
+-- function Wormhole:update(dt, swidth, sheight)
+-- 	Object.update(self, dt)
+-- end
 
 function Wormhole:setTeleport(tx, ty)
 	self.tele_x = tx
