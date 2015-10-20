@@ -12,6 +12,8 @@
 
 Enemy = require("Enemy")
 
+local time = 0
+
 local SunBoss = {
 	img = "gfx/sun_boss.png",
 	width = 150, height = 150,
@@ -45,6 +47,7 @@ end
 
 function SunBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
+	time = time + dt
 	
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
@@ -56,20 +59,25 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 	--print("PLAYER: " .. py .. " " .. px)
 	local angle_p = math.atan((py - self.y) / (px - self.x))
 
-	if self:distanceFrom(px, py) < 500 then
-		--move towards player (weird if statement because i don't
-		--totally understand the math)
-		if px - self.x > 0 then
-			self.x = self.x + self.vel * dt * math.cos(angle_p)
-			self.y = self.y + self.vel * dt * math.sin(angle_p)
-		else
-			self.x = self.x - self.vel * dt * math.cos(angle_p)
-			self.y = self.y - self.vel * dt * math.sin(angle_p)
+	if not self:alive() then
+		self.validCollisions = {}
+		if time > 3 then
+			self.collided = true
+			self.current_state = 2
+			self.current_frame = 1
 		end
-	end
-	
-	if self.health < 1 then
-		self.collided = true
+	else
+		if self:distanceFrom(px, py) < 500 then
+			--move towards player (weird if statement because i don't
+			--totally understand the math)
+			if px - self.x > 0 then
+				self.x = self.x + self.vel * dt * math.cos(angle_p)
+				self.y = self.y + self.vel * dt * math.sin(angle_p)
+			else
+				self.x = self.x - self.vel * dt * math.cos(angle_p)
+				self.y = self.y - self.vel * dt * math.sin(angle_p)
+			end
+		end
 	end
 	
 	--shots get faster as health gets lower
@@ -86,6 +94,8 @@ end
 function SunBoss:draw()
 	if self.damaged then
 		Object.draw(self,255,100,100)
+	elseif not self:alive() then
+	    Object.draw(self,255, 100, 100, self.angle)
 	else
 		Object.draw(self,255,255,255)
 	end
@@ -129,10 +139,7 @@ function SunBoss:collide(obj)
 	if obj:getID() == 3 then
 		self:hit()
 		if not self:alive() then
-			self.validCollisions = {}
-			self.collided = true
-			self.current_state = 2
-			self.current_frame = 1
+			time = 0
 		end
 	end
 end
