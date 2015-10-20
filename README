@@ -11,30 +11,55 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 6: Stepping up to Level One
+Assignment 7: Level Two Where are You?
 
-Problem 1: Level One
+List of Additions:
 
-This first complete level has been completed. Our game also has an opening 
-story that can be skipped by pressing the spacebar or any other key. 
-It flashes through the text upon starting the game. The player wins by 
-destroying the boss on the level. The player loses by running out of health. 
-The invincibility feature is also implemented by pressing the "i" key. 
-More destroyed enemies means higher scores. We decided not to screen wrap yet
-because this would become confusing to the player without a mini-map.
+- Player Bombs (And Flash Effect Using Layers)
+- Wormholes
+- Changeable Weapon
+- Seeker Missiles
+- Settings Menu
+- More Power Up Types (Speed Up, More Health in addition to Double Shot)
+- Enemy Boss Death Animation
+- Juice (Screen Shake)
+- Zoom in On Start
+- Spatial Hashing
+- New Enemy Type: The DualMaster, Fires Two Shots
+
+Problem 1: Level Two
+
+(see game)
 
 Problem 2: Technical, Artistic, and Game Play Progress
 
-Upon laughing the game and selecting the play option, the player sees the 
-story unfold over some text. This is skip-able, in case they have already 
-seen it. We have an invincibility feature that is activated by pressing "i" 
-and deactivated by pressing it again. The boss has been added, with sound and 
-visual effects when it is hit and a firing sequence in a circle around itself. 
-This is useful for destroying enemies for you. We updated our game over and win 
-screens to look more professional as well. The player has health now, as shown 
-in the top left corner of the screen. The player also has a sound effect when 
-they are hit. The enemies also do not deal damage once they are destroyed. 
-Spatial hashing was also implemented.
+First, the main menu has changed. Instead of brightness and volume 
+controls, they have been combined into a settings menu. Here, 
+audio, video, and control settings are changed from a single source.
+
+After choosing play and going through the opening story, the game 
+starts out with the camera panned out and then quickly zooms in to 
+the center of the map where the player is located. The player has 
+two new weapons to use to deal with the surrounding enemies. By 
+pressing 'b', the player can flash a devastating bomb that destroys 
+all non-boss enemies on the screen. However, the player starts out 
+with only three. The number remaining is reflected at the top of the 
+screen (the HUD, so to speak). By pressing '1', the player can switch 
+weapons, either to the laser blaster that fires in a straight line or 
+to the seeker charge that zeroes in on enemy units. Upon being hit by 
+an enemy, there is a screen shaking animation. 
+
+In terms of gameplay, some new mechanics have been implemented. 
+Spatial hashing and buckets are used to make collision code simpler. 
+There are also new Power Ups located throughout the levels. The blue 
+orb is the old double shot, the purple square is a speed increase, 
+and the blue square is a health increase. A gimmick of level two is 
+the wormhole, which the player can enter to be teleported to another 
+wormhole. However, there is a cool down time before another teleport 
+can be used. Also unique to level two is a new enemy: the DualMaster. 
+With double the firepower, it poses a new threat to the player. The 
+Sun Boss also has an explosion animation upon being destroyed, making 
+the transition between levels more fluid.
 
 
 
