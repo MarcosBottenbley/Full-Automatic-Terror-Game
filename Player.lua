@@ -12,7 +12,7 @@
 
 Object = require("Object")
 math.randomseed(os.time())
-local time = 0
+local f_timer = 0
 local firable = false
 
 local Player = {
@@ -69,11 +69,10 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-	time = time + dt
+	f_timer = f_timer + dt
 
-	if time >= self.bulletSpeed then
+	if f_timer >= self.bulletSpeed then
 		firable = true
-		time = 0
 	else
 	    firable = false
 	end
@@ -108,13 +107,15 @@ function Player:update(dt, swidth, sheight)
 	--turn left or right
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 		if love.keyboard.isDown('x') then
-			self.x = self.x - self.vel * dt
+			self.y = self.y - math.sin(self.angle1 + math.pi/2)*self.max_vel*dt
+			self.x = self.x + math.cos(self.angle1 + math.pi/2)*self.max_vel*dt
 		else
 			self:turn(1)
 		end
 	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 		if love.keyboard.isDown('x') then
-			self.x = self.x + self.vel * dt
+			self.y = self.y - math.sin(self.angle1 - math.pi/2)*self.max_vel*dt
+			self.x = self.x + math.cos(self.angle1 - math.pi/2)*self.max_vel*dt
 		else
 			self:turn(-1)
 		end
@@ -225,6 +226,7 @@ function Player:turn(direction)
 end
 
 function Player:fire()
+	f_timer = 0
 	pew:play()
 	if self.missile then
 		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
