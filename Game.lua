@@ -35,6 +35,9 @@ local player_gone = false
 
 local wormholes = {}
 
+local hordeMode = false
+local h_timer = 0
+
 Game.__index = Game
 
 setmetatable(Game, {
@@ -109,6 +112,10 @@ function Game:start()
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
+	
+	if level == "level/level2" then 
+		hordeMode = true
+	end
 
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(level) do
@@ -180,8 +187,14 @@ end
 
 function Game:win()
 	score = score + 3000
-	self:scoreCheck()
-	switchTo(Win)
+	-- if levelNum == 1 then
+		-- levelNum
+		-- self:reload()
+		-- fuck
+	-- if levelNum == 2 then
+		self:scoreCheck()
+		switchTo(Win)
+	--end
 end
 
 function Game:scoreCheck()
@@ -246,6 +259,9 @@ function Game:update(dt)
 	end
 
 	--checks for win/lose states
+	if hordeMode then
+		self:hordeCheck()
+	end
 	length = table.getn(objects)
 	enemy_gone = true
 	player_gone = true
@@ -344,7 +360,7 @@ function Game:draw(dt)
 
 	love.graphics.print(
 		"BOMBS: " .. player:getBomb(),
-		250, 10
+		10, 40
 	)
 
 	love.graphics.printf(
@@ -353,6 +369,10 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
+	
+	if hordeMode then
+		self:hordeDraw()
+	end
 
 	fps = love.timer.getFPS()
 	love.graphics.print(tostring(fps), 700, 10)
@@ -462,6 +482,21 @@ function Game:make(thing, x, y, z, w)
 	end
 
 	table.insert(objects, obj)
+end
+
+function hordeCheck(dt)
+	h_timer = h_timer + dt
+	if h_timer > 120 then
+		self:win()
+	end
+end
+
+function hordeDraw()
+	local timeLeft = math.floor(120 - h_timer)
+	love.graphics.print(
+		"TIME: " .. timeLeft,
+		250, 10
+	)
 end
 
 return Game

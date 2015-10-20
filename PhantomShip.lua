@@ -45,7 +45,7 @@ end
 function PhantomShip:update(dt, swidth, sheight)
 	Enemy.update(self, dt, swidth, sheight)
 
-	self.y = self.y - self.vel*dt
+	self.y = self.y + self.vel*dt
 	if self.x >= bg_width then
 		self.x = 0
 	end

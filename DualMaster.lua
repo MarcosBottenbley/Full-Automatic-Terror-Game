@@ -55,7 +55,6 @@ function DualMaster:shoot(dt,px,py)
 	time = time + dt
 	if (py < self.y + self.height and py > self.y - self.height) and 
 	(px > self.x - 400 or px < self.x + 400) then
-		print("i have you now")
 		if time >= self.fireRate then
 			local b1 = EnemyBullet(self.x + 40, self.y, 600, 0)
 			local b2 = EnemyBullet(self.x - 40, self.y, 600, math.pi)
