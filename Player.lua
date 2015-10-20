@@ -262,7 +262,7 @@ function Player:useBomb()
 			(o:getY() > self.y - height/2 or o:getY() < self.y + height/2) and
 			(o:getID() == 1) then
 				if o:getType() ~= 'b' then
-				table.remove(objects, length - i)
+				o:setDead()
 				end
 			end
 			self.bomb_flash = true
