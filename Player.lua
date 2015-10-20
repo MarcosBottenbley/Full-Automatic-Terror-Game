@@ -178,7 +178,7 @@ function Player:keyreleased(key)
 		self:fire()
 	end
 
-	if key == 'left' or key == 'right' then
+	if key == 'left' or key == 'right' or key == 'a' or key == 'd' then
 		self.ang_vel = 0
 	end
 
