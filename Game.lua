@@ -18,7 +18,7 @@ local help = "Press Esc to return to menu (I for invul)"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local level = "level/level1"
+local level = "level/level2"
 local create = {}
 local player
 local bgm1
@@ -258,8 +258,8 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		time = 0
-		self:win()
+		--- time = 0
+		--- self:win()
 	elseif player_gone then
 		time = 0
 		self:lose()
