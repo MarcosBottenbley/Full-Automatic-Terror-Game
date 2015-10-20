@@ -15,17 +15,17 @@ EnemyBullet = require("EnemyBullet")
 
 local time = 0
 
-local PhantomShip = {
-	img = "gfx/phantom_ship.png",
-	width = 40, height = 52,
-	frames = 5, states = 2,
+local DualMaster = {
+	img = "gfx/enemy_3.png",
+	width = 44, height = 60,
+	frames = 3, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'f',
-	vel = 0
+	vel = 60, fireRate = 5
 }
-PhantomShip.__index = PhantomShip
+DualMaster.__index = DualMaster
 
-setmetatable(PhantomShip, {
+setmetatable(DualMaster, {
 	__index = Enemy,
 	__call = function (cls, ... )
 		local self = setmetatable({}, cls)
@@ -37,40 +37,40 @@ setmetatable(PhantomShip, {
 --- initializes phantom ships with random positions but consistent
 --- movement speed
 
-function PhantomShip:_init()
-	self.vel = math.random(40,80)
+function DualMaster:_init()
+	--self.vel = math.random(40,80)
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
-function PhantomShip:update(dt, swidth, sheight)
-	Object.update(self, dt)
+function DualMaster:update(dt, swidth, sheight)
+	Enemy.update(self, dt, swidth, sheight)
 
-	self.y = self.y + self.vel*dt
-	if self.x >= bg_width then
-		self.x = 0
-	end
-	if self.y >= bg_height then
-		self.y = 0
+	self.y = self.y - self.vel*dt
+	if self.y < 0 then
+		self.y = bg_height
 	end
 end
 
-function PhantomShip:shoot(dt,px,py)
+function DualMaster:shoot(dt,px,py)
 	time = time + dt
-	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
-
-		if time >= (love.timer.getFPS()/4) then
-			local b = EnemyBullet(self.x, self.y+40, 600, math.pi)
-			table.insert(objects, b)
+	if (py < self.y + self.height and py > self.y - self.height) and 
+	(px > self.x - 400 or px < self.x + 400) then
+		print("i have you now")
+		if time >= self.fireRate then
+			local b1 = EnemyBullet(self.x + 40, self.y, 600, 0)
+			local b2 = EnemyBullet(self.x - 40, self.y, 600, math.pi)
+			table.insert(objects, b1)
+			table.insert(objects, b2)
 			time = 0
 		end
 	end
 end
 
-function PhantomShip:getType()
+function DualMaster:getType()
 	return self.type
 end
 
-function PhantomShip:getHitBoxes( ... )
+function DualMaster:getHitBoxes( ... )
 	local hb = {}
 	local hb_1 = {self.x, self.y, self.bounding_rad}
 	table.insert(hb, hb_1)
@@ -78,4 +78,4 @@ function PhantomShip:getHitBoxes( ... )
 	return hb
 end
 
-return PhantomShip
+return DualMaster

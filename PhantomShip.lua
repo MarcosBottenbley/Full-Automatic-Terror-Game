@@ -21,7 +21,7 @@ local PhantomShip = {
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'f',
-	vel = 0
+	vel = 0, fireRate = 4
 }
 PhantomShip.__index = PhantomShip
 
@@ -45,7 +45,7 @@ end
 function PhantomShip:update(dt, swidth, sheight)
 	Enemy.update(self, dt, swidth, sheight)
 
-	self.y = self.y + self.vel*dt
+	self.y = self.y - self.vel*dt
 	if self.x >= bg_width then
 		self.x = 0
 	end
@@ -58,7 +58,7 @@ function PhantomShip:shoot(dt,px,py)
 	time = time + dt
 	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
 
-		if time >= (love.timer.getFPS()/4) then
+		if time >= self.fireRate then
 			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
 			table.insert(objects, b)
 			time = 0

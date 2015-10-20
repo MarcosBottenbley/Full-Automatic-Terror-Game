@@ -54,6 +54,7 @@ function Game:load(arg)
 	GlowBorg = require("GlowBorg")
 	Bullet = require("Bullet")
 	PhantomShip = require("PhantomShip")
+	DualMaster = require("DualMaster")
 	SunBoss = require("SunBoss")
 	Spawn = require("Spawn")
 	DoubleShot = require("DoubleShot")
@@ -438,6 +439,9 @@ function Game:make(thing, x, y, z, w)
 		obj:setPosition(x, y)
 	elseif thing == "ops" then
 		obj = PhantomShip()
+		obj:setPosition(x, y)
+	elseif thing == "odm" then
+		obj = DualMaster()
 		obj:setPosition(x, y)
 	elseif thing == "osb" then
 		obj = SunBoss(x, y)
