@@ -12,6 +12,8 @@
 
 Object = require("Object")
 math.randomseed(os.time())
+local time = 0
+local firable = false
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -27,7 +29,7 @@ local Player = {
 	d_timer = 0, damaged = false,
 	i_timer = 0, missile = false,
 	bomb_flash = false, flash_timer = .6,
-	teleporttimer = 0
+	teleporttimer = 0, bulletSpeed = .18
 }
 Player.__index = Player
 
@@ -67,6 +69,14 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
+	time = time + dt
+
+	if time >= self.bulletSpeed then
+		firable = true
+		time = 0
+	else
+	    firable = false
+	end
 
 	self.teleporttimer = self.teleporttimer + dt
 
@@ -97,9 +107,17 @@ function Player:update(dt, swidth, sheight)
 
 	--turn left or right
 	if love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-		self:turn(1)
+		if love.keyboard.isDown('x') then
+			self.x = self.x - self.vel * dt
+		else
+			self:turn(1)
+		end
 	elseif love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-		self:turn(-1)
+		if love.keyboard.isDown('x') then
+			self.x = self.x + self.vel * dt
+		else
+			self:turn(-1)
+		end
 	end
 	self.angle1 = self.angle1 + self.ang_vel * dt
 
@@ -158,6 +176,12 @@ function Player:update(dt, swidth, sheight)
 	self.hb_2[2] = self.y + 10.5 * math.sin(self.angle1)
 
 	self.flash_timer = self.flash_timer + dt
+
+	if love.keyboard.isDown('z') then
+		if firable then
+			self:fire()
+		end
+	end
 end
 
 function Player:draw()
@@ -174,10 +198,6 @@ function Player:draw()
 end
 
 function Player:keyreleased(key)
-	if key == 'z' then
-		self:fire()
-	end
-
 	if key == 'left' or key == 'right' or key == 'a' or key == 'd' then
 		self.ang_vel = 0
 	end
