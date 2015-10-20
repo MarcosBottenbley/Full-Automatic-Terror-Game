@@ -25,7 +25,6 @@ local player
 local bgm1
 local bgm2
 
-local shake = false
 local parallax = 10
 
 local timer = 0
@@ -312,7 +311,7 @@ function Game:draw(dt)
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
 
-	if shake then
+	if player:isDamaged() then
 		cx, cy = camera:shake()
 	else
 		cx, cy = camera:move()
