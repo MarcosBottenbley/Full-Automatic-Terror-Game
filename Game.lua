@@ -18,7 +18,8 @@ local help = "Press Esc to return to menu (I for invul)"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local level = "level/level1"
+local levelNum = 1
+local level
 local create = {}
 local player
 local bgm1
@@ -87,6 +88,8 @@ function Game:load(arg)
 
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
+	
+	level = "level/level" .. levelNum
 
 	--default background
 	bg_string = "gfx/large_bg.png"
@@ -187,14 +190,12 @@ end
 
 function Game:win()
 	score = score + 3000
-	-- if levelNum == 1 then
-		-- levelNum
-		-- self:reload()
-		-- fuck
-	-- if levelNum == 2 then
+	if levelNum == 1 then
+		self:switchTo(Game)
+	elseif levelNum == 2 then
 		self:scoreCheck()
 		switchTo(Win)
-	--end
+	end
 end
 
 function Game:scoreCheck()
@@ -252,6 +253,9 @@ function Game:update(dt)
 		end
 
 		if o:isDead() then
+			if o:getID() == 1 then
+				score = score + 200
+			end
 			table.remove(objects, x)
 		end
 
