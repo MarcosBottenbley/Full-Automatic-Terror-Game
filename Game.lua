@@ -449,6 +449,8 @@ function Game:make(thing, x, y, z, w)
 		obj = Spawn(x, y, z, w, 'g')
 	elseif thing == "sps" then
 		obj = Spawn(x, y, z, w, 'f')
+	elseif thing == "sdm" then
+		obj = Spawn(x, y, z, w, 'd')
 	elseif thing == "pwr" then
 		obj = DoubleShot(x, y, 0)
 	elseif thing == "rep" then

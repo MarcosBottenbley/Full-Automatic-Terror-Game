@@ -56,8 +56,12 @@ function Spawn:update(dt,x,y)
 			for i = 1, 5 do
 				if self.type == 'g' then
 					e = GlowBorg()
-				else
+				elseif self.type == 'f' then
 					e = PhantomShip()
+				elseif self.type == 'd' then
+					e = DualMaster()
+				else
+					e = GlowBorg()
 				end
 			local radial_pos = math.random(math.pi*2)
 			local spawnx = math.cos(radial_pos) * self.rad
