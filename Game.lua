@@ -274,8 +274,8 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		time = 0
-		self:win()
+		--- time = 0
+		--- self:win()
 	elseif player_gone then
 		time = 0
 		self:lose()

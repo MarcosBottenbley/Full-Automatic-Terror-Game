@@ -13,13 +13,17 @@ the objects' constructor takes less than four arguments, then fill the rest
 in as zero. Again, this is less than ideal and I'm working on it.
 The object codes currently are:
 pla = Player
-pwr = Powerup
+pwr = Powerup (double shot)
+rep = Health
+spd = Speed Up
 ogb = GlowBorg (object)
 ops = PhantomShip (object)
 osb = SunBoss (object)
 sgb = GlowBorg (spawner)
 sps = PhantomShip (spawner)
 wrm = Wormhole
+odm = DualMaster (object)
+
 
 
 Here's our "level zero" file for an example:

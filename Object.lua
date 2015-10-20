@@ -165,6 +165,10 @@ function Object:collide(obj)
 	
 end
 
+function Object:setDead()
+	self.dead = true
+end
+
 function Object:isDead()
 	return self.dead
 end
