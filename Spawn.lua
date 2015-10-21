@@ -80,12 +80,13 @@ function Spawn:update(dt,x,y)
 	end
 end
 
-function Spawn:draw()
-	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.circle("line", self.x, self.y, self.rad, 100)
-	love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
-	love.graphics.setColor(255, 255, 255, 255)
-end
+-- function Spawn:draw()
+	-- love.graphics.setColor(255, 0, 0, 255)
+	-- love.graphics.circle("line", self.x, self.y, self.rad, 100)
+	-- love.graphics.setColor(255, 0, 255, 255)
+	-- love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
+	-- love.graphics.setColor(255, 255, 255, 255)
+-- end
 
 function Spawn:calcDist()
   return math.sqrt((self.x - playerx)^2 + (self.y - playery)^2)
