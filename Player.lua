@@ -372,7 +372,7 @@ function Player:collide(obj)
 		end
 	-- wormhole
 	elseif obj:getID() == 7 then
-		if self.teleporttimer > 2 then
+		if self.teleporttimer > 1 then
 			self.teleporttimer = 0
 			self.x, self.y = obj:teleport()
 			teleport:play()
