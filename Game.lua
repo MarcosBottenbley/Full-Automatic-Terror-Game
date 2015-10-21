@@ -292,26 +292,6 @@ function Game:update(dt)
 	end
 end
 
-function Game:valid(obj1, obj2)
-	local valid = false
-
-	local id_one = obj1:getID()
-	local id_two = obj2:getID()
-
-	if id_one ~= 4 and id_two ~= 4 and id_one ~= 5 and id_two ~= 5 then
-		if (id_one == 2 and id_two ~= 3) or (id_two == 2 and id_one ~= 3) or id_one == 1 or id_two == 1 then
-			valid = true
-		end
-	end
-
-	--boss collision is handled elsewhere because we want it to have health
-	if (id_one == 1 and obj1:getType() == 'b') or (id_two == 1 and obj2:getType() == 'b') then
-		valid = false
-	end
-
-	return valid
-end
-
 function Game:draw(dt)
 
 	-- coordinates
@@ -384,8 +364,8 @@ function Game:draw(dt)
 		self:hordeDraw()
 	end
 
-	fps = love.timer.getFPS()
-	love.graphics.print(tostring(fps), 700, 10)
+	--fps = love.timer.getFPS()
+	--love.graphics.print(tostring(fps), 700, 10)
 
 	if player:flash() then
 		local t = player:getFlashTimer() + .6
@@ -424,41 +404,6 @@ end
 
 function Game:keypressed(key)
 	--body
-end
-
-function Game:touching(obj1, obj2)
-
-	local hb_1 = obj1:getHitBoxes()
-	local hb_2 = obj2:getHitBoxes()
-
-	local length1 = table.getn(hb_1)
-	local length2 = table.getn(hb_2)
-
-	if length1 >= length2 then
-		for i = 1, length1 do
-			for j = 1, length2 do
-				local x_dist = math.pow(hb_1[i][1]-hb_2[j][1],2)
-				local y_dist = math.pow(hb_1[i][2]-hb_2[j][2],2)
-				local d = math.sqrt(x_dist + y_dist)
-
-				if d < hb_1[i][3] + hb_2[j][3] then
-					return true
-				end
-			end
-		end
-	else
-		for i = 1, length2 do
-			for j = 1, length1 do
-				local x_dist = math.pow(hb_2[i][1]-hb_1[j][1],2)
-				local y_dist = math.pow(hb_2[i][2]-hb_1[j][2],2)
-				local d = math.sqrt(x_dist + y_dist)
-
-				if d < hb_2[i][3] + hb_1[j][3] then
-					return true
-				end
-			end
-		end
-	end
 end
 
 --creates specified object based on three letter code and up to
