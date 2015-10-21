@@ -23,6 +23,7 @@ sgb = GlowBorg (spawner)
 sps = PhantomShip (spawner)
 wrm = Wormhole
 odm = DualMaster (object)
+sdm = DualMaster (spawner)
 
 
 

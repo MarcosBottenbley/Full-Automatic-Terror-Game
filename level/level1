@@ -1,4 +1,4 @@
-BG:gfx/large_bg_2.png
+BG:gfx/large_bg.png
 pla(1000,1000,0,0)
 wrm(1200,1200,0,0)
 wrm(1200,1400,0,0)

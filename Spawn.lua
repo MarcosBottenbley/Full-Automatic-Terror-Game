@@ -21,7 +21,7 @@ local Spawn = {
   x = 10, y = 10,
   width = 0, height = 0,
   rad = 100, id = 4,
-  pl_rad = 100
+  pl_rad = 100, spawntimer = 0,
 }
 Spawn.__index = Spawn
 
@@ -40,7 +40,7 @@ function Spawn:_init(x,y,r,pr,types)
   self.rad = r
   self.pl_rad = pr
   self.type = types
-  self.spawned = false
+  --- self.spawned = false
 
   self.validCollisions = {-1}
 end
@@ -48,10 +48,13 @@ end
 function Spawn:update(dt,x,y)
 	playerx = x
 	playery = y
+	self.spawntimer = self.spawntimer + dt
 
 	dist = self:calcDist()
 
-	if self.spawned == false then
+	--- if self.spawned == false then
+	if self.spawntimer > 3 then
+		self.spawntimer = 0
 		if dist <= self.pl_rad then
 			for i = 1, 5 do
 				if self.type == 'g' then
@@ -70,7 +73,7 @@ function Spawn:update(dt,x,y)
 			e:setPosition(spawnx, spawny)
 				table.insert(objects, e)
 			end
-			self.spawned = true
+			--- self.spawned = true
 		end
 	end
 end
