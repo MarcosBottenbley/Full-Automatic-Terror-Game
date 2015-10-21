@@ -43,7 +43,8 @@ function Intro2:start()
 	self.lines = {
 		"You've escaped the first sector",
 		"Oh no some enemy robot fighter ships\n or something",
-		"You must survive for 2 minutes\nuntil you can warp out"
+		"You must survive for 2 minutes\nuntil you can warp out",
+		"So yeah"
 	}
 
 	time = 0

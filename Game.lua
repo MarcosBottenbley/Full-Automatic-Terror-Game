@@ -14,7 +14,7 @@ State = require("State")
 Camera = require("Camera")
 
 local Game = {}
-local help = "Press Esc to return to menu (I for invul)"
+local help = "Press Esc to return to menu (I for invul, P for skip)"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
