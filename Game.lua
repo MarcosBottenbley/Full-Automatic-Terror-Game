@@ -25,8 +25,6 @@ local player
 local bgm1
 local bgm2
 
-local parallax = 10
-
 local timer = 0
 local waiting = false
 
@@ -87,7 +85,7 @@ function Game:load(arg)
 
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
-	
+
 	level = "level/level" .. levelNum
 
 	--default background
@@ -114,8 +112,8 @@ function Game:start()
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
-	
-	if level == "level/level2" then 
+
+	if level == "level/level2" then
 		hordeMode = true
 	end
 
@@ -330,10 +328,10 @@ function Game:draw(dt)
 	love.graphics.draw(background, 0, 0)
 	--ST:draw()
 	-- parallax
-	love.graphics.translate(cx/parallax, cy/parallax)
+	love.graphics.translate(cx/(parallax + 1), cy/(parallax + 1))
 	love.graphics.draw(overlay, 0, 0)
 
-	love.graphics.translate(-cx/parallax, -cy/parallax)
+	love.graphics.translate(-cx/(parallax + 1), -cy/(parallax + 1))
 
 	for _, o in ipairs(objects) do
 		o:draw()
@@ -372,7 +370,7 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
-	
+
 	if hordeMode then
 		self:hordeDraw()
 	end

@@ -13,9 +13,9 @@
 State = require("State")
 
 local Settings = {name = "Volume"}
-local categories = {"audio", "video", "controls", 
-{"main"}, 
-{"parallax"}, 
+local categories = {"audio", "video", "controls",
+{"main"},
+{"parallax"},
 {"rebind"}}
 
 local selector = 1
@@ -33,10 +33,12 @@ local help = "Use Up and Down Arrow Keys to Adjust Volume\nUse Left and Right Ar
 Settings.__index = Settings
 local help2 = "Use Up and Down Arrow Keys to Adjust Parallax Setting\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
 local help3 = "Use Enter to Rebind Controls\nUse Left and Right Arrow Keys to Adjust General Selection\nUse Escape to Return to the Menu"
-local i = 50;
-local x = 5;
+local i = 50
+
 local max = "MAX"
 local min = "MIN"
+
+parallax = 5
 
 setmetatable(Settings, {
 	__index = State,
@@ -113,7 +115,7 @@ function Settings:draw()
 	end
 
 	-- print the contents
-		
+
 	for k = 1, table.getn(categories[selector + 3]) do
 		if k == vselector then
 			love.graphics.setColor(255, 0, 0, 255)
@@ -126,7 +128,7 @@ function Settings:draw()
 		-- reset if not red
 		love.graphics.setColor(255, 255, 255, 255)
 	end
-	
+
 	-- if we are on the volume tab, print the volume
 
 	if selector == 1 then
@@ -149,19 +151,19 @@ function Settings:draw()
 	end
 
 	if selector == 2 then
-		if x == 1 then
+		if parallax == 1 then
 			love.graphics.print(
 				min .. " parallax",
 				250, 350
 			)
-		elseif x == 10 then
+		elseif parallax == 10 then
 			love.graphics.print(
 				max .. " parallax",
 				250, 350
 			)
 		else
 			love.graphics.print(
-				"parallax: " .. x,
+				"parallax: " .. parallax,
 				250, 350
 			)
 		end
@@ -169,7 +171,7 @@ function Settings:draw()
 
 	love.graphics.setFont(self.font2)
 	love.graphics.setColor(self:fadein())
-	
+
 	if selector == 1 then
 		love.graphics.print(
 			help,
@@ -204,19 +206,19 @@ function Settings:keyreleased(key)
 	if key == 'left' then
 		if selector == 1 then
 			selector = 3
-		else 
+		else
 			selector = selector - 1
 		end
 		selected:play()
 		vselector = 1
 	end
 
-	if key == 'down' and selector == 2 and x > 1 then
-		x = x - 1
+	if key == 'down' and selector == 2 and parallax > 1 then
+		parallax = parallax - 1
 	end
 
-	if key == 'up' and selector == 2 and x < 10 then
-		x = x + 1
+	if key == 'up' and selector == 2 and parallax < 10 then
+		parallax = parallax + 1
 	end
 
 	if key == 'return' and selector == 3 then
