@@ -284,7 +284,8 @@ function Game:update(dt)
 			self:win()
 			time = 0
 		end
-	elseif player_gone then
+	end
+	if player_gone then
 		time = 0
 		levelNum = 1
 		hordeMode = false
