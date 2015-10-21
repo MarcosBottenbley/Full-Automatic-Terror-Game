@@ -35,6 +35,8 @@ local wormholes = {}
 local hordeMode = false
 local h_timer = 0
 
+local ended = false
+
 Game.__index = Game
 
 setmetatable(Game, {
@@ -99,8 +101,10 @@ function Game:start()
 	bgm1 = true
 	bgm2 = false
 
+	ended = false
+
 	level = "level/level" .. levelNum
-	print("" .. level)
+	--print("" .. level)
 	--default background
 	bg_string = "gfx/large_bg.png"
 	--looks for background filename in level file
@@ -186,6 +190,7 @@ function Game:lose()
 	self:scoreCheck()
 	levelNum = 1
 	hordeMode = false
+	ended = true
 	switchTo(GameOver)
 end
 
@@ -198,6 +203,7 @@ function Game:win()
 		self:scoreCheck()
 		levelNum = 1
 		hordeMode = false
+		ended = true
 		switchTo(Win)
 	end
 end
@@ -281,14 +287,14 @@ function Game:update(dt)
 		end
 	end
 
-	if enemy_gone then
+	if enemy_gone and not ended then
 		if not hordeMode then
 			self:win()
 			time = 0
 			h_timer = 0
 		end
 	end
-	if player_gone then
+	if player_gone and not ended then
 		time = 0
 		levelNum = 1
 		hordeMode = false

@@ -70,7 +70,7 @@ function Spawn:update(dt,x,y)
 				local spawnx = self.x + math.cos(radial_pos) * self.rad
 				local spawny = self.y + math.sin(radial_pos) * self.rad
 			
-				print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
+				--print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
 
 				e:setPosition(spawnx, spawny)
 
