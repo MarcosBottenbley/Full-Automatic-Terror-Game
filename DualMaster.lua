@@ -14,13 +14,13 @@ Enemy = require("Enemy")
 EnemyBullet = require("EnemyBullet")
 
 local DualMaster = {
-	img = "gfx/enemy_3.png",
-	width = 44, height = 60,
+	img = "gfx/enemy_3_t.png",
+	width = 60, height = 44,
 	frames = 3, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'd',
 	vel = 60, fireRate = 5, 
-	timer = 0
+	timer = 5
 }
 DualMaster.__index = DualMaster
 
@@ -51,17 +51,23 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	self.y = self.y - self.vel*dt
-	if self.y < 0 then
-		self.y = bg_height
+	--self.y = self.y + self.vel*dt
+	self.x = self.x + self.vel*dt
+	-- if self.y < 0 then
+		-- self.y = bg_height
+	-- end
+	if self.x > bg_width then
+		self.x = 0
 	end
 end
 
 function DualMaster:shoot(px,py)
 	if (py < self.y + self.height and py > self.y - self.height) and 
 	(px > self.x - 400 or px < self.x + 400) then
-		local b1 = EnemyBullet(self.x + 40, self.y, 600, 0)
-		local b2 = EnemyBullet(self.x - 40, self.y, 600, math.pi)
+		-- local b1 = EnemyBullet(self.x + 40, self.y, 600, 0)
+		-- local b2 = EnemyBullet(self.x - 40, self.y, 600, math.pi)
+		local b1 = EnemyBullet(self.x + 25, self.y + 10, 600, 0)
+		local b2 = EnemyBullet(self.x + 25, self.y - 10, 600, 0)
 		table.insert(objects, b1)
 		table.insert(objects, b2)
 		return true

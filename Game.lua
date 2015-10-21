@@ -98,7 +98,7 @@ function Game:start()
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
-	
+
 	level = "level/level" .. levelNum
 	print("" .. level)
 	--default background
@@ -112,8 +112,8 @@ function Game:start()
 	background = love.graphics.newImage(bg_string)
 	bg_width = background:getWidth()
 	bg_height = background:getHeight()
-	
-	if level == "level/level2" then 
+
+	if level == "level/level2" then
 		hordeMode = true
 	end
 
@@ -145,9 +145,6 @@ function Game:start()
 	for i = 1, table.getn(wormholes) do
 		local worm = wormholes[(i + 1) % table.getn(wormholes) + 1]
 		wormholes[i]:setTeleport(worm:getX(), worm:getY())
-		print("i: " .. i .. " "
-					.. wormholes[i]:getX() .. " " .. wormholes[i]:getY() .. " "
-					.. worm:getX() .. " " .. worm:getY())
 	end
 
 	enemy_count = 9
@@ -404,7 +401,7 @@ function Game:keyreleased(key)
 		h_timer = 0
 		switchTo(Menu)
 	end
-	
+
 	if key == 'p' then
 		time = 0
 		h_timer = 0
