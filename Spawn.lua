@@ -66,27 +66,32 @@ function Spawn:update(dt,x,y)
 				else
 					e = GlowBorg()
 				end
-			local radial_pos = math.random(math.pi*2)
-			local spawnx = self.x + math.cos(radial_pos) * self.rad
-			local spawny = self.y + math.sin(radial_pos) * self.rad
+				local radial_pos = math.random(math.pi*2)
+				local spawnx = self.x + math.cos(radial_pos) * self.rad
+				local spawny = self.y + math.sin(radial_pos) * self.rad
 			
-			print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
+				print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
 
-			e:setPosition(spawnx, spawny)
-				table.insert(objects, e)
+				e:setPosition(spawnx, spawny)
+
+				if table.getn(objects) < 150 then
+					table.insert(objects, e)
+				end
 			end
 			--- self.spawned = true
 		end
 	end
 end
 
--- function Spawn:draw()
-	-- love.graphics.setColor(255, 0, 0, 255)
-	-- love.graphics.circle("line", self.x, self.y, self.rad, 100)
-	-- love.graphics.setColor(255, 0, 255, 255)
-	-- love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
-	-- love.graphics.setColor(255, 255, 255, 255)
--- end
+--[[
+function Spawn:draw()
+	love.graphics.setColor(255, 0, 0, 255)
+	love.graphics.circle("line", self.x, self.y, self.rad, 100)
+	love.graphics.setColor(255, 0, 255, 255)
+	love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
+	love.graphics.setColor(255, 255, 255, 255)
+end
+--]]
 
 function Spawn:calcDist()
   return math.sqrt((self.x - playerx)^2 + (self.y - playery)^2)

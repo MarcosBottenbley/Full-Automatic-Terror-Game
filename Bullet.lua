@@ -68,7 +68,7 @@ function Bullet:update(dt, swidth, sheight)
 	self.time = self.time + dt
 
 	if self.time > 0.8 then
-	 	self.collided = true
+	 	self.dead = true
 	end
 end
 
