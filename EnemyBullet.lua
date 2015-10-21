@@ -68,7 +68,7 @@ function EnemyBullet:update(dt, swidth, sheight)
 	self.time = self.time + dt
 
 	if self.time > 1 then
-	 	self.collided = true
+	 	self.dead = true
 	end
 end
 

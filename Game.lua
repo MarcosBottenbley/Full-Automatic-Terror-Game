@@ -24,9 +24,6 @@ local player
 local bgm1
 local bgm2
 
-local shake = false
-local parallax = 10
-
 local timer = 0
 local waiting = false
 
@@ -87,8 +84,6 @@ function Game:load(arg)
 
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
-	
-	
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -315,7 +310,7 @@ function Game:draw(dt)
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
 
-	if shake then
+	if player:isDamaged() then
 		cx, cy = camera:shake()
 	else
 		cx, cy = camera:move()
@@ -332,16 +327,16 @@ function Game:draw(dt)
 	-- move background
 	love.graphics.translate(cx, cy)
 	love.graphics.draw(background, 0, 0)
-	ST:draw()
+	--ST:draw()
 	-- parallax
-	love.graphics.translate(cx/parallax, cy/parallax)
+	love.graphics.translate(cx/(parallax + 1), cy/(parallax + 1))
 	love.graphics.draw(overlay, 0, 0)
 
-	love.graphics.translate(-cx/parallax, -cy/parallax)
+	love.graphics.translate(-cx/(parallax + 1), -cy/(parallax + 1))
 
 	for _, o in ipairs(objects) do
 		o:draw()
-		self:drawHitboxes(o)
+		--self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
@@ -376,7 +371,7 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
-	
+
 	if hordeMode then
 		self:hordeDraw()
 	end

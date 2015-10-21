@@ -347,7 +347,6 @@ function Player:getBomb()
 end
 
 function Player:flash()
-	--love.timer.sleep(0.04)
 	return self.bomb_flash
 end
 
@@ -380,6 +379,10 @@ function Player:collide(obj)
 		end
 		-- love.timer.sleep(0.2)
 	end
+end
+
+function Player:isDamaged()
+	return self.damaged
 end
 
 return Player
