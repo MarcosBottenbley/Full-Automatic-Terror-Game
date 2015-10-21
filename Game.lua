@@ -85,6 +85,7 @@ function Game:load(arg)
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
 
+
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
 
@@ -262,7 +263,7 @@ function Game:update(dt)
 
 	--checks for win/lose states
 	if hordeMode then
-		self:hordeCheck()
+		self:hordeCheck(dt)
 	end
 	length = table.getn(objects)
 	enemy_gone = true
@@ -277,7 +278,9 @@ function Game:update(dt)
 
 	if enemy_gone then
 		time = 0
-		self:win()
+		if not hordeMode then
+			self:win()
+		end
 	elseif player_gone then
 		time = 0
 		self:lose()
@@ -407,6 +410,7 @@ function Game:keyreleased(key)
 	end
 	
 	if key == 'p' then
+		time = 0
 		self:win()
 	end
 end
@@ -490,14 +494,15 @@ function Game:make(thing, x, y, z, w)
 	table.insert(objects, obj)
 end
 
-function hordeCheck(dt)
+function Game:hordeCheck(dt)
 	h_timer = h_timer + dt
 	if h_timer > 120 then
+		time = 0
 		self:win()
 	end
 end
 
-function hordeDraw()
+function Game:hordeDraw()
 	local timeLeft = math.floor(120 - h_timer)
 	love.graphics.print(
 		"TIME: " .. timeLeft,

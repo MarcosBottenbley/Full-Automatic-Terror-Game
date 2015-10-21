@@ -42,7 +42,7 @@ end
 function Intro2:start()
 	self.lines = {
 		"You've escaped the first sector",
-		"Oh shit some enemy robot fighter ships or something",
+		"Oh shit some enemy robot fighter ships\n or something",
 		"Fuck 'em up"
 	}
 
