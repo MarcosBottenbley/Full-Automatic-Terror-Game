@@ -34,7 +34,7 @@ setmetatable(Intro2, {
 function Intro2:load()
 	self.list_font = love.graphics.newFont("ka1.ttf", 15)
 	text_height = (self.list_font):getHeight()
-	self.bg = love.graphics.newImage("gfx/Intro_screen.png")
+	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
 	self.pos = -(self.bg:getHeight() - height)
 end

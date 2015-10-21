@@ -13,20 +13,6 @@
 600.255: Intro to Video Game Design
 Assignment 7: Level Two Where are You?
 
-List of Additions:
-
-- Player Bombs (And Flash Effect Using Layers)
-- Wormholes
-- Changeable Weapon
-- Seeker Missiles
-- Settings Menu
-- More Power Up Types (Speed Up, More Health in addition to Double Shot)
-- Enemy Boss Death Animation
-- Juice (Screen Shake)
-- Zoom in On Start
-- Spatial Hashing
-- New Enemy Type: The DualMaster, Fires Two Shots
-
 Problem 1: Level Two
 
 (see game)
@@ -47,19 +33,26 @@ with only three. The number remaining is reflected at the top of the
 screen (the HUD, so to speak). By pressing '1', the player can switch 
 weapons, either to the laser blaster that fires in a straight line or 
 to the seeker charge that zeroes in on enemy units. Upon being hit by 
-an enemy, there is a screen shaking animation. 
+an enemy, there is a screen shaking animation. The player can also 
+strafe by holding 'x' and moving to the side.
 
 In terms of gameplay, some new mechanics have been implemented. 
 Spatial hashing and buckets are used to make collision code simpler. 
 There are also new Power Ups located throughout the levels. The blue 
-orb is the old double shot, the purple square is a speed increase, 
-and the blue square is a health increase. A gimmick of level two is 
+orb is the old double shot, the lightning bolt is a speed increase, 
+and the wrench sign is a health increase. A gimmick of level two is 
 the wormhole, which the player can enter to be teleported to another 
 wormhole. However, there is a cool down time before another teleport 
 can be used. Also unique to level two is a new enemy: the DualMaster. 
 With double the firepower, it poses a new threat to the player. The 
-Sun Boss also has an explosion animation upon being destroyed, making 
-the transition between levels more fluid.
+Sun Boss also has a fast spinning animation and then an explosion 
+animation upon being destroyed, making the transition between levels 
+more fluid. Once the boss is beaten, there is a new text animation 
+that introduces the level.
+
+Level two has no boss, but instead introduces a horde-mode style of 
+play. There is a timer of two minutes in the player’s HUD. By 
+surviving until the time is up, the player wins the level.
 
 
 
