@@ -182,6 +182,8 @@ end
 
 function Game:lose()
 	self:scoreCheck()
+	levelNum = 1
+	hordeMode = false
 	switchTo(GameOver)
 end
 
@@ -193,6 +195,7 @@ function Game:win()
 	elseif levelNum == 2 then
 		self:scoreCheck()
 		levelNum = 1
+		hordeMode = false
 		switchTo(Win)
 	end
 end
@@ -277,12 +280,14 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		time = 0
 		if not hordeMode then
 			self:win()
+			time = 0
 		end
 	elseif player_gone then
 		time = 0
+		levelNum = 1
+		hordeMode = false
 		self:lose()
 	end
 end
@@ -406,6 +411,8 @@ function Game:keyreleased(key)
 
 	if key == 'escape' then
 		time = 0
+		hordeMode = false
+		levelNum = 1
 		switchTo(Menu)
 	end
 	
