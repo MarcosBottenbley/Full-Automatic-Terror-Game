@@ -18,7 +18,6 @@ local help = "Press Esc to return to menu (I for invul)"
 local scorestring = "SCORE: "
 local score = 0
 local enemy_count = 9
-local levelNum = 1
 local level
 local create = {}
 local player
@@ -89,19 +88,7 @@ function Game:load(arg)
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(true)
 	
-	level = "level/level" .. levelNum
-
-	--default background
-	bg_string = "gfx/large_bg.png"
-	--looks for background filename in level file
-	for line in love.filesystem.lines(level) do
-		if string.find(line, "BG:") ~= nil then
-			bg_string = string.sub(line, 4)
-		end
-	end
-	background = love.graphics.newImage(bg_string)
-	bg_width = background:getWidth()
-	bg_height = background:getHeight()
+	
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -115,6 +102,20 @@ function Game:start()
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
+	
+	level = "level/level" .. levelNum
+	print("" .. level)
+	--default background
+	bg_string = "gfx/large_bg.png"
+	--looks for background filename in level file
+	for line in love.filesystem.lines(level) do
+		if string.find(line, "BG:") ~= nil then
+			bg_string = string.sub(line, 4)
+		end
+	end
+	background = love.graphics.newImage(bg_string)
+	bg_width = background:getWidth()
+	bg_height = background:getHeight()
 	
 	if level == "level/level2" then 
 		hordeMode = true
@@ -191,9 +192,11 @@ end
 function Game:win()
 	score = score + 3000
 	if levelNum == 1 then
-		self:switchTo(Game)
+		levelNum = 2
+		switchTo(Intro2)
 	elseif levelNum == 2 then
 		self:scoreCheck()
+		levelNum = 1
 		switchTo(Win)
 	end
 end
@@ -278,8 +281,8 @@ function Game:update(dt)
 	end
 
 	if enemy_gone then
-		--- time = 0
-		--- self:win()
+		time = 0
+		self:win()
 	elseif player_gone then
 		time = 0
 		self:lose()
@@ -406,6 +409,10 @@ function Game:keyreleased(key)
 	if key == 'escape' then
 		time = 0
 		switchTo(Menu)
+	end
+	
+	if key == 'p' then
+		self:win()
 	end
 end
 
