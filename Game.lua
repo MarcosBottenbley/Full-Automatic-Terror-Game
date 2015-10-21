@@ -175,6 +175,11 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(create, length - i)
 	end
+	
+	length = table.getn(wormholes)
+	for i = 0, length - 1 do
+		table.remove(wormholes, length - i)
+	end
 end
 
 function Game:lose()

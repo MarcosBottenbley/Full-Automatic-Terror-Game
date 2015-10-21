@@ -34,7 +34,7 @@ setmetatable(Spawn, {
   end,
 })
 
-function Spawn:_init(x,y,r,pr,types)
+function Spawn:_init(x,y,pr,r,types)
   self.x = x
   self.y = y
   self.rad = r
@@ -54,8 +54,8 @@ function Spawn:update(dt,x,y)
 
 	--- if self.spawned == false then
 	if self.spawntimer > 10 then
-		self.spawntimer = 0
 		if dist <= self.pl_rad then
+			self.spawntimer = 0
 			for i = 1, 5 do
 				if self.type == 'g' then
 					e = GlowBorg()
@@ -67,8 +67,10 @@ function Spawn:update(dt,x,y)
 					e = GlowBorg()
 				end
 			local radial_pos = math.random(math.pi*2)
-			local spawnx = math.cos(radial_pos) * self.rad
-			local spawny = math.sin(radial_pos) * self.rad
+			local spawnx = self.x + math.cos(radial_pos) * self.rad
+			local spawny = self.y + math.sin(radial_pos) * self.rad
+			
+			print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
 
 			e:setPosition(spawnx, spawny)
 				table.insert(objects, e)
@@ -76,6 +78,13 @@ function Spawn:update(dt,x,y)
 			--- self.spawned = true
 		end
 	end
+end
+
+function Spawn:draw()
+	love.graphics.setColor(255, 0, 0, 255)
+	love.graphics.circle("line", self.x, self.y, self.rad, 100)
+	love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Spawn:calcDist()
