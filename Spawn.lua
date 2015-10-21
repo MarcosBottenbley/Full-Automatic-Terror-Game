@@ -21,7 +21,7 @@ local Spawn = {
   x = 10, y = 10,
   width = 0, height = 0,
   rad = 100, id = 4,
-  pl_rad = 100, spawntimer = 0,
+  pl_rad = 100, spawntimer = 10,
 }
 Spawn.__index = Spawn
 
@@ -53,7 +53,7 @@ function Spawn:update(dt,x,y)
 	dist = self:calcDist()
 
 	--- if self.spawned == false then
-	if self.spawntimer > 3 then
+	if self.spawntimer > 10 then
 		self.spawntimer = 0
 		if dist <= self.pl_rad then
 			for i = 1, 5 do
