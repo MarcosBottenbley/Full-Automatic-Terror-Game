@@ -283,12 +283,14 @@ function Game:update(dt)
 		if not hordeMode then
 			self:win()
 			time = 0
+			h_timer = 0
 		end
 	end
 	if player_gone then
 		time = 0
 		levelNum = 1
 		hordeMode = false
+		h_timer = 0
 		self:lose()
 	end
 end
@@ -394,11 +396,13 @@ function Game:keyreleased(key)
 		time = 0
 		hordeMode = false
 		levelNum = 1
+		h_timer = 0
 		switchTo(Menu)
 	end
 	
 	if key == 'p' then
 		time = 0
+		h_timer = 0
 		self:win()
 	end
 end
@@ -451,6 +455,7 @@ function Game:hordeCheck(dt)
 	h_timer = h_timer + dt
 	if h_timer > 120 then
 		time = 0
+		h_timer = 0
 		self:win()
 	end
 end
