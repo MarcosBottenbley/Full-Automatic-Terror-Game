@@ -328,7 +328,7 @@ function Game:draw(dt)
 	-- move background
 	love.graphics.translate(cx, cy)
 	love.graphics.draw(background, 0, 0)
-	ST:draw()
+	--ST:draw()
 	-- parallax
 	love.graphics.translate(cx/parallax, cy/parallax)
 	love.graphics.draw(overlay, 0, 0)
@@ -337,7 +337,7 @@ function Game:draw(dt)
 
 	for _, o in ipairs(objects) do
 		o:draw()
-		self:drawHitboxes(o)
+		--self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
