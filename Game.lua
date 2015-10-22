@@ -258,10 +258,6 @@ function Game:update(dt)
 			o:exited_map(bg_width + player:getWidth(), bg_height + player:getHeight())
 		end
 
-		if o:getID() == 1 and o:getType() == 'f' then
-			o:shoot(dt,playerx,playery)
-		end
-
 		if o:isDead() then
 			if o:getID() == 1 then
 				score = score + 200

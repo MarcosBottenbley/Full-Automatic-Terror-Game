@@ -13,15 +13,13 @@
 Enemy = require("Enemy")
 EnemyBullet = require("EnemyBullet")
 
-local time = 0
-
 local PhantomShip = {
 	img = "gfx/phantom_ship.png",
 	width = 40, height = 52,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'f',
-	vel = 0, fireRate = 4
+	vel = 0, fireRate = 2, timer = 4
 }
 PhantomShip.__index = PhantomShip
 
@@ -42,8 +40,15 @@ function PhantomShip:_init()
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
-function PhantomShip:update(dt, swidth, sheight)
+function PhantomShip:update(dt, swidth, sheight, px, py)
+	self.timer = self.timer + dt
 	Enemy.update(self, dt, swidth, sheight)
+	
+	if self.timer > self.fireRate then
+		if self:shoot(px, py) then
+			self.timer = 0
+		end
+	end
 
 	self.y = self.y + self.vel*dt
 	if self.x >= bg_width then
@@ -54,15 +59,13 @@ function PhantomShip:update(dt, swidth, sheight)
 	end
 end
 
-function PhantomShip:shoot(dt,px,py)
-	time = time + dt
+function PhantomShip:shoot(px, py)
 	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
-
-		if time >= self.fireRate then
-			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
-			table.insert(objects, b)
-			time = 0
-		end
+		local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
+		table.insert(objects, b)
+		return true
+	else
+		return false
 	end
 end
 

@@ -66,11 +66,11 @@ function Spawn:update(dt,x,y)
 				else
 					e = GlowBorg()
 				end
-				local radial_pos = math.random(math.pi*2)
+				local radial_pos = math.random()*math.pi*2
 				local spawnx = self.x + math.cos(radial_pos) * self.rad
 				local spawny = self.y + math.sin(radial_pos) * self.rad
 			
-				--print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny)
+				--print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny .. " TYPE:" .. self.type)
 
 				e:setPosition(spawnx, spawny)
 
