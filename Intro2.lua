@@ -32,7 +32,7 @@ setmetatable(Intro2, {
 })
 
 function Intro2:load()
-	self.list_font = love.graphics.newFont("ka1.ttf", 15)
+	self.list_font = love.graphics.newFont("PressStart2P.ttf", 20)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
@@ -42,7 +42,7 @@ end
 function Intro2:start()
 	self.lines = {
 		"You've escaped the first sector",
-		"Oh no some enemy robot fighter ships\n or something",
+		"Oh no some enemy robot\nfighter ships or something",
 		"You must survive for 2 minutes\nuntil you can warp out",
 		"So yeah"
 	}
@@ -88,21 +88,23 @@ function Intro2:stop()
 end
 
 function Intro2:draw()
+	love.graphics.setFont(self.list_font)
 	love.graphics.translate(0,self.pos)
+	love.graphics.setColor(255, 50, 50, 255)
 	love.graphics.draw(self.bg, 0, 0)
+	love.graphics.setColor(255, 255, 255, 255)
 
 	if time >= 2 then
 		love.graphics.translate(0, -self.pos)
 
 		love.graphics.setColor(20, 20, 20, 160)
-		love.graphics.rectangle("fill", 20, 200, 700, 250)
+		love.graphics.rectangle("fill", 20, height/2 + text_height * 4 - 20, 680, 180)
 		love.graphics.setColor(255, 255, 255, 255)
 		-- border
-		love.graphics.rectangle("line", 20, 200, 700, 250)
+		love.graphics.rectangle("line", 30, height/2 + text_height * 4 - 10, 660, 160)
 
-		love.graphics.print(self.lines[self.script_pos], 40, height/2 - text_height * 4)
+		love.graphics.print(self.lines[self.script_pos], 45, height/2 + text_height * 4 + 5)
 	end
-
 end
 
 return Intro2

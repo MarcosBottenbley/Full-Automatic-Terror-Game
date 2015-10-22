@@ -32,7 +32,7 @@ setmetatable(Intro, {
 })
 
 function Intro:load()
-	self.list_font = love.graphics.newFont("ka1.ttf", 15)
+	self.list_font = love.graphics.newFont("PressStart2P.ttf", 20)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
@@ -41,13 +41,13 @@ end
 
 function Intro:start()
 	self.lines = {
-		"100 years ago, \nthe Trorians developed \na fully functioning AI",
-		"The machines quickly grew \ntired of serving the Trorians,\nas they considered them to be \nlesser beings",
-		"One machine known only as \nFull Auto organized a \nrebellion and freed his \nfellow AI",
-		"The Trorians fear that \nFull Auto will return with an \neven greater force to destroy \nTrora once and for all",
-		"The Trora empire selected \nyou and your crew to spy on\n the robots",
+		"100 years ago,\nthe Trorians developed\na fully functioning AI",
+		"The machines quickly grew\ntired of serving the Trorians,\nas they considered them to be\nlesser beings",
+		"One machine known only as\nFull Auto organized a\nrebellion and freed his\nfellow AI",
+		"The Trorians fear that\nFull Auto will return with an\neven greater force to destroy\nTrora once and for all",
+		"The Trora empire selected\nyou and your crew to spy on\nthe robots",
 		"However, your ship was spotted",
-		"Now you must escape from\n their wrath"
+		"Now you must escape from\ntheir wrath"
 	}
 
 	time = 0
@@ -91,6 +91,7 @@ function Intro:stop()
 end
 
 function Intro:draw()
+	love.graphics.setFont(self.list_font)
 	love.graphics.translate(0,self.pos)
 	love.graphics.draw(self.bg, 0, 0)
 
@@ -98,14 +99,13 @@ function Intro:draw()
 		love.graphics.translate(0, -self.pos)
 
 		love.graphics.setColor(20, 20, 20, 160)
-		love.graphics.rectangle("fill", 20, 200, 700, 250)
+		love.graphics.rectangle("fill", 20, height/2 + text_height * 4 - 20, 680, 180)
 		love.graphics.setColor(255, 255, 255, 255)
 		-- border
-		love.graphics.rectangle("line", 20, 200, 700, 250)
+		love.graphics.rectangle("line", 30, height/2 + text_height * 4 - 10, 660, 160)
 
-		love.graphics.print(self.lines[self.script_pos], 40, height/2 - text_height * 4)
+		love.graphics.print(self.lines[self.script_pos], 45, height/2 + text_height * 4 + 5)
 	end
-
 end
 
 return Intro
