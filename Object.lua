@@ -113,6 +113,13 @@ function Object:draw(r,g,b, angle)
 	love.graphics.setColor(255,255,255,255)
 end
 
+--Change object's animation to another state
+function Object:changeAnim(state)
+	self.current_state = state
+	self.current_frame = 1
+	self.delta = 0
+end
+
 --- manually sets object x coordinate
 
 function Object:setX(newX)

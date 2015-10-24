@@ -154,8 +154,7 @@ end
 function Enemy:collide(obj)
 	self.validCollisions = {}
 	self.collided = true
-	self.current_state = 2
-	self.current_frame = 1
+	self:changeAnim(2)
 end
 
 return Enemy

@@ -85,7 +85,7 @@ function Game:load(arg)
 	bgm:setLooping(true)
 
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
-	bgm:setLooping(true)
+	bgm:setLooping(false)
 
 
 	-- for parallax
