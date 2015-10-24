@@ -41,13 +41,15 @@ function GlowBorg:update(dt, swidth, sheight, px, py)
 	--print("PLAYER: " .. py .. " " .. px)
 	local angle = math.atan((py - self.y) / (px - self.x))
 
-	--i suck at math
-	if px - self.x > 0 then
-		self.x = self.x + self.vel * dt * math.cos(angle)
-		self.y = self.y + self.vel * dt * math.sin(angle)
-	else
-		self.x = self.x - self.vel * dt * math.cos(angle)
-		self.y = self.y - self.vel * dt * math.sin(angle)
+	--move towards player if not exploding
+	if not self.collided then
+		if px - self.x > 0 then
+			self.x = self.x + self.vel * dt * math.cos(angle)
+			self.y = self.y + self.vel * dt * math.sin(angle)
+		else
+			self.x = self.x - self.vel * dt * math.cos(angle)
+			self.y = self.y - self.vel * dt * math.sin(angle)
+		end
 	end
 end
 

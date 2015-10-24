@@ -50,12 +50,13 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 			self.timer = 0
 		end
 	end
-
-	--self.y = self.y + self.vel*dt
-	self.x = self.x + self.vel*dt
-	-- if self.y < 0 then
-		-- self.y = bg_height
-	-- end
+	
+	--move/stop moving during explosion
+	if not self.collided then
+		self.x = self.x + self.vel*dt
+	end
+	
+	--wrap around screen
 	if self.x > bg_width then
 		self.x = 0
 	end

@@ -49,8 +49,12 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 			self.timer = 0
 		end
 	end
-
-	self.y = self.y + self.vel*dt
+	
+	--move/stop moving during explosion
+	if not self.collided then
+		self.y = self.y + self.vel*dt
+	end
+	
 	if self.x >= bg_width then
 		self.x = 0
 	end

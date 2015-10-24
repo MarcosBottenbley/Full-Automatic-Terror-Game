@@ -87,7 +87,7 @@ function Player:update(dt, swidth, sheight)
 		self.d_timer = self.d_timer + dt
 	end
 
-	if self.d_timer > 0.2 then
+	if self.d_timer > 0.5 then
 		self.damaged = false
 		self.d_timer = 0
 	end
@@ -324,14 +324,14 @@ function Player:getHeight()
 end
 
 function Player:hit()
-	if not self.invul then
+	if not (self.invul or self.damaged) then
 		self.health = self.health - 1
+		if self:alive() then
+			self.damaged = true
+			self.d_timer = 0
+		end
+		playerhit:play()
 	end
-	if self:alive() then
-		self.damaged = true
-		self.d_timer = 0
-	end
-	playerhit:play()
 end
 
 function Player:alive()
