@@ -14,6 +14,7 @@ State = require("State")
 
 local time = 0
 local changed = 0
+local bgm
 
 local Intro2 = {
 	bg = nil, pos = 0,
@@ -37,6 +38,9 @@ function Intro2:load()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
 	self.pos = -(self.bg:getHeight() - height)
+
+	bgm = love.audio.newSource("sfx/cutscene.ogg")
+	bgm:setLooping(true)
 end
 
 function Intro2:start()
@@ -51,6 +55,8 @@ function Intro2:start()
 	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
 	self.script_pos = 1
+
+	bgm:play()
 end
 
 function Intro2:update(dt)
@@ -85,6 +91,8 @@ function Intro2:stop()
 	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
 	self.script_pos = 1
+
+	bgm:stop()
 end
 
 function Intro2:draw()
