@@ -146,8 +146,8 @@ function Game:start()
 
 	table.insert(objects, Wall(1000,1200,180,30,true))
 
-	table.insert(frames, Frame(1000,1000,0,0))
-	table.insert(frames, Frame(400,400,0,0))
+	--table.insert(frames, Frame(1000,1000,0,0))
+	--table.insert(frames, Frame(400,400,0,0))
 
 	ST = ScreenTable(10,10,bg_width,bg_height)
 end
