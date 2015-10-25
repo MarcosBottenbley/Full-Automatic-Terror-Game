@@ -389,12 +389,7 @@ function Player:collide(obj)
 		self.y = self.y - math.sin(self.angle1)*-self.vel * timeChange
 		self.x = self.x + math.cos(self.angle1)*-self.vel * timeChange
 
-		self.vel = 1.5 * -self.vel
-		if self.vel > 250 then
-			self.vel = 200
-		elseif self.vel < -250 then
-			self.vel = -200
-		end
+		self.vel = 0
 	end
 end
 
