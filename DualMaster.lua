@@ -62,6 +62,10 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 	end
 end
 
+function DualMaster:draw()
+	Enemy.draw(self, 255, 255, 255)
+end
+
 function DualMaster:shoot(px, py)
 	if (py < self.y + self.height and py > self.y - self.height) and 
 	(px > self.x - 400 or px < self.x + 400) then

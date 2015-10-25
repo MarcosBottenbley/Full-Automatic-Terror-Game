@@ -63,6 +63,10 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 	end
 end
 
+function PhantomShip:draw()
+	Enemy.draw(self, 255, 255, 255)
+end
+
 function PhantomShip:shoot(px, py)
 	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
 		local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)

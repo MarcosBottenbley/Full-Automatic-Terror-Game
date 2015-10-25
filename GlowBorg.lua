@@ -56,6 +56,10 @@ function GlowBorg:update(dt, swidth, sheight, px, py)
 	end
 end
 
+function GlowBorg:draw()
+	Enemy.draw(self, 255, 255, 255)
+end
+
 function GlowBorg:getType()
 	return self.type
 end

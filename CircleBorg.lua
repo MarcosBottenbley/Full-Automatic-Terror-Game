@@ -12,7 +12,7 @@
 
 GlowBorg = require("GlowBorg")
 
-local GlowBorg2 = {
+local CircleBorg = {
 	--Distance from player at which the glowborg will 
 	--stop advancing and start circling around the player
 	chase_range = 300,
@@ -24,11 +24,11 @@ local GlowBorg2 = {
 	--after it starts circling
 	closing_time = 12,
 	--Variable used to measure distance from player when circling
-	player_dist = 300
+	player_dist
 }
-GlowBorg2.__index = GlowBorg2
+CircleBorg.__index = CircleBorg
 
-setmetatable(GlowBorg2, {
+setmetatable(CircleBorg, {
 	__index = GlowBorg,
 	__call = function (cls, ... )
 		local self = setmetatable({}, cls)
@@ -37,12 +37,12 @@ setmetatable(GlowBorg2, {
 	end,
 })
 
-function GlowBorg:_init()
+function CircleBorg:_init()
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
-	self.player_dist = chase_range
+	self.player_dist = self.chase_range
 end
 
-function GlowBorg2:update(dt, swidth, sheight, px, py)
+function CircleBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	
 	local angle = math.atan((py - self.y) / (px - self.x))
@@ -73,8 +73,8 @@ function GlowBorg2:update(dt, swidth, sheight, px, py)
 	end
 end
 
-function GlowBorg2:draw()
-	Enemy.draw(self)
+function CircleBorg:draw()
+	Enemy.draw(self, 100, 100, 255)
 end
 
-return GlowBorg2
+return CircleBorg
