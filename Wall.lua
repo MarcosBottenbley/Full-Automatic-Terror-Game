@@ -15,8 +15,7 @@ Object = require("Object")
 local Wall = {
 	x = 10, y = 10,
 	width = 30, height = 30,
-	id = 8, connector = false,
-	horizontal = true
+	id = 8
 }
 Wall.__index = Wall
 
@@ -29,35 +28,39 @@ setmetatable(Wall, {
 	end,
 })
 
-function Wall:_init(x,y,w,h,angle)
+function Wall:_init(x,y,w,h,horizontal)
 	self.x = x
 	self.y = y
 	self.width = w
 	self.height = h
 
-	if w ~= h then
-		self.connector = true
-	end
+	self.validCollisions = {2}
+	self.hb = self:makeHitboxes()
+end
 
-	self.angle = angle
-
+function Wall:update(dt)
+	-- body
 end
 
 function Wall:getHitBoxes( ... )
-	local hb = {}
+	return self.hb
+end
 
-	if self.connector and self.horizontal then
+
+function Wall:makeHitboxes(...)
+	local hb = {}
+	if self.width > self.height then
 		local num = self.width / self.height
-		for i = 1, i < num do
+		for i = 1, math.floor(num) do
 			local offset = (self.height * i) - (self.height/2)
-			local hb_1 = {self.x, self.y, self.height/2}
+			local hb_1 = {self.x + offset, self.y, self.height/2}
 			table.insert(hb, hb_1)
 		end
-	elseif self.connector and not self.horizontal then
+	elseif self.height > self.width then
 		local num = self.height / self.width
-		for i = 1, i < num do
+		for i = 1, math.floor(num) do
 			local offset = (self.width * i) - (self.width/2)
-			local hb_1 = {self.x, self.y, self.width/2}
+			local hb_1 = {self.x, self.y + offset, self.width/2}
 			table.insert(hb, hb_1)
 		end
 	else
@@ -67,7 +70,6 @@ function Wall:getHitBoxes( ... )
 
 	return hb
 end
-
 function Wall:draw(...)
 	Object.draw(self,255,255,255,self.angle)
 end

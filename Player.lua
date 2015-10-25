@@ -15,6 +15,8 @@ math.randomseed(os.time())
 local f_timer = 0
 local firable = false
 
+local stop = false
+
 local Player = {
 	vel = 0, max_vel = 200,
 	accel = 0, max_accel = 800,
@@ -126,10 +128,10 @@ function Player:update(dt, swidth, sheight)
 	local moving = false
 
 	--get acceleration (if not moving, accelerate opposite velocity)
-	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
+	if love.keyboard.isDown('down') or love.keyboard.isDown('s') and not stop then
 	 	self.accel = -self.max_accel
 		moving = true
-	elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then
+	elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') and not stop then
 		self.accel = self.max_accel
 		moving = true
 	elseif self.vel > 0 then
@@ -378,6 +380,16 @@ function Player:collide(obj)
 			teleport:play()
 		end
 		-- love.timer.sleep(0.2)
+	elseif obj:getID() == 8 then
+		self.vel = 1.5 * -self.vel
+
+		if self.vel > 300 then
+			self.vel = 300
+		end
+
+		if self.vel < -300 then
+			self.vel = -300
+		end
 	end
 end
 
