@@ -25,6 +25,7 @@ wrm = Wormhole
 odm = DualMaster (object)
 sdm = DualMaster (spawner)
 frm = Frame (for camera)
+wal = Wall (object)
 
 Here's our "level zero" file for an example:
 
