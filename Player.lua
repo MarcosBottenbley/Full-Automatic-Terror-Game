@@ -27,12 +27,12 @@ local Player = {
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 10, bomb = 3, h_jump = 2,
+	health = 10, bomb = 3, h_jump = 5,
 	invul = false, d_timer = 0, damaged = false,
-	i_timer = 0, missile = false,
+	missile = false,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
-	inframe = false, jumptimer = 0, isjumping = false,
+	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0
 }
 Player.__index = Player
@@ -75,24 +75,17 @@ function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	f_timer = f_timer + dt
 	timeChange = dt
-
+	
+	print(self.isJumping)
+	print(self.vel)
+	
 	if f_timer >= self.bulletSpeed then
 		firable = true
 	else
 	    firable = false
 	end
 
-	if self.isjumping == true then
-		self.jumptimer = self.jumptimer + dt
-		self.vel = 200
-		self.invul = true
-		if self.jumptimer > 1 then
-			self.invul = false
-			self.vel = 1000
-			self.isjumping = false
-			self.jumptimer = 0
-		end
-	end
+	
 
 	self.teleporttimer = self.teleporttimer + dt
 
@@ -111,14 +104,6 @@ function Player:update(dt, swidth, sheight)
 
 	if self.health < 1 then
 		self.collided = true
-	end
-
-	if self.invul then
-		self.i_timer = self.i_timer + dt
-	end
-
-	if self.i_timer > .25 then
-		self.i_timer = 0
 	end
 
 	--turn left or right
@@ -157,14 +142,25 @@ function Player:update(dt, swidth, sheight)
 		self.accel = 0
 	end
 
-	--accelerate (not past max velocity)
-	if (self.accel >= 0 and self.vel < self.max_vel) or
-		(self.accel <= 0 and self.vel > -self.max_vel) then
-		self.vel = self.vel + self.accel * dt
+	
+	if self.isJumping == true then
+		self.jumptimer = self.jumptimer + dt
+		self.vel = 1800
+		self.invul = true
+		if self.jumptimer > 0.2 then
+			self.invul = false
+			self.isJumping = false
+			self.jumptimer = 0
+			self.vel = max_vel
+		end
+	else
+		--accelerate (not past max velocity)
+		if (self.accel >= 0 and self.vel < self.max_vel) or
+			(self.accel <= 0 and self.vel > -self.max_vel) then
+			self.vel = self.vel + self.accel * dt
+		end
 	end
-
 	print(self.vel)
-
 	--stop player from moving back and forth when not pressing up/down
 	if math.abs(self.vel) < self.max_vel / 10 and not moving then
 		self.vel = 0
@@ -209,7 +205,7 @@ function Player:draw()
 	if self.damaged then
 		Object.draw(self,155,155,155, draw_angle)
 	else
-		if self.i_timer > 0.125 then
+		if self.invul then
 			Object.draw(self,255,255,0, draw_angle)
 		else
 			Object.draw(self,255,255,255, draw_angle)
@@ -226,11 +222,11 @@ function Player:keyreleased(key)
 		self:toggleInvul()
 	end
 
-	if key == 'b' then
+	if key == 'c' then
 		self:useBomb()
 	end
 	
-	if key == 'h' then
+	if key == 'lshift' then
 		self:useJump()
 	end
 	
@@ -274,7 +270,9 @@ function Player:useJump()
 	if self.h_jump == 0 then
 		error:play()
 	else
+		print("jumpin")
 		jump:play()
+		self.vel = 40
 		self.h_jump = self.h_jump - 1
 		self.isJumping = true
 	end
