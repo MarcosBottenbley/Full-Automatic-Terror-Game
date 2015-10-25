@@ -42,7 +42,9 @@ local titles = {
 	"The Citizen Kane of movies",
 	"Solitaire",
 	"600.255: Lua and LOVE",
-	"Featuring Dante from the Devil May Cry series"
+	"Featuring Dante from the Devil May Cry series",
+	"FAT 2 is canceled",
+	"It's not a bug, it's a feature",
 }
 
 local titlestring = titles[math.random(#titles)]
