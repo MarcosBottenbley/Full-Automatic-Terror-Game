@@ -12,10 +12,11 @@
 
 local LevelLoader = {
 	level = "level/level0",
-	bg = "gfx/large_bg.png"
+	bg_string = "gfx/large_bg_string.png",
+	hordeMode = false, won = false,
+	h_timer = 0
 }
 LevelLoader.__index = LevelLoader
-
 
 setmetatable(LevelLoader, {
 	__call = function (cls, ... )
@@ -35,11 +36,15 @@ function LevelLoader:setLevel(lvlNum)
 end
 
 function LevelLoader:load(...)
+	local create = {}
+
 	for line in love.filesystem.lines(self.level) do
 		if string.find(line, "BG:") ~= nil then
 			self.bg_string = string.sub(line, 4)
 		end
 	end
+
+	self.background = love.graphics.newImage(self.bg_string)
 
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(self.level) do
@@ -88,13 +93,91 @@ function LevelLoader:make(thing, x, y, z, w)
 		obj = SpeedUp(x, y, 0)
 	elseif thing == "wrm" then
 		obj = Wormhole(x, y)
+	elseif thing == "frm" then
+		table.insert(frames, Frame(x,y))
 	end
 
 	table.insert(objects, obj)
 end
 
-function LevelLoader:getBackground(...)
-	return love.graphics.newImage(self.bg)
+function LevelLoader:update(dt, score)
+	--checks for win/lose states
+	if self.hordeMode then
+		self:hordeCheck(dt)
+	end
+	length = table.getn(objects)
+	enemy_gone = true
+	player_gone = true
+	for i=1, length do
+		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
+			enemy_gone = false
+		elseif objects[i]:getID() == 2 then
+			player_gone = false
+		end
+	end
+
+	if enemy_gone and not ended then
+		if not self.hordeMode then
+			self:win(score)
+			time = 0
+			h_timer = 0
+		end
+	end
+	if player_gone and not ended then
+		time = 0
+		levelNum = 1
+		self.hordeMode = false
+		h_timer = 0
+		self:lose()
+	end
+end
+
+function LevelLoader:hordeCheck(dt)
+	h_timer = h_timer + dt
+	if h_timer > 120 then
+		time = 0
+		h_timer = 0
+		self:win()
+	end
+end
+
+function LevelLoader:hordeDraw()
+	local timeLeft = math.floor(120 - h_timer)
+	love.graphics.print(
+		"TIME: " .. timeLeft,
+		250, 10
+	)
+end
+
+function LevelLoader:lose()
+	-- self:scoreCheck()
+	levelNum = 1
+	hordeMode = false
+	ended = true
+	switchTo(LevelLoaderOver)
+end
+
+function LevelLoader:win()
+	-- score = score + 3000
+	if levelNum == 1 then
+		levelNum = 2
+		self.hordeMode = true
+		switchTo(Intro2)
+	elseif levelNum == 2 then
+		-- self:scoreCheck()
+		levelNum = 1
+		self.hordeMode = false
+		ended = true
+		switchTo(Win)
+	end
+end
+
+function LevelLoader:getBackground()
+	return self.background
+end
+
+function LevelLoader:getBackgroundDimensions()
+	return self.background:getWidth(), self.background:getHeight()
 end
 
 return LevelLoader

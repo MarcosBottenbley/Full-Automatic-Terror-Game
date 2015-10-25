@@ -24,8 +24,7 @@ sps = PhantomShip (spawner)
 wrm = Wormhole
 odm = DualMaster (object)
 sdm = DualMaster (spawner)
-
-
+frm = Frame (for camera)
 
 Here's our "level zero" file for an example:
 

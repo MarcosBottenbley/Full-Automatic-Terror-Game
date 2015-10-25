@@ -20,22 +20,22 @@ local score = 0
 local enemy_count = 9
 local level
 local create = {}
-local player
 local bgm1
 local bgm2
 
 local timer = 0
 local waiting = false
+local frames = {}
 
 local enemy_gone = false
 local player_gone = false
 
 local wormholes = {}
 
-local hordeMode = false
-local h_timer = 0
-
 local ended = false
+
+local background
+bg_width, bg_height = 0, 0
 
 Game.__index = Game
 
@@ -52,6 +52,8 @@ function Game:load(arg)
 	math.randomseed(os.time())
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
+	LevelLoader = require("LevelLoader")
+
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
 	CircleBorg = require("CircleBorg")
@@ -67,6 +69,7 @@ function Game:load(arg)
 	Wormhole = require("Wormhole")
 	ScreenTable = require("ScreenTable")
 	Wall = require("Wall")
+	Frame = require("Frame")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -89,7 +92,6 @@ function Game:load(arg)
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bgm:setLooping(false)
 
-
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
 
@@ -105,37 +107,11 @@ function Game:start()
 
 	ended = false
 
-	level = "level/level" .. levelNum
-	--print("" .. level)
-	--default background
-	bg_string = "gfx/large_bg.png"
-	--looks for background filename in level file
-	for line in love.filesystem.lines(level) do
-		if string.find(line, "BG:") ~= nil then
-			bg_string = string.sub(line, 4)
-		end
-	end
-	background = love.graphics.newImage(bg_string)
-	bg_width = background:getWidth()
-	bg_height = background:getHeight()
+	player = Player(0,0,0)
+	level = LevelLoader(levelNum)
 
-	if level == "level/level2" then
-		hordeMode = true
-	end
-
-	--populates creation array with everything specified in level file
-	for line in love.filesystem.lines(level) do
-		if string.find(line, "BG:") == nil then
-			obj, x, y, z, w = string.match(line, "(%a+)%((%d+),(%d+),(%d+),(%d+)%)")
-			thing = {obj, tonumber(x), tonumber(y), tonumber(z), tonumber(w)}
-			table.insert(create, thing)
-		end
-	end
-
-	--creates objects in level from creation array
-	for num, tuple in ipairs(create) do
-		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
-	end
+	bg_width, bg_height = level:getBackgroundDimensions()
+	background = level:getBackground()
 
 	-- set up wormholes
 	for i = 1, table.getn(objects) do
@@ -167,6 +143,9 @@ function Game:start()
 
 	table.insert(objects, Wall(1000,1200,180,30,true))
 
+	table.insert(frames, Frame(1000,1000,0,0))
+	table.insert(frames, Frame(400,400,0,0))
+
 	ST = ScreenTable(10,10,bg_width,bg_height)
 end
 
@@ -190,27 +169,27 @@ function Game:stop()
 	end
 end
 
-function Game:lose()
-	self:scoreCheck()
-	levelNum = 1
-	hordeMode = false
-	ended = true
-	switchTo(GameOver)
-end
-
-function Game:win()
-	score = score + 3000
-	if levelNum == 1 then
-		levelNum = 2
-		switchTo(Intro2)
-	elseif levelNum == 2 then
-		self:scoreCheck()
-		levelNum = 1
-		hordeMode = false
-		ended = true
-		switchTo(Win)
-	end
-end
+-- function Game:lose()
+-- 	self:scoreCheck()
+-- 	levelNum = 1
+-- 	hordeMode = false
+-- 	ended = true
+-- 	switchTo(GameOver)
+-- end
+--
+-- function Game:win()
+-- 	score = score + 3000
+-- 	if levelNum == 1 then
+-- 		levelNum = 2
+-- 		switchTo(Intro2)
+-- 	elseif levelNum == 2 then
+-- 		self:scoreCheck()
+-- 		levelNum = 1
+-- 		hordeMode = false
+-- 		ended = true
+-- 		switchTo(Win)
+-- 	end
+-- end
 
 function Game:scoreCheck()
 	for rank, hs in ipairs(highscores) do
@@ -272,35 +251,7 @@ function Game:update(dt)
 		x = x + 1
 	end
 
-	--checks for win/lose states
-	if hordeMode then
-		self:hordeCheck(dt)
-	end
-	length = table.getn(objects)
-	enemy_gone = true
-	player_gone = true
-	for i=1, length do
-		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
-			enemy_gone = false
-		elseif objects[i]:getID() == 2 then
-			player_gone = false
-		end
-	end
-
-	if enemy_gone and not ended then
-		if not hordeMode then
-			self:win()
-			time = 0
-			h_timer = 0
-		end
-	end
-	if player_gone and not ended then
-		time = 0
-		levelNum = 1
-		hordeMode = false
-		h_timer = 0
-		self:lose()
-	end
+	level:update(dt, score)
 end
 
 function Game:draw(dt)
@@ -308,11 +259,25 @@ function Game:draw(dt)
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
+	local fx, fy = self:inFrame()
 
-	if player:isDamaged() then
-		cx, cy = camera:shake()
+	-- not in a frame
+	if fx == 1 and fy == 1 then
+		if player:isDamaged() then
+			cx, cy = camera:shake()
+		else
+			cx, cy = camera:move()
+		end
+	-- inside a frame
 	else
-		cx, cy = camera:move()
+		camera:position(fx, fy)
+		if player:isDamaged() then
+			cx, cy = camera:shake()
+			cx = cx + fx
+			cy = cy + fy
+		else
+			cx, cy = fx, fy
+		end
 	end
 
 	-- zoom in
@@ -411,7 +376,7 @@ function Game:keyreleased(key)
 	if key == 'p' then
 		time = 0
 		h_timer = 0
-		self:win()
+		level:win()
 	end
 end
 
@@ -419,64 +384,13 @@ function Game:keypressed(key)
 	--body
 end
 
---creates specified object based on three letter code and up to
---four constructor arguments (this isn't great and will probably
---be changed)
-function Game:make(thing, x, y, z, w)
-	local obj
-
-	if thing == "pla" then
-		player = Player(x, y, 200)
-		table.insert(objects, player)
-		return
-	elseif thing == "ogb" then
-		obj = GlowBorg()
-		obj:setPosition(x, y)
-	elseif thing == "ogt" then
-		obj = CircleBorg()
-		obj:setPosition(x, y)
-	elseif thing == "ops" then
-		obj = PhantomShip()
-		obj:setPosition(x, y)
-	elseif thing == "odm" then
-		obj = DualMaster()
-		obj:setPosition(x, y)
-	elseif thing == "osb" then
-		obj = SunBoss(x, y)
-	elseif thing == "sgb" then
-		obj = Spawn(x, y, z, w, 'g')
-	elseif thing == "sps" then
-		obj = Spawn(x, y, z, w, 'f')
-	elseif thing == "sdm" then
-		obj = Spawn(x, y, z, w, 'd')
-	elseif thing == "pwr" then
-		obj = DoubleShot(x, y, 0)
-	elseif thing == "rep" then
-		obj = Repair(x, y, 0)
-	elseif thing == "spd" then
-		obj = SpeedUp(x, y, 0)
-	elseif thing == "wrm" then
-		obj = Wormhole(x, y)
+function Game:inFrame()
+	for _,frame in ipairs(frames) do
+		if frame:entered(player:getX(), player:getY()) then
+			return frame:getCoordinates()
+		end
 	end
-
-	table.insert(objects, obj)
-end
-
-function Game:hordeCheck(dt)
-	h_timer = h_timer + dt
-	if h_timer > 120 then
-		time = 0
-		h_timer = 0
-		self:win()
-	end
-end
-
-function Game:hordeDraw()
-	local timeLeft = math.floor(120 - h_timer)
-	love.graphics.print(
-		"TIME: " .. timeLeft,
-		250, 10
-	)
+	return 1, 1
 end
 
 return Game
