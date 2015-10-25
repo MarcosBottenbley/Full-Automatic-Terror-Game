@@ -161,11 +161,12 @@ function LevelLoader:win()
 	-- score = score + 3000
 	if levelNum == 1 then
 		levelNum = 2
+		self.hordeMode = true
 		switchTo(Intro2)
 	elseif levelNum == 2 then
 		-- self:scoreCheck()
 		levelNum = 1
-		hordeMode = false
+		self.hordeMode = false
 		ended = true
 		switchTo(Win)
 	end

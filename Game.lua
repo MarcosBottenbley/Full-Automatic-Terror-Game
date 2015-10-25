@@ -34,7 +34,6 @@ local wormholes = {}
 
 local ended = false
 
-local level
 local background
 bg_width, bg_height = 0, 0
 
