@@ -12,6 +12,7 @@
 
 Enemy = require("Enemy")
 EnemyBullet = require("EnemyBullet")
+math.randomseed(os.time())
 
 local DualMaster = {
 	img = "gfx/enemy_3_t.png",
@@ -19,8 +20,8 @@ local DualMaster = {
 	frames = 3, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'd',
-	vel = 60, fireRate = 5, 
-	timer = 5
+	fireRate = 5, timer = 5,
+	goRight
 }
 DualMaster.__index = DualMaster
 
@@ -37,7 +38,9 @@ setmetatable(DualMaster, {
 --- movement speed
 
 function DualMaster:_init()
-	--self.vel = math.random(40,80)
+	self.vel = math.random(70,140)
+	local choice = {true, false}
+	self.goRight = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
@@ -53,7 +56,11 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 	
 	--move/stop moving during explosion
 	if not self.collided then
-		self.x = self.x + self.vel*dt
+		if self.goRight then
+			self.x = self.x + self.vel*dt
+		else
+			self.x = self.x - self.vel*dt
+		end
 	end
 	
 	--wrap around screen
@@ -62,13 +69,33 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 	end
 end
 
+function DualMaster:draw()
+	if self.goRight then
+		Enemy.draw(self, 255, 255, 255)
+	else
+		Object.draw(self, 255, 255, 255, math.pi)
+	end
+end
+
 function DualMaster:shoot(px, py)
+	--massively hacky
+	local playerInFront = false
+	if (px > self.x and px < self.x + 400 and self.goRight) or 
+	(px < self.x and px > self.x - 400 and not self.goRight) then
+		playerInFront = true
+	end
+	
 	if (py < self.y + self.height and py > self.y - self.height) and 
-	(px > self.x - 400 or px < self.x + 400) then
+	playerInFront then
 		-- local b1 = EnemyBullet(self.x + 40, self.y, 600, 0)
 		-- local b2 = EnemyBullet(self.x - 40, self.y, 600, math.pi)
-		local b1 = EnemyBullet(self.x + 25, self.y + 10, 600, 0)
-		local b2 = EnemyBullet(self.x + 25, self.y - 10, 600, 0)
+		if self.goRight then
+			local b1 = EnemyBullet(self.x + 25, self.y + 10, 600, 0)
+			local b2 = EnemyBullet(self.x + 25, self.y - 10, 600, 0)
+		else
+			local b1 = EnemyBullet(self.x - 25, self.y + 10, -600, 0)
+			local b2 = EnemyBullet(self.x - 25, self.y - 10, -600, 0)
+		end
 		table.insert(objects, b1)
 		table.insert(objects, b2)
 		return true

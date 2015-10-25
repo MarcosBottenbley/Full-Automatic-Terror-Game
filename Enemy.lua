@@ -46,8 +46,8 @@ function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
 	self.validCollisions = {2,3}
 end
 
-function Enemy:draw()
-	Object.draw(self,255,255,255)
+function Enemy:draw(r, g, b)
+	Object.draw(self,r,g,b)
 end
 
 --- called if an enemy dies, reduces speed and then explodes

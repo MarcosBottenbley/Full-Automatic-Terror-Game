@@ -12,6 +12,7 @@
 
 Enemy = require("Enemy")
 EnemyBullet = require("EnemyBullet")
+math.randomseed(os.time())
 
 local PhantomShip = {
 	img = "gfx/phantom_ship.png",
@@ -19,7 +20,8 @@ local PhantomShip = {
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'f',
-	vel = 0, fireRate = 2, timer = 4
+	vel = 0, fireRate = 2, timer = 4,
+	goDown
 }
 PhantomShip.__index = PhantomShip
 
@@ -36,7 +38,9 @@ setmetatable(PhantomShip, {
 --- movement speed
 
 function PhantomShip:_init()
-	self.vel = math.random(40,80)
+	self.vel = math.random(80,160)
+	local choice = {true, false}
+	self.goDown = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
@@ -52,20 +56,49 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 	
 	--move/stop moving during explosion
 	if not self.collided then
-		self.y = self.y + self.vel*dt
+		if self.goDown then
+			self.y = self.y + self.vel*dt
+		else
+			self.y = self.y - self.vel*dt
+		end
 	end
 	
 	if self.x >= bg_width then
 		self.x = 0
 	end
+	if self.x < -1 then
+		self.x = bg_width - 1
+	end
 	if self.y >= bg_height then
 		self.y = 0
+	end
+	if self.y < -1 then
+		self.y = bg_height - 1
+	end
+end
+
+function PhantomShip:draw()
+	if self.goDown then
+		Enemy.draw(self, 255, 255, 255)
+	else
+		Object.draw(self, 255, 255, 255, math.pi)
 	end
 end
 
 function PhantomShip:shoot(px, py)
-	if (px < self.x + 28.5 and px > self.x - 28.5) and py > self.y then
-		local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
+	--incredibly hacky
+	local playerInFront = false
+	if (py > self.y and py < self.y + 400 and self.goDown) or 
+	(py < self.y and py > self.y - 400 and not self.goDown) then
+		playerInFront = true
+	end
+	
+	if (px < self.x + 28.5 and px > self.x - 28.5) and playerInFront then
+		if self.goDown then
+			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
+		else
+			local b = EnemyBullet(self.x, self.y-40, -600, math.pi/2)
+		end
 		table.insert(objects, b)
 		return true
 	else

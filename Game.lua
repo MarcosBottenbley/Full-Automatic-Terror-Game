@@ -54,6 +54,7 @@ function Game:load(arg)
 
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
+	CircleBorg = require("CircleBorg")
 	Bullet = require("Bullet")
 	PhantomShip = require("PhantomShip")
 	DualMaster = require("DualMaster")
@@ -427,6 +428,9 @@ function Game:make(thing, x, y, z, w)
 		return
 	elseif thing == "ogb" then
 		obj = GlowBorg()
+		obj:setPosition(x, y)
+	elseif thing == "ogt" then
+		obj = CircleBorg()
 		obj:setPosition(x, y)
 	elseif thing == "ops" then
 		obj = PhantomShip()
