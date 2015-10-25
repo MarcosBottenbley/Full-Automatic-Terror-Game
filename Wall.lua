@@ -16,7 +16,7 @@ local Wall = {
 	x = 10, y = 10,
 	width = 30, height = 30,
 	id = 8, connector = false,
-	angle = 0
+	horizontal = true
 }
 Wall.__index = Wall
 
@@ -46,14 +46,22 @@ end
 function Wall:getHitBoxes( ... )
 	local hb = {}
 
-	if self.connector then
+	if self.connector and self.horizontal then
 		local num = self.width / self.height
 		for i = 1, i < num do
+			local offset = (self.height * i) - (self.height/2)
 			local hb_1 = {self.x, self.y, self.height/2}
 			table.insert(hb, hb_1)
 		end
+	elseif self.connector and not self.horizontal then
+		local num = self.height / self.width
+		for i = 1, i < num do
+			local offset = (self.width * i) - (self.width/2)
+			local hb_1 = {self.x, self.y, self.width/2}
+			table.insert(hb, hb_1)
+		end
 	else
-		local hb_1 = {self.x, self.y, self.width/2}
+	    local hb_1 = {self.x, self.y, self.width/2}
 		table.insert(hb, hb_1)
 	end
 
