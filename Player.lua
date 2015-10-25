@@ -82,15 +82,15 @@ function Player:update(dt, swidth, sheight)
 	    firable = false
 	end
 
-	if isjumping == true then
-		jumptimer = jumptimer + dt
-		self.vel = 1000
+	if self.isjumping == true then
+		self.jumptimer = self.jumptimer + dt
+		self.vel = 200
 		self.invul = true
-		if jumptimer > 1 then
+		if self.jumptimer > 1 then
 			self.invul = false
-			self.vel = 200
-			isjumping = false
-			jumptimer = 0
+			self.vel = 1000
+			self.isjumping = false
+			self.jumptimer = 0
 		end
 	end
 
