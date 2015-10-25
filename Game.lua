@@ -26,6 +26,7 @@ local bgm2
 
 local timer = 0
 local waiting = false
+local frames = {}
 
 local enemy_gone = false
 local player_gone = false
@@ -67,6 +68,7 @@ function Game:load(arg)
 	Wormhole = require("Wormhole")
 	ScreenTable = require("ScreenTable")
 	Wall = require("Wall")
+	Frame = require("Frame")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -166,6 +168,9 @@ function Game:start()
 	)
 
 	table.insert(objects, Wall(1000,1200,180,30,true))
+
+	table.insert(frames, Frame(1200,1200,0,0))
+	table.insert(frames, Frame(100,100,0,0))
 
 	ST = ScreenTable(10,10,bg_width,bg_height)
 end
@@ -308,11 +313,16 @@ function Game:draw(dt)
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
+	local fx, fy = self:inFrame()
 
-	if player:isDamaged() then
-		cx, cy = camera:shake()
+	if fx == 1 and fy == 1 then
+		if player:isDamaged() then
+			cx, cy = camera:shake()
+		else
+			cx, cy = camera:move()
+		end
 	else
-		cx, cy = camera:move()
+		cx, cy = fx, fy
 	end
 
 	-- zoom in
@@ -477,6 +487,15 @@ function Game:hordeDraw()
 		"TIME: " .. timeLeft,
 		250, 10
 	)
+end
+
+function Game:inFrame()
+	for _,frame in ipairs(frames) do
+		if frame:entered(player:getX(), player:getY()) then
+			return frame:getCoordinates()
+		end
+	end
+	return 1, 1
 end
 
 return Game

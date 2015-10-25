@@ -31,7 +31,9 @@ local Player = {
 	d_timer = 0, damaged = false,
 	i_timer = 0, missile = false,
 	bomb_flash = false, flash_timer = .6,
-	teleporttimer = 0, bulletSpeed = .18
+	teleporttimer = 0, bulletSpeed = .18,
+	inframe = false,
+	camera_x = 0, camera_y = 0
 }
 Player.__index = Player
 
@@ -395,6 +397,19 @@ end
 
 function Player:isDamaged()
 	return self.damaged
+end
+
+function Player:enterFrame(x,y)
+	self.camera_x, self.camera_y = -x, -y
+	inframe = true
+end
+
+function Player:isInFrame()
+	return inframe
+end
+
+function Player:getFrameCoordinates()
+	return self.camera_x, self.camera_y
 end
 
 return Player
