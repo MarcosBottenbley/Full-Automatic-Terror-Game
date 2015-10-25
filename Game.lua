@@ -83,6 +83,9 @@ function Game:load(arg)
 	error = love.audio.newSource("sfx/error.wav")
 	error:setLooping(false)
 
+	jump = love.audio.newSource("sfx/jump.wav")
+	jump:setLooping(false)
+
 	bombblast = love.audio.newSource("sfx/bomb.wav")
 	bombblast:setLooping(false)
 
@@ -327,6 +330,11 @@ function Game:draw(dt)
 	love.graphics.print(
 		"BOMBS: " .. player:getBomb(),
 		10, 40
+	)
+
+	love.graphics.print(
+		"HYPERJUMPS: " .. player:getJump(),
+		10, 70
 	)
 
 	love.graphics.printf(

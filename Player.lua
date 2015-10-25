@@ -27,12 +27,12 @@ local Player = {
 	id = 2, collided = false,
 	bounding_rad = 25, angle1 = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 10, bomb = 3, invul = false,
-	d_timer = 0, damaged = false,
+	health = 10, bomb = 3, h_jump = 2,
+	invul = false, d_timer = 0, damaged = false,
 	i_timer = 0, missile = false,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
-	inframe = false,
+	inframe = false, jumptimer = 0, isjumping = false,
 	camera_x = 0, camera_y = 0
 }
 Player.__index = Player
@@ -80,6 +80,18 @@ function Player:update(dt, swidth, sheight)
 		firable = true
 	else
 	    firable = false
+	end
+
+	if isjumping == true then
+		jumptimer = jumptimer + dt
+		self.vel = 1000
+		self.invul = true
+		if jumptimer > 1 then
+			self.invul = false
+			self.vel = 200
+			isjumping = false
+			jumptimer = 0
+		end
 	end
 
 	self.teleporttimer = self.teleporttimer + dt
@@ -217,7 +229,11 @@ function Player:keyreleased(key)
 	if key == 'b' then
 		self:useBomb()
 	end
-
+	
+	if key == 'h' then
+		self:useJump()
+	end
+	
 	if key == '1' then
 		self:weaponSelect()
 	end
@@ -252,6 +268,16 @@ end
 
 function Player:weaponSelect()
 	self.missile = not self.missile
+end
+
+function Player:useJump()
+	if self.h_jump == 0 then
+		error:play()
+	else
+		jump:play()
+		self.h_jump = self.h_jump - 1
+		self.isJumping = true
+	end
 end
 
 function Player:useBomb()
@@ -351,6 +377,10 @@ end
 
 function Player:getBomb()
 	return self.bomb
+end
+
+function Player:getJump()
+	return self.h_jump
 end
 
 function Player:flash()
