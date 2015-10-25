@@ -66,6 +66,7 @@ function Game:load(arg)
 	Missile = require("Missile")
 	Wormhole = require("Wormhole")
 	ScreenTable = require("ScreenTable")
+	Wall = require("Wall")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -164,6 +165,8 @@ function Game:start()
 			bg_width, bg_height
 	)
 
+	table.insert(objects, Wall(1000,1200,180,30,true))
+
 	ST = ScreenTable(10,10,bg_width,bg_height)
 end
 
@@ -180,7 +183,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(create, length - i)
 	end
-	
+
 	length = table.getn(wormholes)
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
@@ -332,7 +335,7 @@ function Game:draw(dt)
 
 	for _, o in ipairs(objects) do
 		o:draw()
-		--self:drawHitboxes(o)
+		self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
