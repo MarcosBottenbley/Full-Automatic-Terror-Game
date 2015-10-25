@@ -95,6 +95,8 @@ function LevelLoader:make(thing, x, y, z, w)
 		obj = Wormhole(x, y)
 	elseif thing == "frm" then
 		table.insert(frames, Frame(x,y))
+	elseif thing == "wal" then
+		obj = Wall(x, y, z)
 	end
 
 	table.insert(objects, obj)

@@ -31,12 +31,16 @@ setmetatable(Wall, {
 	end,
 })
 
-function Wall:_init(x,y,w,h,horizontal)
+function Wall:_init(x,y,horizontal)
 	self.x = x
 	self.y = y
-	self.width = w
-	self.height = h
 
+	if horizontal == 1 then
+		self.horizontal = true
+	else
+		self.horizontal = false
+	end
+	
 	Object._init(self, x, y,
 		self.img,
 		self.width,
