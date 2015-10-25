@@ -15,7 +15,7 @@ math.randomseed(os.time())
 local f_timer = 0
 local firable = false
 
-local stop = false
+local timeChange
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -58,7 +58,7 @@ function Player:_init(x, y, v)
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
 
-	self.validCollisions = {1,6,5,7}
+	self.validCollisions = {1,6,5,7,8}
 end
 
 function Player:load()
@@ -72,6 +72,7 @@ end
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	f_timer = f_timer + dt
+	timeChange = dt
 
 	if f_timer >= self.bulletSpeed then
 		firable = true
@@ -128,10 +129,10 @@ function Player:update(dt, swidth, sheight)
 	local moving = false
 
 	--get acceleration (if not moving, accelerate opposite velocity)
-	if love.keyboard.isDown('down') or love.keyboard.isDown('s') and not stop then
+	if love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 	 	self.accel = -self.max_accel
 		moving = true
-	elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') and not stop then
+	elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then
 		self.accel = self.max_accel
 		moving = true
 	elseif self.vel > 0 then
@@ -147,6 +148,8 @@ function Player:update(dt, swidth, sheight)
 		(self.accel <= 0 and self.vel > -self.max_vel) then
 		self.vel = self.vel + self.accel * dt
 	end
+
+	print(self.vel)
 
 	--stop player from moving back and forth when not pressing up/down
 	if math.abs(self.vel) < self.max_vel / 10 and not moving then
@@ -381,14 +384,14 @@ function Player:collide(obj)
 		end
 		-- love.timer.sleep(0.2)
 	elseif obj:getID() == 8 then
+		self.y = self.y - math.sin(self.angle1)*-self.vel * timeChange
+		self.x = self.x + math.cos(self.angle1)*-self.vel * timeChange
+
 		self.vel = 1.5 * -self.vel
-
-		if self.vel > 300 then
-			self.vel = 300
-		end
-
-		if self.vel < -300 then
-			self.vel = -300
+		if self.vel > 250 then
+			self.vel = 200
+		elseif self.vel < -250 then
+			self.vel = -200
 		end
 	end
 end
