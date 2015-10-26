@@ -76,9 +76,6 @@ function Player:update(dt, swidth, sheight)
 	f_timer = f_timer + dt
 	timeChange = dt
 	
-	print(self.isJumping)
-	print(self.vel)
-	
 	if f_timer >= self.bulletSpeed then
 		firable = true
 	else
@@ -160,7 +157,6 @@ function Player:update(dt, swidth, sheight)
 			self.vel = self.vel + self.accel * dt
 		end
 	end
-	print(self.vel)
 	--stop player from moving back and forth when not pressing up/down
 	if math.abs(self.vel) < self.max_vel / 10 and not moving then
 		self.vel = 0
@@ -270,7 +266,6 @@ function Player:useJump()
 	if self.h_jump == 0 then
 		error:play()
 	else
-		print("jumpin")
 		jump:play()
 		self.vel = 40
 		self.h_jump = self.h_jump - 1
