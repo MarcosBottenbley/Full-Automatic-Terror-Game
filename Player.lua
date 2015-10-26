@@ -263,13 +263,16 @@ function Player:weaponSelect()
 end
 
 function Player:useJump()
-	if self.h_jump == 0 then
-		error:play()
-	else
-		jump:play()
-		self.vel = 40
-		self.h_jump = self.h_jump - 1
-		self.isJumping = true
+	if self.isJumping == false then
+	
+		if self.h_jump == 0 then
+			error:play()
+		else
+			jump:play()
+			self.vel = 40
+			self.h_jump = self.h_jump - 1
+			self.isJumping = true
+		end
 	end
 end
 
