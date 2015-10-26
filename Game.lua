@@ -23,6 +23,8 @@ local create = {}
 local bgm1
 local bgm2
 
+local hordeMode = false
+local h_timer = 0
 local timer = 0
 local waiting = false
 local frames = {}
@@ -170,27 +172,27 @@ function Game:stop()
 	end
 end
 
--- function Game:lose()
--- 	self:scoreCheck()
--- 	levelNum = 1
--- 	hordeMode = false
--- 	ended = true
--- 	switchTo(GameOver)
--- end
---
--- function Game:win()
--- 	score = score + 3000
--- 	if levelNum == 1 then
--- 		levelNum = 2
--- 		switchTo(Intro2)
--- 	elseif levelNum == 2 then
--- 		self:scoreCheck()
--- 		levelNum = 1
--- 		hordeMode = false
--- 		ended = true
--- 		switchTo(Win)
--- 	end
--- end
+function Game:lose()
+	self:scoreCheck()
+	levelNum = 1
+	hordeMode = false
+	ended = true
+	switchTo(GameOver)
+end
+
+function Game:win()
+	score = score + 3000
+	if levelNum == 1 then
+		levelNum = 2
+		switchTo(Intro2)
+	elseif levelNum == 2 then
+		self:scoreCheck()
+		levelNum = 1
+		hordeMode = false
+		ended = true
+		switchTo(Win)
+	end
+end
 
 function Game:scoreCheck()
 	for rank, hs in ipairs(highscores) do
@@ -251,8 +253,35 @@ function Game:update(dt)
 
 		x = x + 1
 	end
+	--checks for win/lose states
+	if hordeMode then
+		self:hordeCheck(dt)
+	end
+	length = table.getn(objects)
+	enemy_gone = true
+	player_gone = true
+	for i=1, length do
+		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
+			enemy_gone = false
+		elseif objects[i]:getID() == 2 then
+			player_gone = false
+		end
+	end
 
-	level:update(dt, score)
+	if enemy_gone and not ended then
+		if not hordeMode then
+			self:win()
+			time = 0
+			h_timer = 0
+		end
+	end
+	if player_gone and not ended then
+		time = 0
+		levelNum = 1
+		hordeMode = false
+		h_timer = 0
+		self:lose()
+	end
 end
 
 function Game:draw(dt)

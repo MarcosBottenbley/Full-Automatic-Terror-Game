@@ -134,46 +134,6 @@ function LevelLoader:update(dt, score)
 	end
 end
 
-function LevelLoader:hordeCheck(dt)
-	h_timer = h_timer + dt
-	if h_timer > 120 then
-		time = 0
-		h_timer = 0
-		self:win()
-	end
-end
-
-function LevelLoader:hordeDraw()
-	local timeLeft = math.floor(120 - h_timer)
-	love.graphics.print(
-		"TIME: " .. timeLeft,
-		250, 10
-	)
-end
-
-function LevelLoader:lose()
-	-- self:scoreCheck()
-	levelNum = 1
-	hordeMode = false
-	ended = true
-	switchTo(LevelLoaderOver)
-end
-
-function LevelLoader:win()
-	-- score = score + 3000
-	if levelNum == 1 then
-		levelNum = 2
-		self.hordeMode = true
-		switchTo(Intro2)
-	elseif levelNum == 2 then
-		-- self:scoreCheck()
-		levelNum = 1
-		self.hordeMode = false
-		ended = true
-		switchTo(Win)
-	end
-end
-
 function LevelLoader:getBackground()
 	return self.background
 end
