@@ -21,7 +21,8 @@ local Wormhole = {
 	xset = 0, yset = 0,
 	bounding_rad = 30,
 	id = 7, collided = false,
-	tele_x = 0, tele_y = 0
+	tele_x = 0, tele_y = 0,
+	sprites = {}
 }
 
 Wormhole.__index = Wormhole
