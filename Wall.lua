@@ -10,6 +10,9 @@
 --- David Miller
 --- dmill118@jhu.edu
 
+local w
+local h
+
 Object = require("Object")
 
 local Wall = {
@@ -31,23 +34,25 @@ setmetatable(Wall, {
 	end,
 })
 
-function Wall:_init(x,y,horizontal)
+function Wall:_init(x,y,width,height)
 	self.x = x
 	self.y = y
 
-	if horizontal == 1 then
-		self.horizontal = true
+	w = width
+	h = height
+
+	if width > height then
+		self.width = width
+		self.height = height
+		self.angle = math.pi
 	else
-		self.horizontal = false
+		self.width = height
+		self.height = width
+		self.angle = math.pi/2
 	end
+
 	
-	Object._init(self, x, y,
-		self.img,
-		self.width,
-		self.height,
-		self.frames,
-		self.states,
-		self.delay)
+	Object._init(self, x, y,self.img,self.width,self.height,self.frames,self.states,self.delay)
 
 	self.validCollisions = {2}
 	self.hb = self:makeHitboxes()
@@ -68,22 +73,22 @@ end
 
 function Wall:makeHitboxes(...)
 	local hb = {}
-	if self.width > self.height then
-		local num = self.width / self.height
+	if w > h then
+		local num = w / h
 		for i = 1, math.floor(num) do
-			local offset = (self.height * i) - (self.height/2) - self.width/2
-			local hb_1 = {self.x + offset, self.y, self.height/2}
+			local offset = (h * i) - (h/2) - w/2
+			local hb_1 = {self.x + offset, self.y, h/2}
 			table.insert(hb, hb_1)
 		end
-	elseif self.height > self.width then
-		local num = self.height / self.width
+	elseif h > w then
+		local num = h / w
 		for i = 1, math.floor(num) do
-			local offset = (self.width * i) - (self.width/2)
-			local hb_1 = {self.x, self.y + offset, self.width/2}
+			local offset = (w * i) - (w/2)
+			local hb_1 = {self.x, (self.y + offset) - h/2, w/2}
 			table.insert(hb, hb_1)
 		end
 	else
-	  local hb_1 = {self.x, self.y, self.width/2}
+	  local hb_1 = {self.x, self.y, w/2}
 		table.insert(hb, hb_1)
 	end
 
@@ -92,7 +97,7 @@ end
 
 function Wall:draw(...)
 	-- body
-	Object.draw(self,255,255,255,0)
+	Object.draw(self,255,255,255,self.angle)
 end
 
 return Wall

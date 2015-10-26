@@ -15,7 +15,7 @@ math.randomseed(os.time())
 local f_timer = 0
 local firable = false
 
-local timeChange
+local timeChange = 0
 
 local Player = {
 	vel = 0, max_vel = 200,
