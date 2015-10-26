@@ -23,14 +23,12 @@ local create = {}
 local bgm1
 local bgm2
 
-local hordeMode = false
 local h_timer = 0
 local timer = 0
 local waiting = false
 local frames = {}
 
 local enemy_gone = false
-local player_gone = false
 
 local wormholes = {}
 
@@ -106,6 +104,8 @@ function Game:load(arg)
 end
 
 function Game:start()
+	time = 0
+	
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
@@ -125,9 +125,6 @@ function Game:start()
 		end
 	end
 
-	for i = 1, table.getn(wormholes) do
-		-- print(wormholes[i]:getY())
-	end
 	-- give wormholes teleports
 	for i = 1, table.getn(wormholes) do
 		local worm = wormholes[(i + 1) % table.getn(wormholes) + 1]
@@ -139,7 +136,6 @@ function Game:start()
 	recent_score = 0
 
 	enemy_gone = false
-	player_gone = false
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
@@ -170,27 +166,36 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
 	end
+	
+	level = nil
 end
 
 function Game:lose()
 	self:scoreCheck()
 	levelNum = 1
-	hordeMode = false
 	ended = true
 	switchTo(GameOver)
 end
 
 function Game:win()
 	score = score + 3000
-	if levelNum == 1 then
-		levelNum = 2
-		switchTo(Intro2)
-	elseif levelNum == 2 then
-		self:scoreCheck()
-		levelNum = 1
-		hordeMode = false
-		ended = true
-		switchTo(Win)
+	self:scoreCheck()
+	levelNum = 1
+	ended = true
+	switchTo(Win)
+end
+
+function Game:nextLevel()
+	levelNum = levelNum + 1
+	self:stop()
+	self:start()
+end
+
+function Game:advance()
+	if levelNum == max_level then
+		self:win()
+	else
+		self:nextLevel()
 	end
 end
 
@@ -254,34 +259,32 @@ function Game:update(dt)
 		x = x + 1
 	end
 	--checks for win/lose states
-	if hordeMode then
-		self:hordeCheck(dt)
-	end
-	length = table.getn(objects)
-	enemy_gone = true
-	player_gone = true
-	for i=1, length do
-		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
-			enemy_gone = false
-		elseif objects[i]:getID() == 2 then
-			player_gone = false
-		end
-	end
+	-- if level.hordeMode then
+		-- self:hordeCheck(dt)
+	-- end
+	-- length = table.getn(objects)
+	-- enemy_gone = true
+	-- for i=1, length do
+		-- if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
+			-- enemy_gone = false
+		-- end
+	-- end
 
-	if enemy_gone and not ended then
-		if not hordeMode then
-			self:win()
-			time = 0
-			h_timer = 0
-		end
-	end
-	if player_gone and not ended then
-		time = 0
-		levelNum = 1
-		hordeMode = false
-		h_timer = 0
-		self:lose()
-	end
+	-- if enemy_gone and not ended then
+		-- if not level.hordeMode then
+			-- self:win()
+			-- time = 0
+			-- h_timer = 0
+		-- end
+	-- end
+	
+	-- if player:isDead() and not ended then
+		-- time = 0
+		-- levelNum = 1
+		-- h_timer = 0
+		-- self:lose()
+	-- end
+	level:update(dt, score, self)
 end
 
 function Game:draw(dt)
@@ -371,8 +374,8 @@ function Game:draw(dt)
 		"left"
 	)
 
-	if hordeMode then
-		self:hordeDraw()
+	if level.hordeMode then
+		level:hordeDraw()
 	end
 
 	--fps = love.timer.getFPS()
@@ -385,6 +388,23 @@ function Game:draw(dt)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
 end
+
+-- function Game:hordeCheck(dt)
+	-- h_timer = h_timer + dt
+	-- if h_timer > 120 then
+		-- time = 0
+		-- h_timer = 0
+		-- self:win()
+	-- end
+-- end
+
+-- function Game:hordeDraw()
+	-- local timeLeft = math.floor(120 - h_timer)
+	-- love.graphics.print(
+		-- "TIME: " .. timeLeft,
+		-- 250, 10
+	-- )
+-- end
 
 function Game:drawHitboxes(obj)
 	local t = obj:getHitBoxes()
@@ -401,17 +421,12 @@ function Game:keyreleased(key)
 	player:keyreleased(key)
 
 	if key == 'escape' then
-		time = 0
-		hordeMode = false
 		levelNum = 1
-		h_timer = 0
 		switchTo(Menu)
 	end
 
 	if key == 'p' then
-		time = 0
-		h_timer = 0
-		level:win()
+		self:advance()
 	end
 end
 

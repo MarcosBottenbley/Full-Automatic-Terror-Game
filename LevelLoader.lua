@@ -33,6 +33,9 @@ end
 
 function LevelLoader:setLevel(lvlNum)
 	self.level = "level/level" .. lvlNum
+	if lvlNum == 2 then
+		self.hordeMode = true
+	end
 end
 
 function LevelLoader:load(...)
@@ -71,6 +74,9 @@ function LevelLoader:make(thing, x, y, z, w)
 	elseif thing == "ogb" then
 		obj = GlowBorg()
 		obj:setPosition(x, y)
+	elseif thing == "ocb" then
+		obj = CircleBorg()
+		obj:setPosition(x, y)
 	elseif thing == "ops" then
 		obj = PhantomShip()
 		obj:setPosition(x, y)
@@ -96,16 +102,16 @@ function LevelLoader:make(thing, x, y, z, w)
 	elseif thing == "frm" then
 		table.insert(frames, Frame(x,y))
 	elseif thing == "wal" then
-		obj = Wall(x, y, z)
+		obj = Wall(x, y, z, w)
 	end
 
 	table.insert(objects, obj)
 end
 
-function LevelLoader:update(dt, score)
+function LevelLoader:update(dt, score, game)
 	--checks for win/lose states
 	if self.hordeMode then
-		self:hordeCheck(dt)
+		self:hordeCheck(dt, game)
 	end
 	length = table.getn(objects)
 	enemy_gone = true
@@ -119,19 +125,31 @@ function LevelLoader:update(dt, score)
 	end
 
 	if enemy_gone and not ended then
-		if not self.hordeMode then
-			self:win(score)
+		--hotfix
+		if not levelNum == 2 then
+			game:advance()
 			time = 0
 			h_timer = 0
 		end
 	end
-	if player_gone and not ended then
-		time = 0
-		levelNum = 1
-		self.hordeMode = false
-		h_timer = 0
-		self:lose()
+	if player:isDead() and not ended then
+		game:lose()
 	end
+end
+
+function LevelLoader:hordeCheck(dt, game)
+	self.h_timer = self.h_timer + dt
+	if self.h_timer > 120 then
+		game:advance()
+	end
+end
+
+function LevelLoader:hordeDraw()
+	local timeLeft = math.floor(120 - self.h_timer)
+	love.graphics.print(
+		"TIME: " .. timeLeft,
+		250, 10
+	)
 end
 
 function LevelLoader:getBackground()

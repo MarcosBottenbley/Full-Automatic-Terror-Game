@@ -17,6 +17,7 @@ pwr = Powerup (double shot)
 rep = Health
 spd = Speed Up
 ogb = GlowBorg (object)
+ocb = CircleBorg (object)
 ops = PhantomShip (object)
 osb = SunBoss (object)
 sgb = GlowBorg (spawner)
