@@ -209,7 +209,7 @@ function Game:update(dt)
 
 	ST:update(dt, objects)
 
-	if player.invul and bgm1 then
+	if player.invul and bgm1 and player.isJumping == false then
 		bgm:stop()
 		bg_invul:play()
 		bgm1 = false
