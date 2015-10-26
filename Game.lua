@@ -28,11 +28,10 @@ local timer = 0
 local waiting = false
 local frames = {}
 
-local enemy_gone = false
-
 local wormholes = {}
 
-local ended = false
+--you can't prove this isn't good practice
+ended = false
 
 local background
 bg_width, bg_height = 0, 0
@@ -134,8 +133,6 @@ function Game:start()
 	enemy_count = 9
 	score = 0
 	recent_score = 0
-
-	enemy_gone = false
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
