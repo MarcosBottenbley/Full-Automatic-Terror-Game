@@ -386,7 +386,7 @@ end
 
 function Player:collide(obj)
 	-- enemy
-	if (obj:getID() == 1 and obj:getType() ~= 'b') or obj:getID() == 6 then
+	if obj:getID() == 1 or obj:getID() == 6 then
 		self:hit()
 		if not self:alive() then
 			self.dead = true
