@@ -69,6 +69,7 @@ function Game:load(arg)
 	ScreenTable = require("ScreenTable")
 	Wall = require("Wall")
 	Frame = require("Frame")
+	Winhole = require("Winhole")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)

@@ -100,7 +100,7 @@ function LevelLoader:make(thing, x, y, z, w)
 	elseif thing == "wrm" then
 		obj = Wormhole(x, y)
 	elseif thing == "wnh" then
-		obj = Wormhole(x, y)
+		obj = Winhole(x, y)
 	elseif thing == "frm" then
 		table.insert(frames, Frame(x,y))
 	elseif thing == "wal" then
