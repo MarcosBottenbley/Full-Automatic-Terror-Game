@@ -227,6 +227,11 @@ function Player:keyreleased(key)
 	end
 	
 	if key == '1' then
+		if self.missile == false then
+			missile_arm:play()
+		else
+			laser_arm:play()
+		end
 		self:weaponSelect()
 	end
 end
