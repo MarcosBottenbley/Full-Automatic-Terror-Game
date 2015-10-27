@@ -80,7 +80,7 @@ function Player:update(dt, swidth, sheight)
 	if f_timer >= self.bulletSpeed then
 		firable = true
 	else
-	    firable = false
+	    	firable = false
 	end
 
 	
@@ -223,6 +223,11 @@ function Player:keyreleased(key)
 	end
 	
 	if key == '1' then
+		if self.missile == false then
+			missile_arm:play()
+		else
+			laser_arm:play()
+		end
 		self:weaponSelect()
 	end
 end
