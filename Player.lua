@@ -80,7 +80,7 @@ function Player:update(dt, swidth, sheight)
 	if f_timer >= self.bulletSpeed then
 		firable = true
 	else
-	    firable = false
+	    	firable = false
 	end
 
 	

@@ -88,6 +88,12 @@ function Game:load(arg)
 	bombblast = love.audio.newSource("sfx/bomb.wav")
 	bombblast:setLooping(false)
 
+	laser_arm = love.audio.newSource("sfx/laser_arm.mp3")
+	laser_arm:setLooping(false)
+
+	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
+	missile_arm:setLooping(false)
+
 	bgm = love.audio.newSource("sfx/gamelow.ogg")
 	bgm:setLooping(true)
 
