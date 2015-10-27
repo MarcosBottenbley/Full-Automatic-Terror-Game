@@ -129,6 +129,10 @@ function SunBoss:alive()
 	return self.health > 0
 end
 
+function SunBoss:getHealth(...)
+	return self.health
+end
+
 function SunBoss:shoot()
 	local b = EnemyBullet(self.x, self.y+40, 600, self.angle)
 	table.insert(objects, b)
