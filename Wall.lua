@@ -34,12 +34,20 @@ setmetatable(Wall, {
 	end,
 })
 
+--post dimentions is 20X20
+--vert fence dims are 18X180
+--hori fence dims are 180X18
 function Wall:_init(x,y,width,height)
 	self.x = x
 	self.y = y
 
 	w = width
 	h = height
+
+	if width == height then
+		self.img = 'gfx/post.png'
+		self.frames = 1
+	end
 
 	if width > height then
 		self.width = width

@@ -23,8 +23,6 @@ setmetatable(Level, {
 	end,
 })
 
---- initializes objects with position, image, size, frames, and other details
-
-function Level:_init(x, y, file, width, height, frames, states, delay)
-
+function Level:_init()
+	
 end
