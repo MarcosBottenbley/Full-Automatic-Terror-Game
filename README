@@ -30,7 +30,12 @@ This next addition is what essentially makes the third level
 possible: Walls. The third level is a wormhole-based teleportation 
 puzzle. The walls divide the level into smaller sectors and the 
 player must use the wormholes to navigate through them to find the 
-end. The end of this level is marked by another new feature: the 
+end. While each wormhole has a designated exit wormhole, that 
+one will not return you to the original wormhole; they are not 
+double joined. This makes getting through the maze much more 
+complicated.
+
+The end of this level is marked by another new feature: the 
 Golden Portal. This distinct wormhole will be used in all of our 
 levels as a simpler way to transition between levels. However, for 
 levels one and two, the conditions must be met in order for the 
@@ -46,7 +51,7 @@ in a spiral motion until it is destroyed or it reaches you.
 
 Some of the key bindings have been revised to make it easier for 
 the player to reach them all quickly. HyperJump is activated with 
-the left shift key and bomb is activated with the 'c' key. Firing 
+the spacebar and bomb is activated with the 'c' key. Firing 
 bullets and invincibility are still the same, with the 'z' key and 
 the 'i' key, respectively.
 
