@@ -83,7 +83,9 @@ function Intro3:update(dt)
 end
 
 function Intro3:keyreleased(key)
-	switchTo(Game)
+	if time > 2 then
+		switchTo(Game)
+	end
 end
 
 function Intro3:keypressed(key)
