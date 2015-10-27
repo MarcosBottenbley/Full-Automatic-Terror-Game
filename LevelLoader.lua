@@ -99,6 +99,8 @@ function LevelLoader:make(thing, x, y, z, w)
 		obj = SpeedUp(x, y, 0)
 	elseif thing == "wrm" then
 		obj = Wormhole(x, y)
+	elseif thing == "wnh" then
+		obj = Winhole(x, y)
 	elseif thing == "frm" then
 		table.insert(frames, Frame(x,y))
 	elseif thing == "wal" then
@@ -114,24 +116,26 @@ function LevelLoader:update(dt, score, game)
 		self:hordeCheck(dt, game)
 	end
 	length = table.getn(objects)
-	enemy_gone = true
-	player_gone = true
+	local enemy_gone = true
+	local player_gone = true
 	for i=1, length do
 		if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
 			enemy_gone = false
-		elseif objects[i]:getID() == 2 then
-			player_gone = false
 		end
 	end
 
 	if enemy_gone and not ended then
-		--hotfix
-		if not levelNum == 2 then
+		if levelNum == 1 then
 			game:advance()
 			time = 0
 			h_timer = 0
 		end
 	end
+	
+	if player.winner == true then
+		game:advance()
+	end
+	
 	if player:isDead() and not ended then
 		game:lose()
 	end

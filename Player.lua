@@ -33,7 +33,7 @@ local Player = {
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
-	camera_x = 0, camera_y = 0
+	camera_x = 0, camera_y = 0, winner = false
 }
 Player.__index = Player
 
@@ -263,13 +263,16 @@ function Player:weaponSelect()
 end
 
 function Player:useJump()
-	if self.h_jump == 0 then
-		error:play()
-	else
-		jump:play()
-		self.vel = 40
-		self.h_jump = self.h_jump - 1
-		self.isJumping = true
+	if self.isJumping == false then
+	
+		if self.h_jump == 0 then
+			error:play()
+		else
+			jump:play()
+			self.vel = 40
+			self.h_jump = self.h_jump - 1
+			self.isJumping = true
+		end
 	end
 end
 
@@ -411,8 +414,11 @@ function Player:collide(obj)
 	elseif obj:getID() == 8 then
 		self.y = self.y - math.sin(self.angle1)*-self.vel * timeChange
 		self.x = self.x + math.cos(self.angle1)*-self.vel * timeChange
+		self.angle1 = self.angle1 - self.ang_vel * timeChange
 
 		self.vel = 0
+	elseif obj:getID() == 9 then
+		self.winner = true
 	end
 end
 
