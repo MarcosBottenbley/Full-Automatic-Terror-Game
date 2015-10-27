@@ -16,14 +16,14 @@ local time = 0
 local changed = 0
 local bgm
 
-local Intro2 = {
+local Intro3 = {
 	bg = nil, pos = 0,
 	script_pos = 1,
 	lines = {}
 }
-Intro2.__index = Intro2
+Intro3.__index = Intro3
 
-setmetatable(Intro2, {
+setmetatable(Intro3, {
 	__index = State,
 	__call = function (cls, ...)
 		local self = setmetatable({}, cls)
@@ -32,8 +32,8 @@ setmetatable(Intro2, {
 	end,
 })
 
-function Intro2:load()
-	self.list_font = love.graphics.newFont("PressStart2P.ttf", 20)
+function Intro3:load()
+	self.list_font = love.graphics.newFont("PressStart2P.ttf", 17)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
@@ -43,12 +43,15 @@ function Intro2:load()
 	bgm:setLooping(true)
 end
 
-function Intro2:start()
+function Intro3:start()
 	self.lines = {
-		"You've escaped the first sector",
-		"Oh no some enemy robot\nfighter ships or something",
-		"You must survive for 2 minutes\nuntil you can warp out",
-		"So yeah"
+		"After battling through \nwave after wave of ships,\n" ..
+		"you are overwhelmed by \nenemy forces and captured",
+		"I know you might have been \ndoing pretty well in the level\n" ..
+		"but trust me \nit was pretty overwhelming",
+		"They have taken you to \nSpace Jail, a treacherous\n" ..
+		"labyrinth of lasers and wormholes",
+		"Are you xtreme enough to break out?"
 	}
 
 	time = 0
@@ -59,7 +62,7 @@ function Intro2:start()
 	bgm:play()
 end
 
-function Intro2:update(dt)
+function Intro3:update(dt)
 	time = time + 1 * dt
 	self.pos = self.pos + 50 * dt
 
@@ -74,21 +77,21 @@ function Intro2:update(dt)
 		changed = math.floor(time)
 	end
 
-	if time > 15 then
+	if time > table.getn(self.lines) * 5 then
 		switchTo(Game)
 	end
 end
 
-function Intro2:keyreleased(key)
+function Intro3:keyreleased(key)
 	if time > 2 then
 		switchTo(Game)
 	end
 end
 
-function Intro2:keypressed(key)
+function Intro3:keypressed(key)
 end
 
-function Intro2:stop()
+function Intro3:stop()
 	time = 0
 	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
@@ -97,10 +100,10 @@ function Intro2:stop()
 	bgm:stop()
 end
 
-function Intro2:draw()
+function Intro3:draw()
 	love.graphics.setFont(self.list_font)
 	love.graphics.translate(0,self.pos)
-	love.graphics.setColor(255, 50, 50, 255)
+	love.graphics.setColor(255, 50, 255, 50)
 	love.graphics.draw(self.bg, 0, 0)
 	love.graphics.setColor(255, 255, 255, 255)
 
@@ -117,4 +120,4 @@ function Intro2:draw()
 	end
 end
 
-return Intro2
+return Intro3

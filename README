@@ -11,48 +11,55 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 7: Level Two Where are You?
+Assignment 8: Level Three Is The Place To Be!
 
-Problem 1: Level Two
+Problem 1: Level Three
 
 (see game)
 
 Problem 2: Technical, Artistic, and Game Play Progress
 
-First, the main menu has changed. Instead of brightness and volume 
-controls, they have been combined into a settings menu. Here, 
-audio, video, and control settings are changed from a single source.
+For this assignment, we made a bunch of improvements to the other 
+two levels and added the third level. First of all, the player 
+now has another special ability: the HyperJump. This power grants 
+the player a massive speed boost directly in front of them for 1 
+second. While advancing at this rapid speed, the player also does 
+not take any damage and destroys all non-boss enemies in its path. 
 
-After choosing play and going through the opening story, the game 
-starts out with the camera panned out and then quickly zooms in to 
-the center of the map where the player is located. The player has 
-two new weapons to use to deal with the surrounding enemies. By 
-pressing 'b', the player can flash a devastating bomb that destroys 
-all non-boss enemies on the screen. However, the player starts out 
-with only three. The number remaining is reflected at the top of the 
-screen (the HUD, so to speak). By pressing '1', the player can switch 
-weapons, either to the laser blaster that fires in a straight line or 
-to the seeker charge that zeroes in on enemy units. Upon being hit by 
-an enemy, there is a screen shaking animation. The player can also 
-strafe by holding 'x' and moving to the side.
+This next addition is what essentially makes the third level 
+possible: Walls. The third level is a wormhole-based teleportation 
+puzzle. The walls divide the level into smaller sectors and the 
+player must use the wormholes to navigate through them to find the 
+end. While each wormhole has a designated exit wormhole, that 
+one will not return you to the original wormhole; they are not 
+double joined. This makes getting through the maze much more 
+complicated.
 
-In terms of gameplay, some new mechanics have been implemented. 
-Spatial hashing and buckets are used to make collision code simpler. 
-There are also new Power Ups located throughout the levels. The blue 
-orb is the old double shot, the lightning bolt is a speed increase, 
-and the wrench sign is a health increase. A gimmick of level two is 
-the wormhole, which the player can enter to be teleported to another 
-wormhole. However, there is a cool down time before another teleport 
-can be used. Also unique to level two is a new enemy: the DualMaster. 
-With double the firepower, it poses a new threat to the player. The 
-Sun Boss also has a fast spinning animation and then an explosion 
-animation upon being destroyed, making the transition between levels 
-more fluid. Once the boss is beaten, there is a new text animation 
-that introduces the level.
+The end of this level is marked by another new feature: the 
+Golden Portal. This distinct wormhole will be used in all of our 
+levels as a simpler way to transition between levels. However, for 
+levels one and two, the conditions must be met in order for the 
+Golden Portal to appear. Because level three has no enemies, 
+it currently has no loss condition unless the player gets 
+frustrated and quits.
 
-Level two has no boss, but instead introduces a horde-mode style of 
-play. There is a timer of two minutes in the player’s HUD. By 
-surviving until the time is up, the player wins the level.
+Level one now has a new enemy flying around: the CircleBorg. It 
+does not aim to hit the player immediately. Rather, when it comes 
+within a certain distance of the player, it starts to move in 
+circles around them. While circling, it slowly closes its distance 
+in a spiral motion until it is destroyed or it reaches you. 
+
+Some of the key bindings have been revised to make it easier for 
+the player to reach them all quickly. HyperJump is activated with 
+the spacebar and bomb is activated with the 'c' key. Firing 
+bullets and invincibility are still the same, with the 'z' key and 
+the 'i' key, respectively.
+
+Finally, we made it so that the Phantom Ships and Dual Masters do 
+not shoot bullets. Our level two was too overwhelming with all of 
+the flying bullets and we do not want our game to be a bullet hell. 
+An enemy hell is much more fitting and it is still challenging even 
+without the bullets.
 
 
 
@@ -64,7 +71,7 @@ because the hi-score screen now accepts 6 hi-scores instead of 5.
 Move the ship with the arrow keys or WASD and press Z to shoot.
 Destroy all the enemies to win the game, but be careful, since
 touching once of them means game over.
-Destroying an enemy is +200 points and clearing the game yields a
+Destroying an enemy is +200 points and clearing a level yields a
 +3000 point bonus.
 We decided to go with a simple approach for scoring points since
 a main focus of our game is ship-to-ship combat.

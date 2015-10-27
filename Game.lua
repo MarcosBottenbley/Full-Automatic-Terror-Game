@@ -131,6 +131,16 @@ function Game:start()
 		wormholes[i]:setTeleport(worm:getX(), worm:getY())
 	end
 
+	-- local worm
+	-- for i = 1, table.getn(wormholes) do
+	-- 	if math.fmod(i, 2) == 1 then
+	-- 		worm = wormholes[(i + 1)]
+	-- 	else
+	-- 		worm = wormholes[(i - 1)]
+	-- 	end
+	-- 	wormholes[i]:setTeleport(worm:getX(), worm:getY())
+	-- end
+
 	enemy_count = 9
 	score = 0
 	recent_score = 0
@@ -185,8 +195,13 @@ end
 
 function Game:nextLevel()
 	levelNum = levelNum + 1
-	self:stop()
-	self:start()
+	if (levelNum - 1) == 1 then
+		switchTo(Intro2)
+	elseif (levelNum - 1) == 2 then
+		switchTo(Intro3)
+	else
+		self:win()
+	end
 end
 
 function Game:advance()

@@ -12,7 +12,7 @@
 
 State = require("State")
 
-local Win = {name = "SECTOR CLEAR", bonus = "SCORE +3000",
+local Win = {name = "GAME CLEAR", bonus = "SCORE +3000",
 help = "Press any key to continue"}
 Win.__index = Win
 
