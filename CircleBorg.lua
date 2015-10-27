@@ -61,7 +61,12 @@ function CircleBorg:update(dt, swidth, sheight, px, py)
 			
 			if (self.x - px)^2 + (self.y - py)^2 < self.chase_range^2 then
 				self.circling = true
-				self.circle_angle = angle
+				--hacky code to set borg's starting angular position in circle to current position
+				if self.x < px then
+					self.circle_angle = angle + math.pi
+				else
+					self.circle_angle = angle
+				end
 			end
 		else
 			--circle around player

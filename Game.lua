@@ -185,8 +185,13 @@ end
 
 function Game:nextLevel()
 	levelNum = levelNum + 1
-	self:stop()
-	self:start()
+	if (levelNum - 1) == 1 then
+		switchTo(Intro2)
+	elseif (levelNum - 1) == 2 then
+		switchTo(Intro3)
+	else
+		self:win()
+	end
 end
 
 function Game:advance()
