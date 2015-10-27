@@ -131,6 +131,16 @@ function Game:start()
 		wormholes[i]:setTeleport(worm:getX(), worm:getY())
 	end
 
+	-- local worm
+	-- for i = 1, table.getn(wormholes) do
+	-- 	if math.fmod(i, 2) == 1 then
+	-- 		worm = wormholes[(i + 1)]
+	-- 	else
+	-- 		worm = wormholes[(i - 1)]
+	-- 	end
+	-- 	wormholes[i]:setTeleport(worm:getX(), worm:getY())
+	-- end
+
 	enemy_count = 9
 	score = 0
 	recent_score = 0
