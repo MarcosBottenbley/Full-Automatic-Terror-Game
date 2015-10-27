@@ -22,7 +22,7 @@ local titles = {
 	"Oh no some enemy fighter ships or something",
 	"Working Working Title",
 	"Like Asteroids, but less fun",
-	"To win the game, you must defeat me, Peter Froelich",
+	"To win the game, you must defeat me, Peter Froehlich",
 	"Press P to win",
 	--"Gold release in the streets, pre-alpha in the sheets",
 	"Game of the Century",

@@ -222,7 +222,7 @@ function Player:keyreleased(key)
 		self:useBomb()
 	end
 	
-	if key == 'lshift' then
+	if key == 'space' then
 		self:useJump()
 	end
 	

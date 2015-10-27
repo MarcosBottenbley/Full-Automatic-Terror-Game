@@ -16,7 +16,6 @@ Camera = require("Camera")
 local Game = {}
 local help = "Press Esc to return to menu (I for invul, P for skip)"
 local scorestring = "SCORE: "
-local score = 0
 local enemy_count = 9
 local level
 local create = {}
@@ -142,8 +141,6 @@ function Game:start()
 	-- end
 
 	enemy_count = 9
-	score = 0
-	recent_score = 0
 
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
@@ -181,6 +178,8 @@ end
 function Game:lose()
 	self:scoreCheck()
 	levelNum = 1
+	score = 0
+	recent_score = 0
 	ended = true
 	switchTo(GameOver)
 end
@@ -189,6 +188,8 @@ function Game:win()
 	score = score + 3000
 	self:scoreCheck()
 	levelNum = 1
+	score = 0
+	recent_score = 0
 	ended = true
 	switchTo(Win)
 end

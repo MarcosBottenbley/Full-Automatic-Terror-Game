@@ -30,7 +30,7 @@ controls = {
 	invul = 'i'
 }
 	
-
+score = 0
 recent_score = 0
 
 highscores = {}
