@@ -153,7 +153,7 @@ function Player:update(dt, swidth, sheight)
 		end
 	end
 	
-	if not love.keyboard.isDown('x') then
+	if not love.keyboard.isDown('z') then
 		self.draw_angle = self.move_angle
 	end
 	
@@ -240,7 +240,7 @@ function Player:fire()
 	f_timer = 0
 	pew:play()
 	if self.missile then
-		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.angle1)
+		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
 		table.insert(objects, m)
 	elseif self.double then
 		--code

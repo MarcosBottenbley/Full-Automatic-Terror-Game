@@ -59,9 +59,9 @@ function Bullet:update(dt, swidth, sheight)
 
 	self.y = self.y - math.sin(self.angle)*self.vel*dt
 	self.x = self.x + math.cos(self.angle)*self.vel*dt
-
-	self.hb_1[2] = self.hb_1[2] - math.sin(self.angle)*self.vel*dt
-	self.hb_1[1] = self.hb_1[1] + math.cos(self.angle)*self.vel*dt
+	
+	self.hb_1[1] = self.x + 37 * math.cos(self.angle)
+	self.hb_1[2] = self.y - 37 * math.sin(self.angle)
 
 	-- makes bullets only last for 0.8 seconds of movement
 

@@ -72,4 +72,9 @@ function GlowBorg:getHitBoxes( ... )
 	return hb
 end
 
+function GlowBorg:collide(obj)
+	self.delay = .1
+	Enemy.collide(self, obj)
+end
+
 return GlowBorg
