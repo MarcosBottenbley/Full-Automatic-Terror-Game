@@ -111,10 +111,9 @@ function LevelLoader:make(thing, x, y, z, w)
 end
 
 function LevelLoader:update(dt, score, game)
+
+	--[[
 	--checks for win/lose states
-	if self.hordeMode then
-		self:hordeCheck(dt, game)
-	end
 	length = table.getn(objects)
 	local enemy_gone = true
 	local player_gone = true
@@ -130,6 +129,11 @@ function LevelLoader:update(dt, score, game)
 			time = 0
 			h_timer = 0
 		end
+	end
+	]]
+
+	if self.hordeMode then
+		self:hordeCheck(dt, game)
 	end
 	
 	if player.winner == true then

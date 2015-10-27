@@ -11,6 +11,7 @@
 --- dmill118@jhu.edu
 
 Enemy = require("Enemy")
+Winhole = require("Winhole")
 
 local time = 0
 
@@ -144,6 +145,8 @@ function SunBoss:collide(obj)
 		self:hit()
 		if not self:alive() then
 			time = 0
+			local gh = Winhole(self.x, self.y)
+			table.insert(objects, gh)
 		end
 	end
 end

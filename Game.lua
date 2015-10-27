@@ -346,8 +346,19 @@ function Game:draw(dt)
 	love.graphics.translate(-cx/(parallax + 1), -cy/(parallax + 1))
 
 	for _, o in ipairs(objects) do
-		o:draw()
-		self:drawHitboxes(o)
+		local ox = o:getX()
+		local oy = o:getY()
+		local ow = o:getWidth()/2
+		local oh = o:getHeight()/2
+		ox = ox + ow
+		oy = oy + oh
+		if -cx < ox and ox < -1 * (cx - 1000) then
+			if -cy < oy and oy < -1 * (cy - 1000) then
+				o:draw()
+			end
+		end
+
+		--self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
