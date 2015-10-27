@@ -19,7 +19,8 @@ local selectwidths = {}
 local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
-local title = "FULL AUTOMATIC\n          TERROR"
+local title1 = "FULL AUTOMATIC"
+local title2 = "TERROR"
 local width = love.window.getWidth()
 local height = love.window.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
@@ -40,12 +41,16 @@ setmetatable(Menu, {
 
 function Menu:load()
 
-	self.title_font = love.graphics.newFont("ka1.ttf", 52)
+	self.title1_font = love.graphics.newFont("ka1.ttf", 52)
+	self.title2_font = love.graphics.newFont("ka1.ttf", 70)
 	self.list_font = love.graphics.newFont("ka1.ttf", 30)
 	self.help_font = love.graphics.newFont("PressStart2P.ttf", 12)
 
-	title_width = self.title_font:getWidth(title)
-	title_height = self.title_font:getHeight(title)
+	title1_width = self.title1_font:getWidth(title1)
+	title1_height = self.title1_font:getHeight(title1)
+	
+	title2_width = self.title2_font:getWidth(title2)
+	title2_height = self.title2_font:getHeight(title2)
 
 	for index,value in ipairs(Menu) do
 		widths[index] = self.list_font:getWidth(value)
@@ -102,8 +107,6 @@ function Menu:draw()
 	love.graphics.draw(self.bg, 1, 1)
 
 	-- draw the title
-	love.graphics.setFont(self.title_font)
-
 	if flash then
 		love.graphics.setColor(255, 255, 255, 255)
 	else
@@ -111,9 +114,16 @@ function Menu:draw()
 	end
 
 	--love.graphics.setColor(255,255,255,alpha)
+	
+	love.graphics.setFont(self.title1_font)
 	love.graphics.print(
-		title,
-		width/2 - title_width/2, 50
+		title1,
+		width/2 - title1_width/2, 50
+	)
+	love.graphics.setFont(self.title2_font)
+	love.graphics.print(
+		title2,
+		width/2 - title2_width/2, 106
 	)
 
 	-- draw the menu list
