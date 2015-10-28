@@ -18,7 +18,9 @@ local GlowBorg = {
 	frames = 6, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 25, type = 'g',
-	vel = 130, chase_range = 500
+	vel = 130, chase_range = 500,
+	bouncing = false, b_angle,
+	b_timer, kludgevar
 }
 GlowBorg.__index = GlowBorg
 
@@ -33,6 +35,7 @@ setmetatable(GlowBorg, {
 
 function GlowBorg:_init()
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.validCollisions = {1,2,3}
 end
 
 function GlowBorg:update(dt, swidth, sheight, px, py)
@@ -43,8 +46,10 @@ function GlowBorg:update(dt, swidth, sheight, px, py)
 
 	--if not exploding
 	if not self.collided and 
-	--and if player is within chasing range
-	(self.x - px)^2 + (self.y - py)^2 < self.chase_range^2 then
+	--and player is within chasing range
+	(self.x - px)^2 + (self.y - py)^2 < self.chase_range^2 and 
+	--and glowborg is not currently bouncing off something
+	not self.bouncing then
 		--move towards player
 		if px - self.x > 0 then
 			self.x = self.x + self.vel * dt * math.cos(angle)
@@ -53,6 +58,24 @@ function GlowBorg:update(dt, swidth, sheight, px, py)
 			self.x = self.x - self.vel * dt * math.cos(angle)
 			self.y = self.y - self.vel * dt * math.sin(angle)
 		end
+	elseif self.bouncing then
+		self:bounce(dt)
+		self.b_timer = self.b_timer - dt
+		if self.b_timer <= 0 then
+			self.bouncing = false
+			self.vel = 130
+		end
+	end
+end
+
+function GlowBorg:bounce(dt)
+	self.vel = self.vel + 1600 * dt
+	if not self.kludgevar then
+		self.x = self.x + self.vel * dt * math.cos(self.b_angle)
+		self.y = self.y + self.vel * dt * math.sin(self.b_angle)
+	else
+		self.x = self.x - self.vel * dt * math.cos(self.b_angle)
+		self.y = self.y - self.vel * dt * math.sin(self.b_angle)
 	end
 end
 
@@ -73,8 +96,20 @@ function GlowBorg:getHitBoxes( ... )
 end
 
 function GlowBorg:collide(obj)
-	self.delay = .1
-	Enemy.collide(self, obj)
+	if obj:getID() ~= 1 then
+		self.delay = .1
+		Enemy.collide(self, obj)
+	elseif obj:getType() == 'g'
+		ox = obj:getX()
+		oy = obj:getY()
+		self.b_angle = math.atan((oy - self.y) / (ox - self.x))
+		self.bouncing = true
+		self.b_timer = .15
+		self.kludgevar = false
+		if ox > self.x then
+			self.kludgevar = true
+		end
+	end
 end
 
 return GlowBorg
