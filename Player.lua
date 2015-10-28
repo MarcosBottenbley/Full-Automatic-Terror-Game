@@ -30,7 +30,7 @@ local Player = {
 	ang_vel = 0, double = false,
 	health = 10, bomb = 3, h_jump = 5,
 	invul = false, d_timer = 0, damaged = false,
-	missile = false,
+	missile = false, missile_fire_timer = 0,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
@@ -75,6 +75,7 @@ end
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	f_timer = f_timer + dt
+	self.missile_fire_timer = self.missile_fire_timer + dt
 	timeChange = dt
 	
 	if f_timer >= self.bulletSpeed then
@@ -153,7 +154,7 @@ function Player:update(dt, swidth, sheight)
 		end
 	end
 	
-	if not love.keyboard.isDown('z') then
+	if not love.keyboard.isDown('x') then
 		self.draw_angle = self.move_angle
 	end
 	
@@ -243,19 +244,30 @@ end
 
 function Player:fire()
 	f_timer = 0
-	pew:play()
+
+	local missile_delay = 0.8
+	if self.double == true then
+		missile_delay = 0.5
+	end
+
 	if self.missile then
-		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
-		table.insert(objects, m)
+		if self.missile_fire_timer > missile_delay then
+			local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
+			table.insert(objects, m)
+			pew:play()
+			self.missile_fire_timer = 0
+		end
 	elseif self.double then
 		--code
 		local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.draw_angle), self.hb_1[2] + 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
 		local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.draw_angle), self.hb_1[2] - 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
 		table.insert(objects, b1)
 		table.insert(objects, b2)
+		pew:play()
 	else
 		local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.draw_angle) --magic numbers errywhere
 		table.insert(objects, b)
+		pew:play()
 	end
 end
 
