@@ -12,8 +12,8 @@
 
 State = require("State")
 
-local Menu = {"New Game", "Settings", "High Scores", "Quit"}
-local selects = {"-New Game-", "-Settings-", "-High Scores-", "-Quit-"}
+local Menu = {"New Game", "How To Play", "Settings", "High Scores", "Quit"}
+local selects = {"-New Game-", "-How To Play-", "-Settings-", "-High Scores-", "-Quit-"}
 local widths = {}
 local selectwidths = {}
 local selector = 0
@@ -162,12 +162,12 @@ function Menu:keyreleased(key)
 	end
 
 	if key == 'up' then
-		selector = ((selector - 1) % 4)
+		selector = ((selector - 1) % 5)
 		selected:play()
 	end
 
 	if key == 'down' then
-		selector = ((selector + 1) % 4)
+		selector = ((selector + 1) % 5)
 		selected:play()
 	end
 
@@ -178,12 +178,14 @@ function Menu:keyreleased(key)
 			love.timer.sleep(0.4)
 			switchTo(Intro)
 		elseif selector == 1 then
-			love.timer.sleep(0.4)
-			switchTo(Settings)
+			-- love.timer.sleep(0.4)
 		elseif selector == 2 then
 			love.timer.sleep(0.4)
-			switchTo(ScoreScreen)
+			switchTo(Settings)
 		elseif selector == 3 then
+			love.timer.sleep(0.4)
+			switchTo(ScoreScreen)
+		elseif selector == 4 then
 			menu_bgm:stop()
 			quitgame:play()
 			love.timer.sleep(2)
