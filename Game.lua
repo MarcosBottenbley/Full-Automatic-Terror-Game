@@ -19,8 +19,8 @@ local scorestring = "SCORE: "
 local enemy_count = 9
 local level
 local create = {}
-local bgm1
-local bgm2
+local bgm_normal
+local bgm_starman
 
 local h_timer = 0
 local timer = 0
@@ -94,11 +94,17 @@ function Game:load(arg)
 	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
 	missile_arm:setLooping(false)
 
-	bgm = love.audio.newSource("sfx/gamelow.ogg")
-	bgm:setLooping(true)
+	bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
+	bgm_1:setLooping(true)
+	
+	bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
+	bgm_2:setLooping(true)
+	
+	bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
+	bgm_3:setLooping(true)
 
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
-	bgm:setLooping(false)
+	bg_invul:setLooping(false)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -111,9 +117,9 @@ end
 function Game:start()
 	time = 0
 	
-	bgm:play()
-	bgm1 = true
-	bgm2 = false
+	self:playMusic()
+	bgm_normal = true
+	bgm_starman = false
 
 	ended = false
 
@@ -160,7 +166,7 @@ function Game:start()
 end
 
 function Game:stop()
-	bgm:stop()
+	self:stopMusic()
 	bg_invul:stop()
 
 	local length = table.getn(objects)
@@ -236,16 +242,16 @@ function Game:update(dt)
 
 	ST:update(dt, objects)
 
-	if player.invul and bgm1 and player.isJumping == false then
-		bgm:stop()
+	if player.invul and bgm_normal and player.isJumping == false then
+		self:stopMusic()
 		bg_invul:play()
-		bgm1 = false
-		bgm2 = true
-	elseif (not player.invul) and bgm2 then
+		bgm_normal = false
+		bgm_starman = true
+	elseif (not player.invul) and bgm_starman then
 		bg_invul:stop()
-		bgm:play()
-		bgm1 = true
-		bgm2 = false
+		self:playMusic()
+		bgm_normal = true
+		bgm_starman = false
 	end
 
 	local playerx = 0
@@ -472,6 +478,32 @@ function Game:inFrame()
 		end
 	end
 	return 1, 1
+end
+
+--insanely hacky code, i'm going to tweak levelloader later,
+--but for now the music logic is here
+function Game:playMusic()
+	if levelNum == 1 then
+		bgm_1:play()
+	elseif levelNum == 2 then
+		bgm_2:play()
+	elseif levelNum == 3 then
+		bgm_3:play()
+	else
+		bgm_1:play()
+	end
+end
+
+function Game:stopMusic()
+	if (levelNum == 1 and ended) or (levelNum == 2 and not ended) then
+		bgm_1:stop()
+	elseif (levelNum == 2 and ended) or (levelNum == 3 and not ended) then
+		bgm_2:stop()
+	elseif (levelNum == 1 and player.winner) or (levelNum == 3 and not ended) then
+		bgm_3:stop()
+	else
+		bgm_1:stop()
+	end
 end
 
 return Game
