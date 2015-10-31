@@ -10,6 +10,8 @@
 --- David Miller
 --- dmill118@jhu.edu
 
+bgm = nil
+
 local LevelLoader = {
 	level = "level/level0",
 	bg_string = "gfx/large_bg_string.png",
@@ -48,6 +50,20 @@ function LevelLoader:load(...)
 	end
 
 	self.background = love.graphics.newImage(self.bg_string)
+	
+	if levelNum == 1 then
+		bgm = love.audio.newSource("sfx/bgm_1.ogg")
+	elseif levelNum == 2 then
+		bgm = love.audio.newSource("sfx/bgm_2.ogg")
+	elseif levelNum == 3 then
+		bgm = love.audio.newSource("sfx/bgm_3.ogg")
+	else
+		bgm = love.audio.newSource("sfx/bgm_1.ogg")
+	end
+	bgm:setLooping(true)
+	
+	bg_invul = love.audio.newSource("sfx/invul.ogg")
+	bg_invul:setLooping(false)
 
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(self.level) do

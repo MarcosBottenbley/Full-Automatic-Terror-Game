@@ -94,17 +94,17 @@ function Game:load(arg)
 	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
 	missile_arm:setLooping(false)
 
-	bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
-	bgm_1:setLooping(true)
+	-- bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
+	-- bgm_1:setLooping(true)
 	
-	bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
-	bgm_2:setLooping(true)
+	-- bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
+	-- bgm_2:setLooping(true)
 	
-	bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
-	bgm_3:setLooping(true)
+	-- bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
+	-- bgm_3:setLooping(true)
 
-	bg_invul = love.audio.newSource("sfx/invul.ogg")
-	bg_invul:setLooping(false)
+	-- bg_invul = love.audio.newSource("sfx/invul.ogg")
+	-- bg_invul:setLooping(false)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -117,14 +117,14 @@ end
 function Game:start()
 	time = 0
 	
-	self:playMusic()
-	bgm_normal = true
-	bgm_starman = false
-
 	ended = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)
+	
+	bgm:play()
+	bgm_normal = true
+	bgm_starman = false
 
 	bg_width, bg_height = level:getBackgroundDimensions()
 	background = level:getBackground()
@@ -166,7 +166,7 @@ function Game:start()
 end
 
 function Game:stop()
-	self:stopMusic()
+	bgm:stop()
 	bg_invul:stop()
 
 	local length = table.getn(objects)
@@ -243,13 +243,13 @@ function Game:update(dt)
 	ST:update(dt, objects)
 
 	if player.invul and bgm_normal and player.isJumping == false then
-		self:stopMusic()
+		bgm:stop()
 		bg_invul:play()
 		bgm_normal = false
 		bgm_starman = true
 	elseif (not player.invul) and bgm_starman then
 		bg_invul:stop()
-		self:playMusic()
+		bgm:play()
 		bgm_normal = true
 		bgm_starman = false
 	end
