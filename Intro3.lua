@@ -46,12 +46,11 @@ end
 function Intro3:start()
 	self.lines = {
 		"After battling through \nwave after wave of ships,\n" ..
-		"you are overwhelmed by \nenemy forces and captured",
-		"I know you might have been \ndoing pretty well in the level\n" ..
-		"but trust me \nit was pretty overwhelming",
-		"They have taken you to \nSpace Jail, a treacherous\n" ..
-		"labyrinth of lasers and wormholes",
-		"Are you xtreme enough to break out?"
+		"your link was re-established \nand you warped out.",
+		"... or, so you thought. As it \nturns out, the Glowborgs hacked \ninto your systems and \nchanged your coordinates.",
+		"They sent you into a dangerous \nlabyrinth of lasers and \nwormholes. You could be trapped \nforever.",
+		"Your world is counting on you \nto escape at all costs.",
+		"However, what other dangers \nlurk in this strange maze?"
 	}
 
 	time = 0

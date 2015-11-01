@@ -65,11 +65,9 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	if self.x >= bg_width then
-		self.x = 0
-	end
-	if self.x < -1 then
-		self.x = bg_width - 1
+
+	if self.x >= bg_width or self.x < 1 then
+		self.dead = true
 	end
 	if self.y >= bg_height then
 		self.y = 0
