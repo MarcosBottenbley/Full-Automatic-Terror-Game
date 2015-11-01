@@ -27,6 +27,8 @@ local timer = 0
 local waiting = false
 local frames = {}
 
+local p
+
 local wormholes = {}
 
 --you can't prove this isn't good practice
@@ -47,6 +49,7 @@ setmetatable(Game, {
 })
 
 function Game:load(arg)
+
 	math.randomseed(os.time())
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -100,11 +103,13 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
+
+	self:particles()
 end
 
 function Game:start()
 	time = 0
-	
+
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
@@ -147,8 +152,8 @@ function Game:start()
 			bg_width, bg_height
 	)
 
-	--table.insert(frames, Frame(1000,1000,0,0))
-	--table.insert(frames, Frame(400,400,0,0))
+	table.insert(frames, Frame(1000,1000,0,0))
+	table.insert(frames, Frame(400,400,0,0))
 
 	ST = ScreenTable(10,10,bg_width,bg_height)
 end
@@ -171,7 +176,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
 	end
-	
+
 	level = nil
 end
 
@@ -225,6 +230,7 @@ function Game:scoreCheck()
 end
 
 function Game:update(dt)
+	psystem:update(dt)
 	time = time + dt
 	timer = timer + dt
 
@@ -291,7 +297,7 @@ function Game:update(dt)
 			-- h_timer = 0
 		-- end
 	-- end
-	
+
 	-- if player:isDead() and not ended then
 		-- time = 0
 		-- levelNum = 1
@@ -302,7 +308,6 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
-
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
@@ -412,6 +417,8 @@ function Game:draw(dt)
 		love.graphics.setColor(255, 255, 255, alpha)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
+
+	love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
 end
 
 -- function Game:hordeCheck(dt)
@@ -466,6 +473,17 @@ function Game:inFrame()
 		end
 	end
 	return 1, 1
+end
+
+function Game:particles()
+	local img = love.graphics.newImage("gfx/particle.png")
+
+	psystem = love.graphics.newParticleSystem(img, 100)
+	psystem:setParticleLifetime(1, 3) -- Particles live at least 2s and at most 5s.
+	psystem:setEmissionRate(20)
+	psystem:setSizeVariation(1)
+	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
+	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
 end
 
 return Game
