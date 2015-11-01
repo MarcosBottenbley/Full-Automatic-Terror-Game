@@ -178,7 +178,8 @@ function Menu:keyreleased(key)
 			love.timer.sleep(0.4)
 			switchTo(Intro)
 		elseif selector == 1 then
-			-- love.timer.sleep(0.4)
+			love.timer.sleep(0.4)
+			switchTo(HowToPlay)
 		elseif selector == 2 then
 			love.timer.sleep(0.4)
 			switchTo(Settings)

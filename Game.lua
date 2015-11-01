@@ -27,6 +27,8 @@ local timer = 0
 local waiting = false
 local frames = {}
 
+local p
+
 local wormholes = {}
 
 --you can't prove this isn't good practice
@@ -47,6 +49,7 @@ setmetatable(Game, {
 })
 
 function Game:load(arg)
+
 	math.randomseed(os.time())
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -94,17 +97,17 @@ function Game:load(arg)
 	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
 	missile_arm:setLooping(false)
 
-	-- bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
-	-- bgm_1:setLooping(true)
-	
-	-- bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
-	-- bgm_2:setLooping(true)
-	
-	-- bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
-	-- bgm_3:setLooping(true)
+	bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
+	bgm_1:setLooping(true)
 
-	-- bg_invul = love.audio.newSource("sfx/invul.ogg")
-	-- bg_invul:setLooping(false)
+	bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
+	bgm_2:setLooping(true)
+
+	bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
+	bgm_3:setLooping(true)
+
+	bg_invul = love.audio.newSource("sfx/invul.ogg")
+	bg_invul:setLooping(false)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -112,17 +115,23 @@ function Game:load(arg)
 	enemies = {}
 	bullets = {}
 	objects = {}
+
+	self:particles()
 end
 
 function Game:start()
+	self:playMusic()
 	time = 0
-	
+
+	-- bgm:play()
+	bgm1 = true
+	bgm2 = false
 	ended = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)
-	
-	bgm:play()
+
+	-- bgm:play()
 	bgm_normal = true
 	bgm_starman = false
 
@@ -159,14 +168,17 @@ function Game:start()
 			bg_width, bg_height
 	)
 
-	--table.insert(frames, Frame(1000,1000,0,0))
-	--table.insert(frames, Frame(400,400,0,0))
+	-- table.insert(frames, Frame(1000,1000,0,0))
+	-- table.insert(frames, Frame(400,400,0,0))
 
 	ST = ScreenTable(10,10,bg_width,bg_height)
+
+
 end
 
 function Game:stop()
-	bgm:stop()
+	self:stopMusic()
+	-- bgm:stop()
 	bg_invul:stop()
 
 	local length = table.getn(objects)
@@ -183,7 +195,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
 	end
-	
+
 	level = nil
 end
 
@@ -237,6 +249,7 @@ function Game:scoreCheck()
 end
 
 function Game:update(dt)
+	psystem:update(dt)
 	time = time + dt
 	timer = timer + dt
 
@@ -299,7 +312,7 @@ function Game:update(dt)
 			-- h_timer = 0
 		-- end
 	-- end
-	
+
 	-- if player:isDead() and not ended then
 		-- time = 0
 		-- levelNum = 1
@@ -310,7 +323,6 @@ function Game:update(dt)
 end
 
 function Game:draw(dt)
-
 	-- coordinates
 	camera:position(player:getX(), player:getY())
 	local cx, cy = 0, 0
@@ -420,6 +432,8 @@ function Game:draw(dt)
 		love.graphics.setColor(255, 255, 255, alpha)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
+
+	-- love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
 end
 
 -- function Game:hordeCheck(dt)
@@ -476,6 +490,16 @@ function Game:inFrame()
 	return 1, 1
 end
 
+function Game:particles()
+	local img = love.graphics.newImage("gfx/particle.png")
+
+	psystem = love.graphics.newParticleSystem(img, 100)
+	psystem:setParticleLifetime(1, 3) -- Particles live at least 2s and at most 5s.
+	psystem:setEmissionRate(20)
+	psystem:setSizeVariation(1)
+	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
+	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
+end
 --insanely hacky code, i'm going to tweak levelloader later,
 --but for now the music logic is here
 function Game:playMusic()
