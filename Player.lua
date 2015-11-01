@@ -17,6 +17,7 @@ local firable = false
 
 local timeChange = 0
 local pos = 1
+local stalled = true
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -108,41 +109,55 @@ function Player:update(dt, swidth, sheight)
 	end
 
 	self.vel = 0
+	stalled = true
 
 	--turn left or right
 	if love.keyboard.isDown('left') then
 		self.move_angle = math.pi
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('right') then
 		self.move_angle = 0
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('down') then
 	 	self.move_angle = math.pi*(3/2)
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('up') then
 		self.move_angle = math.pi/2
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
 		self.move_angle = math.pi/4
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
 		self.move_angle = math.pi*(3/4)
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
 		self.move_angle = math.pi*(7/4)
 		self.vel = self.max_vel
+		stalled = false
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
 		self.move_angle = math.pi*(5/4)
 		self.vel = self.max_vel
+		stalled = false
 	end
 
+	if stalled then
+		self.particles:setLinearAcceleration(0,20,0,0)
+	else
+		self.particles:setLinearAcceleration(0,100,0,0)
+	end
 
 	if self.isJumping == true then
 		self.jumptimer = self.jumptimer + dt
