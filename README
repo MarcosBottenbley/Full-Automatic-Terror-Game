@@ -11,55 +11,91 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 8: Level Three Is The Place To Be!
+Assignment 9: Cleanup and Polish
 
-Problem 1: Level Three
+Part 1: Things That Need Fixing
 
-(see game)
+1.  Wormholes should be paired, not sequenced
+2.  Enemy ships can spawn directly on top of the player without warning
+3.  Player movement makes it difficult to shoot enemies while moving
+4.  Missiles need to move more like actual missiles
+5.  Music tracks should be different for each stage
+6.  Cutscene readings between levels are very unprofessional
+7.  New players have no way of learning the controls
+8.  Player thruster animation is the same whether moving or standing still
+9.  Enemy ships can layer on top of each other
+10. The level loader is messy with unused parameters
 
-Problem 2: Technical, Artistic, and Game Play Progress
+Part 2: How We Fixed Them
 
-For this assignment, we made a bunch of improvements to the other 
-two levels and added the third level. First of all, the player 
-now has another special ability: the HyperJump. This power grants 
-the player a massive speed boost directly in front of them for 1 
-second. While advancing at this rapid speed, the player also does 
-not take any damage and destroys all non-boss enemies in its path. 
+1.  In level three, we envisioned the maze to be similar to the Mario Party 
+7 mini-game "Warp Pipe Dreams", where players enter the pipes to find the 
+fastest way to the center. In this case, the player is trying to reach the 
+golden portal as fast as possible. However, while entering wormhole A always 
+takes you to wormhole B, entering wormhole B did not take you back to 
+wormhole A; rather, it took you to wormhole C. This was a problem since the 
+player could reach the end by simply returning to the same wormhole each 
+time. By adjusting the level loader so that it sent the player to the 
+coordinates below if its count is odd and the coordinates above if its count 
+is even, it fixed this problem and made the puzzle more consistent. There is 
+also an added blueprint showing the portal links if that helps with testing.
 
-This next addition is what essentially makes the third level 
-possible: Walls. The third level is a wormhole-based teleportation 
-puzzle. The walls divide the level into smaller sectors and the 
-player must use the wormholes to navigate through them to find the 
-end. While each wormhole has a designated exit wormhole, that 
-one will not return you to the original wormhole; they are not 
-double joined. This makes getting through the maze much more 
-complicated.
+2.  In levels one and two, enemy ships can spawn directly on top of the player 
+and then die on contact, dealing damage to the player. To resolve this, we 
+created a new object, ObjectHole. This creates a purple wormhole that, in a 
+short time, spawns an enemy in its center. This makes it so that the player 
+has warning as to where an enemy is spawning so that they can move and prepare 
+to fight as necessary.
 
-The end of this level is marked by another new feature: the 
-Golden Portal. This distinct wormhole will be used in all of our 
-levels as a simpler way to transition between levels. However, for 
-levels one and two, the conditions must be met in order for the 
-Golden Portal to appear. Because level three has no enemies, 
-it currently has no loss condition unless the player gets 
-frustrated and quits.
+3.  Our original movement scheme was very similar to the controls from 
+Asteroids, which made it difficult to shoot Glowborgs because they were moving 
+to chase you rather than on a consistent path. Therefore, we decided on a more 
+straightforward 8-directional path with a strafe button. Even though this 
+limits the player’s movement and shooting directions, we think that this is 
+still an easier way to go through the game.
 
-Level one now has a new enemy flying around: the CircleBorg. It 
-does not aim to hit the player immediately. Rather, when it comes 
-within a certain distance of the player, it starts to move in 
-circles around them. While circling, it slowly closes its distance 
-in a spiral motion until it is destroyed or it reaches you. 
+4.  Originally, missiles were incredibly overpowered. They fired in whatever 
+direction was closest to an enemy and, due to their path, could circle around 
+the player to form an indestructible circle of death around the player. We 
+made many changes to the missiles. Their speed, fire rate, and range are now 
+all reduced. In addition, they now always start to fire in the direction that 
+the ship is facing, making it so that they can only seek out enemies that are 
+located in a cone in front of the player.
 
-Some of the key bindings have been revised to make it easier for 
-the player to reach them all quickly. HyperJump is activated with 
-the spacebar and bomb is activated with the 'c' key. Firing 
-bullets and invincibility are still the same, with the 'z' key and 
-the 'i' key, respectively.
+5.  This one was pretty self explanatory. Levels one, two, and three all had 
+the same music track playing. That made the levels seem dull and thrown 
+together. Now, each level has its own music track. They can be found in the 
+sfx folder and are labeled bgm_1, bgm_2, and bgm_3. 
 
-Finally, we made it so that the Phantom Ships and Dual Masters do 
-not shoot bullets. Our level two was too overwhelming with all of 
-the flying bullets and we do not want our game to be a bullet hell. 
-An enemy hell is much more fitting and it is still challenging even 
-without the bullets.
+6.  Since this is our beta, the cutscene text needed to sound more like an 
+actual game rather than a satirical comedy. By sticking to the atmosphere of 
+our game’s lore and modifying the text, this makes the game seem more genuine 
+and immersive.
+
+7.  The controls for firing and using bombs and hyper jumps were not revealed 
+anywhere in the game, so we added a How to Play cutscene from the Main Menu to 
+say what all of the controls are. This code was already started before the 
+assignment was published and it makes it difficult to appreciate a game if the 
+player does not know the controls.
+
+8.  The player’s thruster animation was always in motion whether moving or 
+stationary. This made it look like the ship was never intended to stop. First, 
+we added particles to the ship’s thrusters so that they look more realistic 
+while in motion. Also, while not in motion, these particles move significantly 
+less, making them look more at the "ready" position than the "go" position, 
+which is what we were looking for.
+
+9.  Enemy ships, notably the Glowborgs, could layer on top of each other and 
+look like a single Glowborg. This made it confusing to the player whether or 
+not the ship was actually dying or just had an underlying explosion. To 
+prevent this, code was added so that Glowborgs bounce off of each other and 
+then return to their proper flight path. There are is also a particle spark 
+that shows when this bounce happens.
+
+10. This problem was also pretty self explanatory. By removing our excess 
+variables, it made it much easier to both read and write each level. It also 
+made room for new variables, such as spawn time and unit limit, that no longer 
+need to be declared in the unit’s individual files.
 
 
 

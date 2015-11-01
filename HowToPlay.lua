@@ -54,7 +54,8 @@ function HowToPlay:start()
 		"You only have a limited number\nof bombs and hyper jumps, so use\nthem wisely. Their numbers\nreset each level.",
 		"To strafe, hold the X key.\nThis allows you to fire \nat a consistent angle even while\nmoving in another direction.",
 		"Killing an enemy awards you 200\npoints. Completing a level\nawards you 3000 points.",
-		"To move from one level to the\nnext, enter the gold portal.\nHowever, for most levels, the\nportal will not appear right\naway. In this case, you must\ncomplete the level’s condition\nfirst.",
+		"Usually, to move to the next\nlevel, enter the gold portal.\nHowever, for most of these\nlevels, the portal will not\nappear right away.",
+		"Also, some levels do not use\ngold portals at all. So pay\nattention to those cutscenes\nto figure out how to win.",
 		"You are now ready to play\nthe game.\nGood Luck!"
 	}
 
@@ -81,7 +82,7 @@ function HowToPlay:update(dt)
 		changed = math.floor(time)
 	end
 
-	if time > 56 then
+	if time > 61 then
 		switchTo(Menu)
 	end
 end
