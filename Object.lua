@@ -66,7 +66,7 @@ function Object:_init(x, y, file, width, height, frames, states, delay)
 	self.validCollisions = {0}
 
 	local img = love.graphics.newImage("gfx/particle.png")
-	self.particles = love.graphics.newParticleSystem(img, 100)
+	self.particles = love.graphics.newParticleSystem(img, 50)
 end
 
 function Object:load()
