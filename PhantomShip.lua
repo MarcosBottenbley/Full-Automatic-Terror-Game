@@ -42,18 +42,19 @@ function PhantomShip:_init()
 	local choice = {true, false}
 	self.goDown = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self:intitializeThrusters()
 end
 
 function PhantomShip:update(dt, swidth, sheight, px, py)
 	self.timer = self.timer + dt
 	Enemy.update(self, dt, swidth, sheight)
-	
+
 	if self.timer > self.fireRate then
 		if self:shoot(px, py) then
 			self.timer = 0
 		end
 	end
-	
+
 	--move/stop moving during explosion
 	if not self.collided then
 		if self.goDown then
@@ -62,7 +63,7 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 			self.y = self.y - self.vel*dt
 		end
 	end
-	
+
 	if self.x >= bg_width then
 		self.x = 0
 	end
@@ -88,11 +89,11 @@ end
 function PhantomShip:shoot(px, py)
 	--incredibly hacky
 	local playerInFront = false
-	if (py > self.y and py < self.y + 400 and self.goDown) or 
+	if (py > self.y and py < self.y + 400 and self.goDown) or
 	(py < self.y and py > self.y - 400 and not self.goDown) then
 		playerInFront = true
 	end
-	
+
 	if (px < self.x + 28.5 and px > self.x - 28.5) and playerInFront then
 		if self.goDown then
 			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
@@ -121,6 +122,14 @@ end
 function PhantomShip:collide(obj)
 	self.delay = 0.09
 	Enemy.collide(self, obj)
+end
+
+function Object:intitializeThrusters()
+	self.particles:setParticleLifetime(1, 1.1)
+	self.particles:setEmissionRate(10)
+	self.particles:setSizeVariation(1)
+	self.particles:setLinearAcceleration(0, -80, 0, 0)
+	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
 end
 
 return PhantomShip
