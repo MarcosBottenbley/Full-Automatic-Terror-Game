@@ -69,7 +69,7 @@ end
 
 function HowToPlay:update(dt)
 	time = time + 1 * dt
-	self.pos = self.pos + 50 * dt
+	self.pos = self.pos + 25 * dt
 
 	if self.pos >= 0 then
 		self.pos = 0
