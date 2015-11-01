@@ -65,11 +65,9 @@ function PhantomShip:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	if self.x >= bg_width then
-		self.x = 0
-	end
-	if self.x < -1 then
-		self.x = bg_width - 1
+
+	if self.x >= bg_width or self.x < 1 then
+		self.dead = true
 	end
 	if self.y >= bg_height then
 		self.y = 0
@@ -94,13 +92,17 @@ function PhantomShip:shoot(px, py)
 	local playerInFront = false
 	if (py > self.y and py < self.y + 400 and self.goDown) or
 	(py < self.y and py > self.y - 400 and not self.goDown) then
+		print("p in front")
 		playerInFront = true
 	end
 
 	if (px < self.x + 28.5 and px > self.x - 28.5) and playerInFront then
+		print("p in range")
 		if self.goDown then
+			print("firedown")
 			local b = EnemyBullet(self.x, self.y+40, 600, -math.pi/2)
 		else
+			print("fireup")
 			local b = EnemyBullet(self.x, self.y-40, -600, math.pi/2)
 		end
 		table.insert(objects, b)

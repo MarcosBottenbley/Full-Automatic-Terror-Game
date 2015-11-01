@@ -65,7 +65,14 @@ function DualMaster:update(dt, swidth, sheight, px, py)
 	
 	--wrap around screen
 	if self.x > bg_width then
-		self.x = 0
+		self.x = 1
+	elseif self.x < 0 then
+		self.x = bg_width - 1
+	end
+	
+	--dualmaster shouldn't be vertically offscreen
+	if self.y > bg_height or self.y < 0 then
+		self.dead = true
 	end
 end
 
