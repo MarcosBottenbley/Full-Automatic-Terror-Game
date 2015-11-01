@@ -437,7 +437,7 @@ function Game:draw(dt)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
 
-	love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
+	-- love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
 end
 
 -- function Game:hordeCheck(dt)

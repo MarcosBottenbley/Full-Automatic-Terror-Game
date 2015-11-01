@@ -62,6 +62,9 @@ function Player:_init(x, y, v)
 	self.hb_2 = {self.x, self.y + 10.5, 19}
 
 	self.validCollisions = {1,6,5,7,8}
+	-- thrusters = {x1,y1,x2,y2,x3,y3} pos of thrusters
+	self.thrusters = {}
+	self:intitializeThrusters()
 end
 
 function Player:load()
@@ -77,14 +80,12 @@ function Player:update(dt, swidth, sheight)
 	f_timer = f_timer + dt
 	self.missile_fire_timer = self.missile_fire_timer + dt
 	timeChange = dt
-	
+
 	if f_timer >= self.bulletSpeed then
 		firable = true
 	else
 	    	firable = false
 	end
-
-	
 
 	self.teleporttimer = self.teleporttimer + dt
 
@@ -104,9 +105,9 @@ function Player:update(dt, swidth, sheight)
 	if self.health < 1 then
 		self.collided = true
 	end
-	
+
 	self.vel = 0
-	
+
 	--turn left or right
 	if love.keyboard.isDown('left') then
 		self.move_angle = math.pi
@@ -141,7 +142,7 @@ function Player:update(dt, swidth, sheight)
 		self.vel = self.max_vel
 	end
 
-	
+
 	if self.isJumping == true then
 		self.jumptimer = self.jumptimer + dt
 		self.vel = 1800
@@ -153,11 +154,11 @@ function Player:update(dt, swidth, sheight)
 			self.vel = max_vel
 		end
 	end
-	
+
 	if not love.keyboard.isDown('x') then
 		self.draw_angle = self.move_angle
 	end
-	
+
 	self.y = self.y - math.sin(self.move_angle)*self.vel*dt
 	self.x = self.x + math.cos(self.move_angle)*self.vel*dt
 
@@ -204,6 +205,9 @@ function Player:draw()
 			Object.draw(self,255,255,255, love_angle)
 		end
 	end
+	love.graphics.draw(self.particles, self.x + 8 - self.width/2, self.y + 38 - self.height/2, love_angle)
+	love.graphics.draw(self.particles, self.x + 20 - self.width/2, self.y + 42 - self.height/2, love_angle)
+	love.graphics.draw(self.particles, self.x + 32 - self.width/2, self.y + 38 - self.height/2, love_angle)
 end
 
 function Player:keyreleased(key)
@@ -218,11 +222,11 @@ function Player:keyreleased(key)
 	if key == 'c' then
 		self:useBomb()
 	end
-	
+
 	if key == ' ' then
 		self:useJump()
 	end
-	
+
 	if key == '1' then
 		if self.missile == false then
 			missile_arm:play()
@@ -277,7 +281,7 @@ end
 
 function Player:useJump()
 	if self.isJumping == false then
-	
+
 		if self.h_jump == 0 then
 			error:play()
 		else
@@ -447,6 +451,15 @@ end
 
 function Player:getFrameCoordinates()
 	return self.camera_x, self.camera_y
+end
+
+-- add boosters to ships
+function Object:intitializeThrusters()
+	self.particles:setParticleLifetime(1, 1.1)
+	self.particles:setEmissionRate(10)
+	self.particles:setSizeVariation(1)
+	self.particles:setLinearAcceleration(0, 80, 0, 0)
+	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
 end
 
 return Player

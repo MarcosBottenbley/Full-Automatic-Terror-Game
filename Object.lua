@@ -17,7 +17,8 @@ local Object = {
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
 	id = 0, collided = false,
-	dead = false
+	dead = false, thrusters = {},
+	particles = nil
 }
 Object.__index = Object
 
@@ -63,6 +64,9 @@ function Object:_init(x, y, file, width, height, frames, states, delay)
 
 	self:load()
 	self.validCollisions = {0}
+
+	local img = love.graphics.newImage("gfx/particle.png")
+	self.particles = love.graphics.newParticleSystem(img, 100)
 end
 
 function Object:load()
@@ -88,6 +92,7 @@ function Object:update(dt)
 		self.current_frame = (self.current_frame % self.frames) + 1
 		self.delta = 0
 	end
+	self.particles:update(dt)
 end
 
 --- handles sprite sheets for animating object movement
@@ -98,7 +103,7 @@ function Object:draw(r,g,b, angle)
 	else
 		love.graphics.setColor(255,255,255,255)
 	end
-	
+
 	if self.sprite_sheet ~= nil then
 		love.graphics.draw (
 			self.sprite_sheet,
@@ -121,7 +126,6 @@ function Object:changeAnim(state)
 end
 
 --- manually sets object x coordinate
-
 function Object:setX(newX)
 	self.x = newX
 end
@@ -169,7 +173,7 @@ function Object:getValid(...)
 end
 
 function Object:collide(obj)
-	
+
 end
 
 function Object:setDead()
