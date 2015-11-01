@@ -43,6 +43,7 @@ function PhantomShip:_init()
 	self.goDown = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self:intitializeThrusters()
+	self.thrusters = {-10,-10,-10,10}
 end
 
 function PhantomShip:update(dt, swidth, sheight, px, py)
@@ -84,6 +85,8 @@ function PhantomShip:draw()
 	else
 		Object.draw(self, 255, 255, 255, math.pi)
 	end
+	love.graphics.draw(self.particles, self.thrusters[1], self.thrusters[2], 0, 1, 1, self.x, self.y)
+	love.graphics.draw(self.particles, self.thrusters[3], self.thrusters[4], 0, 1, 1, self.x, self.y)
 end
 
 function PhantomShip:shoot(px, py)
@@ -128,7 +131,7 @@ function Object:intitializeThrusters()
 	self.particles:setParticleLifetime(1, 1.1)
 	self.particles:setEmissionRate(10)
 	self.particles:setSizeVariation(1)
-	self.particles:setLinearAcceleration(0, -80, 0, 0)
+	self.particles:setLinearAcceleration(80, 0, 0, 0)
 	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
 end
 
