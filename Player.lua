@@ -17,7 +17,8 @@ local firable = false
 
 local timeChange = 0
 local pos = 1
-local stalled = true
+local t_timer = 0
+local destination = math.pi/2
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -30,7 +31,7 @@ local Player = {
 	bounding_rad = 25, angle1 = math.pi/2,
 	move_angle = math.pi/2, draw_angle = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 10, bomb = 3, h_jump = 5,
+	health = 10, bomb = 100, h_jump = 5,
 	invul = false, d_timer = 0, damaged = false,
 	missile = false, missile_fire_timer = 0,
 	bomb_flash = false, flash_timer = .6,
@@ -80,6 +81,7 @@ end
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
 	f_timer = f_timer + dt
+	t_timer = t_timer + dt
 	self.missile_fire_timer = self.missile_fire_timer + dt
 	timeChange = dt
 
@@ -109,55 +111,62 @@ function Player:update(dt, swidth, sheight)
 	end
 
 	self.vel = 0
-	stalled = true
 
+	self:smoothturn()
 	--turn left or right
 	if love.keyboard.isDown('left') then
-		self.move_angle = math.pi
+		--self:smoothturn(math.pi)
+		if destination == math.pi*2 then
+			self.move_angle = math.pi
+		end
+		destination = math.pi
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('right') then
-		self.move_angle = 0
+		--self:smoothturn(0)
+		if destination == math.pi then
+			self.move_angle = math.pi*2
+		end
+		destination = math.pi*2
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('down') then
-	 	self.move_angle = math.pi*(3/2)
+	 	--self:smoothturn(math.pi*(3/2))
+	 	if destination == math.pi/2 then
+			self.move_angle = math.pi*(3/2)
+		end
+	 	destination = math.pi*(3/2)
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('up') then
-		self.move_angle = math.pi/2
+		--self:smoothturn(math.pi/2)
+		if destination == math.pi*(3/2) then
+			self.move_angle = math.pi/2
+		end
+		destination = math.pi/2
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
-		self.move_angle = math.pi/4
+		--self:smoothturn(math.pi/4)
+		destination = math.pi/4
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
-		self.move_angle = math.pi*(3/4)
+		--self:smoothturn(math.pi*(3/4))
+		destination = math.pi*(3/4)
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
-		self.move_angle = math.pi*(7/4)
+		--self:smoothturn(math.pi*(7/4))
+		destination = math.pi*(7/4)
 		self.vel = self.max_vel
-		stalled = false
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
-		self.move_angle = math.pi*(5/4)
+		--self:smoothturn(math.pi*(5/4))
+		destination = math.pi*(5/4)
 		self.vel = self.max_vel
-		stalled = false
 	end
 
-	if stalled then
-		self.particles:setLinearAcceleration(0,20,0,0)
-	else
-		self.particles:setLinearAcceleration(0,100,0,0)
-	end
 
 	if self.isJumping == true then
 		self.jumptimer = self.jumptimer + dt
@@ -210,6 +219,18 @@ function Player:update(dt, swidth, sheight)
 	--self.thrusters = {-11,17,1,21,13,17}
 end
 
+function Player:easeOutCubic(t, b, c, d)
+	local t1 = t / d
+	t1 = t1 - 1
+	return c*(t1*t1*t1 + 1) + b
+end
+
+function Player:smoothturn()
+	local factor = self:easeOutCubic(t_timer, 0, 1, 5)
+	self.move_angle = self.move_angle + (destination - self.move_angle) * factor
+	print(t_timer)
+end
+
 function Player:draw()
 	--transform the angle so it works with love.draw()
 	local love_angle = math.pi/2 - self.draw_angle
@@ -232,10 +253,6 @@ function Player:draw()
 end
 
 function Player:keyreleased(key)
-	if key == 'left' or key == 'right' or key == 'a' or key == 'd' then
-		self.ang_vel = 0
-	end
-
 	if key == 'i' then
 		self:toggleInvul()
 	end
@@ -255,6 +272,12 @@ function Player:keyreleased(key)
 			laser_arm:play()
 		end
 		self:weaponSelect()
+	end
+end
+
+function Player:keypressed(key)
+	if key == 'left' or key == 'right' or key == 'up' or key == 'down' then
+		t_timer = 0
 	end
 end
 

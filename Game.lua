@@ -478,7 +478,7 @@ function Game:keyreleased(key)
 end
 
 function Game:keypressed(key)
-	--body
+	player:keypressed(key)
 end
 
 function Game:inFrame()
