@@ -16,12 +16,13 @@ local f_timer = 0
 local firable = false
 
 local timeChange = 0
+local pos = 1
 
 local Player = {
 	vel = 0, max_vel = 200,
 	accel = 0, max_accel = 800,
 	img = "gfx/main_ship_sheet.png",
-	width = 42, height = 57,
+	width = 42, height = 46,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	id = 2, collided = false,
@@ -191,6 +192,7 @@ function Player:update(dt, swidth, sheight)
 			self:fire()
 		end
 	end
+	self.thrusters = {-11,17,1,21,13,17}
 end
 
 function Player:draw()
@@ -205,9 +207,9 @@ function Player:draw()
 			Object.draw(self,255,255,255, love_angle)
 		end
 	end
-	love.graphics.draw(self.particles, self.x + 8 - self.width/2, self.y + 38 - self.height/2, love_angle)
-	love.graphics.draw(self.particles, self.x + 20 - self.width/2, self.y + 42 - self.height/2, love_angle)
-	love.graphics.draw(self.particles, self.x + 32 - self.width/2, self.y + 38 - self.height/2, love_angle)
+	love.graphics.draw(self.particles, self.thrusters[1], self.thrusters[2], love_angle + math.pi, 1, 1, self.x, self.y)
+	love.graphics.draw(self.particles, self.thrusters[3], self.thrusters[4], love_angle + math.pi, 1, 1, self.x, self.y)
+	love.graphics.draw(self.particles, self.thrusters[5], self.thrusters[6], love_angle + math.pi, 1, 1, self.x, self.y)
 end
 
 function Player:keyreleased(key)
@@ -455,10 +457,10 @@ end
 
 -- add boosters to ships
 function Object:intitializeThrusters()
-	self.particles:setParticleLifetime(1, 1.1)
-	self.particles:setEmissionRate(10)
+	self.particles:setParticleLifetime(1, 3)
+	self.particles:setEmissionRate(20)
 	self.particles:setSizeVariation(1)
-	self.particles:setLinearAcceleration(0, 80, 0, 0)
+	self.particles:setLinearAcceleration(0, 80, 0, 200)
 	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
 end
 
