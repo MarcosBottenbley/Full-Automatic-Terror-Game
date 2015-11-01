@@ -45,10 +45,10 @@ end
 
 function Intro2:start()
 	self.lines = {
-		"You've escaped the first sector",
-		"Oh no some enemy robot\nfighter ships or something",
-		"You must survive for 2 minutes\nuntil you can warp out",
-		"So yeah"
+		"Nicely done. You escaped\nthe first sector.",
+		"However, by entering the Sun\nBoss’s portal, you were warped\nto his realm.",
+		"It will take two minutes to\nestablish the uplink to\nwarp out.",
+		"Your mission is to survive\nuntil the link is\nreconnected."
 	}
 
 	time = 0
@@ -74,7 +74,7 @@ function Intro2:update(dt)
 		changed = math.floor(time)
 	end
 
-	if time > 15 then
+	if time > 21 then
 		switchTo(Game)
 	end
 end
