@@ -55,7 +55,7 @@ end
 
 function Bucket:contains(obj)
 	local valid = false
-	if obj:getID() ~= 4 then
+	if obj:getID() ~= 4 and obj:getID() ~= 10 then
 		local hb = obj:getHitBoxes()
 
 		for _, b in ipairs(hb) do

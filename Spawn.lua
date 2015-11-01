@@ -73,22 +73,12 @@ function Spawn:update(dt,bx,by,px,py)
 	self.spawntimer > self.spawnrate and self.spawnNum < self.spawnLimit then
 		self.spawntimer = 0
 		for i = 1, 5 do
-			if self.type == 'g' then
-				e = GlowBorg()
-			elseif self.type == 'f' then
-				e = PhantomShip()
-			elseif self.type == 'd' then
-				e = DualMaster()
-			else
-				e = GlowBorg()
-			end
 			local radial_pos = math.random()*math.pi*2
 			local spawnx = self.x + math.cos(radial_pos) * self.rad
 			local spawny = self.y + math.sin(radial_pos) * self.rad
+			e = ObjectHole(spawnx, spawny, self.type)
 		
 			--print("SPAWN #" .. i .. " X:" .. spawnx .. " Y:" .. spawny .. " TYPE:" .. self.type)
-
-			e:setPosition(spawnx, spawny)
 
 			if table.getn(objects) < 150 then
 				table.insert(objects, e)

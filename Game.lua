@@ -63,6 +63,7 @@ function Game:load(arg)
 	DualMaster = require("DualMaster")
 	SunBoss = require("SunBoss")
 	Spawn = require("Spawn")
+	ObjectHole = require("ObjectHole")
 	DoubleShot = require("DoubleShot")
 	Repair = require("Repair")
 	SpeedUp = require("SpeedUp")
@@ -120,18 +121,13 @@ function Game:load(arg)
 end
 
 function Game:start()
-	self:playMusic()
 	time = 0
-
-	-- bgm:play()
-	bgm1 = true
-	bgm2 = false
 	ended = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)
 
-	-- bgm:play()
+	bgm:play()
 	bgm_normal = true
 	bgm_starman = false
 
@@ -177,8 +173,7 @@ function Game:start()
 end
 
 function Game:stop()
-	self:stopMusic()
-	-- bgm:stop()
+	bgm:stop()
 	bg_invul:stop()
 
 	local length = table.getn(objects)
@@ -499,31 +494,6 @@ function Game:particles()
 	psystem:setSizeVariation(1)
 	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
 	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
-end
---insanely hacky code, i'm going to tweak levelloader later,
---but for now the music logic is here
-function Game:playMusic()
-	if levelNum == 1 then
-		bgm_1:play()
-	elseif levelNum == 2 then
-		bgm_2:play()
-	elseif levelNum == 3 then
-		bgm_3:play()
-	else
-		bgm_1:play()
-	end
-end
-
-function Game:stopMusic()
-	if (levelNum == 1 and ended) or (levelNum == 2 and not ended) then
-		bgm_1:stop()
-	elseif (levelNum == 2 and ended) or (levelNum == 3 and not ended) then
-		bgm_2:stop()
-	elseif (levelNum == 1 and player.winner) or (levelNum == 3 and not ended) then
-		bgm_3:stop()
-	else
-		bgm_1:stop()
-	end
 end
 
 return Game
