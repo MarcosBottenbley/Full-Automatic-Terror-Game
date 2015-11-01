@@ -99,10 +99,10 @@ function Game:load(arg)
 
 	-- bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
 	-- bgm_1:setLooping(true)
-	
+
 	-- bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
 	-- bgm_2:setLooping(true)
-	
+
 	-- bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
 	-- bgm_3:setLooping(true)
 
@@ -121,20 +121,15 @@ end
 
 function Game:start()
 	time = 0
-<<<<<<< HEAD
 
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
-
-=======
-	
->>>>>>> origin/master
 	ended = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)
-	
+
 	bgm:play()
 	bgm_normal = true
 	bgm_starman = false
@@ -495,7 +490,6 @@ function Game:inFrame()
 	return 1, 1
 end
 
-<<<<<<< HEAD
 function Game:particles()
 	local img = love.graphics.newImage("gfx/particle.png")
 
@@ -505,7 +499,7 @@ function Game:particles()
 	psystem:setSizeVariation(1)
 	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
 	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
-=======
+end
 --insanely hacky code, i'm going to tweak levelloader later,
 --but for now the music logic is here
 function Game:playMusic()
@@ -530,7 +524,6 @@ function Game:stopMusic()
 	else
 		bgm_1:stop()
 	end
->>>>>>> origin/master
 end
 
 return Game
