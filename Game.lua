@@ -241,7 +241,7 @@ function Game:update(dt)
 	timer = timer + dt
 
 	ST:update(dt, objects)
-
+	
 	if player.invul and bgm_normal and player.isJumping == false then
 		bgm:stop()
 		bg_invul:play()
@@ -263,10 +263,6 @@ function Game:update(dt)
 		if x == 1 then
 			playerx = o:getX()
 			playery = o:getY()
-		end
-
-		if o:getID() == 4 then
-			o:update(dt, playerx, playery)
 		end
 
 		o:update(dt, bg_width, bg_height, playerx, playery)

@@ -68,62 +68,75 @@ function LevelLoader:load(...)
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(self.level) do
 		if string.find(line, "BG:") == nil then
-			obj, x, y, z, w = string.match(line, "(%a+)%((%d+),(%d+),(%d+),(%d+)%)")
-			thing = {obj, tonumber(x), tonumber(y), tonumber(z), tonumber(w)}
+			-- obj, x, y, z, w = string.match(line, "(%a+)%((%d+),(%d+),(%d+),(%d+)%)")
+			-- thing = {obj, tonumber(x), tonumber(y), tonumber(z), tonumber(w)}
+			-- table.insert(create, thing)
+			subline = line
+			arg = ""
+			thing = {}
+			table.insert(thing, string.match(subline, "(%a+)%(*"))
+			subline = string.sub(subline, 5)
+			while arg ~= nil do
+				arg = string.match(subline, "(%d+),*")
+				if arg ~= nil then
+					subline = string.sub(subline, arg:len() + 2)
+					table.insert(thing, tonumber(arg))
+				end
+			end
 			table.insert(create, thing)
 		end
 	end
 
 	--creates objects in level from creation array
 	for num, tuple in ipairs(create) do
-		self:make(tuple[1], tuple[2], tuple[3], tuple[4], tuple[5])
+		self:make(tuple)
 	end
 end
 
-function LevelLoader:make(thing, x, y, z, w)
-	local obj
+function LevelLoader:make(object)
+	local o
 
-	if thing == "pla" then
-		player = Player(x, y, 200)
+	if object[1] == "pla" then
+		player = Player(object[2], object[3], 200)
 		table.insert(objects, player)
 		return
-	elseif thing == "ogb" then
-		obj = GlowBorg()
-		obj:setPosition(x, y)
-	elseif thing == "ocb" then
-		obj = CircleBorg()
-		obj:setPosition(x, y)
-	elseif thing == "ops" then
-		obj = PhantomShip()
-		obj:setPosition(x, y)
-	elseif thing == "odm" then
-		obj = DualMaster()
-		obj:setPosition(x, y)
-	elseif thing == "osb" then
-		obj = SunBoss(x, y)
-	elseif thing == "sgb" then
-		obj = Spawn(x, y, z, w, 'g')
-	elseif thing == "sps" then
-		obj = Spawn(x, y, z, w, 'f')
-	elseif thing == "sdm" then
-		obj = Spawn(x, y, z, w, 'd')
-	elseif thing == "pwr" then
-		obj = DoubleShot(x, y, 0)
-	elseif thing == "rep" then
-		obj = Repair(x, y, 0)
-	elseif thing == "spd" then
-		obj = SpeedUp(x, y, 0)
-	elseif thing == "wrm" then
-		obj = Wormhole(x, y)
-	elseif thing == "wnh" then
-		obj = Winhole(x, y)
-	elseif thing == "frm" then
-		table.insert(frames, Frame(x,y))
-	elseif thing == "wal" then
-		obj = Wall(x, y, z, w)
+	elseif object[1] == "ogb" then
+		o = GlowBorg()
+		o:setPosition(object[2], object[3])
+	elseif object[1] == "ocb" then
+		o = CircleBorg()
+		o:setPosition(object[2], object[3])
+	elseif object[1] == "ops" then
+		o = PhantomShip()
+		o:setPosition(object[2], object[3])
+	elseif object[1] == "odm" then
+		o = DualMaster()
+		o:setPosition(object[2], object[3])
+	elseif object[1] == "osb" then
+		o = SunBoss(object[2], object[3])
+	elseif object[1] == "sgb" then
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'g')
+	elseif object[1] == "sps" then
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'f')
+	elseif object[1] == "sdm" then
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'd')
+	elseif object[1] == "pwr" then
+		o = DoubleShot(object[2], object[3], 0)
+	elseif object[1] == "rep" then
+		o = Repair(object[2], object[3], 0)
+	elseif object[1] == "spd" then
+		o = SpeedUp(object[2], object[3], 0)
+	elseif object[1] == "wrm" then
+		o = Wormhole(object[2], object[3])
+	elseif object[1] == "wnh" then
+		o = Winhole(object[2], object[3])
+	elseif object[1] == "frm" then
+		table.insert(frames, Frame(object[2],object[3]))
+	elseif object[1] == "wal" then
+		o = Wall(object[2], object[3], object[4], object[5])
 	end
 
-	table.insert(objects, obj)
+	table.insert(objects, o)
 end
 
 function LevelLoader:update(dt, score, game)

@@ -7,36 +7,36 @@ Background (set at top of level)
 BG:[path of background image]
 
 Objects
-[three letter code representing object](x,y,z,w)
+[three letter code representing object](x1,x2,x3,x4,...)
 where x,y,z,w are all arguments for constructor of object. If
 the objects' constructor takes less than four arguments, then fill the rest
 in as zero. Again, this is less than ideal and I'm working on it.
+
+Ok i worked on it, right now you can put in as many or as few arguments as you want,
+just don't put in something that doesn't make sense or the game will probably crash.
+
+
 The object codes currently are:
-pla = Player
-pwr = Powerup (double shot)
-rep = Health
-spd = Speed Up
-ogb = GlowBorg (object)
-ocb = CircleBorg (object)
-ops = PhantomShip (object)
-osb = SunBoss (object)
-sgb = GlowBorg (spawner)
-sps = PhantomShip (spawner)
-wrm = Wormhole
-odm = DualMaster (object)
-sdm = DualMaster (spawner)
-frm = Frame (for camera)
-wal = Wall (object)
+pla(x,y) = Player
+pwr(x,y) = Powerup (double shot)
+rep(x,y) = Health
+spd(x,y) = Speed Up
+ogb(x,y) = GlowBorg (object)
+ocb(x,y) = CircleBorg (object)
+ops(x,y) = PhantomShip (object)
+osb(x,y) = SunBoss (object)
+sgb(x,y,pr,r,sr,sl) = GlowBorg (spawner)
+sps(x,y,pr,r,sr,sl) = PhantomShip (spawner)
+wrm(x,y) = Wormhole
+odm(x,y) = DualMaster (object)
+sdm(x,y,pr,r,sr,sl) = DualMaster (spawner)
+frm(x,y) = Frame (for camera)
+wal(x,y,w,h) = Wall (object)
 
-Here's our "level zero" file for an example:
-
-BG:gfx/large_bg.png
-pla(1000,1000,0,0)
-pwr(950,950,0,0)
-sgb(200,400,300,0)
-sps(1200,1200,100,0)
-sgb(500,1000,300,0)
-sps(1000,200,300,0)
-sgb(1200,1600,300,0)
-sgb(100,1600,300,0)
-ogb(100,100,0,0)
+x,y = object coordinates
+w,l = width/height of wall
+pr = radius around spawn the player has to enter to trigger spawning 
+(if 0, spawns at constant rate)
+r = radius to spawn enemies around (this is probably going to get changed)
+sr = spawn rate (time between spawns)
+sl = spawn limit (how many spawns before the spawner shuts off)
