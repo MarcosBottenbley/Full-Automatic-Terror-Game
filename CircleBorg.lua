@@ -24,7 +24,8 @@ local CircleBorg = {
 	--after it starts circling
 	closing_time = 12,
 	--Variable used to measure distance from player when circling
-	player_dist
+	player_dist,
+	type = 'c'
 }
 CircleBorg.__index = CircleBorg
 

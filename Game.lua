@@ -19,8 +19,8 @@ local scorestring = "SCORE: "
 local enemy_count = 9
 local level
 local create = {}
-local bgm1
-local bgm2
+local bgm_normal
+local bgm_starman
 
 local h_timer = 0
 local timer = 0
@@ -91,11 +91,23 @@ function Game:load(arg)
 	bombblast = love.audio.newSource("sfx/bomb.wav")
 	bombblast:setLooping(false)
 
-	bgm = love.audio.newSource("sfx/gamelow.ogg")
-	bgm:setLooping(true)
+	laser_arm = love.audio.newSource("sfx/laser_arm.mp3")
+	laser_arm:setLooping(false)
 
-	bg_invul = love.audio.newSource("sfx/invul.ogg")
-	bgm:setLooping(false)
+	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
+	missile_arm:setLooping(false)
+
+	-- bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
+	-- bgm_1:setLooping(true)
+	
+	-- bgm_2 = love.audio.newSource("sfx/bgm_2.ogg")
+	-- bgm_2:setLooping(true)
+	
+	-- bgm_3 = love.audio.newSource("sfx/bgm_3.ogg")
+	-- bgm_3:setLooping(true)
+
+	-- bg_invul = love.audio.newSource("sfx/invul.ogg")
+	-- bg_invul:setLooping(false)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
@@ -109,15 +121,23 @@ end
 
 function Game:start()
 	time = 0
+<<<<<<< HEAD
 
 	bgm:play()
 	bgm1 = true
 	bgm2 = false
 
+=======
+	
+>>>>>>> origin/master
 	ended = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)
+	
+	bgm:play()
+	bgm_normal = true
+	bgm_starman = false
 
 	bg_width, bg_height = level:getBackgroundDimensions()
 	background = level:getBackground()
@@ -236,16 +256,16 @@ function Game:update(dt)
 
 	ST:update(dt, objects)
 
-	if player.invul and bgm1 and player.isJumping == false then
+	if player.invul and bgm_normal and player.isJumping == false then
 		bgm:stop()
 		bg_invul:play()
-		bgm1 = false
-		bgm2 = true
-	elseif (not player.invul) and bgm2 then
+		bgm_normal = false
+		bgm_starman = true
+	elseif (not player.invul) and bgm_starman then
 		bg_invul:stop()
 		bgm:play()
-		bgm1 = true
-		bgm2 = false
+		bgm_normal = true
+		bgm_starman = false
 	end
 
 	local playerx = 0
@@ -475,6 +495,7 @@ function Game:inFrame()
 	return 1, 1
 end
 
+<<<<<<< HEAD
 function Game:particles()
 	local img = love.graphics.newImage("gfx/particle.png")
 
@@ -484,6 +505,32 @@ function Game:particles()
 	psystem:setSizeVariation(1)
 	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
 	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
+=======
+--insanely hacky code, i'm going to tweak levelloader later,
+--but for now the music logic is here
+function Game:playMusic()
+	if levelNum == 1 then
+		bgm_1:play()
+	elseif levelNum == 2 then
+		bgm_2:play()
+	elseif levelNum == 3 then
+		bgm_3:play()
+	else
+		bgm_1:play()
+	end
+end
+
+function Game:stopMusic()
+	if (levelNum == 1 and ended) or (levelNum == 2 and not ended) then
+		bgm_1:stop()
+	elseif (levelNum == 2 and ended) or (levelNum == 3 and not ended) then
+		bgm_2:stop()
+	elseif (levelNum == 1 and player.winner) or (levelNum == 3 and not ended) then
+		bgm_3:stop()
+	else
+		bgm_1:stop()
+	end
+>>>>>>> origin/master
 end
 
 return Game

@@ -118,4 +118,9 @@ function PhantomShip:getHitBoxes( ... )
 	return hb
 end
 
+function PhantomShip:collide(obj)
+	self.delay = 0.09
+	Enemy.collide(self, obj)
+end
+
 return PhantomShip
