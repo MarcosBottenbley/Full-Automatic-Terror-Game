@@ -127,17 +127,6 @@ function Bucket:valid(obj1, obj2)
 		end
 	end
 	
-	--if so, check if obj1 is in obj2's valid collisions list
-	--only set valid to true if both are true
-	if valid then
-		valid = false
-		for _, c in ipairs(vc2) do
-			if c == obj1:getID() then
-				valid = true
-			end
-		end
-	end
-	
 	if obj1.collided or obj2.collided then
 		valid = false
 	end
