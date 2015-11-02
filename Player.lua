@@ -113,6 +113,7 @@ function Player:update(dt, swidth, sheight)
 
 	self.vel = 0
 
+	local thrusting = false
 	self:smoothturn()
 	--turn left or right
 	if love.keyboard.isDown('left') then
@@ -122,6 +123,7 @@ function Player:update(dt, swidth, sheight)
 		end
 		destination = self:closerAngle(self.move_angle, math.pi)
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('right') then
 		--self:smoothturn(0)
@@ -130,6 +132,7 @@ function Player:update(dt, swidth, sheight)
 		end
 		destination = self:closerAngle(self.move_angle, math.pi*2)
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('down') then
 	 	--self:smoothturn(math.pi*(3/2))
@@ -138,6 +141,7 @@ function Player:update(dt, swidth, sheight)
 		end
 	 	destination = self:closerAngle(self.move_angle, math.pi*(3/2))
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('up') then
 		--self:smoothturn(math.pi/2)
@@ -146,28 +150,38 @@ function Player:update(dt, swidth, sheight)
 		end
 		destination = self:closerAngle(self.move_angle, math.pi/2)
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
 		--self:smoothturn(math.pi/4)
 		destination = self:closerAngle(self.move_angle, math.pi/4)
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
 		--self:smoothturn(math.pi*(3/4))
 		destination = self:closerAngle(self.move_angle, math.pi*(3/4))
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
 		--self:smoothturn(math.pi*(7/4))
 		destination = self:closerAngle(self.move_angle, math.pi*(7/4))
 		self.vel = self.max_vel
+		thrusting = true
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
 		--self:smoothturn(math.pi*(5/4))
 		destination = self:closerAngle(self.move_angle, math.pi*(5/4))
 		self.vel = self.max_vel
+		thrusting = true
 	end
 
+	if thrusting then
+		self.particles:setLinearAcceleration(0,100,0,0)
+	else
+		self.particles:setLinearAcceleration(0,20,0,0)
+	end
 
 	if self.isJumping == true then
 		self.jumptimer = self.jumptimer + dt
@@ -237,8 +251,8 @@ end
 --will result in the least amount of rotation from the current angle.
 function Player:closerAngle(current, target)
 	local var = (current - target) / (math.pi*2)
-	
-	if (math.abs(current - (target + (math.pi*2)*math.floor(var))) < 
+
+	if (math.abs(current - (target + (math.pi*2)*math.floor(var))) <
 	math.abs(current - (target + (math.pi*2)*math.ceil(var)))) then
 		clockwise = false
 		return target + (math.pi*2)*math.floor(var)
@@ -516,11 +530,11 @@ end
 
 -- add boosters to ships
 function Player:intitializeThrusters()
-	self.particles:setParticleLifetime(0.5, 1)
-	self.particles:setEmissionRate(20)
+	self.particles:setParticleLifetime(0.5, 1.1)
+	self.particles:setEmissionRate(40)
 	self.particles:setSizeVariation(1)
-	self.particles:setLinearAcceleration(0, 80, 0, 200)
-	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
+	self.particles:setLinearAcceleration(0, 100, 0, 200)
+	self.particles:setColors(255, 255, 160, 255, 255, 0, 0, 100)
 end
 
 return Player
