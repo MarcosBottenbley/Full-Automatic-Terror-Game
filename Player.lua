@@ -195,7 +195,7 @@ function Player:update(dt, swidth, sheight)
 		end
 	end
 
-	if not love.keyboard.isDown('x') then
+	if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
 		self.draw_angle = self.move_angle
 	end
 
