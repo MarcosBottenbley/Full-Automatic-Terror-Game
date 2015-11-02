@@ -54,7 +54,7 @@ function Spawn:_init(x,y,pr,r,sr,sl,types)
 	self.spawnrate = sr
 	self.spawnLimit = sl
 	self.type = types
-	self.spawntimer = self.spawnrate / 2
+	self.spawntimer = self.spawnrate / 4
 
 	self.validCollisions = {-1}
 end
@@ -63,7 +63,7 @@ end
 --(avoids unnecessary code in game:update)
 function Spawn:update(dt,bx,by,px,py)
 	self.spawntimer = self.spawntimer + dt
-	
+		
 	pl_dist = self:calcDist(px, py)
 	
 	--Code for creating enemies. Spawn will only happen if the spawn limit
