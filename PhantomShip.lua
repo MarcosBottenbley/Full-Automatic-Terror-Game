@@ -15,9 +15,9 @@ EnemyBullet = require("EnemyBullet")
 math.randomseed(os.time())
 
 local PhantomShip = {
-	img = "gfx/phantom_ship.png",
-	width = 40, height = 52,
-	frames = 5, states = 2,
+	img = "gfx/phantom_ship_2.png",
+	width = 42, height = 42,
+	frames = 3, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'f',
 	vel = 0, fireRate = 2, timer = 4,
@@ -43,7 +43,7 @@ function PhantomShip:_init()
 	self.goDown = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self:intitializeThrusters()
-	self.thrusters = {-9,8,11,8}
+	self.thrusters = {-9,14,11,14}
 end
 
 function PhantomShip:update(dt, swidth, sheight, px, py)
