@@ -130,7 +130,7 @@ function PhantomShip:collide(obj)
 	Enemy.collide(self, obj)
 end
 
-function Object:intitializeThrusters()
+function PhantomShip:intitializeThrusters()
 	self.particles:setParticleLifetime(1, 1.1)
 	self.particles:setEmissionRate(10)
 	self.particles:setSizeVariation(1)
