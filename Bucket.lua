@@ -120,9 +120,21 @@ function Bucket:valid(obj1, obj2)
 	local vc1 = obj1:getValid()
 	local vc2 = obj2:getValid()
 
+	--is obj2 in obj1's valid collisions list?
 	for _, c in ipairs(vc1) do
 		if c == obj2:getID() then
 			valid = true
+		end
+	end
+	
+	--if so, check if obj1 is in obj2's valid collisions list
+	--only set valid to true if both are true
+	if valid then
+		valid = false
+		for _, c in ipairs(vc2) do
+			if c == obj1:getID() then
+				valid = true
+			end
 		end
 	end
 	

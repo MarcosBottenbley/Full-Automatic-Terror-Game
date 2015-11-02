@@ -13,18 +13,18 @@
 math.randomseed(os.time())
 local titles = {
 	"Space Game 3000",
-	"More like DULL Automatic Terror",
-	"More like Full FARTomatic Terror",
-	"More like Full Automatic TERRIBLE",
+	--"More like DULL Automatic Terror",
+	--"More like Full FARTomatic Terror",
+	--"More like Full Automatic TERRIBLE",
 	"Made with 100% Farm-Raised Roseda Beef",
-	"We're boned",
+	--"We're boned",
 	"Put your glasses on, nothing will be wrong",
-	"Oh no some enemy fighter ships or something",
+	"Oh no some enemy robot fighter ships or something",
 	"Working Working Title",
 	"Like Asteroids, but less fun",
 	"To win the game, you must defeat me, Peter Froehlich",
 	"Press P to win",
-	"Gold release in the streets, pre-alpha in the sheets",
+	--"Gold release in the streets, pre-alpha in the sheets",
 	"Game of the Century",
 	"Game of the Millenium",
 	"It's like Skyrim with guns, except not",
@@ -46,8 +46,11 @@ local titles = {
 	"Pew Pew Simulator 2015",
 	"Go directly to Space Jail. Do not pass Space Go. Do not collect 200 Space Dollars.",
 	"This is a great game and you are having fun",
-	"Full Automatic Terror: Now featuring racism!",
-	"Full Automatic Terror: Episode IX of the Myrwioxthyyyg Chronicles"
+	"Full Automatic Terror: Episode IX of the Myrwioxthyyyg Chronicles",
+	"Pre-order today!",
+	"If only you could talk to the glowborgs...",
+	"Big Ships: Over the Road Spacing",
+	"Star Citizen Pre-Pre-Pre-Alpha"
 }
 
 local titlestring = titles[math.random(#titles)]
