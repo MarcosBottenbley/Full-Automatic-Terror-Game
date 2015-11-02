@@ -19,6 +19,7 @@ local timeChange = 0
 local pos = 1
 local t_timer = 0
 local destination = math.pi/2
+local clockwise = false
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -119,7 +120,7 @@ function Player:update(dt, swidth, sheight)
 		if destination == math.pi*2 then
 			self.move_angle = math.pi
 		end
-		destination = math.pi
+		destination = self:closerAngle(self.move_angle, math.pi)
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('right') then
@@ -127,7 +128,7 @@ function Player:update(dt, swidth, sheight)
 		if destination == math.pi then
 			self.move_angle = math.pi*2
 		end
-		destination = math.pi*2
+		destination = self:closerAngle(self.move_angle, math.pi*2)
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('down') then
@@ -135,7 +136,7 @@ function Player:update(dt, swidth, sheight)
 	 	if destination == math.pi/2 then
 			self.move_angle = math.pi*(3/2)
 		end
-	 	destination = math.pi*(3/2)
+	 	destination = self:closerAngle(self.move_angle, math.pi*(3/2))
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('up') then
@@ -143,27 +144,27 @@ function Player:update(dt, swidth, sheight)
 		if destination == math.pi*(3/2) then
 			self.move_angle = math.pi/2
 		end
-		destination = math.pi/2
+		destination = self:closerAngle(self.move_angle, math.pi/2)
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
 		--self:smoothturn(math.pi/4)
-		destination = math.pi/4
+		destination = self:closerAngle(self.move_angle, math.pi/4)
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
 		--self:smoothturn(math.pi*(3/4))
-		destination = math.pi*(3/4)
+		destination = self:closerAngle(self.move_angle, math.pi*(3/4))
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
 		--self:smoothturn(math.pi*(7/4))
-		destination = math.pi*(7/4)
+		destination = self:closerAngle(self.move_angle, math.pi*(7/4))
 		self.vel = self.max_vel
 	end
 	if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
 		--self:smoothturn(math.pi*(5/4))
-		destination = math.pi*(5/4)
+		destination = self:closerAngle(self.move_angle, math.pi*(5/4))
 		self.vel = self.max_vel
 	end
 
@@ -228,7 +229,23 @@ end
 function Player:smoothturn()
 	local factor = self:easeOutCubic(t_timer, 0, 1, 5)
 	self.move_angle = self.move_angle + (destination - self.move_angle) * factor
-	print(t_timer)
+	--print(t_timer)
+end
+
+--Finds the closest angle multiple of the target angle to the current angle.
+--Basically, this returns the target angle +/- whatever multiple of 2*pi
+--will result in the least amount of rotation from the current angle.
+function Player:closerAngle(current, target)
+	local var = (current - target) / (math.pi*2)
+	
+	if (math.abs(current - (target + (math.pi*2)*math.floor(var))) < 
+	math.abs(current - (target + (math.pi*2)*math.ceil(var)))) then
+		clockwise = false
+		return target + (math.pi*2)*math.floor(var)
+	else
+		clockwise = true
+		return target + (math.pi*2)*math.ceil(var)
+	end
 end
 
 function Player:draw()
