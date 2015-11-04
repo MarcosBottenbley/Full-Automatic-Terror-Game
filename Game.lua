@@ -360,7 +360,6 @@ function Game:draw(dt)
 
 	love.graphics.translate(-cx/(parallax + 1), -cy/(parallax + 1))
 
-	print("cx :" .. cx .. " cy: " .. cy)
 	for _, o in ipairs(objects) do
 		local ox = o:getX()
 		local oy = o:getY()

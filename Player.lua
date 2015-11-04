@@ -543,9 +543,15 @@ function Player:collide(obj)
 end
 
 function Player:bounce(dt)
+	if self.isJumping then
+		self.invul = false
+		self.isJumping = false
+		self.jumptimer = 0
+		self.vel = self.max_vel
+	end
 	self.vel = self.vel + 2000 * dt
-		self.x = self.x + self.vel * dt * math.cos(self.b_angle)
-		self.y = self.y + self.vel * dt * math.sin(self.b_angle)
+	self.x = self.x + self.vel * dt * math.cos(self.b_angle)
+	self.y = self.y + self.vel * dt * math.sin(self.b_angle)
 end
 
 function Player:isDamaged()
@@ -567,7 +573,7 @@ end
 
 -- add boosters to ships
 function Player:intitializeThrusters()
-	self.particles:setParticleLifetime(0.5, 1.1)
+	self.particles:setParticleLifetime(0.3, 0.7)
 	self.particles:setEmissionRate(40)
 	self.particles:setSizeVariation(1)
 	self.particles:setLinearAcceleration(0, 100, 0, 200)
