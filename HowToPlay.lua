@@ -16,6 +16,8 @@ local time = 0
 local changed = 0
 local bgm
 
+local help4 = "Use Left and Right Arrow Keys to Adjust Information Page\nPress Any Other Key to Return to the Main Menu"
+
 local HowToPlay = {
 	bg = nil, pos = 0,
 	script_pos = 1,
@@ -34,6 +36,7 @@ setmetatable(Intro, {
 
 function HowToPlay:load()
 	self.list_font = love.graphics.newFont("PressStart2P.ttf", 20)
+	self.list_font_2 = love.graphics.newFont("PressStart2P.ttf", 12)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
 
@@ -52,7 +55,7 @@ function HowToPlay:start()
 		"To use a bomb,\nuse the C key. The bomb\nkills all enemies on the screen.",
 		"To use a hyper jump,\nuse the spacebar. The hyper jump\nlaunches your ship forward for a\nshort duration. It kills all\nenemies that you come in contact\nwith during the jump.",
 		"You only have a limited number\nof bombs and hyper jumps, so use\nthem wisely. Their numbers\nreset each level.",
-		"To strafe, hold the X key.\nThis allows you to fire \nat a consistent angle even while\nmoving in another direction.",
+		"Your ship automatically strafes\nwhile shooting. To shoot while\nmoving normally, hold down\nthe X key.",
 		"Killing an enemy awards you 200\npoints. Completing a level\nawards you 3000 points.",
 		"Usually, to move to the next\nlevel, enter the gold portal.\nHowever, for most of these\nlevels, the portal will not\nappear right away.",
 		"Also, some levels do not use\ngold portals at all. So pay\nattention to those cutscenes\nto figure out how to win.",
@@ -60,7 +63,6 @@ function HowToPlay:start()
 	}
 
 	time = 0
-	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
 	self.script_pos = 1
 
@@ -74,21 +76,20 @@ function HowToPlay:update(dt)
 	if self.pos >= 0 then
 		self.pos = 0
 	end
-
-	if math.floor(time) % 5 == 0 and self.script_pos < table.getn(self.lines) then
-		if changed ~= math.floor(time) then
-			self.script_pos = self.script_pos + 1
-		end
-		changed = math.floor(time)
-	end
-
-	if time > 61 then
-		switchTo(Menu)
-	end
 end
 
 function HowToPlay:keyreleased(key)
-	switchTo(Menu)
+	if key == 'left' and self.script_pos > 1 then
+		self.script_pos = self.script_pos - 1
+	elseif key == 'left' and self.script_pos == 1 then
+		error:play()
+	elseif key == 'right' and self.script_pos < 12 then
+		self.script_pos = self.script_pos + 1
+	elseif key == 'right' and self.script_pos == 12 then
+		error:play()
+	else
+		switchTo(Menu)
+	end
 end
 
 function HowToPlay:keypressed(key)
@@ -97,28 +98,40 @@ end
 function HowToPlay:stop()
 	time = 0
 	changed = 0
-	self.pos = -(self.bg:getHeight() - height)
 	self.script_pos = 1
 
 	bgm:stop()
 end
 
 function HowToPlay:draw()
+
+	local page = "Page " .. self.script_pos .. " of 12"
+	local pagewidth = self.list_font:getWidth(page)
+	local pageheight = self.list_font:getHeight(page)
+
 	love.graphics.setFont(self.list_font)
-	love.graphics.translate(0,self.pos)
 	love.graphics.draw(self.bg, 0, 0)
 
-	if time >= 2 then
-		love.graphics.translate(0, -self.pos)
+	love.graphics.setColor(20, 20, 20, 160)
+	love.graphics.rectangle("fill", 20, height/2 + text_height * 4 - 20, 680, 180)
+	love.graphics.setColor(255, 255, 255, 255)
+	-- border
+	love.graphics.rectangle("line", 30, height/2 + text_height * 4 - 10, 660, 160)
 
-		love.graphics.setColor(20, 20, 20, 160)
-		love.graphics.rectangle("fill", 20, height/2 + text_height * 4 - 20, 680, 180)
-		love.graphics.setColor(255, 255, 255, 255)
-		-- border
-		love.graphics.rectangle("line", 30, height/2 + text_height * 4 - 10, 660, 160)
+	love.graphics.print(self.lines[self.script_pos], 45, height/2 + text_height * 4 + 5)
 
-		love.graphics.print(self.lines[self.script_pos], 45, height/2 + text_height * 4 + 5)
-	end
+	love.graphics.print(
+		page,
+		width/2 - pagewidth/2, 50
+	)
+
+	love.graphics.setFont(self.list_font_2)
+
+	love.graphics.print(
+		help4,
+		10, height - 35
+	)
+
 end
 
 return HowToPlay
