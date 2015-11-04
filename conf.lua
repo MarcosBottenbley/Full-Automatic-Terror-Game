@@ -50,7 +50,10 @@ local titles = {
 	"Pre-order today!",
 	"If only you could talk to the glowborgs...",
 	"Big Ships: Over the Road Spacing",
-	"Star Citizen Pre-Pre-Pre-Alpha"
+	"Star Citizen Pre-Pre-Pre-Alpha",
+	"YOU are the terror",
+	"Humans rule",
+	"Don't touch the walls, ok?",
 }
 
 local titlestring = titles[math.random(#titles)]

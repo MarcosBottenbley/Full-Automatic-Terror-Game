@@ -38,7 +38,8 @@ local Player = {
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
-	camera_x = 0, camera_y = 0, winner = false
+	camera_x = 0, camera_y = 0, winner = false,
+	b_angle, b_timer, kludgevar, bouncing
 }
 Player.__index = Player
 
@@ -110,97 +111,107 @@ function Player:update(dt, swidth, sheight)
 	if self.health < 1 then
 		self.collided = true
 	end
+	
+	if not self.bouncing then
+		
+		self.vel = 0
 
-	self.vel = 0
+		local thrusting = false
+		self:smoothturn()
+		--turn left or right
+		if love.keyboard.isDown('left') then
+			--self:smoothturn(math.pi)
+			if destination == math.pi*2 then
+				self.move_angle = math.pi
+			end
+			destination = self:closerAngle(self.move_angle, math.pi)
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('right') then
+			--self:smoothturn(0)
+			if destination == math.pi then
+				self.move_angle = math.pi*2
+			end
+			destination = self:closerAngle(self.move_angle, math.pi*2)
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('down') then
+			--self:smoothturn(math.pi*(3/2))
+			if destination == math.pi/2 then
+				self.move_angle = math.pi*(3/2)
+			end
+			destination = self:closerAngle(self.move_angle, math.pi*(3/2))
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('up') then
+			--self:smoothturn(math.pi/2)
+			if destination == math.pi*(3/2) then
+				self.move_angle = math.pi/2
+			end
+			destination = self:closerAngle(self.move_angle, math.pi/2)
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
+			--self:smoothturn(math.pi/4)
+			destination = self:closerAngle(self.move_angle, math.pi/4)
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
+			--self:smoothturn(math.pi*(3/4))
+			destination = self:closerAngle(self.move_angle, math.pi*(3/4))
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
+			--self:smoothturn(math.pi*(7/4))
+			destination = self:closerAngle(self.move_angle, math.pi*(7/4))
+			self.vel = self.max_vel
+			thrusting = true
+		end
+		if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
+			--self:smoothturn(math.pi*(5/4))
+			destination = self:closerAngle(self.move_angle, math.pi*(5/4))
+			self.vel = self.max_vel
+			thrusting = true
+		end
 
-	local thrusting = false
-	self:smoothturn()
-	--turn left or right
-	if love.keyboard.isDown('left') then
-		--self:smoothturn(math.pi)
-		if destination == math.pi*2 then
-			self.move_angle = math.pi
+		if thrusting then
+			self.particles:setLinearAcceleration(0,100,0,0)
+		else
+			self.particles:setLinearAcceleration(0,20,0,0)
 		end
-		destination = self:closerAngle(self.move_angle, math.pi)
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('right') then
-		--self:smoothturn(0)
-		if destination == math.pi then
-			self.move_angle = math.pi*2
-		end
-		destination = self:closerAngle(self.move_angle, math.pi*2)
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('down') then
-	 	--self:smoothturn(math.pi*(3/2))
-	 	if destination == math.pi/2 then
-			self.move_angle = math.pi*(3/2)
-		end
-	 	destination = self:closerAngle(self.move_angle, math.pi*(3/2))
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('up') then
-		--self:smoothturn(math.pi/2)
-		if destination == math.pi*(3/2) then
-			self.move_angle = math.pi/2
-		end
-		destination = self:closerAngle(self.move_angle, math.pi/2)
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
-		--self:smoothturn(math.pi/4)
-		destination = self:closerAngle(self.move_angle, math.pi/4)
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
-		--self:smoothturn(math.pi*(3/4))
-		destination = self:closerAngle(self.move_angle, math.pi*(3/4))
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
-		--self:smoothturn(math.pi*(7/4))
-		destination = self:closerAngle(self.move_angle, math.pi*(7/4))
-		self.vel = self.max_vel
-		thrusting = true
-	end
-	if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
-		--self:smoothturn(math.pi*(5/4))
-		destination = self:closerAngle(self.move_angle, math.pi*(5/4))
-		self.vel = self.max_vel
-		thrusting = true
-	end
 
-	if thrusting then
-		self.particles:setLinearAcceleration(0,100,0,0)
+		if self.isJumping == true then
+			self.jumptimer = self.jumptimer + dt
+			self.vel = 1800
+			self.invul = true
+			if self.jumptimer > 0.2 then
+				self.invul = false
+				self.isJumping = false
+				self.jumptimer = 0
+				self.vel = max_vel
+			end
+		end
+
+		if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+			self.draw_angle = self.move_angle
+		end
+
+		self.y = self.y - math.sin(self.move_angle)*self.vel*dt
+		self.x = self.x + math.cos(self.move_angle)*self.vel*dt
 	else
-		self.particles:setLinearAcceleration(0,20,0,0)
-	end
-
-	if self.isJumping == true then
-		self.jumptimer = self.jumptimer + dt
-		self.vel = 1800
-		self.invul = true
-		if self.jumptimer > 0.2 then
-			self.invul = false
-			self.isJumping = false
-			self.jumptimer = 0
-			self.vel = max_vel
+		self:bounce(dt)
+		self.b_timer = self.b_timer - dt
+		if self.b_timer <= 0 then
+			self.bouncing = false
+			self.vel = 0
 		end
 	end
-
-	if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
-		self.draw_angle = self.move_angle
-	end
-
-	self.y = self.y - math.sin(self.move_angle)*self.vel*dt
-	self.x = self.x + math.cos(self.move_angle)*self.vel*dt
 
 	if self.x < 1 then
 		self.x = 1
@@ -504,10 +515,31 @@ function Player:collide(obj)
 		end
 		-- love.timer.sleep(0.2)
 	elseif obj:getID() == 8 then
-		self.y = self.y - math.sin(self.move_angle)*-self.vel * timeChange * 1.5
-		self.x = self.x + math.cos(self.move_angle)*-self.vel * timeChange * 1.5
+		-- self.y = self.y - math.sin(self.move_angle)*-self.vel * timeChange * 1.5
+		-- self.x = self.x + math.cos(self.move_angle)*-self.vel * timeChange * 1.5
+		
+		ox = obj:getX()
+		oy = obj:getY()
+		self.b_angle = math.atan((oy - self.y) / (ox - self.x))
+		self.bouncing = true
+		self.b_timer = .2
+		self.kludgevar = false
+		if ox > self.x then
+			self.kludgevar = true
+		end
 	elseif obj:getID() == 9 then
 		self.winner = true
+	end
+end
+
+function Player:bounce(dt)
+	self.vel = self.vel + 3200 * dt
+	if not self.kludgevar then
+		self.x = self.x + self.vel * dt * math.cos(self.b_angle)
+		self.y = self.y + self.vel * dt * math.sin(self.b_angle)
+	else
+		self.x = self.x - self.vel * dt * math.cos(self.b_angle)
+		self.y = self.y - self.vel * dt * math.sin(self.b_angle)
 	end
 end
 
