@@ -108,6 +108,17 @@ end
 function Wall:draw(...)
 	-- body
 	Object.draw(self,255,255,255,self.angle)
+	
+	--draw circle to represent point that Game checks to see if it should draw
+	--the wall or not
+	
+	-- love.graphics.setColor(0, 0, 255, 255)
+	-- if self.vertical then
+		-- love.graphics.circle("fill", self.x + self.height/2, self.y + self.width/2, 10, 100)
+	-- else
+		-- love.graphics.circle("fill", self.x + self.width/2, self.y + self.height/2, 10, 100)
+	-- end
+	-- love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Wall:isVertical()
