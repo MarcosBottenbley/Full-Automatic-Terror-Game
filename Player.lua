@@ -39,7 +39,7 @@ local Player = {
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
-	b_angle, b_timer, kludgevar, bouncing
+	b_angle, b_timer, bouncing
 }
 Player.__index = Player
 
@@ -78,6 +78,8 @@ function Player:load()
 	pew:setLooping(false)
 	playerhit = love.audio.newSource("sfx/playerhit.ogg")
 	playerhit:setLooping(false)
+	bump = love.audio.newSource("sfx/bump1.ogg")
+	bump:setLooping(false)
 end
 
 function Player:update(dt, swidth, sheight)
@@ -281,6 +283,8 @@ function Player:draw()
 	else
 		if self.invul then
 			Object.draw(self,255,255,0, love_angle)
+		elseif self.bouncing then
+			Object.draw(self,30,144,255, love_angle)
 		else
 			Object.draw(self,255,255,255, love_angle)
 		end
@@ -515,32 +519,33 @@ function Player:collide(obj)
 		end
 		-- love.timer.sleep(0.2)
 	elseif obj:getID() == 8 then
-		-- self.y = self.y - math.sin(self.move_angle)*-self.vel * timeChange * 1.5
-		-- self.x = self.x + math.cos(self.move_angle)*-self.vel * timeChange * 1.5
-		
+		bump:play()
 		ox = obj:getX()
 		oy = obj:getY()
-		self.b_angle = math.atan((oy - self.y) / (ox - self.x))
+		if obj:isVertical() then
+			if ox < self.x then
+				self.b_angle = 0
+			else
+				self.b_angle = math.pi
+			end
+		else
+			if oy < self.y then
+				self.b_angle = math.pi/2
+			else
+				self.b_angle = math.pi*(3/2)
+			end
+		end
 		self.bouncing = true
 		self.b_timer = .2
-		self.kludgevar = false
-		if ox > self.x then
-			self.kludgevar = true
-		end
 	elseif obj:getID() == 9 then
 		self.winner = true
 	end
 end
 
 function Player:bounce(dt)
-	self.vel = self.vel + 3200 * dt
-	if not self.kludgevar then
+	self.vel = self.vel + 2000 * dt
 		self.x = self.x + self.vel * dt * math.cos(self.b_angle)
 		self.y = self.y + self.vel * dt * math.sin(self.b_angle)
-	else
-		self.x = self.x - self.vel * dt * math.cos(self.b_angle)
-		self.y = self.y - self.vel * dt * math.sin(self.b_angle)
-	end
 end
 
 function Player:isDamaged()

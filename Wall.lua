@@ -21,7 +21,7 @@ local Wall = {
 	delay = 0.1,
 	x = 10, y = 10,
 	width = 180, height = 18,
-	id = 8
+	id = 8, vertical = false
 }
 Wall.__index = Wall
 
@@ -53,10 +53,12 @@ function Wall:_init(x,y,width,height)
 		self.width = width
 		self.height = height
 		self.angle = math.pi
+		self.vertical = false
 	else
 		self.width = height
 		self.height = width
 		self.angle = math.pi/2
+		self.vertical = true
 	end
 
 	
@@ -106,6 +108,10 @@ end
 function Wall:draw(...)
 	-- body
 	Object.draw(self,255,255,255,self.angle)
+end
+
+function Wall:isVertical()
+	return self.vertical
 end
 
 return Wall
