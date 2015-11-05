@@ -77,13 +77,13 @@ function Intro3:update(dt)
 	end
 
 	if time > table.getn(self.lines) * 5 then
-		switchTo(Game)
+		switchTo(StageIntro)
 	end
 end
 
 function Intro3:keyreleased(key)
 	if time > 2 then
-		switchTo(Game)
+		switchTo(StageIntro)
 	end
 end
 

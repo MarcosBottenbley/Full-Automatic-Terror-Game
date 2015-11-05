@@ -14,17 +14,20 @@ State = require("State")
 Camera = require("Camera")
 
 local Game = {}
-local help = "Press Esc to return to menu (I for invul, P for skip)"
+local help = "Press Esc to pause (I for invul, P for skip)"
 local scorestring = "SCORE: "
-local enemy_count = 9
 local level
 local create = {}
 local bgm_normal
 local bgm_starman
 
+local pstring1 = "GAME PAUSED"
+local pstring2 = "Press Q to quit to menu or Esc to resume"
+
 local h_timer = 0
 local timer = 0
 local waiting = false
+local pause = false
 local frames = {}
 
 local p
@@ -157,8 +160,6 @@ function Game:start()
 	 	wormholes[i]:setTeleport(worm:getX(), worm:getY())
 	end
 
-	enemy_count = 9
-
 	camera = Camera(
 			player:getWidth(), player:getHeight(),
 			bg_width, bg_height
@@ -244,6 +245,10 @@ function Game:scoreCheck()
 end
 
 function Game:update(dt)
+	if pause then
+		return
+	end
+	
 	psystem:update(dt)
 	time = time + dt
 	timer = timer + dt
@@ -288,32 +293,6 @@ function Game:update(dt)
 
 		x = x + 1
 	end
-	--checks for win/lose states
-	-- if level.hordeMode then
-		-- self:hordeCheck(dt)
-	-- end
-	-- length = table.getn(objects)
-	-- enemy_gone = true
-	-- for i=1, length do
-		-- if objects[i]:getID() == 1 and objects[i]:getType() == 'b' then
-			-- enemy_gone = false
-		-- end
-	-- end
-
-	-- if enemy_gone and not ended then
-		-- if not level.hordeMode then
-			-- self:win()
-			-- time = 0
-			-- h_timer = 0
-		-- end
-	-- end
-
-	-- if player:isDead() and not ended then
-		-- time = 0
-		-- levelNum = 1
-		-- h_timer = 0
-		-- self:lose()
-	-- end
 	level:update(dt, score, self)
 end
 
@@ -427,6 +406,25 @@ function Game:draw(dt)
 		love.graphics.setColor(255, 255, 255, alpha)
 		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
 	end
+	
+	if pause then
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
+		love.graphics.setColor(255,255,255,255)
+		
+		love.graphics.setFont(self.scorefont)
+		
+		love.graphics.print(
+			pstring1, width/2 - self.scorefont:getWidth(pstring1)/2,
+			height/2 - self.scorefont:getHeight(pstring1)/2
+		)
+		
+		love.graphics.setFont(self.helpfont)
+		love.graphics.print(
+			pstring2, width/2 - self.helpfont:getWidth(pstring2)/2,
+			height/2 - self.helpfont:getHeight(pstring2)/2 + self.scorefont:getHeight(pstring1)
+		)
+	end
 
 	-- love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
 end
@@ -462,9 +460,13 @@ end
 function Game:keyreleased(key)
 	player:keyreleased(key)
 
-	if key == 'escape' then
+	if key == 'q' and pause then
 		levelNum = 1
 		switchTo(Menu)
+	end
+	
+	if key == 'escape' then
+		pause = not pause
 	end
 
 	if key == 'p' then

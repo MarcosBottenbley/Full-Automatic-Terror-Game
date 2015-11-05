@@ -75,13 +75,13 @@ function Intro2:update(dt)
 	end
 
 	if time > 21 then
-		switchTo(Game)
+		switchTo(StageIntro)
 	end
 end
 
 function Intro2:keyreleased(key)
 	if time > 2 then
-		switchTo(Game)
+		switchTo(StageIntro)
 	end
 end
 

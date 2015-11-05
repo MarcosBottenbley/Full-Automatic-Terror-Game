@@ -74,7 +74,7 @@ end
 
 function Player:load()
 	Object.load(self)
-	pew = love.audio.newSource("sfx/pew.ogg")
+	pew = love.audio.newSource("sfx/pew_lower.ogg")
 	pew:setLooping(false)
 	playerhit = love.audio.newSource("sfx/playerhit.ogg")
 	playerhit:setLooping(false)

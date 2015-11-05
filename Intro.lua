@@ -78,12 +78,12 @@ function Intro:update(dt)
 	end
 
 	if time > 35 then
-		switchTo(Game)
+		switchTo(StageIntro)
 	end
 end
 
 function Intro:keyreleased(key)
-	switchTo(Game)
+	switchTo(StageIntro)
 end
 
 function Intro:keypressed(key)
