@@ -126,6 +126,7 @@ end
 function Game:start()
 	time = 0
 	ended = false
+	pause = false
 
 	player = Player(0,0,0)
 	level = LevelLoader(levelNum)

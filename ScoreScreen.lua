@@ -60,17 +60,18 @@ end
 
 function ScoreScreen:draw()
 
+	love.graphics.setColor(self:fadein())
 	love.graphics.draw(bg, 0, 0)
 
 	love.graphics.setFont(self.font2)
-	love.graphics.setColor(self:fadein())
+	--love.graphics.setColor(self:fadein())
 	love.graphics.print(
 		help,
 		10, height - 10
 	)
 
 	love.graphics.setFont(self.font)
-	love.graphics.setColor(self:fadein())
+	--love.graphics.setColor(self:fadein())
 	love.graphics.print(
 		self.name,
 		center(width, self.width), height/12
@@ -82,9 +83,9 @@ function ScoreScreen:draw()
 	-- for i = 1, length do
 	for i = 1, 6 do
 		if i == recent_score then
-			love.graphics.setColor(self:fadein2())
+			--love.graphics.setColor(self:fadein2())
 		else
-			love.graphics.setColor(self:fadein())
+			--love.graphics.setColor(self:fadein())
 		end
 
 		love.graphics.print(

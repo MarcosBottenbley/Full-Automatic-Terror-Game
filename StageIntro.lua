@@ -66,6 +66,11 @@ function StageIntro:start()
 	
 	self.enterx = center(width, self.ef_width) - 100
 	self.entery = center(height, self.ef_height) - self.sf_height + 20
+	
+	--there's a weird bug that makes the text display onscreen for a split
+	--second before it zooms in if we don't specify that it starts offscreen
+	self.enterx_pos = -1000
+	self.stagex_pos = -1000
 end
 
 function StageIntro:update(dt)
@@ -87,9 +92,7 @@ function StageIntro:updateTextPos(dt)
 	end
 end
 
-function StageIntro:draw()
-	love.graphics.setColor(255,255,255,255)
-	
+function StageIntro:draw()	
 	love.graphics.setFont(self.enterfont)
 	love.graphics.print(
 		self.enterstring,

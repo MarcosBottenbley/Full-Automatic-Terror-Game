@@ -24,7 +24,7 @@ local titles = {
 	"Like Asteroids, but less fun",
 	"To win the game, you must defeat me, Peter Froehlich",
 	"Press P to win",
-	--"Gold release in the streets, pre-alpha in the sheets",
+	"Gold release in the streets, pre-alpha in the sheets",
 	"Game of the Century",
 	"Game of the Millenium",
 	"It's like Skyrim with guns, except not",
@@ -54,13 +54,20 @@ local titles = {
 	"YOU are the terror",
 	"Humans rule",
 	"Don't touch the walls, ok?",
+	"Officially Regretting Not Making This a Dating Sim",
+	"It's just like Starfox 64, if Starfox 64 had three levels",
+	"Original* Soundtrack By David Miller                         *stolen",
+	"Call of Duty: Black Ops III",
+	"Backgammon",
+	"3D Pinball",
+	"As fun as watching paint explode"
 }
 
 local titlestring = titles[math.random(#titles)]
 
 function love.conf(t)
 	t.version = "0.9.2"
-	t.window.title = "Full Automatic Terror"
+	t.window.title = titlestring
 
 	t.window.fullscreen = false
 	t.window.fullscreentype = "desktop"
