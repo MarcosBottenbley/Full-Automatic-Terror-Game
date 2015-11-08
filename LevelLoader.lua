@@ -128,6 +128,7 @@ function LevelLoader:make(object)
 		o = SpeedUp(object[2], object[3], 0)
 	elseif object[1] == "wrm" then
 		o = Wormhole(object[2], object[3])
+		o:setTeleport(object[4], object[5])
 	elseif object[1] == "wnh" then
 		o = Winhole(object[2], object[3])
 	elseif object[1] == "frm" then
