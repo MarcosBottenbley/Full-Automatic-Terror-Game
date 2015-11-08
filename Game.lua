@@ -351,7 +351,7 @@ function Game:draw(dt)
 			end
 		end
 
-		self:drawHitboxes(o)
+		--self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in

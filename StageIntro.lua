@@ -15,7 +15,8 @@ State = require("State")
 local namelist = {
 	"SUN ZONE",
 	"ONSLAUGHT",
-	"SPACE JAIL"
+	"SPACE JAIL",
+	"GAUNTLET"
 }
 
 local StageIntro = {
@@ -53,6 +54,12 @@ function StageIntro:start()
 		self.stagestring = "MINUS WORLD"
 	end
 	self.enterstring = "Now entering Sector " .. levelNum
+	--hacky code to handle branching, will change later
+	if levelNum == 3 then
+		self.enterstring = "Now entering Sector 3A"
+	elseif levelNum == 4 then
+		self.enterstring = "Now entering Sector 3B"
+	end
 	
 	--we have to set the font dimensions every time the state 
 	--gets reloaded since the names change

@@ -25,7 +25,7 @@ local Player = {
 	vel = 0, max_vel = 200,
 	accel = 0, max_accel = 800,
 	img = "gfx/main_ship_sheet.png",
-	width = 42, height = 46,
+	width = 42, height = 57,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
 	id = 2, collided = false,
@@ -33,13 +33,13 @@ local Player = {
 	move_angle = math.pi/2, draw_angle = math.pi/2,
 	ang_vel = 0, double = false,
 	health = 10, bomb = 100, h_jump = 5,
-	invul = false, d_timer = 0, damaged = false,
+	invul = false, dam_timer = 0, damaged = false,
 	missile = false, missile_fire_timer = 0,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
-	b_angle, b_timer, bouncing
+	b_angle, b_timer, bouncing, dead_timer = 0
 }
 Player.__index = Player
 
@@ -112,19 +112,23 @@ function Player:update(dt, swidth, sheight)
 	end
 
 	if self.damaged then
-		self.d_timer = self.d_timer + dt
+		self.dam_timer = self.dam_timer + dt
 	end
 
-	if self.d_timer > 0.5 then
+	if self.dam_timer > 0.5 then
 		self.damaged = false
-		self.d_timer = 0
-	end
-
-	if self.health < 1 then
-		self.collided = true
+		self.dam_timer = 0
 	end
 	
-	if not self.bouncing then
+	if self.collided then
+		self.dead_timer = self.dead_timer + dt
+	end
+	
+	if self.dead_timer > self.frames * self.delay - .02 then
+		self.dead = true
+	end
+	
+	if not self.bouncing and not self.collided then
 		
 		self.vel = 0
 
@@ -248,7 +252,7 @@ function Player:update(dt, swidth, sheight)
 
 		self.y = self.y - math.sin(self.move_angle)*self.vel*dt
 		self.x = self.x + math.cos(self.move_angle)*self.vel*dt
-	else
+	elseif self.bouncing and not self.collided then
 		self:bounce(dt)
 		self.b_timer = self.b_timer - dt
 		if self.b_timer <= 0 then
@@ -335,9 +339,11 @@ function Player:draw()
 	--We're using the built-in LOVE rotation in graphics.draw() to rotate them,
 	--which honestly might be more trouble than it's worth. The origin offsets
 	--are all magic numbers that I basically just tweaked until they worked.
-	love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, -11, -15)
-	love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 1, -19)
-	love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 13, -15)
+	if not self.collided then
+		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, -11, -9)
+		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 1, -13)
+		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 13, -9)
+	end
 end
 
 function Player:keyreleased(key)
@@ -506,7 +512,7 @@ function Player:hit()
 		self.health = self.health - 1
 		if self:alive() then
 			self.damaged = true
-			self.d_timer = 0
+			self.dam_timer = 0
 		end
 		playerhit:play()
 	end
@@ -541,7 +547,8 @@ function Player:collide(obj)
 	if obj:getID() == 1 or obj:getID() == 6 then
 		self:hit()
 		if not self:alive() then
-			self.dead = true
+			self.collided = true
+			self:changeAnim(2)
 		end
 	-- powerup
 	elseif obj:getID() == 5 then

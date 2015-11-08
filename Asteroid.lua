@@ -68,6 +68,11 @@ end
 
 function Asteroid:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
+	
+	if self.x < 0 or self.y < 0
+	or self.x > swidth - self.width or self.y > sheight - self.height then 
+		self.angle = self.angle + math.pi
+	end
 
 	-- move if not destroyed
 	if not self.collided then
