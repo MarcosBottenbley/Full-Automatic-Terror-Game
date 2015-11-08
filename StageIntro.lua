@@ -49,6 +49,9 @@ function StageIntro:start()
 	--the stage name and entering text are set automatically depending
 	--on the level. if you want to change the name, edit the namelist table
 	self.stagestring = namelist[levelNum]
+	if levelNum < 1 then
+		self.stagestring = "MINUS WORLD"
+	end
 	self.enterstring = "Now entering Sector " .. levelNum
 	
 	--we have to set the font dimensions every time the state 

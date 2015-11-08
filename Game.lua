@@ -76,6 +76,7 @@ function Game:load(arg)
 	Wall = require("Wall")
 	Frame = require("Frame")
 	Winhole = require("Winhole")
+	Asteroid = require("Asteroid")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -353,7 +354,7 @@ function Game:draw(dt)
 			end
 		end
 
-		--self:drawHitboxes(o)
+		self:drawHitboxes(o)
 	end
 	-- move text
 	-- zoom in
@@ -463,6 +464,7 @@ function Game:keyreleased(key)
 
 	if key == 'q' and pause then
 		levelNum = 1
+		score = 0
 		switchTo(Menu)
 	end
 	

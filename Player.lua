@@ -12,14 +12,14 @@
 
 Object = require("Object")
 math.randomseed(os.time())
-local f_timer = 0
-local firable = false
+local f_timer
+local firable
 
-local timeChange = 0
-local pos = 1
-local t_timer = 0
-local destination = math.pi/2
-local clockwise = false
+local timeChange
+local pos
+local t_timer
+local destination
+local clockwise
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -53,6 +53,16 @@ setmetatable(Player, {
 })
 
 function Player:_init(x, y, v)
+	
+	f_timer = 0
+	firable = false
+
+	timeChange = 0
+	pos = 1
+	t_timer = 0
+	destination = math.pi/2
+	clockwise = false
+	
 	Object._init(self, x, y,
 		self.img,
 		self.width,

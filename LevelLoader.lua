@@ -134,8 +134,11 @@ function LevelLoader:make(object)
 		table.insert(frames, Frame(object[2],object[3]))
 	elseif object[1] == "wal" then
 		o = Wall(object[2], object[3], object[4], object[5])
+	elseif object[1] == "ast" then
+		o = Asteroid(1)
+		o:setPosition(object[2], object[3])
 	end
-
+	
 	table.insert(objects, o)
 end
 
