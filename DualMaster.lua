@@ -123,4 +123,10 @@ function DualMaster:getHitBoxes( ... )
 	return hb
 end
 
+function DualMaster:collide(obj)
+	if obj:getID() ~= 1 then
+		Enemy.collide(self, obj)
+	end
+end
+
 return DualMaster

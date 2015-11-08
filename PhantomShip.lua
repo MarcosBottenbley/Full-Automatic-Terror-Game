@@ -127,7 +127,9 @@ end
 
 function PhantomShip:collide(obj)
 	self.delay = 0.09
-	Enemy.collide(self, obj)
+	if obj:getID() ~= 1 then
+		Enemy.collide(self, obj)
+	end
 end
 
 function PhantomShip:intitializeThrusters()

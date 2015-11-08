@@ -622,4 +622,8 @@ function Player:intitializeThrusters()
 	self.particles:setColors(255, 255, 160, 255, 255, 0, 0, 100)
 end
 
+function Player:getType()
+	return ""
+end
+
 return Player
