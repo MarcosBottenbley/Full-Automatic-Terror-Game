@@ -136,7 +136,7 @@ function LevelLoader:make(object)
 	elseif object[1] == "wal" then
 		o = Wall(object[2], object[3], object[4], object[5])
 	elseif object[1] == "ast" then
-		o = Asteroid(1)
+		o = Asteroid(1, object[4], object[5])
 		o:setPosition(object[2], object[3])
 	end
 	

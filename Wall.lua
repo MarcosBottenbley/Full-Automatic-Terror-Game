@@ -64,7 +64,7 @@ function Wall:_init(x,y,width,height)
 	
 	Object._init(self, x, y,self.img,self.width,self.height,self.frames,self.states,self.delay)
 
-	self.validCollisions = {2}
+	self.validCollisions = {1,2}
 	self.hb = self:makeHitboxes()
 end
 

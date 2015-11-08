@@ -50,8 +50,6 @@ function Win:start()
 	else
 		winner = false
 	end
-	print(levelNum)
-	print(max_level)
 	
 	if winner then
 		self.name = "GAME CLEAR"
