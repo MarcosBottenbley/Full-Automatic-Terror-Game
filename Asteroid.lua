@@ -16,7 +16,7 @@ Enemy = require("Enemy")
 
 local Asteroid = {
 	width = 64, height = 64,
-	frames = 1, states = 1,
+	frames = 3, states = 2,
 	img = "gfx/asteroid1.png",
 	delay = .1, sprites = {},
 	bounding_rad = 29, vel = 130,
@@ -36,6 +36,10 @@ setmetatable(Asteroid, {
 })
 
 function Asteroid:_init(scale, vx, vy)
+	if math.random() > 0.5 then
+		self.img = "gfx/asteroid2.png"
+	end
+	
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.validCollisions = {1,2,3,6,8}
 	self.angle = math.random()*math.pi*2
@@ -103,7 +107,7 @@ function Asteroid:getHitBoxes( ... )
 end
 
 function Asteroid:collide(obj)
-	if obj:getID() == 3 or obj:getID() == 6 or obj:getID() == 1 then
+	if obj:getID() == 3 or obj:getID() == 6 or obj:getID() == 2 then
 		-- if self.scale >= 1 then
 			-- self:split()
 		-- end
