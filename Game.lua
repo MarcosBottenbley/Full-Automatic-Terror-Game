@@ -209,7 +209,6 @@ end
 function Game:win()
 	score = score + 3000
 	self:scoreCheck()
-	levelNum = 1
 	score = 0
 	recent_score = 0
 	ended = true
@@ -217,14 +216,7 @@ function Game:win()
 end
 
 function Game:nextLevel()
-	levelNum = levelNum + 1
-	if (levelNum - 1) == 1 then
-		switchTo(Intro2)
-	elseif (levelNum - 1) == 2 then
-		switchTo(Intro3)
-	else
-		self:win()
-	end
+	switchTo(Win)
 end
 
 function Game:advance()
@@ -450,7 +442,7 @@ end
 
 function Game:drawHitboxes(obj)
 	local t = obj:getHitBoxes()
-	if obj:getID() ~= 4 then
+	if obj:getID() ~= 4 and obj:getID() ~= 10 then
 		for _, h in ipairs(t) do
 			love.graphics.setColor(255, 0, 0, 255)
 			love.graphics.circle("line", h[1], h[2], h[3], 100)

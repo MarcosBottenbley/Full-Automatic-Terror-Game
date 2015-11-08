@@ -12,8 +12,15 @@
 
 State = require("State")
 
-local Win = {name = "GAME CLEAR", bonus = "SCORE +3000",
-help = "Press any key to continue"}
+local Win = {
+	name = "SECTOR CLEAR", bonus = "SCORE +3000",
+	help = "Press any key to continue"
+}
+
+local victory
+local final_victory
+local winner = false
+
 Win.__index = Win
 
 setmetatable(Win, {
@@ -27,17 +34,43 @@ setmetatable(Win, {
 
 function Win:load()
 	self.font = love.graphics.newFont("ka1.ttf", 50)
-	self.namewidth = self.font:getWidth(self.name)
-	self.nameheight = self.font:getHeight(self.name)
-
 	self.fontsmall = love.graphics.newFont("PressStart2P.ttf", 30)
-	self.bonuswidth = self.font:getWidth(self.name)
-	self.bonusheight = self.font:getHeight(self.name)
-
 	self.fontsmaller = love.graphics.newFont("PressStart2P.ttf", 12)
 
 	victory = love.audio.newSource("sfx/win.ogg")
 	victory:setLooping(false)
+	
+	final_victory = love.audio.newSource("sfx/winfinal.ogg")
+	final_victory:setLooping(false)
+end
+
+function Win:start()
+	if levelNum == max_level then
+		winner = true
+	else
+		winner = false
+	end
+	print(levelNum)
+	print(max_level)
+	
+	if winner then
+		self.name = "GAME CLEAR"
+	else
+		self.name = "SECTOR CLEAR"
+	end
+	
+	self.namewidth = self.font:getWidth(self.name)
+	self.nameheight = self.font:getHeight(self.name)
+	
+	self.bonuswidth = self.font:getWidth(self.name)
+	self.bonusheight = self.font:getHeight(self.name)
+	
+	if winner then
+		final_victory:play()
+	else
+		victory:play()
+	end
+	self.time = 0
 end
 
 --- Center small inside large.
@@ -56,6 +89,7 @@ end
 
 function Win:update(dt)
 	self.time = self.time + dt
+	print(self.time)
 end
 
 function Win:draw()
@@ -66,11 +100,13 @@ function Win:draw()
 		center(width, self.namewidth), center(height, self.nameheight)
 	)
 
-	love.graphics.setFont(self.fontsmall)
-	love.graphics.print(
-		self.bonus,
-		center(width, self.bonuswidth), center(height, self.bonusheight) + 100
-	)
+	if winner then
+		love.graphics.setFont(self.fontsmall)
+		love.graphics.print(
+			self.bonus,
+			center(width, self.bonuswidth), center(height, self.bonusheight) + 100
+		)
+	end
 
 	if self.time > 2 then
 		love.graphics.setFont(self.fontsmaller)
@@ -83,20 +119,27 @@ end
 
 function Win:keyreleased(key)
 	if self.time > 2 then
-		switchTo(ScoreScreen)
+		if not winner then
+			if levelNum == 1 then
+				levelNum = levelNum + 1
+				switchTo(Intro2)
+			elseif levelNum == 2 then
+				levelNum = levelNum + 1
+				switchTo(Intro3)
+			end
+		else
+			levelNum = 1
+			switchTo(ScoreScreen)
+		end
 	end
 end
 
 function Win:keypressed(key)
 end
 
-function Win:start()
-	victory:play()
-	self.time = 0
-end
-
 function Win:stop()
-
+	victory:stop()
+	final_victory:stop()
 end
 
 return Win
