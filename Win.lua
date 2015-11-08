@@ -89,7 +89,6 @@ end
 
 function Win:update(dt)
 	self.time = self.time + dt
-	print(self.time)
 end
 
 function Win:draw()
