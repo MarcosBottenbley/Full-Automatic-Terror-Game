@@ -16,14 +16,14 @@ local time = 0
 local changed = 0
 local bgm
 
-local Intro3 = {
+local Intro4 = {
 	bg = nil, pos = 0,
 	script_pos = 1,
 	lines = {}
 }
-Intro3.__index = Intro3
+Intro4.__index = Intro4
 
-setmetatable(Intro3, {
+setmetatable(Intro4, {
 	__index = State,
 	__call = function (cls, ...)
 		local self = setmetatable({}, cls)
@@ -32,7 +32,7 @@ setmetatable(Intro3, {
 	end,
 })
 
-function Intro3:load()
+function Intro4:load()
 	self.list_font = love.graphics.newFont("PressStart2P.ttf", 17)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
@@ -43,12 +43,14 @@ function Intro3:load()
 	bgm:setLooping(true)
 end
 
-function Intro3:start()
+function Intro4:start()
 	self.lines = {
-		"With your ship depleted of \nenergy, you were easily surrounded and \ncaptured by enemy forces.",
-		"They took your ship back to \ntheir base and locked you in a \ndimensional prison.",
-		"It is a labyrinth of lasers \nand wormholes. They even included an \nescape wormhole to toy with \nyour mind and give you false \nhope.",
-		"You must find this wormhole \nat all costs. Your people must learn of\nthis imminent threat."
+		"After battling through \nwave after wave of ships,\n" ..
+		"your link was re-established \nand you warped out.",
+		"... or, so you thought. As it \nturns out, the Glowborgs hacked \ninto your systems and \nchanged your coordinates.",
+		"They sent you into a dangerous \nrealm, full of lasers and \nasteroids. You could be trapped \nforever.",
+		"Your world is counting on you \nto escape at all costs.",
+		"However, what other dangers \nlurk in this strange realm?"
 	}
 
 	time = 0
@@ -59,7 +61,7 @@ function Intro3:start()
 	bgm:play()
 end
 
-function Intro3:update(dt)
+function Intro4:update(dt)
 	time = time + 1 * dt
 	self.pos = self.pos + 50 * dt
 
@@ -79,16 +81,16 @@ function Intro3:update(dt)
 	end
 end
 
-function Intro3:keyreleased(key)
+function Intro4:keyreleased(key)
 	if time > 2 then
 		switchTo(StageIntro)
 	end
 end
 
-function Intro3:keypressed(key)
+function Intro4:keypressed(key)
 end
 
-function Intro3:stop()
+function Intro4:stop()
 	time = 0
 	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
@@ -97,7 +99,7 @@ function Intro3:stop()
 	bgm:stop()
 end
 
-function Intro3:draw()
+function Intro4:draw()
 	love.graphics.setFont(self.list_font)
 	love.graphics.translate(0,self.pos)
 	love.graphics.setColor(255, 50, 255, 50)
@@ -117,4 +119,4 @@ function Intro3:draw()
 	end
 end
 
-return Intro3
+return Intro4
