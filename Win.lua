@@ -124,7 +124,7 @@ function Win:keyreleased(key)
 				switchTo(Intro2)
 			elseif levelNum == 2 then
 				levelNum = levelNum + 1
-				switchTo(Intro3)
+				switchTo(Intro4)
 			end
 		else
 			levelNum = 1
