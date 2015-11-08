@@ -136,7 +136,11 @@ function Player:update(dt, swidth, sheight)
 			if destination == math.pi*2 then
 				self.move_angle = math.pi
 			end
-			destination = self:closerAngle(self.move_angle, math.pi)
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi)
+			else
+				self.move_angle = math.pi
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
@@ -145,16 +149,24 @@ function Player:update(dt, swidth, sheight)
 			if destination == math.pi then
 				self.move_angle = math.pi*2
 			end
-			destination = self:closerAngle(self.move_angle, math.pi*2)
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi*2)
+			else
+				self.move_angle = math.pi*2
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
 		if love.keyboard.isDown('down') then
-			--self:smoothturn(math.pi*(3/2))
-			if destination == math.pi/2 then
+		 	--self:smoothturn(math.pi*(3/2))
+		 	if destination == math.pi/2 then
 				self.move_angle = math.pi*(3/2)
 			end
-			destination = self:closerAngle(self.move_angle, math.pi*(3/2))
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+		 		destination = self:closerAngle(self.move_angle, math.pi*(3/2))
+		 	else
+		 		self.move_angle = math.pi*(3/2)
+		 	end
 			self.vel = self.max_vel
 			thrusting = true
 		end
@@ -163,31 +175,51 @@ function Player:update(dt, swidth, sheight)
 			if destination == math.pi*(3/2) then
 				self.move_angle = math.pi/2
 			end
-			destination = self:closerAngle(self.move_angle, math.pi/2)
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi/2)
+			else
+				self.move_angle = math.pi/2
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
 		if love.keyboard.isDown('up') and love.keyboard.isDown('right') then
 			--self:smoothturn(math.pi/4)
-			destination = self:closerAngle(self.move_angle, math.pi/4)
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi/4)
+			else
+				self.move_angle = math.pi/4
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
 		if love.keyboard.isDown('up') and love.keyboard.isDown('left') then
 			--self:smoothturn(math.pi*(3/4))
-			destination = self:closerAngle(self.move_angle, math.pi*(3/4))
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi*(3/4))
+			else
+				self.move_angle = math.pi*(3/4)
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
 		if love.keyboard.isDown('down') and love.keyboard.isDown('right') then
 			--self:smoothturn(math.pi*(7/4))
-			destination = self:closerAngle(self.move_angle, math.pi*(7/4))
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi*(7/4))
+			else
+				self.move_angle = math.pi*(7/4)
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
 		if love.keyboard.isDown('down') and love.keyboard.isDown('left') then
 			--self:smoothturn(math.pi*(5/4))
-			destination = self:closerAngle(self.move_angle, math.pi*(5/4))
+			if love.keyboard.isDown('x') or not love.keyboard.isDown('z') then
+				destination = self:closerAngle(self.move_angle, math.pi*(5/4))
+			else
+				self.move_angle = math.pi*(5/4)
+			end
 			self.vel = self.max_vel
 			thrusting = true
 		end
