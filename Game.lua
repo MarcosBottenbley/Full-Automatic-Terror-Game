@@ -198,12 +198,17 @@ function Game:stop()
 end
 
 function Game:lose()
-	self:scoreCheck()
-	levelNum = 1
-	score = 0
-	recent_score = 0
-	ended = true
-	switchTo(GameOver)
+	if levelNum == 2 then
+		levelNum = levelNum + 1
+		switchTo(Intro3)
+	else
+		self:scoreCheck()
+		levelNum = 1
+		score = 0
+		recent_score = 0
+		ended = true
+		switchTo(GameOver)
+	end
 end
 
 function Game:win()

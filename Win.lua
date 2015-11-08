@@ -45,7 +45,7 @@ function Win:load()
 end
 
 function Win:start()
-	if levelNum == max_level then
+	if levelNum >= max_level - 1 then
 		winner = true
 	else
 		winner = false
@@ -121,7 +121,7 @@ function Win:keyreleased(key)
 				levelNum = levelNum + 1
 				switchTo(Intro2)
 			elseif levelNum == 2 then
-				levelNum = levelNum + 1
+				levelNum = levelNum + 2
 				switchTo(Intro4)
 			end
 		else
