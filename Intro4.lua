@@ -50,7 +50,8 @@ function Intro4:start()
 		"... or, so you thought. As it \nturns out, the Glowborgs hacked \ninto your systems and \nchanged your coordinates.",
 		"They sent you into a dangerous \nrealm, full of lasers and \nasteroids. You could be trapped \nforever.",
 		"Your world is counting on you \nto escape at all costs.",
-		"However, what other dangers \nlurk in this strange realm?"
+		"However, this realm emits \na strange frequency that \ndisables your bombs.",
+		"And who knows what other dangers \nlurk in this strange realm?"
 	}
 
 	time = 0
