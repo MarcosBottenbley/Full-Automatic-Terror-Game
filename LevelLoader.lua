@@ -57,6 +57,8 @@ function LevelLoader:load(...)
 		bgm = love.audio.newSource("sfx/bgm_2.ogg")
 	elseif levelNum == 3 then
 		bgm = love.audio.newSource("sfx/bgm_3.ogg")
+	elseif levelNum == 4 then
+		bgm = love.audio.newSource("sfx/bgm_4.ogg")
 	else
 		bgm = love.audio.newSource("sfx/bgm_1.ogg")
 	end
