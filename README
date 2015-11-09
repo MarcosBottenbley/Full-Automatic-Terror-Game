@@ -23,10 +23,10 @@ asteroids with a new boss enemy at the end.
 
 Problem 2: Technical, Artistic, and Game Play Progress
 
-For Level 3B, we added an asteroid object that drifts across the screen and
-bounces off the laser walls. This plays a big role in the new level, and we
-ended up breaking with years of space shooter tradition by making them immune
-to bullets. (Sorry, Atari.) After playtesting, we all thought level 3B was a 
+For Level 3B, we added an asteroid object that drifts with constant speed and
+bounces off the laser walls and screen edges. This plays a big role in the new level, and we 
+ended up breaking years of space shooter tradition by making them immune
+to bullets. (Sorry, Atari.) After testing, we all thought level 3B was a 
 little too easy if you could just shoot your way through.
 
 The new level also features a new boss, a moon robot that's the counterpart
