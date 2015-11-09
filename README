@@ -11,103 +11,62 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 9: Cleanup and Polish
+Assignment 10: The Door to Level Four
 
-Part 1: Things That Need Fixing
+Problem 1: Level Four
 
-1.  Wormholes should be paired, not sequenced
-2.  Enemy ships can spawn directly on top of the player without warning
-3.  Player movement makes it difficult to shoot enemies while moving
-4.  Missiles need to move more like actual missiles
-5.  Music tracks should be different for each stage
-6.  Cutscene readings between levels are very unprofessional
-7.  New players have no way of learning the controls
-8.  Player thruster animation is the same whether moving or standing still
-9.  Enemy ships can layer on top of each other
-10. The level loader is messy with unused parameters
+Our new level lets us implement a part of our game that we've been meaning to
+add for a while: branching levels. With this update, if you're overwhelmed
+by the swarms of enemies in sector 2, then you are taken to level 3A (our previous
+level 3). If you win, then you jump to the new level 3B, a gauntlet of bouncing 
+asteroids with a new boss enemy at the end.
 
-Part 2: How We Fixed Them
+Problem 2: Technical, Artistic, and Game Play Progress
 
-1.  In level three, we envisioned the maze to be similar to the Mario Party 
-7 mini-game "Warp Pipe Dreams", where players enter the pipes to find the 
-fastest way to the center. In this case, the player is trying to reach the 
-golden portal as fast as possible. However, while entering wormhole A always 
-takes you to wormhole B, entering wormhole B did not take you back to 
-wormhole A; rather, it took you to wormhole C. This was a problem since the 
-player could reach the end by simply returning to the same wormhole each 
-time. By adjusting the level loader so that it sent the player to the 
-coordinates below if its count is odd and the coordinates above if its count 
-is even, it fixed this problem and made the puzzle more consistent. There is 
-also an added blueprint showing the portal links if that helps with testing.
+For Level 3B, we added an asteroid object that drifts across the screen and
+bounces off the laser walls. This plays a big role in the new level, and we
+ended up breaking with years of space shooter tradition by making them immune
+to bullets. (Sorry, Atari.) After playtesting, we all thought level 3B was a 
+little too easy if you could just shoot your way through.
 
-2.  In levels one and two, enemy ships can spawn directly on top of the player 
-and then die on contact, dealing damage to the player. To resolve this, we 
-created a new object, ObjectHole. This creates a purple wormhole that, in a 
-short time, spawns an enemy in its center. This makes it so that the player 
-has warning as to where an enemy is spawning so that they can move and prepare 
-to fight as necessary.
+The new level also features a new boss, a moon robot that's the counterpart
+to level 1's sun boss. Fought inside a smaller arena, this boss spawns enemies
+to attack the player instead of engaging directly.
 
-3.  Our original movement scheme was very similar to the controls from 
-Asteroids, which made it difficult to shoot Glowborgs because they were moving 
-to chase you rather than on a consistent path. Therefore, we decided on a more 
-straightforward 8-directional path with a strafe button. Even though this 
-limits the player’s movement and shooting directions, we think that this is 
-still an easier way to go through the game.
+In addition to the things we added for the new level, this update includes 
+a few changes to the general flow of the game. In our last build,
+winning a level or dying would immediately throw to a cutscene or game over 
+screen, which was a little jarring. We've added the "Sector Clear" screen 
+back into the game once a level is clear so the player is more aware of what's
+going on. Additionally, we fixed a bug that was skipping the player's explode
+animation and added an intro screen for each level.
 
-4.  Originally, missiles were incredibly overpowered. They fired in whatever 
-direction was closest to an enemy and, due to their path, could circle around 
-the player to form an indestructible circle of death around the player. We 
-made many changes to the missiles. Their speed, fire rate, and range are now 
-all reduced. In addition, they now always start to fire in the direction that 
-the ship is facing, making it so that they can only seek out enemies that are 
-located in a cone in front of the player.
-
-5.  This one was pretty self explanatory. Levels one, two, and three all had 
-the same music track playing. That made the levels seem dull and thrown 
-together. Now, each level has its own music track. They can be found in the 
-sfx folder and are labeled bgm_1, bgm_2, and bgm_3. 
-
-6.  Since this is our beta, the cutscene text needed to sound more like an 
-actual game rather than a satirical comedy. By sticking to the atmosphere of 
-our game’s lore and modifying the text, this makes the game seem more genuine 
-and immersive.
-
-7.  The controls for firing and using bombs and hyper jumps were not revealed 
-anywhere in the game, so we added a How to Play cutscene from the Main Menu to 
-say what all of the controls are. This code was already started before the 
-assignment was published and it makes it difficult to appreciate a game if the 
-player does not know the controls.
-
-8.  The player’s thruster animation was always in motion whether moving or 
-stationary. This made it look like the ship was never intended to stop. First, 
-we added particles to the ship’s thrusters so that they look more realistic 
-while in motion. Also, while not in motion, these particles move significantly 
-less, making them look more at the "ready" position than the "go" position, 
-which is what we were looking for.
-
-9.  Enemy ships, notably the Glowborgs, could layer on top of each other and 
-look like a single Glowborg. This made it confusing to the player whether or 
-not the ship was actually dying or just had an underlying explosion. To 
-prevent this, code was added so that Glowborgs bounce off of each other and 
-then return to their proper flight path. There are is also a particle spark 
-that shows when this bounce happens.
-
-10. This problem was also pretty self explanatory. By removing our excess 
-variables, it made it much easier to both read and write each level. It also 
-made room for new variables, such as spawn time and unit limit, that no longer 
-need to be declared in the unit’s individual files.
-
-
+Rounding out the update is a couple of small bug fixes and features. The locked-
+angle "strafe" movement is working again after behaving oddly in the alpha build.
+Wormholes now are able to warp the player to an arbitrary point instead of 
+automatically being set to the closest wormhole in the objects table. (This has
+the added effect of not crashing the game whenever there are an odd number of
+wormholes in a level.) Finally, we added a pause screen with options to quit or 
+restart which can be accessed by pressing the Escape key during normal gameplay.
 
 #Gameplay
 
-Please delete local data in your AppData folder (may be hidden)
-because the hi-score screen now accepts 6 hi-scores instead of 5.
+If there any problems with the high score screen, please delete 
+local data in your Love save directory:
 
-Move the ship with the arrow keys or WASD and press Z to shoot.
-Destroy all the enemies to win the game, but be careful, since
-touching once of them means game over.
-Destroying an enemy is +200 points and clearing a level yields a
+Windows XP: C:\Documents and Settings\user\Application Data\LOVE\ or %appdata%\LOVE\
+Windows Vista and 7: C:\Users\user\AppData\Roaming\LOVE or %appdata%\LOVE\
+Linux: $XDG_DATA_HOME/love/ or ~/.local/share/love/
+Mac: /Users/user/Library/Application Support/LOVE/
+
+Move the ship with the arrow keys or WASD and press Z to shoot
+(this locks the player's angle).
+Press 1 to switch between the laser and missile weapons, 
+C to use a bomb, and space to use a hyperjump.
+Holding X will stop the angle from locking while firing.
+
+Enter the yellow portal to win the level (unless otherwise specified).
+Destroying an enemy is +200 points and clearing the game yields a
 +3000 point bonus.
 We decided to go with a simple approach for scoring points since
 a main focus of our game is ship-to-ship combat.
@@ -118,13 +77,16 @@ a main focus of our game is ship-to-ship combat.
 	Coding done by Adam, David, Marcos, and Rebecca
 
 	Code for states adapted from Peter's GameStates example
+	
 * Music
 	Chiptunes taken from bitpuritans' '2A03 PURITANS' album
 	https://bitpuritans.bandcamp.com/album/2a03-puritans
 	Menu: TQ-Jam - Milky Fields
-	Game: Moot Booxl� - Ouroboros
+	Level 1: Moot Booxl� - Ouroboros
+	Level 2: gyms - Magmo's Magical Ingot
+	Level 3: Jangler - Tide/Grotto
 	Scores: stinkbug - Dreamgate
-	Victory jingle from the VVVVVV soundtrack by SoulEye
+	Both victory jingles from the VVVVVV soundtrack by SoulEye
 	Invul music from Super Mario Bros. 3 (Koji Kondo)
 
 * Graphics
@@ -133,15 +95,11 @@ a main focus of our game is ship-to-ship combat.
 	http://www.capitalotc.com/wp-content/uploads/2015/01/chinas-first-unmanned-unar-mission.jpg
 
 * Sound
-	Bump sound effect made using SFXR
+	SFX for bomb, error, hyperjump, weapon arming, shutdown and teleport taken
+	from http://freesound.org
+	
+	All other sound effects made using SFXR
 	http://www.drpetter.se/project_sfxr.html
-
-	THX/Crank That mashup found on Soundcloud, using:
-	THX intro by James A. Moorer
-	Crank That (Soulja Boy) by DeAndre Cortez Way
-
-	Voice clips for win/game over screens from Tales of Symphonia
-	(Namco, GameCube 2003)
 
 * Font
 	Press Start 2P by codeman38
