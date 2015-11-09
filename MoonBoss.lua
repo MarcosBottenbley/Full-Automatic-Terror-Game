@@ -70,6 +70,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		self.dmg_timer = self.dmg_timer + dt
 	end
 
+	--[[
 	if self.pos == 7 then
 		self:move(1500, 1000 + self.height) -- 0
 	elseif self.pos == 6 then
@@ -87,6 +88,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	elseif self.pos == 0 then
 		self:move(1000 + self.width, 1000 + self.height) -- 1
 	end
+	]]
 
 	self:checkpos()
 
@@ -105,15 +107,15 @@ function MoonBoss:checkpos( ... )
 		self.pos = 2
 	elseif self.x == (1000 + self.width) and self.y == (2000 - self.height) then
 		self.pos = 3
-	elseif self.x = 1500 and self.y = (2000 - self.height) then
+	elseif self.x == 1500 and self.y == (2000 - self.height) then
 		self.pos = 4
-	elseif self.x = (2000 - self.width) and self.y = (2000 - self.height) then
+	elseif self.x == (2000 - self.width) and self.y == (2000 - self.height) then
 		self.pos = 5
-	elseif self.x = (2000 - self.width) and self.y = 1500 then
+	elseif self.x == (2000 - self.width) and self.y == 1500 then
 		self.pos = 6
-	elseif self.x = (2000 - self.width) and self.y = (1000 + self.height) then
+	elseif self.x == (2000 - self.width) and self.y == (1000 + self.height) then
 		self.pos = 7
-	elseif self.x = 1500 and self.y (1000 + self.height) then
+	elseif self.x == 1500 and self.y == (1000 + self.height) then
 		self.pos = 0
 	end
 end
@@ -126,16 +128,16 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:move(destx, desty)
-	local factor = self:easeInQuint(time, 0, 1, 5)
+	local factor = self:easeInQuint(time, 0, 1, 10)
 	self.x = self.x + (destx - self.x) * factor
 
 	self.y = self.y + (desty - self.y) * factor
 end
 
-function MoonBoss:easeInQuint(t, b, c, d) {
-	t1 = t/d;
-	return c*t1*t1*t1*t1*t1 + b;
-};
+function MoonBoss:easeInQuint(t, b, c, d)
+	local t1 = t/d
+	return c*t1*t1*t1*t1*t1 + b
+end
 
 function MoonBoss:alive()
 	return self.health > 0
