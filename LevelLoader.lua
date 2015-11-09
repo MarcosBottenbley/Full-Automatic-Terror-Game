@@ -98,6 +98,9 @@ function LevelLoader:make(object)
 
 	if object[1] == "pla" then
 		player = Player(object[2], object[3], 200)
+		if levelNum == 4 then
+			player.bomb = 0
+		end
 		table.insert(objects, player)
 		return
 	elseif object[1] == "ogb" then
