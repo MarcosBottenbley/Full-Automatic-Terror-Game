@@ -22,7 +22,7 @@ local bgm_normal
 local bgm_starman
 
 local pstring1 = "GAME PAUSED"
-local pstring2 = "Press Q to quit to menu or Esc to resume"
+local pstring2 = "Press Q to quit to menu, Esc to resume,\nor R to restart the level."
 
 local h_timer = 0
 local timer = 0
@@ -463,6 +463,10 @@ function Game:keyreleased(key)
 		levelNum = 1
 		score = 0
 		switchTo(Menu)
+	end
+
+	if key == 'r' and pause then
+		switchTo(StageIntro)
 	end
 	
 	if key == 'escape' then

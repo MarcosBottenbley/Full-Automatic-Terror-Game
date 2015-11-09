@@ -367,6 +367,23 @@ function Player:keyreleased(key)
 		end
 		self:weaponSelect()
 	end
+
+	if key == '0' then
+		self.health = self.health + 5
+	end
+
+	if key == '9' then
+		self.h_jump = self.h_jump + 5
+	end
+
+	if key == '8' then
+		self.bomb = self.bomb + 5
+	end
+
+	if key == '7' then
+		levelNum = 4
+		switchTo(Intro4)
+	end
 end
 
 function Player:keypressed(key)
