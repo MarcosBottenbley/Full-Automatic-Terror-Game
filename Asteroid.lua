@@ -112,7 +112,7 @@ function Asteroid:getHitBoxes( ... )
 end
 
 function Asteroid:collide(obj)
-	if obj:getID() == 3 or obj:getID() == 6 or obj:getID() == 2 then
+	if obj:getID() == 6 or obj:getID() == 2 then
 		-- if self.scale >= 1 then
 			-- self:split()
 		-- end
