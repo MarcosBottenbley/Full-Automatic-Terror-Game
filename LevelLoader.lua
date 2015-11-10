@@ -120,11 +120,11 @@ function LevelLoader:make(object)
 	elseif object[1] == "osb" then
 		o = SunBoss(object[2], object[3])
 	elseif object[1] == "sgb" then
-		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'g')
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'g')
 	elseif object[1] == "sps" then
-		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'f')
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'f')
 	elseif object[1] == "sdm" then
-		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], 'd')
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'd')
 	elseif object[1] == "pwr" then
 		o = DoubleShot(object[2], object[3], 0)
 	elseif object[1] == "rep" then
@@ -144,7 +144,7 @@ function LevelLoader:make(object)
 		o = Asteroid(1, object[4], object[5])
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "omb" then
-		o = MoonBoss2(object[2], object[3])
+		o = MoonBoss(object[2], object[3])
 	end
 	
 	table.insert(objects, o)

@@ -36,9 +36,10 @@ local MoonBoss = {
 	delay = 0.12, sprites = {},
 	bounding_rad = 64, type = 'b',
 	health = 40, s_timer = 0,
-	dmg_timer = 0, angle = 0,
+	dmg_timer = 0, shoot_angle = 0,
 	vel = 100, damaged = false,
-	pos = 0
+	move_angle = 0, bouncing,
+	b_timer, b_angle, pos = 0
 }
 MoonBoss.__index = MoonBoss
 
@@ -53,6 +54,7 @@ setmetatable(MoonBoss, {
 
 function MoonBoss:_init(x,y)
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.validCollisions = {2, 3, 8}
 end
 
 function MoonBoss:load()
@@ -97,6 +99,14 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
 		self.dmg_timer = 0
+	end
+end
+
+function MoonBoss:draw()
+	if self.damaged then
+		Object.draw(self,255,100,100)
+	else
+		Object.draw(self,255,255,255)
 	end
 end
 
@@ -213,6 +223,7 @@ function MoonBoss:collide(obj)
 		self:hit()
 		if not self:alive() then
 			time = 0
+			Enemy.collide(self, obj)
 			local gh = Winhole(self.x, self.y)
 			table.insert(objects, gh)
 		end

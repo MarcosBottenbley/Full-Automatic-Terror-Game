@@ -22,8 +22,10 @@ local MoonBoss2 = {
 	delay = 0.12, sprites = {},
 	bounding_rad = 64, type = 'b',
 	health = 40, s_timer = 0,
-	dmg_timer = 0, angle = 0,
-	vel = 100, damaged = false
+	dmg_timer = 0, shoot_angle = 0,
+	vel = 100, damaged = false,
+	move_angle = 0, bouncing,
+	b_timer, b_angle
 }
 MoonBoss2.__index = MoonBoss2
 
@@ -38,6 +40,7 @@ setmetatable(MoonBoss2, {
 
 function MoonBoss2:_init(x,y)
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.validCollisions = {2, 3, 8}
 end
 
 function MoonBoss2:load()
@@ -48,6 +51,7 @@ end
 
 function MoonBoss2:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
+	print("im alive")
 	time = time + dt
 	
 	self.s_timer = self.s_timer + dt
@@ -55,10 +59,10 @@ function MoonBoss2:update(dt, swidth, sheight, px, py)
 		self.dmg_timer = self.dmg_timer + dt
 	end
 	
-	self.angle = self.angle + (math.pi/2)*dt*(7.66 - (self.health/6))
+	self.shoot_angle = self.shoot_angle + (math.pi/2)*dt*(7.66 - (self.health/6))
 
 	--print("PLAYER: " .. py .. " " .. px)
-	local angle_p = math.atan((py - self.y) / (px - self.x))
+	self.move_angle = math.atan((py - self.y) / (px - self.x))
 
 	if not self:alive() then
 		self.validCollisions = {}
@@ -67,17 +71,26 @@ function MoonBoss2:update(dt, swidth, sheight, px, py)
 			self.current_state = 2
 			self.current_frame = 1
 		end
-	else
+	elseif not self.bouncing then
 		if self:distanceFrom(px, py) < 500 then
 			--move towards player (weird if statement because i don't
 			--totally understand the math)
 			if px - self.x > 0 then
-				self.x = self.x + self.vel * dt * math.cos(angle_p)
-				self.y = self.y + self.vel * dt * math.sin(angle_p)
+				self.x = self.x + self.vel * dt * math.cos(self.move_angle)
+				self.y = self.y + self.vel * dt * math.sin(self.move_angle)
 			else
-				self.x = self.x - self.vel * dt * math.cos(angle_p)
-				self.y = self.y - self.vel * dt * math.sin(angle_p)
+				self.x = self.x - self.vel * dt * math.cos(self.move_angle)
+				self.y = self.y - self.vel * dt * math.sin(self.move_angle)
 			end
+		end
+	else
+		print("bounce")
+		self:bounce(dt)
+		self.b_timer = self.b_timer - dt
+		if self.b_timer <= 0 then
+			print("stopbounce")
+			self.bouncing = false
+			self.vel = 100
 		end
 	end
 	
@@ -96,7 +109,7 @@ function MoonBoss2:draw()
 	if self.damaged then
 		Object.draw(self,255,100,100)
 	elseif not self:alive() then
-	    Object.draw(self,255, 100, 100, self.angle)
+	    Object.draw(self,255, 100, 100, self.shoot_angle)
 	else
 		Object.draw(self,255,255,255)
 	end
@@ -135,7 +148,7 @@ function MoonBoss2:getHealth(...)
 end
 
 function MoonBoss2:shoot()
-	local b = EnemyBullet(self.x, self.y+40, 600, self.angle)
+	local b = EnemyBullet(self.x, self.y+40, 600, self.shoot_angle)
 	table.insert(objects, b)
 	self.s_timer = 0
 end
@@ -151,22 +164,33 @@ function MoonBoss2:collide(obj)
 	end
 
 	if obj:getID() == 8 then
+		print("wallcollide")
 		ox = obj:getX()
 		oy = obj:getY()
 		if obj:isVertical() then
+			print("vert")
 			if ox < self.x then
-				self.angle = 0
+				self.b_angle = 0
 			else
-				self.angle = math.pi
+				self.b_angle = math.pi
 			end
 		else
+			print("horz")
 			if oy < self.y then
-				self.angle = math.pi*(3/2)
+				self.b_angle = math.pi*(3/2)
 			else
-				self.angle = math.pi/2
+				self.b_angle = math.pi/2
 			end
 		end
+		self.bouncing = true
+		self.b_timer = .2
 	end
+end
+
+function MoonBoss2:bounce(dt)
+	self.vel = self.vel + 2000 * dt
+	self.x = self.x + self.vel * dt * math.cos(self.b_angle)
+	self.y = self.y - self.vel * dt * math.sin(self.b_angle)
 end
 
 return MoonBoss2

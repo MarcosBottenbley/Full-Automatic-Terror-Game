@@ -32,6 +32,8 @@ local Spawn = {
 	spawntimer = 0,
 	--How many times the spawner can create enemies before it stops
 	spawnLimit = 1,
+	--How many enemies the spawner creates per spawn
+	spawnAmount = 5,
 	--How many times the spawner has spawned so far
 	spawnNum = 0
 }
@@ -46,13 +48,16 @@ setmetatable(Spawn, {
 	end,
 })
 
-function Spawn:_init(x,y,pr,r,sr,sl,types)
+function Spawn:_init(x,y,pr,r,sr,sl,sa,types)
 	self.x = x
 	self.y = y
 	self.pl_rad = pr
 	self.rad = r
 	self.spawnrate = sr
 	self.spawnLimit = sl
+	if sa ~= nil then
+		self.spawnAmount = sa
+	end
 	self.type = types
 	self.spawntimer = self.spawnrate / 4
 
@@ -72,7 +77,7 @@ function Spawn:update(dt,bx,by,px,py)
 	if ((self.pl_rad > 0 and pl_dist < self.pl_rad) or self.pl_rad <= 0) and
 	self.spawntimer > self.spawnrate and self.spawnNum < self.spawnLimit then
 		self.spawntimer = 0
-		for i = 1, 5 do
+		for i = 1, self.spawnAmount do
 			local radial_pos = math.random()*math.pi*2
 			local spawnx = self.x + math.cos(radial_pos) * self.rad
 			local spawny = self.y + math.sin(radial_pos) * self.rad
@@ -88,7 +93,6 @@ function Spawn:update(dt,bx,by,px,py)
 	end
 end
 
---[[
 function Spawn:draw()
 	love.graphics.setColor(255, 0, 0, 255)
 	love.graphics.circle("line", self.x, self.y, self.rad, 100)
@@ -96,7 +100,6 @@ function Spawn:draw()
 	love.graphics.circle("line", self.x, self.y, self.pl_rad, 100)
 	love.graphics.setColor(255, 255, 255, 255)
 end
---]]
 
 function Spawn:calcDist(x, y)
   return math.sqrt((self.x - x)^2 + (self.y - y)^2)
