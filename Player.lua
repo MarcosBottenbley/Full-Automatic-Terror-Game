@@ -585,6 +585,12 @@ function Player:collide(obj)
 		end
 		-- love.timer.sleep(0.2)
 	elseif obj:getID() == 8 then
+		if self.isJumping then
+			self.invul = false
+			self.isJumping = false
+			self.jumptimer = 0
+			self.vel = self.max_vel
+		end
 		bump:play()
 		ox = obj:getX()
 		oy = obj:getY()
@@ -609,12 +615,6 @@ function Player:collide(obj)
 end
 
 function Player:bounce(dt)
-	if self.isJumping then
-		self.invul = false
-		self.isJumping = false
-		self.jumptimer = 0
-		self.vel = self.max_vel
-	end
 	self.vel = self.vel + 2000 * dt
 	self.x = self.x + self.vel * dt * math.cos(self.b_angle)
 	self.y = self.y + self.vel * dt * math.sin(self.b_angle)
