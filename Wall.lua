@@ -16,11 +16,11 @@ local h
 Object = require("Object")
 
 local Wall = {
-	img = 'gfx/fence.png',
+	img = 'gfx/fence2.png',
 	frames = 3, states = 1,
 	delay = 0.1,
 	x = 10, y = 10,
-	width = 180, height = 18,
+	width = 180, height = 20,
 	id = 8, vertical = false
 }
 Wall.__index = Wall
@@ -61,7 +61,7 @@ function Wall:_init(x,y,width,height)
 		self.vertical = true
 	end
 
-	
+
 	Object._init(self, x, y,self.img,self.width,self.height,self.frames,self.states,self.delay)
 
 	self.validCollisions = {1,2}
@@ -108,10 +108,10 @@ end
 function Wall:draw(...)
 	-- body
 	Object.draw(self,255,255,255,self.angle)
-	
+
 	--draw circle to represent point that Game checks to see if it should draw
 	--the wall or not
-	
+
 	-- love.graphics.setColor(0, 0, 255, 255)
 	-- if self.vertical then
 		-- love.graphics.circle("fill", self.x + self.height/2, self.y + self.width/2, 10, 100)
