@@ -18,7 +18,7 @@ local time = 0
 local MoonBoss2 = {
 	img = "gfx/moon_boss.png",
 	width = 128, height = 128,
-	frames = 4, states = 2,
+	frames = 9, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 64, type = 'b',
 	health = 40, s_timer = 0,
@@ -53,12 +53,12 @@ function MoonBoss2:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	print("im alive")
 	time = time + dt
-	
+
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
 		self.dmg_timer = self.dmg_timer + dt
 	end
-	
+
 	self.shoot_angle = self.shoot_angle + (math.pi/2)*dt*(7.66 - (self.health/6))
 
 	--print("PLAYER: " .. py .. " " .. px)
@@ -93,12 +93,12 @@ function MoonBoss2:update(dt, swidth, sheight, px, py)
 			self.vel = 100
 		end
 	end
-	
+
 	--shots get faster as health gets lower
 	if self.s_timer > 0.5 / ((-9/39)*self.health + (389/39)) then
 		self:shoot()
 	end
-	
+
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
 		self.dmg_timer = 0
