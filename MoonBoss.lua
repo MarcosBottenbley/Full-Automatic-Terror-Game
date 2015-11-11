@@ -32,7 +32,7 @@ local time = 0
 local MoonBoss = {
 	img = "gfx/moon_boss.png",
 	width = 128, height = 128,
-	frames = 4, states = 2,
+	frames = 9, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 64, type = 'b',
 	health = 40, s_timer = 0,
@@ -66,7 +66,7 @@ end
 function MoonBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	time = time + dt
-	
+
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
 		self.dmg_timer = self.dmg_timer + dt
@@ -94,8 +94,8 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 
 	self:checkpos()
 
-	
-	
+
+
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
 		self.dmg_timer = 0

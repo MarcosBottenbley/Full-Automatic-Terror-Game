@@ -17,7 +17,7 @@ Enemy = require("Enemy")
 local Asteroid = {
 	width = 64, height = 64,
 	frames = 3, states = 2,
-	img = "gfx/asteroid1.png",
+	img = "gfx/metal_asteroid1.png",
 	delay = .1, sprites = {},
 	bounding_rad = 29, vel = 130,
 	bouncing = false, angle,
@@ -37,9 +37,9 @@ setmetatable(Asteroid, {
 
 function Asteroid:_init(scale, vx, vy)
 	if math.random() > 0.5 then
-		self.img = "gfx/asteroid2.png"
+		self.img = "gfx/metal_asteroid2.png"
 	end
-	
+
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.validCollisions = {1,2,3,6,8}
 	self.angle = math.random()*math.pi*2
@@ -57,7 +57,7 @@ function Asteroid:_init(scale, vx, vy)
 				self.angle = math.pi
 			end
 		elseif vx == 0 then
-			if vy > 0 then 
+			if vy > 0 then
 				self.angle = math.pi/2
 			else
 				self.angle = math.pi*(3/2)
@@ -68,9 +68,9 @@ end
 
 function Asteroid:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
-	
+
 	if self.x < 0 or self.y < 0
-	or self.x > swidth - self.width or self.y > sheight - self.height then 
+	or self.x > swidth - self.width or self.y > sheight - self.height then
 		self.angle = self.angle + math.pi
 	end
 
@@ -93,9 +93,9 @@ end
 
 -- function Asteroid:draw()
 	-- love.graphics.setColor(131,92,59,255)
-	
+
 	-- love.graphics.circle("fill", self.x, self.y, 30*self.scale, 100)
-	
+
 	-- love.graphics.setColor(255,255,255,255)
 -- end
 

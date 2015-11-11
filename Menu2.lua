@@ -12,23 +12,24 @@
 
 State = require("State")
 
-local Menu = {"Play Game", "How To Play", "Settings", "High Scores", "Quit"}
-local selects = {"-Play Game-", "-How To Play-", "-Settings-", "-High Scores-", "-Quit-"}
+local Menu2 = {"New Game", "Level Select", "Return to Menu"}
+local selects = {"-New Game-", "-Level Select-", "-Return to Menu-"}
 local widths = {}
+local levelCount = 1
 local selectwidths = {}
 local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
-local title1 = "FULL AUTOMATIC"
-local title2 = "TERROR"
+local title1 = "ADJUST YOUR GAME"
+local title2 = "SETTINGS"
 local width = love.window.getWidth()
 local height = love.window.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
 --local adelt = 75
 
-Menu.__index = Menu
+Menu2.__index = Menu2
 
-setmetatable(Menu, {
+setmetatable(Menu2, {
 	__index = State,
 	__call = function (cls, ...)
 		local self = setmetatable({}, cls)
@@ -39,20 +40,20 @@ setmetatable(Menu, {
 
 --- declares all menu sound effects, text, and text fonts
 
-function Menu:load()
+function Menu2:load()
 
 	self.title1_font = love.graphics.newFont("ka1.ttf", 52)
 	self.title2_font = love.graphics.newFont("ka1.ttf", 70)
 	self.list_font = love.graphics.newFont("ka1.ttf", 30)
 	self.help_font = love.graphics.newFont("PressStart2P.ttf", 12)
 
-	title1_width = self.title1_font:getWidth(title1)
-	title1_height = self.title1_font:getHeight(title1)
+	self.title1_width = self.title1_font:getWidth(title1)
+	self.title1_height = self.title1_font:getHeight(title1)
 	
-	title2_width = self.title2_font:getWidth(title2)
-	title2_height = self.title2_font:getHeight(title2)
+	self.title2_width = self.title2_font:getWidth(title2)
+	self.title2_height = self.title2_font:getHeight(title2)
 
-	for index,value in ipairs(Menu) do
+	for index,value in ipairs(Menu2) do
 		widths[index] = self.list_font:getWidth(value)
 	end
 
@@ -60,48 +61,25 @@ function Menu:load()
 		selectwidths[index] = self.list_font:getWidth(value)
 	end
 
-	menu_bgm = love.audio.newSource("sfx/menulow.ogg")
-	menu_bgm:setLooping(true)
-
-	choose = love.audio.newSource("sfx/choose.ogg")
-	choose:setLooping(false)
-
-	selected = love.audio.newSource("sfx/select.ogg")
-	selected:setLooping(false)
-
-	quitgame = love.audio.newSource("sfx/shutdown.mp3")
-	quitgame:setLooping(false)
-
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
-	
-	-- for flashing title
+
 	timer1 = love.timer.getTime()
 	timer2 = love.timer.getTime()
+
 end
 
---- code for flashing title
-
-function Menu:update(dt)
-
+function Menu2:update(dt)
 	timer2 = love.timer.getTime()
 	if (timer2 - timer1) >= 0.2 then
 		flash = not flash
 		timer1 = love.timer.getTime()
 	end
-
-	--[[
-	alpha = alpha + adelt * dt
-
-	if alpha <= 50 or alpha >= 255 then
-		adelt = -adelt
-	end
-	--]]
-
 end
+	
 
 --- creates the actual list and background
 
-function Menu:draw()
+function Menu2:draw()
 
 	-- draw background
 	love.graphics.draw(self.bg, 1, 1)
@@ -118,12 +96,12 @@ function Menu:draw()
 	love.graphics.setFont(self.title1_font)
 	love.graphics.print(
 		title1,
-		width/2 - title1_width/2, 50
+		width/2 - self.title1_width/2, 50
 	)
 	love.graphics.setFont(self.title2_font)
 	love.graphics.print(
 		title2,
-		width/2 - title2_width/2, 106
+		width/2 - self.title2_width/2, 106
 	)
 
 	-- draw the menu list
@@ -138,7 +116,7 @@ function Menu:draw()
 
 	love.graphics.setFont(self.list_font)
 
-	for index,value in ipairs(Menu) do
+	for index,value in ipairs(Menu2) do
 		if selector + 1 == index then
 			love.graphics.print(
 				selects[index],
@@ -152,61 +130,87 @@ function Menu:draw()
 			)
 		end
 	end
+
+	if selector == 1 and (levelCount == 1 or levelCount == 2) then
+		love.graphics.print(
+			levelCount,
+			width/2 - 15, height/2 + 100
+		)
+	end
+
+	if selector == 1 and (levelCount == 3) then
+		love.graphics.print(
+			"3A",
+			width/2 - 25, height/2 + 100
+		)
+	end
+
+	if selector == 1 and (levelCount == 4) then
+		love.graphics.print(
+			"3B",
+			width/2 - 25, height/2 + 100
+		)
+	end
 end
 
 --- selector operations and their sound effects
 
-function Menu:keyreleased(key)
+function Menu2:keyreleased(key)
 	if key == 'escape' then
-		love.event.quit()
+		switchTo(Menu)
 	end
 
 	if key == 'up' then
-		selector = ((selector - 1) % 5)
+		selector = ((selector - 1) % 3)
 		selected:play()
 	end
 
 	if key == 'down' then
-		selector = ((selector + 1) % 5)
+		selector = ((selector + 1) % 3)
 		selected:play()
+	end
+
+	if key == 'left' and selector ==  1 and levelCount == 1 then
+		error:play()
+	end
+
+	if key == 'right' and selector == 1 and levelCount == 4 then
+		error:play()
+	end
+
+	if key == 'left' and selector == 1 and levelCount > 1 then
+		levelCount = levelCount - 1
+	end
+
+	if key == 'right' and selector == 1 and levelCount < 4 then
+		levelCount = levelCount + 1
 	end
 
 	if key == 'return' then
 		choose:play()
 
 		if selector == 0 then
-			switchTo(Menu2)
-		elseif selector == 1 then
-			love.timer.sleep(0.4)
-			switchTo(HowToPlay)
-		elseif selector == 2 then
-			love.timer.sleep(0.4)
-			switchTo(Settings)
-		elseif selector == 3 then
-			love.timer.sleep(0.4)
-			switchTo(ScoreScreen)
-		elseif selector == 4 then
 			menu_bgm:stop()
-			quitgame:play()
-			love.timer.sleep(2)
-			love.event.quit()
+			love.timer.sleep(0.4)
+			switchTo(Intro)
+		elseif selector == 1 then
+			menu_bgm:stop()
+			love.timer.sleep(0.4)
+			levelNum = levelCount
+			switchTo(StageIntro)
+		elseif selector == 2 then
+			switchTo(Menu)
 		end
 	end
 end
 
-function Menu:keypressed(key)
+function Menu2:keypressed(key)
 end
 
-function Menu:start()
-	if menu_bgm:isPlaying() == false then
-		menu_bgm:play()
-	end
+function Menu2:start()
 end
 
-function Menu:stop()
-	if selector ~= 0 then
-		menu_bgm:stop()
-	end
+function Menu2:stop()
 end
 
-return Menu
+return Menu2
