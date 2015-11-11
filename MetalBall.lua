@@ -17,7 +17,7 @@ Enemy = require("Enemy")
 local MetalBall = {
 	width = 64, height = 64,
 	frames = 3, states = 2,
-	img = "gfx/asteroid1.png",
+	img = "gfx/metal_asteroid1.png",
 	delay = .1, sprites = {},
 	bounding_rad = 29, vel = 130,
 	bouncing = false, angle,
@@ -37,7 +37,7 @@ setmetatable(MetalBall, {
 
 function MetalBall:_init(scale, vx, vy)
 	if math.random() > 0.5 then
-		self.img = "gfx/asteroid2.png"
+		self.img = "gfx/metal_asteroid2.png"
 	end
 	
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
