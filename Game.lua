@@ -117,6 +117,8 @@ function Game:load(arg)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
+	
+	healthbar = love.graphics.newImage("gfx/health_bar.png")
 
 	enemies = {}
 	bullets = {}
@@ -371,10 +373,15 @@ function Game:draw(dt)
 	)
 
 	love.graphics.setFont(self.scorefont)
-	love.graphics.print(
-		"HEALTH: " .. player:getHealth(),
-		10, 10
-	)
+	-- love.graphics.print(
+		-- "HEALTH: " .. player:getHealth(),
+		-- 10, 10
+	-- )
+	
+	love.graphics.setColor(255, 0, 0, 255)
+	love.graphics.rectangle("fill", 11, 11, 148 * (player:getHealth() / 10), 18)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(healthbar, 10, 10)
 
 	love.graphics.print(
 		"BOMBS: " .. player:getBomb(),

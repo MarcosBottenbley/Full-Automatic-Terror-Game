@@ -572,7 +572,11 @@ function Player:collide(obj)
 		if obj:getType() == 'ds' then
 			self.double = true
 		elseif obj:getType() == 'r' then
-			self.health = self.health + 2
+			for i=1, 2 do
+				if self.health < 10 then
+					self.health = self.health + 1
+				end
+			end
 		elseif obj:getType() == 'sp' then
 			self.max_vel = self.max_vel + 100
 		end
