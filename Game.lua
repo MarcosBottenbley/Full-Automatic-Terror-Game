@@ -76,7 +76,7 @@ function Game:load(arg)
 	Wall = require("Wall")
 	Frame = require("Frame")
 	Winhole = require("Winhole")
-	Asteroid = require("Asteroid")
+	MetalBall = require("MetalBall")
 	MoonBoss = require("MoonBoss")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
