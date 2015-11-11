@@ -36,7 +36,7 @@ recent_score = 0
 highscores = {}
 default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
-levelNum = 0
+levelNum = 1
 max_level = 4
 
 Title = require("Title")
