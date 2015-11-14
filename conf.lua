@@ -60,7 +60,9 @@ local titles = {
 	"Call of Duty: Black Ops III",
 	"Backgammon",
 	"3D Pinball",
-	"As fun as watching paint explode"
+	"As fun as watching paint explode",
+	"YYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
+	"Now on Kickstarter!"
 }
 
 local titlestring = titles[math.random(#titles)]

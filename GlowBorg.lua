@@ -38,7 +38,7 @@ function GlowBorg:_init()
 	self.validCollisions = {1,2,3}
 	local temp = love.graphics.newImage("gfx/post.png")
 	self.sparks = love.graphics.newParticleSystem(temp, 10)
-	self.sparks:setParticleLifetime(0.3, 0.7) -- Particles live at least 2s and at most 5s.
+	self.sparks:setParticleLifetime(0.3, 0.7) -- Particles live at least 0.3s and at most 0.7s.
 	self.sparks:setLinearAcceleration(-400, -400, 400, 400) -- Random movement in all directions.
 	self.sparks:setColors(255, 255, 0, 255, 255, 255, 0, 0) -- Fade to transparency.
 	self.sparks:setSizes(0.3)

@@ -146,7 +146,7 @@ function LevelLoader:make(object)
 	elseif object[1] == "omb" then
 		o = MoonBoss(object[2], object[3])
 	elseif object[1] == "tur" then
-		o = Turret(object[2], object[3])
+		o = Turret(object[2], object[3], object[4], object[5])
 	end
 	
 	table.insert(objects, o)

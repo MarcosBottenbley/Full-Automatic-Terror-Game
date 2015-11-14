@@ -81,7 +81,7 @@ function Enemy:update(dt, swidth, sheight)
 		self.d_timer = self.d_timer + dt
 	end
 	
-	if self.d_timer > self.frames * self.delay - .02 then
+	if self.d_timer > self:notNegative(self.frames * self.delay - .02) then
 		self.dead = true
 	end
 end
@@ -155,6 +155,14 @@ function Enemy:collide(obj)
 	self.validCollisions = {}
 	self.collided = true
 	self:changeAnim(2)
+end
+
+function Enemy:notNegative(num)
+	if num < 0 then
+		return 0
+	else
+		return num
+	end
 end
 
 return Enemy
