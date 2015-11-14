@@ -35,11 +35,13 @@ local Player = {
 	health = 10, bomb = 100, h_jump = 5,
 	invul = false, dam_timer = 0, damaged = false,
 	missile = false, missile_fire_timer = 0,
+	missileSpeed = .8,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, bulletSpeed = .18,
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
-	b_angle, b_timer, bouncing, dead_timer = 0
+	b_angle, b_timer, bouncing, dead_timer = 0,
+	weaponSpeeds = {.18, .8, 2}, current_weapon = 1
 }
 Player.__index = Player
 
@@ -94,15 +96,17 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-	f_timer = f_timer + dt
+	if f_timer < self.weaponSpeeds[self.current_weapon] then
+		f_timer = f_timer + dt
+	end
 	t_timer = t_timer + dt
-	self.missile_fire_timer = self.missile_fire_timer + dt
 	timeChange = dt
 
-	if f_timer >= self.bulletSpeed then
+	if f_timer >= self.weaponSpeeds[self.current_weapon] then
 		firable = true
+		f_timer = self.weaponSpeeds[self.current_weapon]
 	else
-	    	firable = false
+	    firable = false
 	end
 
 	self.teleporttimer = self.teleporttimer + dt
@@ -360,12 +364,15 @@ function Player:keyreleased(key)
 	end
 
 	if key == '1' then
-		if self.missile == false then
-			missile_arm:play()
-		else
+		if self.current_weapon ~= 1 then
 			laser_arm:play()
+			self.current_weapon = 1
 		end
-		self:weaponSelect()
+	elseif key == '2' then
+		if self.current_weapon ~= 2 then
+			missile_arm:play()
+			self.current_weapon = 2
+		end
 	end
 
 	if key == '0' then
@@ -404,29 +411,23 @@ end
 function Player:fire()
 	f_timer = 0
 
-	local missile_delay = 0.8
-	if self.double == true then
-		missile_delay = 0.5
-	end
-
-	if self.missile then
-		if self.missile_fire_timer > missile_delay then
-			local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
-			table.insert(objects, m)
+	if self.current_weapon == 2 then
+		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
+		table.insert(objects, m)
+		pew:play()
+	elseif self.current_weapon == 1 then
+		if self.double then
+			--code
+			local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.draw_angle), self.hb_1[2] + 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
+			local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.draw_angle), self.hb_1[2] - 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
+			table.insert(objects, b1)
+			table.insert(objects, b2)
 			pew:play()
-			self.missile_fire_timer = 0
+		else
+			local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.draw_angle) --magic numbers errywhere
+			table.insert(objects, b)
+			pew:play()
 		end
-	elseif self.double then
-		--code
-		local b1 = Bullet(self.hb_1[1] + 10*math.sin(self.draw_angle), self.hb_1[2] + 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
-		local b2 = Bullet(self.hb_1[1] - 10*math.sin(self.draw_angle), self.hb_1[2] - 10*math.cos(self.draw_angle), 600, self.draw_angle) --magic numbers errywhere
-		table.insert(objects, b1)
-		table.insert(objects, b2)
-		pew:play()
-	else
-		local b = Bullet(self.hb_1[1], self.hb_1[2], 600, self.draw_angle) --magic numbers errywhere
-		table.insert(objects, b)
-		pew:play()
 	end
 end
 
@@ -571,6 +572,7 @@ function Player:collide(obj)
 	elseif obj:getID() == 5 then
 		if obj:getType() == 'ds' then
 			self.double = true
+			self.weaponSpeeds[2] = .5
 		elseif obj:getType() == 'r' then
 			for i=1, 2 do
 				if self.health < 10 then
@@ -648,6 +650,10 @@ function Player:intitializeThrusters()
 	self.particles:setSizeVariation(1)
 	self.particles:setLinearAcceleration(0, 100, 0, 200)
 	self.particles:setColors(255, 255, 160, 255, 255, 0, 0, 100)
+end
+
+function Player:getCooldownLevel()
+	return f_timer / self.weaponSpeeds[self.current_weapon]
 end
 
 function Player:getType()

@@ -374,24 +374,33 @@ function Game:draw(dt)
 	)
 
 	love.graphics.setFont(self.scorefont)
-	-- love.graphics.print(
-		-- "HEALTH: " .. player:getHealth(),
-		-- 10, 10
-	-- )
+	love.graphics.print(
+		"HEALTH:", 10, 10
+	)
 	
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.rectangle("fill", 11, 11, 148 * (player:getHealth() / 10), 18)
+	love.graphics.rectangle("fill", 151, 6, 148 * (player:getHealth() / 10), 18)
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(healthbar, 10, 10)
+	love.graphics.draw(healthbar, 150, 5)
+	
+	love.graphics.setFont(self.scorefont)
+	love.graphics.print(
+		"WEAPON:", 10, 40
+	)
+	
+	love.graphics.setColor(35, 200, 35, 255)
+	love.graphics.rectangle("fill", 151, 36, 148 * player:getCooldownLevel(), 18)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(healthbar, 150, 35)
 
 	love.graphics.print(
 		"BOMBS: " .. player:getBomb(),
-		10, 40
+		10, 70
 	)
 
 	love.graphics.print(
 		"HYPERJUMPS: " .. player:getJump(),
-		10, 70
+		10, 100
 	)
 
 	love.graphics.printf(
