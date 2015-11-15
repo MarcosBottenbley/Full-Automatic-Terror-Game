@@ -115,7 +115,7 @@ function GlowBorg:collide(obj)
 	if obj:getID() ~= 1 then
 		self.delay = .1
 		Enemy.collide(self, obj)
-	elseif obj:getType() == 'g' and self.type ~= 'c' then
+	elseif obj:getType() == 'g' then
 		ox = obj:getX()
 		oy = obj:getY()
 		self.b_angle = math.atan((oy - self.y) / (ox - self.x))

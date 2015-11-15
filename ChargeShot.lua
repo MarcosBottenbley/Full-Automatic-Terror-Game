@@ -46,7 +46,7 @@ function ChargeShot:_init(x, y, v, ct, a)
 		self.delay)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
-	self.validCollisions = {1}
+	self.validCollisions = {1,6,8}
 	
 	if ct < 1 then
 		self.hit_limit = 2
@@ -105,7 +105,9 @@ function ChargeShot:getHitBoxes( ... )
 end
 
 function ChargeShot:collide(obj)
-	if obj:getID() == 1 then
+	if obj:getID() == 8 then
+		self.dead = true
+	else
 		self.hit_limit = self.hit_limit - 1
 		if self.hit_limit <= 0 then
 			self.dead = true

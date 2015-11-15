@@ -141,8 +141,9 @@ function LevelLoader:make(object)
 	elseif object[1] == "wal" then
 		o = Wall(object[2], object[3], object[4], object[5])
 	elseif object[1] == "mbl" then
-		o = MetalBall(1, object[4], object[5])
-		o:setPosition(object[2], object[3])
+		o = MetalBall(object[2], object[3], object[4], object[5])
+	elseif object[1] == "ast" then
+		o = Asteroid(1, object[2], object[3])
 	elseif object[1] == "omb" then
 		o = MoonBoss(object[2], object[3])
 	elseif object[1] == "tur" then
@@ -198,7 +199,7 @@ function LevelLoader:hordeDraw()
 	local timeLeft = math.floor(120 - self.h_timer)
 	love.graphics.print(
 		"TIME: " .. timeLeft,
-		250, 10
+		310, 10
 	)
 end
 

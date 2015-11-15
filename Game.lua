@@ -81,6 +81,7 @@ function Game:load(arg)
 	MetalBall = require("MetalBall")
 	MoonBoss = require("MoonBoss")
 	Turret = require("Turret")
+	Asteroid = require("Asteroid")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -255,6 +256,7 @@ function Game:update(dt)
 	end
 	
 	psystem:update(dt)
+	--comment this next line out to keep the level zoomed out
 	time = time + dt
 	timer = timer + dt
 
