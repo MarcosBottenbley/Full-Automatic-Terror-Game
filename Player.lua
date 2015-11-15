@@ -403,13 +403,18 @@ function Player:keyreleased(key)
 
 	if key == '7' then
 		levelNum = 4
-		switchTo(Intro4)
+		switchTo(Intro3)
 	end
 
 	if key == '6' then
 		levelNum = 3
-		switchTo(Intro3)
+		switchTo(Intro4)
 	end 
+
+	if key == '5' then
+		levelNum = 5
+		switchTo(Intro5)
+	end
 end
 
 function Player:keypressed(key)
