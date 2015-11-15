@@ -19,7 +19,7 @@ local Asteroid = {
 	frames = 3, states = 2,
 	img = "gfx/asteroid1.png",
 	delay = .1, sprites = {},
-	bounding_rad = 29, vel = 130,
+	bounding_rad = 29, vel = 0,
 	bouncing = false, angle,
 	b_timer, type = 'a',
 	scale = 1
@@ -57,7 +57,7 @@ function Asteroid:update(dt, swidth, sheight, px, py)
 			self.b_timer = self.b_timer - dt
 			if self.b_timer <= 0 then
 				self.bouncing = false
-				self.vel = 130
+				self.vel = 0
 			end
 		end
 		--move in the direction of self.angle
@@ -66,12 +66,12 @@ function Asteroid:update(dt, swidth, sheight, px, py)
 	end
 end
 
-function Asteroid:draw()
-	love.graphics.push()
-	love.graphics.scale(self.scale)
-	Object.draw(self, 255, 255, 255)
-	love.graphics.pop()
-end
+-- function Asteroid:draw()
+	-- love.graphics.push()
+	-- love.graphics.scale(0.9)
+	-- Object.draw(self, 255, 255, 255)
+	-- love.graphics.pop()
+-- end
 
 function Asteroid:getType()
 	return self.type
@@ -87,9 +87,9 @@ end
 
 function Asteroid:collide(obj)
 	if obj:getID() == 3 or obj:getID() == 6 then
-		if self.scale >= 1 then
-			self:split()
-		end
+		-- if self.scale >= 1 then
+			-- self:split()
+		-- end
 		Enemy.collide(self, obj)
 	elseif obj:getType() ~= 'a' then
 		-- code for bouncing off stuff. asteroids will bounce off anything but
