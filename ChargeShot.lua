@@ -19,7 +19,7 @@ local ChargeShot = {
 	id = 3, collided = false,
 	width = 10, height = 10,
 	bounding_rad = 30, angle = 0,
-	hb_1, time = 0, hits = 5
+	hb_1, time = 0, hit_limit = 5
 }
 ChargeShot.__index = ChargeShot
 
@@ -34,7 +34,7 @@ setmetatable(ChargeShot, {
 
 --- initial spawn information
 
-function ChargeShot:_init(x, y, v, a)
+function ChargeShot:_init(x, y, v, ct, a)
 	self.vel = v
 	self.angle = a
 	Object._init(self, x, y,
@@ -47,6 +47,20 @@ function ChargeShot:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 	self.validCollisions = {1}
+	
+	if ct < 1 then
+		self.hit_limit = 2
+		self.bounding_rad = 10
+	elseif ct > 1 and ct < 2 then
+		self.hit_limit = 5
+		self.bounding_rad = 16
+	elseif ct > 2 and ct < 3 then
+		self.hit_limit = 8
+		self.bounding_rad = 22
+	elseif ct > 3 then
+		self.hit_limit = 12
+		self.bounding_rad = 30
+	end
 end
 
 --- ChargeShot, hitbox speed and direction
@@ -91,7 +105,12 @@ function ChargeShot:getHitBoxes( ... )
 end
 
 function ChargeShot:collide(obj)
-	self.dead = true
+	if obj:getID() == 1 then
+		self.hit_limit = self.hit_limit - 1
+		if self.hit_limit <= 0 then
+			self.dead = true
+		end
+	end
 end
 
 return ChargeShot

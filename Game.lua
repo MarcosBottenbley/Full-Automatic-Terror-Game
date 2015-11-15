@@ -20,6 +20,7 @@ local level
 local create = {}
 local bgm_normal
 local bgm_starman
+local flash = false
 
 local pstring1 = "GAME PAUSED"
 local pstring2 = "Press Q to quit to menu, Esc to resume,\nor R to restart the level."
@@ -62,6 +63,8 @@ function Game:load(arg)
 	GlowBorg = require("GlowBorg")
 	CircleBorg = require("CircleBorg")
 	Bullet = require("Bullet")
+	Missile = require("Missile")
+	ChargeShot = require("ChargeShot")
 	PhantomShip = require("PhantomShip")
 	DualMaster = require("DualMaster")
 	SunBoss = require("SunBoss")
@@ -70,7 +73,6 @@ function Game:load(arg)
 	DoubleShot = require("DoubleShot")
 	Repair = require("Repair")
 	SpeedUp = require("SpeedUp")
-	Missile = require("Missile")
 	Wormhole = require("Wormhole")
 	ScreenTable = require("ScreenTable")
 	Wall = require("Wall")
@@ -388,8 +390,38 @@ function Game:draw(dt)
 		"WEAPON:", 10, 40
 	)
 	
-	love.graphics.setColor(35, 200, 35, 255)
-	love.graphics.rectangle("fill", 151, 36, 148 * player:getCooldownLevel(), 18)
+	
+	local weaponBarValues = {player:getBarValues()}
+	
+	if weaponBarValues[2] == 0 and weaponBarValues[3] == 0 then
+		love.graphics.setColor(35, 200, 35, 255)
+		love.graphics.rectangle("fill", 151, 36, 148 * weaponBarValues[1], 18)
+	elseif weaponBarValues[2] == 0 then
+		love.graphics.setColor(35, 200, 35, 255)
+		love.graphics.rectangle("fill", 151, 36, 148, 18)
+		love.graphics.setColor(17.5, 222.5, 17.5, 255)
+		love.graphics.rectangle("fill", 151, 36, 148 * weaponBarValues[3], 18)
+	elseif weaponBarValues[2] == 1 then
+		love.graphics.setColor(17.5, 222.5, 17.5, 255)
+		love.graphics.rectangle("fill", 151, 36, 148, 18)
+		love.graphics.setColor(0, 255, 0, 255)
+		love.graphics.rectangle("fill", 151, 36, 148 * weaponBarValues[3], 18)
+	elseif weaponBarValues[2] == 2 then
+		love.graphics.setColor(0, 255, 0, 255)
+		love.graphics.rectangle("fill", 151, 36, 148, 18)
+		love.graphics.setColor(0, 255, 255, 255)
+		love.graphics.rectangle("fill", 151, 36, 148 * weaponBarValues[3], 18)
+	elseif weaponBarValues[2] > 2 then
+		if flash then
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.rectangle("fill", 151, 36, 148, 18)
+		else
+			love.graphics.setColor(0, 255, 255, 255)
+			love.graphics.rectangle("fill", 151, 36, 148, 18)
+		end
+		flash = not flash
+	end
+		
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(healthbar, 150, 35)
 

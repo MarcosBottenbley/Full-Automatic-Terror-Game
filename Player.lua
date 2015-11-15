@@ -34,14 +34,12 @@ local Player = {
 	ang_vel = 0, double = false,
 	health = 10, bomb = 100, h_jump = 5,
 	invul = false, dam_timer = 0, damaged = false,
-	missile = false, missile_fire_timer = 0,
-	missileSpeed = .8,
 	bomb_flash = false, flash_timer = .6,
-	teleporttimer = 0, bulletSpeed = .18,
+	teleporttimer = 0, chargeTime = 0, charged = false,
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
 	b_angle, b_timer, bouncing, dead_timer = 0,
-	weaponSpeeds = {.18, .8, 2}, current_weapon = 1
+	weaponSpeeds = {.18, .8, .5}, current_weapon = 1
 }
 Player.__index = Player
 
@@ -291,7 +289,12 @@ function Player:update(dt, swidth, sheight)
 
 	if love.keyboard.isDown('z') then
 		if firable then
-			self:fire()
+			if not (self.current_weapon == 3 and not self.charged)then
+				self:fire()
+			elseif self.current_weapon == 3 then
+				self.chargeTime = self.chargeTime + dt
+				print(self.chargeTime)
+			end
 		end
 	end
 	--self.thrusters = {-11,17,1,21,13,17}
@@ -354,6 +357,13 @@ function Player:keyreleased(key)
 	if key == 'i' then
 		self:toggleInvul()
 	end
+	
+	if key == 'z' then
+		if self.current_weapon == 3 and firable then
+			self.charged = true
+			self:fire()
+		end
+	end
 
 	if key == 'c' then
 		self:useBomb()
@@ -372,6 +382,11 @@ function Player:keyreleased(key)
 		if self.current_weapon ~= 2 then
 			missile_arm:play()
 			self.current_weapon = 2
+		end
+	elseif key == '3' then
+		if self.current_weapon ~= 3 then
+			--need sound
+			self.current_weapon = 3
 		end
 	end
 
@@ -397,6 +412,12 @@ function Player:keypressed(key)
 	if key == 'left' or key == 'right' or key == 'up' or key == 'down' then
 		t_timer = 0
 	end
+	
+	if key == 'z' then
+		if self.current_weapon == 3 and firable then
+			self.charged = false
+		end
+	end
 end
 
 --Changes the player's angle based on the direction passed in.
@@ -411,7 +432,13 @@ end
 function Player:fire()
 	f_timer = 0
 
-	if self.current_weapon == 2 then
+	if self.current_weapon == 3 then
+		local c = ChargeShot(self.hb_1[1], self.hb_1[2], 600, self.chargeTime, self.draw_angle)
+		table.insert(objects, c)
+		pew:play()
+		self.chargeTime = 0
+		self.charged = false
+	elseif self.current_weapon == 2 then
 		local m = Missile(self.hb_1[1], self.hb_1[2], 600, self.draw_angle)
 		table.insert(objects, m)
 		pew:play()
@@ -429,10 +456,6 @@ function Player:fire()
 			pew:play()
 		end
 	end
-end
-
-function Player:weaponSelect()
-	self.missile = not self.missile
 end
 
 function Player:useJump()
@@ -652,8 +675,11 @@ function Player:intitializeThrusters()
 	self.particles:setColors(255, 255, 160, 255, 255, 0, 0, 100)
 end
 
-function Player:getCooldownLevel()
-	return f_timer / self.weaponSpeeds[self.current_weapon]
+--Returns values for the game class to use in drawing the weapon bar.
+--The first value is for calculating the current weapon's cooldown %,
+--the next two are for drawing the level of charge for the charge shot.
+function Player:getBarValues()
+	return f_timer / self.weaponSpeeds[self.current_weapon], math.modf(self.chargeTime)
 end
 
 function Player:getType()
