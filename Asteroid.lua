@@ -17,7 +17,7 @@ Enemy = require("Enemy")
 local Asteroid = {
 	width = 64, height = 64,
 	frames = 3, states = 2,
-	img = "gfx/metal_asteroid1.png",
+	img = "gfx/asteroid1.png",
 	delay = .1, sprites = {},
 	bounding_rad = 29, vel = 130,
 	bouncing = false, angle,
@@ -35,44 +35,19 @@ setmetatable(Asteroid, {
 	end,
 })
 
-function Asteroid:_init(scale, vx, vy)
+function Asteroid:_init(scale, x, y)
 	if math.random() > 0.5 then
-		self.img = "gfx/metal_asteroid2.png"
+		self.img = "gfx/asteroid2.png"
 	end
 
-	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
-	self.validCollisions = {1,2,3,6,8}
+	Enemy._init(self, x, y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.validCollisions = {1,2,3,6}
 	self.angle = math.random()*math.pi*2
 	self.scale = scale
-	--super hacky way to implement setting vx/vy in level file.
-	--Later, we'll have to either make this determine the angle
-	--for realsies or change the asteroid code to be based on x/y
-	--velocity instead of velocity and angle.
-	if vx ~= nil and vy ~= nil then
-		self.vel = math.sqrt(vx^2 + vy^2)
-		if vy == 0 then
-			if vx > 0 then
-				self.angle = 0
-			else
-				self.angle = math.pi
-			end
-		elseif vx == 0 then
-			if vy > 0 then
-				self.angle = math.pi/2
-			else
-				self.angle = math.pi*(3/2)
-			end
-		end
-	end
 end
 
 function Asteroid:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
-
-	if self.x < 0 or self.y < 0
-	or self.x > swidth - self.width or self.y > sheight - self.height then
-		self.angle = self.angle + math.pi
-	end
 
 	-- move if not destroyed
 	if not self.collided then
@@ -91,13 +66,12 @@ function Asteroid:update(dt, swidth, sheight, px, py)
 	end
 end
 
--- function Asteroid:draw()
-	-- love.graphics.setColor(131,92,59,255)
-
-	-- love.graphics.circle("fill", self.x, self.y, 30*self.scale, 100)
-
-	-- love.graphics.setColor(255,255,255,255)
--- end
+function Asteroid:draw()
+	love.graphics.push()
+	love.graphics.scale(self.scale)
+	Object.draw(self, 255, 255, 255)
+	love.graphics.pop()
+end
 
 function Asteroid:getType()
 	return self.type
@@ -112,40 +86,23 @@ function Asteroid:getHitBoxes( ... )
 end
 
 function Asteroid:collide(obj)
-	if obj:getID() == 2 then
-		-- if self.scale >= 1 then
-			-- self:split()
-		-- end
-		Enemy.collide(self, obj)
-	elseif obj:getID() == 8 then
-		ox = obj:getX()
-		oy = obj:getY()
-		if obj:isVertical() then
-			if ox < self.x then
-				self.angle = 0
-			else
-				self.angle = math.pi
-			end
-		else
-			if oy < self.y then
-				self.angle = math.pi*(3/2)
-			else
-				self.angle = math.pi/2
-			end
+	if obj:getID() == 3 or obj:getID() == 6 then
+		if self.scale >= 1 then
+			self:split()
 		end
-	end
-	-- elseif obj:getType() ~= 'a' then
+		Enemy.collide(self, obj)
+	elseif obj:getType() ~= 'a' then
 		-- code for bouncing off stuff. asteroids will bounce off anything but
 		-- bullets and other asteroids. will damage player but not enemy on bounce.
-		-- ox = obj:getX()
-		-- oy = obj:getY()
-		-- self.angle = math.atan((self.y - oy) / (ox - self.x))
-		-- self.bouncing = true
-		-- self.b_timer = .15
-		-- if ox > self.x then
-			-- self.angle = self.angle + math.pi
-		-- end
-	-- end
+		ox = obj:getX()
+		oy = obj:getY()
+		self.angle = math.atan((self.y - oy) / (ox - self.x))
+		self.bouncing = true
+		self.b_timer = .15
+		if ox > self.x then
+			self.angle = self.angle + math.pi
+		end
+	end
 end
 
 function Asteroid:split()

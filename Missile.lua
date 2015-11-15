@@ -48,7 +48,7 @@ function Missile:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 	self.target = nil
-	self.validCollisions = {1}
+	self.validCollisions = {1,6,8}
 end
 
 --- Missile, hitbox speed and direction

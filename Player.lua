@@ -293,7 +293,6 @@ function Player:update(dt, swidth, sheight)
 				self:fire()
 			elseif self.current_weapon == 3 then
 				self.chargeTime = self.chargeTime + dt
-				print(self.chargeTime)
 			end
 		end
 	end
