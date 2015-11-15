@@ -37,7 +37,7 @@ highscores = {}
 default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
 levelNum = 1
-max_level = 4
+max_level = 5
 
 Title = require("Title")
 Game = require("Game")

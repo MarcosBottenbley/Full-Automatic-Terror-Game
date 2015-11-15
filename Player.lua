@@ -32,7 +32,7 @@ local Player = {
 	bounding_rad = 25, angle1 = math.pi/2,
 	move_angle = math.pi/2, draw_angle = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 10, bomb = 100, h_jump = 5,
+	health = 10, bomb = 3, h_jump = 5,
 	invul = false, dam_timer = 0, damaged = false,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, chargeTime = 0, charged = false,
