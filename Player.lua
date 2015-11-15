@@ -406,6 +406,11 @@ function Player:keyreleased(key)
 		levelNum = 4
 		switchTo(Intro4)
 	end
+
+	if key == '6' then
+		levelNum = 3
+		switchTo(Intro3)
+	end 
 end
 
 function Player:keypressed(key)
