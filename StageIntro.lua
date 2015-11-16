@@ -60,6 +60,8 @@ function StageIntro:start()
 		self.enterstring = "Now entering Sector 3A"
 	elseif levelNum == 4 then
 		self.enterstring = "Now entering Sector 3B"
+	elseif levelNum == 5 then
+		self.enterstring = "Now entering Sector 4"
 	end
 	
 	--we have to set the font dimensions every time the state 

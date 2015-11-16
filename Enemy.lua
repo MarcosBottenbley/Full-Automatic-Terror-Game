@@ -113,7 +113,7 @@ end
 --- of exploded to true
 
 function Enemy:explode()
-	if self.exploded == false and self.current_state == 2 then
+	if self.exploded == false and self.collided then
 		--score = score + 200
 		boom:play()
 		--TODO: make uncollidable somehow?

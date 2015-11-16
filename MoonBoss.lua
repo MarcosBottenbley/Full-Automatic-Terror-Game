@@ -19,6 +19,7 @@ Winhole = require("Winhole")
 math.randomseed(os.time())
 
 local time = 0
+local lvltime = 0
 
 --pos stuff
 -- 0 = top middle
@@ -66,6 +67,10 @@ end
 function MoonBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	time = time + dt
+	if self:inArena(px,py) then
+		lvltime = lvltime + dt
+	end
+	local spawned
 
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
@@ -73,6 +78,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	end
 
 	if math.floor(time) % 10 == 0 then
+		spawned = false
 		if self.pos == 7 then
 			--self:move(1500, 1000 + self.height) -- 0
 			self.x = 1500
@@ -108,8 +114,18 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	print(self.x)
-	print(self.y)
+	if math.floor(time) % 12 == 0 and self:inArena(px,py) and spawned == false and lvltime > 10 then
+		local rand = math.random(3)
+		print(rand)
+		spawned = true
+		if rand == 1 then
+			self:spawn4(px,py)
+		elseif rand == 2 then
+			self:spawnAround(px,py)
+		elseif rand == 3 then
+			self:spawnCircleBorg(px,py)
+		end
+	end
 
 	self:checkpos()
 
@@ -118,6 +134,14 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
 		self.dmg_timer = 0
+	end
+end
+
+function MoonBoss:inArena(px,py)
+	if px > 1000 and px < 2000 then
+		if py > 1000 and py < 2000 then
+			return true
+		end
 	end
 end
 
@@ -248,6 +272,10 @@ function MoonBoss:collide(obj)
 			table.insert(objects, gh)
 		end
 	end
+end
+
+function MoonBoss:getType( ... )
+	return self.type
 end
 
 return MoonBoss

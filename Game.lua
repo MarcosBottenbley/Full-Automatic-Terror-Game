@@ -82,6 +82,7 @@ function Game:load(arg)
 	MoonBoss = require("MoonBoss")
 	Turret = require("Turret")
 	Asteroid = require("Asteroid")
+	WeaponPart = require("WeaponPart")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
