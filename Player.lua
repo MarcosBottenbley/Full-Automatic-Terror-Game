@@ -39,7 +39,8 @@ local Player = {
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
 	b_angle, b_timer, bouncing, dead_timer = 0,
-	weaponSpeeds = {.18, .8, .5}, current_weapon = 1
+	weaponSpeeds = {.18, .8, .5}, current_weapon = 1,
+	partCount = 0, pMessaging
 }
 Player.__index = Player
 
@@ -90,6 +91,7 @@ function Player:load()
 	playerhit:setLooping(false)
 	bump = love.audio.newSource("sfx/bump1.ogg")
 	bump:setLooping(false)
+	self.partfont = love.graphics.newFont("PressStart2P.ttf", 12)
 end
 
 function Player:update(dt, swidth, sheight)
@@ -349,6 +351,11 @@ function Player:draw()
 		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, -11, -9)
 		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 1, -13)
 		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 13, -9)
+	end
+	
+	love.graphics.setFont(self.partfont)
+	if self.pMessaging then
+		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
 	end
 end
 
@@ -693,6 +700,11 @@ end
 
 function Player:getType()
 	return ""
+end
+
+function Player:getPart()
+	self.partCount = self.partCount + 1
+	self.pMessaging = true
 end
 
 return Player

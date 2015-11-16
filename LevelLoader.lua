@@ -148,6 +148,8 @@ function LevelLoader:make(object)
 		o = MoonBoss(object[2], object[3])
 	elseif object[1] == "tur" then
 		o = Turret(object[2], object[3], object[4], object[5])
+	elseif object[1] == "wpt" then
+		o = WeaponPart(object[2], object[3])
 	end
 	
 	table.insert(objects, o)

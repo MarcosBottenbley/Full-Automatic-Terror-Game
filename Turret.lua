@@ -47,6 +47,7 @@ function Turret:_init(x, y, tlow_deg, thigh_deg)
 	self.sparks:setLinearAcceleration(-600, -600, 600, 600) -- Random movement in all directions.
 	self.sparks:setColors(255, 255, 0, 255, 255, 255, 0, 0) -- Fade to transparency.
 	self.sparks:setSizes(2)
+	self.validCollisions = {2,3}
 end
 
 function Turret:update(dt, swidth, sheight, px, py)
@@ -128,8 +129,8 @@ end
 function Turret:shoot()
 	local startposx = self.x + 20 * math.cos(self.angle)
 	local startposy = self.y - 20 * math.sin(self.angle)
-	local b1 = EnemyBullet(startposx + 14*math.sin(self.angle), startposy + 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
-	local b2 = EnemyBullet(startposx - 14*math.sin(self.angle), startposy - 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
+	local b1 = EnemyBullet(startposx + 14*math.sin(self.angle), startposy + 14*math.cos(self.angle), 400, self.angle) --magic numbers errywhere
+	local b2 = EnemyBullet(startposx - 14*math.sin(self.angle), startposy - 14*math.cos(self.angle), 400, self.angle) --magic numbers errywhere
 	table.insert(objects, b1)
 	table.insert(objects, b2)
 	self.bullet_timer = 0
@@ -150,7 +151,7 @@ function Turret:getHitBoxes( ... )
 end
 
 function Turret:collide(obj)
-	if obj:getID() == 3 or obj:getID() == 6 then
+	if obj:getID() == 3 then
 		self.stunned = true
 		self.stun_timer = 0
 		self.sparks:emit(10)
