@@ -11,41 +11,35 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 10: The Door to Level Four
+Assignment 11: Have It Your Way!
 
-Problem 1: Level Four
+Problem 1: Progress
 
-Our new level lets us implement a part of our game that we've been meaning to
-add for a while: branching levels. With this update, if you're overwhelmed
-by the swarms of enemies in sector 2, then you are taken to level 3A (our previous
-level 3). If you win, then you jump to the new level 3B, a gauntlet of bouncing 
-asteroids with a new boss enemy at the end.
+For this assignment, we decided to add a new level as well as a handful of new 
+features. First, we added a new type of enemy to levels 3A and 4 (which is actually 
+our new level and is accessed after beating either 3A or 3B, our fourth level). This 
+type of enemy is a stationary turret that fires double shots and rotates between two 
+specified angles. Hitting a turret with one of your shots stuns the turret for a short
+duration, darkening its color, rendering it unable to shoot or rotate, and making an 
+"electrifying" particle effect. 
 
-Problem 2: Technical, Artistic, and Game Play Progress
+The player also now has bars instead of numbers to represent health and weapon cooldown
+times. In addition, to allow more screen space for the player to see, the "BOMBS:" and 
+"HYPERJUMPS:" texts were replaced with symbols. 
 
-For Level 3B, we added an asteroid object that drifts with constant speed and
-bounces off the laser walls and screen edges. This plays a big role in the new level, and we 
-ended up breaking years of space shooter tradition by making them immune
-to bullets. (Sorry, Atari.) After testing, we all thought level 3B was a 
-little too easy if you could just shoot your way through.
-The new level also features a new boss, a moon robot that's the counterpart
-to level 1's sun boss.
+In cooperation with the weapon cooldown bar is a new weapon for the player to use. It is 
+equipped with the '3' key and can charge up while the player holds down the fire button. 
+When at full power (flashing light-blue bar), the player can release the fire button to 
+unleash a larger, more damaging, penetrating shot. 
 
-In addition to the things we added for the new level, this update includes 
-a few changes to the general flow of the game. In our last build,
-winning a level or dying would immediately throw to a cutscene or game over 
-screen, which was a little jarring. We've added the "Sector Clear" screen 
-back into the game once a level is clear so the player is more aware of what's
-going on. Additionally, we fixed a bug that was skipping the player's explode
-animation and added an intro screen for each level.
+We also added a fifth level to identify as our level 4. The goal of this level is to 
+deal with any enemies while collecting four mysterious gadget parts. These parts will 
+be combined to create something that will aid the player in future levels. We have a couple 
+of ideas as to what these will become: either a mine-dropper weapon or a split-shot weapon.
 
-Rounding out the update is a couple of small bug fixes and features. The locked-
-angle "strafe" movement is working again after behaving oddly in the alpha build.
-Wormholes now are able to warp the player to an arbitrary point instead of 
-automatically being set to the closest wormhole in the objects table. (This has
-the added effect of not crashing the game whenever there are an odd number of
-wormholes in a level.) Finally, we added a pause screen with options to quit or 
-restart which can be accessed by pressing the Escape key during normal gameplay.
+Finally, we made some changes to the Moon Boss on level 3B. It now moves and summons other 
+enemies. 
+
 
 #Gameplay
 
