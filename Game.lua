@@ -127,6 +127,10 @@ function Game:load(arg)
 	bomb = love.graphics.newImage("gfx/bomb.png")
 	hyper = love.graphics.newImage("gfx/hyper.png")
 
+	laser_s = love.graphics.newImage("gfx/laser_select.png")
+	missle_s = love.graphics.newImage("gfx/missle_select.png")
+	power_s = love.graphics.newImage("gfx/power_select.png")
+
 	enemies = {}
 	bullets = {}
 	objects = {}
@@ -499,11 +503,25 @@ function Game:drawHUD()
 		width - 270, 40
 	)
 	-- HYPERJUMPS
-	love.graphics.draw(hyper, width - 130, 44 - hyper:getHeight()/2)
+	love.graphics.draw(hyper, width - 200, 44 - hyper:getHeight()/2)
 	love.graphics.print(
 		"X" .. player:getJump(),
-		width - 98, 40
+		width - 168, 40
 	)
+	-- SELECTOR
+	love.graphics.setColor(0, 255, 0, 150)
+	love.graphics.rectangle("fill", width - ((-(player:getWeapon() - 1) * 60 + 177)) + 4, height - 36, 24, 24)
+	love.graphics.setColor(255, 255, 255, 255)
+
+	-- LASER
+	love.graphics.print("1", width - 200, height - 28)
+	love.graphics.draw(laser_s, width - 177, height - 40)
+	-- MISSLE
+	love.graphics.print("2", width - 140, height - 28)
+	love.graphics.draw(missle_s, width - 117, height - 40)
+	-- POWER CHARGE
+	love.graphics.print("3", width - 80, height - 28)
+	love.graphics.draw(power_s, width - 57, height - 40)
 end
 
 function Game:drawHitboxes(obj)

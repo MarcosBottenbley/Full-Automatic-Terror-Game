@@ -53,7 +53,7 @@ setmetatable(Player, {
 })
 
 function Player:_init(x, y, v)
-	
+
 	f_timer = 0
 	firable = false
 
@@ -62,7 +62,7 @@ function Player:_init(x, y, v)
 	t_timer = 0
 	destination = math.pi/2
 	clockwise = false
-	
+
 	Object._init(self, x, y,
 		self.img,
 		self.width,
@@ -121,17 +121,17 @@ function Player:update(dt, swidth, sheight)
 		self.damaged = false
 		self.dam_timer = 0
 	end
-	
+
 	if self.collided then
 		self.dead_timer = self.dead_timer + dt
 	end
-	
+
 	if self.dead_timer > self.frames * self.delay - .02 then
 		self.dead = true
 	end
-	
+
 	if not self.bouncing and not self.collided then
-		
+
 		self.vel = 0
 
 		local thrusting = false
@@ -356,7 +356,7 @@ function Player:keyreleased(key)
 	if key == 'i' then
 		self:toggleInvul()
 	end
-	
+
 	if key == 'z' then
 		if self.current_weapon == 3 and firable then
 			self.charged = true
@@ -409,7 +409,7 @@ function Player:keyreleased(key)
 	if key == '6' then
 		levelNum = 3
 		switchTo(Intro4)
-	end 
+	end
 
 	if key == '5' then
 		levelNum = 5
@@ -421,7 +421,7 @@ function Player:keypressed(key)
 	if key == 'left' or key == 'right' or key == 'up' or key == 'down' then
 		t_timer = 0
 	end
-	
+
 	if key == 'z' then
 		if self.current_weapon == 3 and firable then
 			self.charged = false
@@ -693,6 +693,10 @@ end
 
 function Player:getType()
 	return ""
+end
+
+function Player:getWeapon()
+	return self.current_weapon
 end
 
 return Player
