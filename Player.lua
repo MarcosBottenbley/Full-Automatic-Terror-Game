@@ -40,7 +40,7 @@ local Player = {
 	camera_x = 0, camera_y = 0, winner = false,
 	b_angle, b_timer, bouncing, dead_timer = 0,
 	weaponSpeeds = {.18, .8, .5}, current_weapon = 1,
-	partCount = 0, pMessaging
+	partCount = 0, pMessaging, part_timer = 0
 }
 Player.__index = Player
 
@@ -96,6 +96,7 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
+	self:partUpdate(dt)
 	if f_timer < self.weaponSpeeds[self.current_weapon] then
 		f_timer = f_timer + dt
 	end
@@ -705,6 +706,21 @@ end
 function Player:getPart()
 	self.partCount = self.partCount + 1
 	self.pMessaging = true
+	self.part_timer = 0
+end
+
+--temp fix for making "x of 4 parts" message
+function Player:partUpdate(dt)
+	if self.pMessaging then
+		self.part_timer = self.part_timer + dt
+	end
+	if self.part_timer > 2 then
+		self.pMessaging = false
+		self.part_timer = 0
+	end
+	if self.partCount >= 4 then
+		self.winner = true
+	end
 end
 
 return Player

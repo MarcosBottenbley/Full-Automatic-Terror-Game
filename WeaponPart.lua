@@ -14,8 +14,10 @@ Object = require("Object")
 
 local WeaponPart = {
 	width = 64, height = 64,
-	bounding_rad = 30,
+	frames = 1, states = 1,
+	bounding_rad = 30, delay = 0,
 	id = 13, collided = false,
+	img = "gfx/part1.png"
 }
 WeaponPart.__index = WeaponPart
 
@@ -28,8 +30,9 @@ setmetatable(WeaponPart, {
 	end,
 })
 
-function WeaponPart:_init(x, y)
+function WeaponPart:_init(x, y, partNum)
 	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self.img = "gfx/part" .. partNum .. ".png"
 
 	self.validCollisions = {2}
 end

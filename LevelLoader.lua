@@ -149,7 +149,7 @@ function LevelLoader:make(object)
 	elseif object[1] == "tur" then
 		o = Turret(object[2], object[3], object[4], object[5])
 	elseif object[1] == "wpt" then
-		o = WeaponPart(object[2], object[3])
+		o = WeaponPart(object[2], object[3], object[4])
 	end
 	
 	table.insert(objects, o)
