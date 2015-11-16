@@ -90,14 +90,27 @@ function Turret:update(dt, swidth, sheight, px, py)
 		temp_angle = temp_angle + math.pi*2
 	end
 	
+	--code for dealing with rotation nonsense
+	local angle_correct = 1
+	if math.abs(temp_angle - self.angle) > math.pi then
+		angle_correct = -1
+	end
+	
 	--aim turret towards player if the angle between them is in target range
 	if temp_angle >= self.target_angle_low and temp_angle <= self.target_angle_high then
-		self.angle = self.angle + ((temp_angle - self.angle)/math.abs(temp_angle - self.angle))*dt
+		self.angle = self.angle + ((temp_angle - self.angle)/math.abs(temp_angle - self.angle))*angle_correct*dt
 		
 		--if turret is active and aiming at player, then shoot
 		if self.active and self.angle > temp_angle - (math.pi/10) and self.angle < temp_angle + (math.pi/10) then
 			self:shoot()
 		end
+	end
+	
+	--more code for dealing with rotation nonsense
+	if self.angle > math.pi*2 then
+		self.angle = self.angle - math.pi*2
+	elseif self.angle < 0 then
+		self.angle = self.angle + math.pi*2
 	end
 end
 
@@ -113,8 +126,8 @@ end
 --Shoots two bullets and deactivates the turret, changing the sprite to
 --the "firing" position
 function Turret:shoot()
-	local startposx = self.x + 4 * math.cos(self.angle)
-	local startposy = self.y - 4 * math.sin(self.angle)
+	local startposx = self.x + 20 * math.cos(self.angle)
+	local startposy = self.y - 20 * math.sin(self.angle)
 	local b1 = EnemyBullet(startposx + 14*math.sin(self.angle), startposy + 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
 	local b2 = EnemyBullet(startposx - 14*math.sin(self.angle), startposy - 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
 	table.insert(objects, b1)

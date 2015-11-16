@@ -19,7 +19,7 @@ local Asteroid = {
 	frames = 3, states = 2,
 	img = "gfx/asteroid1.png",
 	delay = .1, sprites = {},
-	bounding_rad = 29, vel = 0,
+	bounding_rad = 29, vel = 130,
 	bouncing = false, angle,
 	b_timer, type = 'a',
 	scale = 1
@@ -57,12 +57,24 @@ function Asteroid:update(dt, swidth, sheight, px, py)
 			self.b_timer = self.b_timer - dt
 			if self.b_timer <= 0 then
 				self.bouncing = false
-				self.vel = 0
+				self.vel = 130
 			end
 		end
 		--move in the direction of self.angle
 		self.x = self.x + self.vel * dt * math.cos(self.angle)
 		self.y = self.y - self.vel * dt * math.sin(self.angle)
+	end
+	
+	if self.x > bg_width then
+		self.x = 1
+	elseif self.x < 0 then
+		self.x = bg_width - 1
+	end
+	
+	if self.y > bg_height then
+		self.y = 1
+	elseif self.y < 0 then
+		self.y = bg_height - 1
 	end
 end
 

@@ -16,7 +16,8 @@ local namelist = {
 	"SUN ZONE",
 	"ONSLAUGHT",
 	"SPACE JAIL",
-	"GAUNTLET"
+	"GAUNTLET",
+	"SCRAPYARD"
 }
 
 local StageIntro = {
