@@ -20,6 +20,7 @@ math.randomseed(os.time())
 
 local time = 0
 local lvltime = 0
+local spawned = false
 
 --pos stuff
 -- 0 = top middle
@@ -70,14 +71,13 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	if self:inArena(px,py) then
 		lvltime = lvltime + dt
 	end
-	local spawned
 
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
 		self.dmg_timer = self.dmg_timer + dt
 	end
 
-	if math.floor(time) % 10 == 0 then
+	if math.floor(time) % 5 == 0 then
 		spawned = false
 		if self.pos == 7 then
 			--self:move(1500, 1000 + self.height) -- 0
@@ -114,11 +114,13 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	if math.floor(time) % 12 == 0 and self:inArena(px,py) and spawned == false and lvltime > 10 then
+	if math.floor(time) % 6 == 0 and self:inArena(px,py) and spawned == false and lvltime > 10 then
 		local rand = math.random(3)
-		print(rand)
+		print(tostring(time) .. " " .. tostring(rand))
+		print("------------------------")
 		spawned = true
 		if rand == 1 then
+			self:spawn4(px,py)
 			self:spawn4(px,py)
 		elseif rand == 2 then
 			self:spawnAround(px,py)
@@ -181,10 +183,21 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:move(destx, desty)
-	local factor = self:easeOutCubic(time, 0, 1, 10)
-	self.x = self.x + (destx - self.x) * factor
+	if self.x < destx then
+		self.x = self.x + 100
+	end
 
-	self.y = self.y + (desty - self.y) * factor
+	if self.x > destx then
+		self.x = self.x - 100
+	end
+
+	if self.y < desty then
+		self.y = self.y + 100
+	end
+
+	if self.y > desty then
+		self.y = self.y - 100
+	end	
 end
 
 function MoonBoss:easeOutCubic(t, b, c, d)
