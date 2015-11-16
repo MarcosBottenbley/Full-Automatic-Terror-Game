@@ -107,6 +107,9 @@ function Game:load(arg)
 
 	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
 	missile_arm:setLooping(false)
+	
+	charge_arm = love.audio.newSource("sfx/charge_arm.ogg")
+	charge_arm:setLooping(false)
 
 	bgm_1 = love.audio.newSource("sfx/bgm_1.ogg")
 	bgm_1:setLooping(true)

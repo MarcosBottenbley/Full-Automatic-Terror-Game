@@ -91,6 +91,8 @@ function Player:load()
 	playerhit:setLooping(false)
 	bump = love.audio.newSource("sfx/bump1.ogg")
 	bump:setLooping(false)
+	part = love.audio.newSource("sfx/getPart.ogg")
+	part:setLooping(false)
 	self.partfont = love.graphics.newFont("PressStart2P.ttf", 12)
 end
 
@@ -392,7 +394,7 @@ function Player:keyreleased(key)
 		end
 	elseif key == '3' then
 		if self.current_weapon ~= 3 then
-			--need sound
+			charge_arm:play()
 			self.current_weapon = 3
 		end
 	end
@@ -707,6 +709,7 @@ function Player:getPart()
 	self.partCount = self.partCount + 1
 	self.pMessaging = true
 	self.part_timer = 0
+	part:play()
 end
 
 --temp fix for making "x of 4 parts" message
