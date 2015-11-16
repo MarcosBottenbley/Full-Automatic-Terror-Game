@@ -27,6 +27,9 @@ The player also now has bars instead of numbers to represent health and weapon c
 times. In addition, to allow more screen space for the player to see, the "BOMBS:" and 
 "HYPERJUMPS:" texts were replaced with symbols. 
 
+On the bottom-right of the screen are three little boxes. Each has a symbol for a weapon 
+type. The weapon that is currently equipped is outlined in green.
+
 In cooperation with the weapon cooldown bar is a new weapon for the player to use. It is 
 equipped with the '3' key and can charge up while the player holds down the fire button. 
 When at full power (flashing light-blue bar), the player can release the fire button to 
