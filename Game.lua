@@ -261,7 +261,7 @@ function Game:update(dt)
 
 	psystem:update(dt)
 	--comment this next line out to keep the level zoomed out
-	--time = time + dt
+	time = time + dt
 	timer = timer + dt
 
 	ST:update(dt, objects)

@@ -31,8 +31,8 @@ setmetatable(WeaponPart, {
 })
 
 function WeaponPart:_init(x, y, partNum)
-	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.img = "gfx/part" .. partNum .. ".png"
+	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
 
 	self.validCollisions = {2}
 end
