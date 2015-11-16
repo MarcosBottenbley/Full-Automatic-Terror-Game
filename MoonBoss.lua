@@ -72,25 +72,44 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		self.dmg_timer = self.dmg_timer + dt
 	end
 
-	--[[
-	if self.pos == 7 then
-		self:move(1500, 1000 + self.height) -- 0
-	elseif self.pos == 6 then
-		self:move(2000 - self.width, 1000 + self.height) -- 7
-	elseif self.pos == 5 then
-		self:move(2000 - self.width, 1500) -- 6
-	elseif self.pos == 4 then
-		self:move(2000 - self.width, 2000 - self.height) -- 5
-	elseif self.pos == 3 then
-		self:move(1500, 2000 - self.height) -- 4
-	elseif self.pos == 2 then
-		self:move(1000 + self.width, 2000 - self.height) -- 3
-	elseif self.pos == 1 then
-		self:move(1000 + self.width, 1500) -- 2
-	elseif self.pos == 0 then
-		self:move(1000 + self.width, 1000 + self.height) -- 1
+	if math.floor(time) % 10 == 0 then
+		if self.pos == 7 then
+			--self:move(1500, 1000 + self.height) -- 0
+			self.x = 1500
+			self.y = 1000 + self.height
+		elseif self.pos == 6 then
+			--self:move(2000 - self.width, 1000 + self.height) -- 7
+			self.x = 2000 - self.width
+			self.y = 1000 + self.height
+		elseif self.pos == 5 then
+			--self:move(2000 - self.width, 1500) -- 6
+			self.x = 2000 - self.width
+			self.y = 1500
+		elseif self.pos == 4 then
+			--self:move(2000 - self.width, 2000 - self.height) -- 5
+			self.x = 2000 - self.width
+			self.y = 2000 - self.height
+		elseif self.pos == 3 then
+			--self:move(1500, 2000 - self.height) -- 4
+			self.x = 1500
+			self.y = 2000 - self.height
+		elseif self.pos == 2 then
+			--self:move(1000 + self.width, 2000 - self.height) -- 3
+			self.x = 1000 + self.width
+			self.y = 2000 - self.height
+		elseif self.pos == 1 then
+			--self:move(1000 + self.width, 1500) -- 2
+			self.x = 1000 + self.width
+			self.y = 1500
+		elseif self.pos == 0 then
+			--self:move(1000 + self.width, 1000 + self.height) -- 1
+			self.x = 1000 + self.width
+			self.y = 1000 + self.height
+		end
 	end
-	]]
+
+	print(self.x)
+	print(self.y)
 
 	self:checkpos()
 
@@ -138,15 +157,16 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:move(destx, desty)
-	local factor = self:easeInQuint(time, 0, 1, 10)
+	local factor = self:easeOutCubic(time, 0, 1, 10)
 	self.x = self.x + (destx - self.x) * factor
 
 	self.y = self.y + (desty - self.y) * factor
 end
 
-function MoonBoss:easeInQuint(t, b, c, d)
-	local t1 = t/d
-	return c*t1*t1*t1*t1*t1 + b
+function MoonBoss:easeOutCubic(t, b, c, d)
+	local t1 = t / d
+	t1 = t1 - 1
+	return c*(t1*t1*t1 + 1) + b
 end
 
 function MoonBoss:alive()
