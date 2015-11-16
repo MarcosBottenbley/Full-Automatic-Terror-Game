@@ -39,7 +39,7 @@ function Turret:_init(x, y, tlow_deg, thigh_deg)
 	Enemy._init(self, x, y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.target_angle_low = tlow_deg * (math.pi/180)
 	self.target_angle_high = thigh_deg * (math.pi/180)
-	self.validCollisions = {2,3}
+	self.angle = (self.target_angle_low + self.target_angle_high) / 2
 	
 	local temp = love.graphics.newImage("gfx/particle.png")
 	self.sparks = love.graphics.newParticleSystem(temp, 10)
@@ -83,18 +83,34 @@ function Turret:update(dt, swidth, sheight, px, py)
 
 	--create temporary var to store angle between turret and player
 	local temp_angle = math.atan((self.y - py) / (px - self.x))
+	--extra code to get the angle between 0 and 2pi radians
 	if px < self.x then
 		temp_angle = temp_angle + math.pi
+	elseif py > self.y then
+		temp_angle = temp_angle + math.pi*2
+	end
+	
+	--code for dealing with rotation nonsense
+	local angle_correct = 1
+	if math.abs(temp_angle - self.angle) > math.pi then
+		angle_correct = -1
 	end
 	
 	--aim turret towards player if the angle between them is in target range
-	if temp_angle > self.target_angle_low and temp_angle < self.target_angle_high then
-		self.angle = self.angle + ((temp_angle - self.angle)/math.abs(temp_angle - self.angle))*dt
+	if temp_angle >= self.target_angle_low and temp_angle <= self.target_angle_high then
+		self.angle = self.angle + ((temp_angle - self.angle)/math.abs(temp_angle - self.angle))*angle_correct*dt
 		
 		--if turret is active and aiming at player, then shoot
 		if self.active and self.angle > temp_angle - (math.pi/10) and self.angle < temp_angle + (math.pi/10) then
 			self:shoot()
 		end
+	end
+	
+	--more code for dealing with rotation nonsense
+	if self.angle > math.pi*2 then
+		self.angle = self.angle - math.pi*2
+	elseif self.angle < 0 then
+		self.angle = self.angle + math.pi*2
 	end
 end
 
@@ -110,8 +126,8 @@ end
 --Shoots two bullets and deactivates the turret, changing the sprite to
 --the "firing" position
 function Turret:shoot()
-	local startposx = self.x + 4 * math.cos(self.angle)
-	local startposy = self.y - 4 * math.sin(self.angle)
+	local startposx = self.x + 20 * math.cos(self.angle)
+	local startposy = self.y - 20 * math.sin(self.angle)
 	local b1 = EnemyBullet(startposx + 14*math.sin(self.angle), startposy + 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
 	local b2 = EnemyBullet(startposx - 14*math.sin(self.angle), startposy - 14*math.cos(self.angle), 600, self.angle) --magic numbers errywhere
 	table.insert(objects, b1)
@@ -134,7 +150,7 @@ function Turret:getHitBoxes( ... )
 end
 
 function Turret:collide(obj)
-	if obj:getID() == 3 then
+	if obj:getID() == 3 or obj:getID() == 6 then
 		self.stunned = true
 		self.stun_timer = 0
 		self.sparks:emit(10)

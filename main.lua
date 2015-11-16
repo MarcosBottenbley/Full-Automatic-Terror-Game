@@ -36,8 +36,8 @@ recent_score = 0
 highscores = {}
 default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
-levelNum = 0
-max_level = 4
+levelNum = 1
+max_level = 5
 
 Title = require("Title")
 Game = require("Game")
@@ -45,6 +45,7 @@ Intro = require("Intro")
 Intro2 = require("Intro2")
 Intro3 = require("Intro3")
 Intro4 = require("Intro4")
+Intro5 = require("Intro5")
 StageIntro = require("StageIntro")
 HowToPlay = require("HowToPlay")
 ScoreScreen = require("ScoreScreen")
@@ -95,6 +96,7 @@ function love.load(arg)
 	Intro2:load()
 	Intro3:load()
 	Intro4:load()
+	Intro5:load()
 	StageIntro:load()
 	HowToPlay:load()
 	Game:load()

@@ -35,12 +35,12 @@ setmetatable(MetalBall, {
 	end,
 })
 
-function MetalBall:_init(scale, vx, vy)
+function MetalBall:_init(x, y, vx, vy)
 	if math.random() > 0.5 then
 		self.img = "gfx/metal_asteroid2.png"
 	end
 	
-	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	Enemy._init(self, x, y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.validCollisions = {1,2,3,6,8}
 	self.angle = math.random()*math.pi*2
 	self.scale = scale

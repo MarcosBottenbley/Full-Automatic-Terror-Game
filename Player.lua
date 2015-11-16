@@ -32,7 +32,7 @@ local Player = {
 	bounding_rad = 25, angle1 = math.pi/2,
 	move_angle = math.pi/2, draw_angle = math.pi/2,
 	ang_vel = 0, double = false,
-	health = 10, bomb = 100, h_jump = 5,
+	health = 10, bomb = 3, h_jump = 5,
 	invul = false, dam_timer = 0, damaged = false,
 	bomb_flash = false, flash_timer = .6,
 	teleporttimer = 0, chargeTime = 0, charged = false,
@@ -293,7 +293,6 @@ function Player:update(dt, swidth, sheight)
 				self:fire()
 			elseif self.current_weapon == 3 then
 				self.chargeTime = self.chargeTime + dt
-				print(self.chargeTime)
 			end
 		end
 	end
@@ -404,7 +403,17 @@ function Player:keyreleased(key)
 
 	if key == '7' then
 		levelNum = 4
+		switchTo(Intro3)
+	end
+
+	if key == '6' then
+		levelNum = 3
 		switchTo(Intro4)
+	end 
+
+	if key == '5' then
+		levelNum = 5
+		switchTo(Intro5)
 	end
 end
 

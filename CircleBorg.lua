@@ -83,4 +83,11 @@ function CircleBorg:draw()
 	Enemy.draw(self, 100, 100, 255)
 end
 
+function CircleBorg:collide(obj)
+	if obj:getID() ~= 1 then
+		self.delay = .1
+		Enemy.collide(self, obj)
+	end
+end
+
 return CircleBorg

@@ -81,6 +81,7 @@ function Game:load(arg)
 	MetalBall = require("MetalBall")
 	MoonBoss = require("MoonBoss")
 	Turret = require("Turret")
+	Asteroid = require("Asteroid")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -120,8 +121,11 @@ function Game:load(arg)
 
 	-- for parallax
 	overlay = love.graphics.newImage("gfx/large_bg_2_overlay.png")
-	
+
 	healthbar = love.graphics.newImage("gfx/health_bar.png")
+
+	bomb = love.graphics.newImage("gfx/bomb.png")
+	hyper = love.graphics.newImage("gfx/hyper.png")
 
 	enemies = {}
 	bullets = {}
@@ -253,13 +257,14 @@ function Game:update(dt)
 	if pause then
 		return
 	end
-	
+
 	psystem:update(dt)
+	--comment this next line out to keep the level zoomed out
 	time = time + dt
 	timer = timer + dt
 
 	ST:update(dt, objects)
-	
+
 	if player.invul and bgm_normal and player.isJumping == false then
 		bgm:stop()
 		bg_invul:play()
@@ -369,6 +374,63 @@ function Game:draw(dt)
 		love.graphics.scale(X, X)
 	end
 
+	self:drawHUD()
+
+	if level.hordeMode then
+		level:hordeDraw()
+	end
+
+	--fps = love.timer.getFPS()
+	--love.graphics.print(tostring(fps), 700, 10)
+
+	if player:flash() then
+		local t = player:getFlashTimer() + .6
+		local alpha = (255 * t)
+		love.graphics.setColor(255, 255, 255, alpha)
+		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
+	end
+
+	if pause then
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
+		love.graphics.setColor(255,255,255,255)
+
+		love.graphics.setFont(self.scorefont)
+
+		love.graphics.print(
+			pstring1, width/2 - self.scorefont:getWidth(pstring1)/2,
+			height/2 - self.scorefont:getHeight(pstring1)/2
+		)
+
+		love.graphics.setFont(self.helpfont)
+		love.graphics.print(
+			pstring2, width/2 - self.helpfont:getWidth(pstring2)/2,
+			height/2 - self.helpfont:getHeight(pstring2)/2 + self.scorefont:getHeight(pstring1)
+		)
+	end
+
+	-- love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
+end
+
+-- function Game:hordeCheck(dt)
+	-- h_timer = h_timer + dt
+	-- if h_timer > 120 then
+		-- time = 0
+		-- h_timer = 0
+		-- self:win()
+	-- end
+-- end
+
+-- function Game:hordeDraw()
+	-- local timeLeft = math.floor(120 - h_timer)
+	-- love.graphics.print(
+		-- "TIME: " .. timeLeft,
+		-- 250, 10
+	-- )
+-- end
+
+function Game:drawHUD()
+
 	love.graphics.setFont(self.helpfont)
 	love.graphics.print(
 		help,
@@ -379,20 +441,19 @@ function Game:draw(dt)
 	love.graphics.print(
 		"HEALTH:", 10, 10
 	)
-	
+
 	love.graphics.setColor(255, 0, 0, 255)
 	love.graphics.rectangle("fill", 151, 6, 148 * (player:getHealth() / 10), 18)
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(healthbar, 150, 5)
-	
+
 	love.graphics.setFont(self.scorefont)
 	love.graphics.print(
 		"WEAPON:", 10, 40
 	)
-	
-	
+
 	local weaponBarValues = {player:getBarValues()}
-	
+
 	if weaponBarValues[2] == 0 and weaponBarValues[3] == 0 then
 		love.graphics.setColor(35, 200, 35, 255)
 		love.graphics.rectangle("fill", 151, 36, 148 * weaponBarValues[1], 18)
@@ -421,19 +482,9 @@ function Game:draw(dt)
 		end
 		flash = not flash
 	end
-		
+
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.draw(healthbar, 150, 35)
-
-	love.graphics.print(
-		"BOMBS: " .. player:getBomb(),
-		10, 70
-	)
-
-	love.graphics.print(
-		"HYPERJUMPS: " .. player:getJump(),
-		10, 100
-	)
 
 	love.graphics.printf(
 		scorestring .. score,
@@ -441,59 +492,19 @@ function Game:draw(dt)
 		300,
 		"left"
 	)
-
-	if level.hordeMode then
-		level:hordeDraw()
-	end
-
-	--fps = love.timer.getFPS()
-	--love.graphics.print(tostring(fps), 700, 10)
-
-	if player:flash() then
-		local t = player:getFlashTimer() + .6
-		local alpha = (255 * t)
-		love.graphics.setColor(255, 255, 255, alpha)
-		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
-	end
-	
-	if pause then
-		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle('fill', 0, 0, 2000, 2000)
-		love.graphics.setColor(255,255,255,255)
-		
-		love.graphics.setFont(self.scorefont)
-		
-		love.graphics.print(
-			pstring1, width/2 - self.scorefont:getWidth(pstring1)/2,
-			height/2 - self.scorefont:getHeight(pstring1)/2
-		)
-		
-		love.graphics.setFont(self.helpfont)
-		love.graphics.print(
-			pstring2, width/2 - self.helpfont:getWidth(pstring2)/2,
-			height/2 - self.helpfont:getHeight(pstring2)/2 + self.scorefont:getHeight(pstring1)
-		)
-	end
-
-	-- love.graphics.draw(psystem, love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
+	-- BOMBS
+	love.graphics.draw(bomb, width - 300, 44 - bomb:getHeight()/2)
+	love.graphics.print(
+		"X" .. player:getBomb(),
+		width - 270, 40
+	)
+	-- HYPERJUMPS
+	love.graphics.draw(hyper, width - 130, 44 - hyper:getHeight()/2)
+	love.graphics.print(
+		"X" .. player:getJump(),
+		width - 98, 40
+	)
 end
-
--- function Game:hordeCheck(dt)
-	-- h_timer = h_timer + dt
-	-- if h_timer > 120 then
-		-- time = 0
-		-- h_timer = 0
-		-- self:win()
-	-- end
--- end
-
--- function Game:hordeDraw()
-	-- local timeLeft = math.floor(120 - h_timer)
-	-- love.graphics.print(
-		-- "TIME: " .. timeLeft,
-		-- 250, 10
-	-- )
--- end
 
 function Game:drawHitboxes(obj)
 	local t = obj:getHitBoxes()
@@ -518,7 +529,7 @@ function Game:keyreleased(key)
 	if key == 'r' and pause then
 		switchTo(StageIntro)
 	end
-	
+
 	if key == 'escape' then
 		pause = not pause
 	end
