@@ -353,7 +353,7 @@ function Player:draw()
 		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 1, -13)
 		love.graphics.draw(self.particles, self.x, self.y, love_angle, 1, 1, 13, -9)
 	end
-	
+
 	love.graphics.setFont(self.partfont)
 	if self.pMessaging then
 		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
@@ -703,10 +703,10 @@ function Player:getType()
 	return ""
 end
 
-<<<<<<< HEAD
 function Player:getWeapon()
 	return self.current_weapon
-=======
+end
+
 function Player:getPart()
 	self.partCount = self.partCount + 1
 	self.pMessaging = true
@@ -725,7 +725,6 @@ function Player:partUpdate(dt)
 	if self.partCount >= 4 then
 		self.winner = true
 	end
->>>>>>> origin/master
 end
 
 return Player
