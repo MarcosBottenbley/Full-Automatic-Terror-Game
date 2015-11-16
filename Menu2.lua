@@ -138,6 +138,13 @@ function Menu2:draw()
 		)
 	end
 
+	if selector == 1 and levelCount == 5 then
+		love.graphics.print(
+			levelCount - 1,
+			width/2 - 15, height/2 + 100
+		)
+	end
+
 	if selector == 1 and (levelCount == 3) then
 		love.graphics.print(
 			"3A",
@@ -174,7 +181,7 @@ function Menu2:keyreleased(key)
 		error:play()
 	end
 
-	if key == 'right' and selector == 1 and levelCount == 4 then
+	if key == 'right' and selector == 1 and levelCount == 5 then
 		error:play()
 	end
 
@@ -182,7 +189,7 @@ function Menu2:keyreleased(key)
 		levelCount = levelCount - 1
 	end
 
-	if key == 'right' and selector == 1 and levelCount < 4 then
+	if key == 'right' and selector == 1 and levelCount < 5 then
 		levelCount = levelCount + 1
 	end
 
