@@ -50,8 +50,9 @@ function HowToPlay:start()
 	self.lines = {
 		"To control your ship,\nuse the arrow keys.\nThe camera will move to\nfollow you.",
 		"To fire your weapon,\nuse the Z key. Your weapon fires\nin the direction that your ship\nis facing.",
-		"To switch between your two\nweapons, press the 1 key.\nThe first weapon is a laser\nthat fires in a straight line.",
+		"To switch between your\nweapons, press the 1, 2, or 3\nkeys. The first weapon is a\nlaser that fires in a straight\nline.",
 		"The second weapon has a slower\nfire rate and speed. However,\nit adjusts its path to\nhit nearby enemies.",
+		"The third weapon lets you hold\ndown the Z key to charge up a\nlarger, more destructive\nprojectile.",
 		"To use a bomb,\nuse the C key. The bomb\nkills all enemies on the screen.",
 		"To use a hyper jump,\nuse the spacebar. The hyper jump\nlaunches your ship forward for a\nshort duration. It kills all\nenemies that you come in contact\nwith during the jump.",
 		"You only have a limited number\nof bombs and hyper jumps, so use\nthem wisely. Their numbers\nreset each level.",
@@ -83,9 +84,9 @@ function HowToPlay:keyreleased(key)
 		self.script_pos = self.script_pos - 1
 	elseif key == 'left' and self.script_pos == 1 then
 		error:play()
-	elseif key == 'right' and self.script_pos < 12 then
+	elseif key == 'right' and self.script_pos < 13 then
 		self.script_pos = self.script_pos + 1
-	elseif key == 'right' and self.script_pos == 12 then
+	elseif key == 'right' and self.script_pos == 13 then
 		error:play()
 	else
 		switchTo(Menu)
@@ -105,7 +106,7 @@ end
 
 function HowToPlay:draw()
 
-	local page = "Page " .. self.script_pos .. " of 12"
+	local page = "Page " .. self.script_pos .. " of 13"
 	local pagewidth = self.list_font:getWidth(page)
 	local pageheight = self.list_font:getHeight(page)
 
