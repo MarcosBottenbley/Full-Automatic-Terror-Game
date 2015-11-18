@@ -18,7 +18,7 @@ local time = 0
 local SunBoss = {
 	img = "gfx/sun_boss2.png",
 	width = 156, height = 156,
-	frames = 4, states = 2,
+	frames = 8, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
 	health = 40, s_timer = 0,
