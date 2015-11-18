@@ -59,7 +59,7 @@ function Spawn:_init(x,y,pr,r,sr,sl,sa,types)
 		self.spawnAmount = sa
 	end
 	self.type = types
-	self.spawntimer = self.spawnrate / 4
+	--self.spawntimer = self.spawnrate / 4
 
 	self.validCollisions = {-1}
 end

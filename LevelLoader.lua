@@ -100,8 +100,9 @@ function LevelLoader:make(object)
 
 	if object[1] == "pla" then
 		player = Player(object[2], object[3], 200)
-		if levelNum == 4 then
+		if levelNum == 4 or levelNum == 3 then
 			player.bomb = 0
+			player.h_jump = 0
 		end
 		table.insert(objects, player)
 		return
@@ -192,13 +193,13 @@ end
 
 function LevelLoader:hordeCheck(dt, game)
 	self.h_timer = self.h_timer + dt
-	if self.h_timer > 120 then
+	if self.h_timer > 60 then
 		game:advance()
 	end
 end
 
 function LevelLoader:hordeDraw()
-	local timeLeft = math.floor(120 - self.h_timer)
+	local timeLeft = math.floor(60 - self.h_timer)
 	love.graphics.print(
 		"TIME: " .. timeLeft,
 		310, 10

@@ -505,7 +505,7 @@ function Player:useBomb()
 		  if (o:getX() > self.x - width/2 or o:getX() < self.x + width/2) and
 			(o:getY() > self.y - height/2 or o:getY() < self.y + height/2) and
 			(o:getID() == 1) then
-				if o:getType() ~= 'b' then
+				if o:getType() ~= 'b' and o:getType() ~= 't' and o:getType() ~= 'a' then
 				o:setDead()
 				end
 			end
