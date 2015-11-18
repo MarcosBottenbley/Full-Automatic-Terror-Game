@@ -193,13 +193,13 @@ end
 
 function LevelLoader:hordeCheck(dt, game)
 	self.h_timer = self.h_timer + dt
-	if self.h_timer > 60 then
+	if self.h_timer > 90 then
 		game:advance()
 	end
 end
 
 function LevelLoader:hordeDraw()
-	local timeLeft = math.floor(60 - self.h_timer)
+	local timeLeft = math.floor(90 - self.h_timer)
 	love.graphics.print(
 		"TIME: " .. timeLeft,
 		310, 10
