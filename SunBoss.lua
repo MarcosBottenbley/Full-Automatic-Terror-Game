@@ -16,8 +16,8 @@ Winhole = require("Winhole")
 local time = 0
 
 local SunBoss = {
-	img = "gfx/sun_boss.png",
-	width = 150, height = 150,
+	img = "gfx/sun_boss2.png",
+	width = 156, height = 156,
 	frames = 4, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 60, type = 'b',
@@ -49,12 +49,12 @@ end
 function SunBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	time = time + dt
-	
+
 	self.s_timer = self.s_timer + dt
 	if self.damaged then
 		self.dmg_timer = self.dmg_timer + dt
 	end
-	
+
 	self.angle = self.angle + (math.pi/2)*dt*(7.66 - (self.health/6))
 
 	--print("PLAYER: " .. py .. " " .. px)
@@ -80,12 +80,12 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 			end
 		end
 	end
-	
+
 	--shots get faster as health gets lower
 	if self.s_timer > 0.5 / ((-9/39)*self.health + (389/39)) then
 		self:shoot()
 	end
-	
+
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
 		self.dmg_timer = 0
