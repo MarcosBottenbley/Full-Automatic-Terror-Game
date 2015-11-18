@@ -18,7 +18,6 @@ local titles = {
 	--"More like Full Automatic TERRIBLE",
 	"Made with 100% Farm-Raised Roseda Beef",
 	--"We're boned",
-	"Put your glasses on, nothing will be wrong",
 	"Oh no some enemy robot fighter ships or something",
 	"Working Working Title",
 	"Like Asteroids, but less fun",
@@ -62,7 +61,9 @@ local titles = {
 	"3D Pinball",
 	"As fun as watching paint explode",
 	"YYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
-	"Now on Kickstarter!"
+	"Now on Kickstarter!",
+	"Put 3D glasses on now",
+	"2015: A Friendly Space Jaunt"
 }
 
 local titlestring = titles[math.random(#titles)]

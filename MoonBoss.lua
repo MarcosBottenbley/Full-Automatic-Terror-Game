@@ -41,7 +41,8 @@ local MoonBoss = {
 	dmg_timer = 0, shoot_angle = 0,
 	vel = 100, damaged = false,
 	move_angle = 0, bouncing,
-	b_timer, b_angle, pos = 0
+	b_timer, b_angle, pos = 0,
+	moved
 }
 MoonBoss.__index = MoonBoss
 
@@ -114,7 +115,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		end
 	end
 
-	if math.floor(time) % 6 == 0 and self:inArena(px,py) and spawned == false and lvltime > 10 then
+	if math.floor(time) % 5 == 1 and self:inArena(px,py) and spawned == false and lvltime > 10 then
 		local rand = math.random(3)
 		print(tostring(time) .. " " .. tostring(rand))
 		print("------------------------")
@@ -182,21 +183,28 @@ function MoonBoss:hit()
 	bosshit:play()
 end
 
-function MoonBoss:move(destx, desty)
+function MoonBoss:move(destx, desty, dt)
+	if self.x < destx + 5 and self.x > destx - 5 then
+		if self.y < desty + 5 and self.y > desty - 5 then
+			self.x = destx
+			self.y = desty
+			self.moved = true
+		end
+	end
 	if self.x < destx then
-		self.x = self.x + 100
+		self.x = self.x + dt*vel
 	end
 
 	if self.x > destx then
-		self.x = self.x - 100
+		self.x = self.x - dt*vel
 	end
 
 	if self.y < desty then
-		self.y = self.y + 100
+		self.y = self.y + dt*vel
 	end
 
 	if self.y > desty then
-		self.y = self.y - 100
+		self.y = self.y - dt*vel
 	end	
 end
 
@@ -215,20 +223,20 @@ function MoonBoss:getHealth(...)
 end
 
 function MoonBoss:spawn4()
-	local g1 = GlowBorg()
-	local g2 = GlowBorg()
-	local g3 = GlowBorg()
-	local g4 = GlowBorg()
+	local g1
+	local g2
+	local g3
+	local g4
 	if self.pos == 2 or self.pos == 6 then
-		g1:setPosition(self.x,self.y + 50)
-		g2:setPosition(self.x,self.y - 50)
-		g3:setPosition(self.x,self.y + 100)
-		g4:setPosition(self.x,self.y - 100)
+		g1 = ObjectHole(self.x,self.y + 50,'g')
+		g2 = ObjectHole(self.x,self.y - 50,'g')
+		g3 = ObjectHole(self.x,self.y + 100,'g')
+		g4 = ObjectHole(self.x,self.y - 100,'g')
 	else
-		g1:setPosition(self.x + 50,self.y)
-		g2:setPosition(self.x - 50,self.y)
-		g3:setPosition(self.x + 100,self.y)
-		g4:setPosition(self.x - 100,self.y)
+		g1 = ObjectHole(self.x + 50,self.y,'g')
+		g2 = ObjectHole(self.x - 50,self.y,'g')
+		g3 = ObjectHole(self.x + 100,self.y,'g')
+		g4 = ObjectHole(self.x - 100,self.y,'g')
 	end
 	table.insert(objects, g1)
 	table.insert(objects, g2)
@@ -237,14 +245,10 @@ function MoonBoss:spawn4()
 end
 
 function MoonBoss:spawnCircleBorg(px,py)
-	local c1 = CircleBorg()
-	local c2 = CircleBorg()
-	local c3 = CircleBorg()
-	local c4 = CircleBorg()
-	c1:setPosition(px,py+100)
-	c2:setPosition(px,py-100)
-	c3:setPosition(px+100,py)
-	c4:setPosition(px-100,py)
+	local c1 = ObjectHole(px,py+100,'c')
+	local c2 = ObjectHole(px,py-100,'c')
+	local c3 = ObjectHole(px+100,py,'c')
+	local c4 = ObjectHole(px-100,py,'c')
 
 	table.insert(objects, c1)
 	table.insert(objects, c2)
@@ -253,14 +257,11 @@ function MoonBoss:spawnCircleBorg(px,py)
 end
 
 function MoonBoss:spawnAround(px, py)
-	local g1 = GlowBorg()
-	local g2 = GlowBorg()
-	local g3 = GlowBorg()
-	local g4 = GlowBorg()
-	g1:setPosition(px,py+100)
-	g2:setPosition(px,py-100)
-	g3:setPosition(px+100,py)
-	g4:setPosition(px-100,py)
+	local c1 = ObjectHole(px,py+100,'g')
+	local c2 = ObjectHole(px,py-100,'g')
+	local c3 = ObjectHole(px+100,py,'g')
+	local c4 = ObjectHole(px-100,py,'g')
+
 	table.insert(objects, g1)
 	table.insert(objects, g2)
 	table.insert(objects, g3)

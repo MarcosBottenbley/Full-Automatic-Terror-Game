@@ -57,6 +57,8 @@ function ObjectHole:update(dt)
 	if self.spawntimer > 1 then
 		if self.type == 'g' then
 			e = GlowBorg()
+		elseif self.type == 'c' then
+			e = CircleBorg()
 		elseif self.type == 'f' then
 			e = PhantomShip()
 		elseif self.type == 'd' then

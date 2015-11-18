@@ -43,7 +43,7 @@ function Enemy:_init(x, y, v, img, width, height, frames, states, delay)
 	self.vx = v
 	self.vy = v
 	Object._init(self, x, y, img, width, height, frames, states, delay)
-	self.validCollisions = {2,3,6}
+	self.validCollisions = {2,3}
 end
 
 function Enemy:draw(r, g, b)

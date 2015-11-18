@@ -112,10 +112,10 @@ function GlowBorg:getHitBoxes( ... )
 end
 
 function GlowBorg:collide(obj)
-	if obj:getID() ~= 1 then
+	if obj:getID() ~= 1 and obj:getID() ~= 8 then
 		self.delay = .1
 		Enemy.collide(self, obj)
-	elseif obj:getType() == 'g' then
+	elseif obj:getID() == 1 and obj:getType() == 'g' then
 		ox = obj:getX()
 		oy = obj:getY()
 		self.b_angle = math.atan((oy - self.y) / (ox - self.x))

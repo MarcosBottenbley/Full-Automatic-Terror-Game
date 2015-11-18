@@ -49,7 +49,7 @@ function EnemyBullet:_init(x, y, v, a)
 		self.delay)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
-	self.validCollisions = {1,2,3,8}
+	self.validCollisions = {2,3,8}
 end
 
 --- makes bullets only last for 1 second of movement

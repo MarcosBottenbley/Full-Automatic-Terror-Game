@@ -84,7 +84,7 @@ function CircleBorg:draw()
 end
 
 function CircleBorg:collide(obj)
-	if obj:getID() ~= 1 then
+	if obj:getID() ~= 1 and obj:getID() ~= 8 then
 		self.delay = .1
 		Enemy.collide(self, obj)
 	end
