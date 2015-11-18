@@ -16,7 +16,7 @@ Winhole = require("Winhole")
 local time = 0
 
 local SunBoss = {
-	img = "gfx/sun_boss2.png",
+	img = "gfx/sun_boss3.png",
 	width = 156, height = 156,
 	frames = 8, states = 2,
 	delay = 0.12, sprites = {},
