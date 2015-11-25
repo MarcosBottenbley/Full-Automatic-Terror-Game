@@ -1,4 +1,4 @@
---- Marcos Bottenbley
+	--- Marcos Bottenbley
 --- mbotten1@jhu.edu
 
 --- Rebecca Bushko
@@ -81,44 +81,43 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	if math.floor(time) % 5 == 0 then
 		spawned = false
 		if self.pos == 7 then
-			--self:move(1500, 1000 + self.height) -- 0
-			self.x = 1500
-			self.y = 1000 + self.height
+			self:move(1500, 1000 + self.height) -- 0
+			--self.x = 1500
+			--self.y = 1000 + self.height
 		elseif self.pos == 6 then
-			--self:move(2000 - self.width, 1000 + self.height) -- 7
-			self.x = 2000 - self.width
-			self.y = 1000 + self.height
+			self:move(2000 - self.width, 1000 + self.height) -- 7
+			--self.x = 2000 - self.width
+			--self.y = 1000 + self.height
 		elseif self.pos == 5 then
-			--self:move(2000 - self.width, 1500) -- 6
-			self.x = 2000 - self.width
-			self.y = 1500
+			self:move(2000 - self.width, 1500) -- 6
+			--self.x = 2000 - self.width
+			--self.y = 1500
 		elseif self.pos == 4 then
-			--self:move(2000 - self.width, 2000 - self.height) -- 5
-			self.x = 2000 - self.width
-			self.y = 2000 - self.height
+			self:move(2000 - self.width, 2000 - self.height) -- 5
+			--self.x = 2000 - self.width
+			--self.y = 2000 - self.height
 		elseif self.pos == 3 then
-			--self:move(1500, 2000 - self.height) -- 4
-			self.x = 1500
-			self.y = 2000 - self.height
+			self:move(1500, 2000 - self.height) -- 4
+			--self.x = 1500
+			--self.y = 2000 - self.height
 		elseif self.pos == 2 then
-			--self:move(1000 + self.width, 2000 - self.height) -- 3
-			self.x = 1000 + self.width
-			self.y = 2000 - self.height
+			self:move(1000 + self.width, 2000 - self.height) -- 3
+			--self.x = 1000 + self.width
+			--self.y = 2000 - self.height
 		elseif self.pos == 1 then
-			--self:move(1000 + self.width, 1500) -- 2
-			self.x = 1000 + self.width
-			self.y = 1500
+			self:move(1000 + self.width, 1500) -- 2
+			--self.x = 1000 + self.width
+			--self.y = 1500
 		elseif self.pos == 0 then
-			--self:move(1000 + self.width, 1000 + self.height) -- 1
-			self.x = 1000 + self.width
-			self.y = 1000 + self.height
+			self:move(1000 + self.width, 1000 + self.height) -- 1
+			--self.x = 1000 + self.width
+			--self.y = 1000 + self.height
 		end
 	end
 
 	if math.floor(time) % 5 == 1 and self:inArena(px,py) and spawned == false and lvltime > 10 then
 		local rand = math.random(3)
-		print(tostring(time) .. " " .. tostring(rand))
-		print("------------------------")
+		print(rand)
 		spawned = true
 		if rand == 1 then
 			self:spawn4(px,py)
@@ -184,28 +183,10 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:move(destx, desty, dt)
-	if self.x < destx + 5 and self.x > destx - 5 then
-		if self.y < desty + 5 and self.y > desty - 5 then
-			self.x = destx
-			self.y = desty
-			self.moved = true
-		end
-	end
-	if self.x < destx then
-		self.x = self.x + dt*vel
-	end
+	local factor = self:easeOutCubic(time, 0, 1, 5)
+	self.x = self.x + (destx - self.x) * factor
 
-	if self.x > destx then
-		self.x = self.x - dt*vel
-	end
-
-	if self.y < desty then
-		self.y = self.y + dt*vel
-	end
-
-	if self.y > desty then
-		self.y = self.y - dt*vel
-	end	
+	self.y = self.y + (desty - self.y) * factor
 end
 
 function MoonBoss:easeOutCubic(t, b, c, d)
@@ -257,10 +238,10 @@ function MoonBoss:spawnCircleBorg(px,py)
 end
 
 function MoonBoss:spawnAround(px, py)
-	local c1 = ObjectHole(px,py+100,'g')
-	local c2 = ObjectHole(px,py-100,'g')
-	local c3 = ObjectHole(px+100,py,'g')
-	local c4 = ObjectHole(px-100,py,'g')
+	local c1 = ObjectHole(px,py+200,'g')
+	local c2 = ObjectHole(px,py-200,'g')
+	local c3 = ObjectHole(px+200,py,'g')
+	local c4 = ObjectHole(px-200,py,'g')
 
 	table.insert(objects, g1)
 	table.insert(objects, g2)
