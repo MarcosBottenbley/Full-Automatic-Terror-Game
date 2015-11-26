@@ -19,6 +19,7 @@ Winhole = require("Winhole")
 math.randomseed(os.time())
 
 local time = 0
+local t_timer = 0
 local lvltime = 0
 local spawned = false
 
@@ -82,34 +83,42 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		spawned = false
 		if self.pos == 7 then
 			self:move(1500, 1000 + self.height) -- 0
+			t_timer = 0
 			--self.x = 1500
 			--self.y = 1000 + self.height
 		elseif self.pos == 6 then
 			self:move(2000 - self.width, 1000 + self.height) -- 7
+			t_timer = 0
 			--self.x = 2000 - self.width
 			--self.y = 1000 + self.height
 		elseif self.pos == 5 then
 			self:move(2000 - self.width, 1500) -- 6
+			t_timer = 0
 			--self.x = 2000 - self.width
 			--self.y = 1500
 		elseif self.pos == 4 then
 			self:move(2000 - self.width, 2000 - self.height) -- 5
+			t_timer = 0
 			--self.x = 2000 - self.width
 			--self.y = 2000 - self.height
 		elseif self.pos == 3 then
 			self:move(1500, 2000 - self.height) -- 4
+			t_timer = 0
 			--self.x = 1500
 			--self.y = 2000 - self.height
 		elseif self.pos == 2 then
 			self:move(1000 + self.width, 2000 - self.height) -- 3
+			t_timer = 0
 			--self.x = 1000 + self.width
 			--self.y = 2000 - self.height
 		elseif self.pos == 1 then
 			self:move(1000 + self.width, 1500) -- 2
+			t_timer = 0
 			--self.x = 1000 + self.width
 			--self.y = 1500
 		elseif self.pos == 0 then
 			self:move(1000 + self.width, 1000 + self.height) -- 1
+			t_timer = 0
 			--self.x = 1000 + self.width
 			--self.y = 1000 + self.height
 		end
@@ -183,7 +192,7 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:move(destx, desty, dt)
-	local factor = self:easeOutCubic(time, 0, 1, 5)
+	local factor = self:easeOutCubic(t_timer, 0, 1, 5)
 	self.x = self.x + (destx - self.x) * factor
 
 	self.y = self.y + (desty - self.y) * factor
