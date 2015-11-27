@@ -22,6 +22,8 @@ local time = 0
 local t_timer = 0
 local lvltime = 0
 local spawned = false
+local destx = 0
+local desty = 0
 
 --pos stuff
 -- 0 = top middle
@@ -70,6 +72,7 @@ end
 function MoonBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	time = time + dt
+	t_timer = t_timer + dt
 	if self:inArena(px,py) then
 		lvltime = lvltime + dt
 	end
@@ -80,53 +83,14 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	end
 
 	if math.floor(time) % 5 == 0 then
-		spawned = false
-		if self.pos == 7 then
-			self:move(1500, 1000 + self.height) -- 0
-			t_timer = 0
-			--self.x = 1500
-			--self.y = 1000 + self.height
-		elseif self.pos == 6 then
-			self:move(2000 - self.width, 1000 + self.height) -- 7
-			t_timer = 0
-			--self.x = 2000 - self.width
-			--self.y = 1000 + self.height
-		elseif self.pos == 5 then
-			self:move(2000 - self.width, 1500) -- 6
-			t_timer = 0
-			--self.x = 2000 - self.width
-			--self.y = 1500
-		elseif self.pos == 4 then
-			self:move(2000 - self.width, 2000 - self.height) -- 5
-			t_timer = 0
-			--self.x = 2000 - self.width
-			--self.y = 2000 - self.height
-		elseif self.pos == 3 then
-			self:move(1500, 2000 - self.height) -- 4
-			t_timer = 0
-			--self.x = 1500
-			--self.y = 2000 - self.height
-		elseif self.pos == 2 then
-			self:move(1000 + self.width, 2000 - self.height) -- 3
-			t_timer = 0
-			--self.x = 1000 + self.width
-			--self.y = 2000 - self.height
-		elseif self.pos == 1 then
-			self:move(1000 + self.width, 1500) -- 2
-			t_timer = 0
-			--self.x = 1000 + self.width
-			--self.y = 1500
-		elseif self.pos == 0 then
-			self:move(1000 + self.width, 1000 + self.height) -- 1
-			t_timer = 0
-			--self.x = 1000 + self.width
-			--self.y = 1000 + self.height
-		end
+			spawned = false
 	end
+
+	self:move()
+	self:changePos()
 
 	if math.floor(time) % 5 == 1 and self:inArena(px,py) and spawned == false and lvltime > 10 then
 		local rand = math.random(3)
-		print(rand)
 		spawned = true
 		if rand == 1 then
 			self:spawn4(px,py)
@@ -167,20 +131,65 @@ end
 function MoonBoss:checkpos( ... )
 	if self.x == (1000 + self.width) and self.y == (1000 + self.height) then
 		self.pos = 1
+		t_timer = 0
 	elseif self.x == (1000 + self.width) and self.y == 1500 then
 		self.pos = 2
+		t_timer = 0
 	elseif self.x == (1000 + self.width) and self.y == (2000 - self.height) then
 		self.pos = 3
+		t_timer = 0
 	elseif self.x == 1500 and self.y == (2000 - self.height) then
 		self.pos = 4
+		t_timer = 0
 	elseif self.x == (2000 - self.width) and self.y == (2000 - self.height) then
 		self.pos = 5
+		t_timer = 0
 	elseif self.x == (2000 - self.width) and self.y == 1500 then
 		self.pos = 6
+		t_timer = 0
 	elseif self.x == (2000 - self.width) and self.y == (1000 + self.height) then
 		self.pos = 7
+		t_timer = 0
 	elseif self.x == 1500 and self.y == (1000 + self.height) then
 		self.pos = 0
+		t_timer = 0
+	end
+	--t_timer = 0
+end
+
+function MoonBoss:changePos( ... )
+	if self.pos == 7 then
+		--self:move(1500, 1000 + self.height) -- 0
+		destx = 1500
+		desty = 1000 + self.height
+	elseif self.pos == 6 then
+		--self:move(2000 - self.width, 1000 + self.height) -- 7
+		destx = 2000 - self.width
+		desty = 1000 + self.height
+	elseif self.pos == 5 then
+		--self:move(2000 - self.width, 1500) -- 6
+		destx = 2000 - self.width
+		desty = 1500
+	elseif self.pos == 4 then
+		--self:move(2000 - self.width, 2000 - self.height) -- 5
+		destx = 2000 - self.width
+		desty = 2000 - self.height
+	elseif self.pos == 3 then
+		--self:move(1500, 2000 - self.height) -- 4
+		destx = 1500
+		desty = 2000 - self.height
+	elseif self.pos == 2 then
+		--self:move(1000 + self.width, 2000 - self.height) -- 3
+		destx = 1000 + self.width
+		desty = 2000 - self.height
+	elseif self.pos == 1 then
+		--self:move(1000 + self.width, 1500) -- 2
+		destx = 1000 + self.width
+		desty = 1500
+	elseif self.pos == 0 then
+		--self:move(1000 + self.width, 1000 + self.height) -- 1
+		destx = 1000 + self.width
+		desty = 1000 + self.height
 	end
 end
 
@@ -191,8 +200,9 @@ function MoonBoss:hit()
 	bosshit:play()
 end
 
-function MoonBoss:move(destx, desty, dt)
+function MoonBoss:move()
 	local factor = self:easeOutCubic(t_timer, 0, 1, 5)
+	print(factor)
 	self.x = self.x + (destx - self.x) * factor
 
 	self.y = self.y + (desty - self.y) * factor
