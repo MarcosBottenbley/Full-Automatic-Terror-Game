@@ -202,7 +202,6 @@ end
 
 function MoonBoss:move()
 	local factor = self:easeOutCubic(t_timer, 0, 1, 5)
-	print(factor)
 	self.x = self.x + (destx - self.x) * factor
 
 	self.y = self.y + (desty - self.y) * factor
@@ -257,10 +256,10 @@ function MoonBoss:spawnCircleBorg(px,py)
 end
 
 function MoonBoss:spawnAround(px, py)
-	local c1 = ObjectHole(px,py+200,'g')
-	local c2 = ObjectHole(px,py-200,'g')
-	local c3 = ObjectHole(px+200,py,'g')
-	local c4 = ObjectHole(px-200,py,'g')
+	local g1 = ObjectHole(px,py+200,'g')
+	local g2 = ObjectHole(px,py-200,'g')
+	local g3 = ObjectHole(px+200,py,'g')
+	local g4 = ObjectHole(px-200,py,'g')
 
 	table.insert(objects, g1)
 	table.insert(objects, g2)
