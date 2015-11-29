@@ -15,7 +15,7 @@ State = require("State")
 local Menu2 = {"New Game", "Level Select", "Return to Menu"}
 local selects = {"-New Game-", "-Level Select-", "-Return to Menu-"}
 local widths = {}
-local levelCount = 1
+local levelCount = 0
 local selectwidths = {}
 local selector = 0
 local help = "Use the arrow keys to navigate and Enter to select"
@@ -158,6 +158,13 @@ function Menu2:draw()
 			width/2 - 25, height/2 + 100
 		)
 	end
+
+	if selector == 1 and (levelCount == 0) then
+		love.graphics.print(
+			"Tutorial",
+			width/2 - 90, height/2 + 100
+		)
+	end
 end
 
 --- selector operations and their sound effects
@@ -177,7 +184,7 @@ function Menu2:keyreleased(key)
 		selected:play()
 	end
 
-	if key == 'left' and selector ==  1 and levelCount == 1 then
+	if key == 'left' and selector ==  1 and levelCount == 0 then
 		error:play()
 	end
 
@@ -185,7 +192,7 @@ function Menu2:keyreleased(key)
 		error:play()
 	end
 
-	if key == 'left' and selector == 1 and levelCount > 1 then
+	if key == 'left' and selector == 1 and levelCount > 0 then
 		levelCount = levelCount - 1
 	end
 
