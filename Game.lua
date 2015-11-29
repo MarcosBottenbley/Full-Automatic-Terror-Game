@@ -148,7 +148,7 @@ function Game:start()
 	pause = false
 
 	player = Player(0,0,0)
-	level = LevelLoader(0)
+	level = LevelLoader(levelNum)
 
 	bgm:play()
 	bgm_normal = true
