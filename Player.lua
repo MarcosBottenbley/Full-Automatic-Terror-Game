@@ -662,6 +662,19 @@ function Player:collide(obj)
 	elseif obj:getID() == 9 then
 		self.winner = true
 	end
+	if obj:getType() == 'b' then
+		if self.isJumping then
+			self.invul = false
+			self.isJumping = false
+			self.jumptimer = 0
+			self.vel = self.max_vel
+		end
+		ox = obj:getX()
+		oy = obj:getY()
+		self.b_angle = self.move_angle + math.pi
+		self.bouncing = true
+		self.b_timer = .2
+	end
 end
 
 function Player:bounce(dt)
