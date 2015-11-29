@@ -117,7 +117,10 @@ end
 function Win:keyreleased(key)
 	if self.time > 2 then
 		if not winner then
-			if levelNum == 1 then
+			if levelNum == 0 then
+				levelNum = levelNum + 1
+				switchTo(Intro)
+			elseif levelNum == 1 then
 				levelNum = levelNum + 1
 				switchTo(Intro2)
 			elseif levelNum == 2 then

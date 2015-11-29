@@ -52,7 +52,7 @@ function StageIntro:start()
 	--on the level. if you want to change the name, edit the namelist table
 	self.stagestring = namelist[levelNum]
 	if levelNum < 1 then
-		self.stagestring = "MINUS WORLD"
+		self.stagestring = "TUTORIAL"
 	end
 	self.enterstring = "Now entering Sector " .. levelNum
 	--hacky code to handle branching, will change later

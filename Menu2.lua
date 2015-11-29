@@ -206,7 +206,7 @@ function Menu2:keyreleased(key)
 		if selector == 0 then
 			menu_bgm:stop()
 			love.timer.sleep(0.4)
-			switchTo(Intro)
+			switchTo(StageIntro)
 		elseif selector == 1 then
 			menu_bgm:stop()
 			love.timer.sleep(0.4)
