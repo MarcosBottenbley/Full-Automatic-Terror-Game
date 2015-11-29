@@ -221,7 +221,7 @@ function Game:lose()
 		switchTo(Intro3)
 	else
 		self:scoreCheck()
-		levelNum = 1
+		levelNum = 0
 		score = 0
 		recent_score = 0
 		ended = true
@@ -543,7 +543,7 @@ function Game:keyreleased(key)
 	player:keyreleased(key)
 
 	if key == 'q' and pause then
-		levelNum = 1
+		levelNum = 0
 		score = 0
 		switchTo(Menu)
 	end

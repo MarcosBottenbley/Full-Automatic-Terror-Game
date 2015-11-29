@@ -1,2 +1,3 @@
 BG:gfx/tutorial_bg.png
-pla(200,100,0,0)
+pla(200,100)
+wnh(2810,398)
