@@ -50,7 +50,7 @@ function LevelLoader:load(...)
 	end
 
 	self.background = love.graphics.newImage(self.bg_string)
-	
+
 	if levelNum == 1 then
 		bgm = love.audio.newSource("sfx/bgm_1.ogg")
 	elseif levelNum == 2 then
@@ -63,7 +63,7 @@ function LevelLoader:load(...)
 		bgm = love.audio.newSource("sfx/bgm_1.ogg")
 	end
 	bgm:setLooping(true)
-	
+
 	bg_invul = love.audio.newSource("sfx/invul.ogg")
 	bg_invul:setLooping(false)
 
@@ -103,6 +103,10 @@ function LevelLoader:make(object)
 		if levelNum == 4 or levelNum == 3 then
 			player.bomb = 0
 			player.h_jump = 0
+		end
+		if levelNum == 0 then
+			player.bomb = 99
+			player.h_jump = 99
 		end
 		table.insert(objects, player)
 		return
@@ -152,7 +156,7 @@ function LevelLoader:make(object)
 	elseif object[1] == "wpt" then
 		o = WeaponPart(object[2], object[3], object[4])
 	end
-	
+
 	table.insert(objects, o)
 end
 
@@ -181,11 +185,11 @@ function LevelLoader:update(dt, score, game)
 	if self.hordeMode then
 		self:hordeCheck(dt, game)
 	end
-	
+
 	if player.winner == true then
 		game:advance()
 	end
-	
+
 	if player:isDead() and not ended then
 		game:lose()
 	end

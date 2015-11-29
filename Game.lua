@@ -107,7 +107,7 @@ function Game:load(arg)
 
 	missile_arm = love.audio.newSource("sfx/missile_arm.mp3")
 	missile_arm:setLooping(false)
-	
+
 	charge_arm = love.audio.newSource("sfx/charge_arm.ogg")
 	charge_arm:setLooping(false)
 
@@ -148,7 +148,7 @@ function Game:start()
 	pause = false
 
 	player = Player(0,0,0)
-	level = LevelLoader(levelNum)
+	level = LevelLoader(0)
 
 	bgm:play()
 	bgm_normal = true

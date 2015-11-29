@@ -19,7 +19,7 @@ controls = {
 	-- menu_right = 'right',
 	-- menu_select = 'enter',
 	-- menu_back = 'esc',
-	
+
 	player_up = 'up',
 	player_down = 'down',
 	player_left = 'left',
@@ -29,14 +29,14 @@ controls = {
 	weapon = '1',
 	invul = 'i'
 }
-	
+
 score = 0
 recent_score = 0
 
 highscores = {}
 default_scores = "\n6000\n5000\n4000\n3000\n2000\n1000"
 
-levelNum = 1
+levelNum = 0
 max_level = 5
 
 Title = require("Title")
