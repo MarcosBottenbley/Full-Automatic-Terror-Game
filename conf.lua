@@ -13,11 +13,10 @@
 math.randomseed(os.time())
 local titles = {
 	"Space Game 3000",
-	--"More like DULL Automatic Terror",
-	--"More like Full FARTomatic Terror",
-	--"More like Full Automatic TERRIBLE",
+	"More like DULL Automatic Terror",
+	"More like Full FARTomatic Terror",
+	"More like Full Automatic TERRIBLE",
 	"Made with 100% Farm-Raised Roseda Beef",
-	--"We're boned",
 	"Oh no some enemy robot fighter ships or something",
 	"Working Working Title",
 	"Like Asteroids, but less fun",

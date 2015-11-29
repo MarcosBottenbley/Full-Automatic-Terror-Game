@@ -39,7 +39,8 @@ local Player = {
 	inframe = false, jumptimer = 0, isJumping = false,
 	camera_x = 0, camera_y = 0, winner = false,
 	b_angle, b_timer, bouncing, dead_timer = 0,
-	weaponSpeeds = {.18, .8, .5}, current_weapon = 1,
+	weaponSpeeds = {.18, .4, .5}, current_weapon = 1,
+	chargeSpeed = 1,
 	partCount = 0, pMessaging, part_timer = 0
 }
 Player.__index = Player
@@ -297,7 +298,7 @@ function Player:update(dt, swidth, sheight)
 			if not (self.current_weapon == 3 and not self.charged)then
 				self:fire()
 			elseif self.current_weapon == 3 then
-				self.chargeTime = self.chargeTime + dt
+				self.chargeTime = self.chargeTime + dt*self.chargeSpeed
 			end
 		end
 	end
@@ -614,7 +615,8 @@ function Player:collide(obj)
 	elseif obj:getID() == 5 then
 		if obj:getType() == 'ds' then
 			self.double = true
-			self.weaponSpeeds[2] = .5
+			self.weaponSpeeds[2] = .25
+			self.chargeSpeed = 1.5
 		elseif obj:getType() == 'r' then
 			for i=1, 2 do
 				if self.health < 10 then

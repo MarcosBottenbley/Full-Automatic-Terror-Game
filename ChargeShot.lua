@@ -61,6 +61,12 @@ function ChargeShot:_init(x, y, v, ct, a)
 		self.hit_limit = 12
 		self.bounding_rad = 30
 	end
+	
+	if ct > 3 then
+		ct = 4
+	end
+	self.hit_limit = 5*math.ceil(ct)
+	self.bounding_rad = 10*math.ceil(ct)
 end
 
 --- ChargeShot, hitbox speed and direction
