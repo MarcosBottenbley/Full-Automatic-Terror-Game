@@ -14,11 +14,11 @@ Object = require("Object")
 
 local SpaceGoo = {
 	img = 'gfx/goo.png',
-	frames = 3, states = 1,
+	frames = 1, states = 1,
 	delay = 0.1,
 	x = 10, y = 10,
-	width = 20, height = 20,
-	bounding_rad = 20,
+	width = 32, height = 32,
+	bounding_rad = 16,
 	id = 14, vertical = false
 }
 SpaceGoo.__index = SpaceGoo
@@ -42,7 +42,6 @@ function SpaceGoo:_init(x,y)
 	Object._init(self, x, y,self.img,self.width,self.height,self.frames,self.states,self.delay)
 
 	self.validCollisions = {2}
-	self.hb = self:makeHitboxes()
 end
 
 function SpaceGoo:load()
@@ -56,7 +55,8 @@ end
 function SpaceGoo:getHitBoxes( ... )
 	local hb = {}
 	local hb_1 = {self.x, self.y, self.bounding_rad}
-	return self.hb
+	table.insert(hb, hb_1)
+	return hb
 end
 
 

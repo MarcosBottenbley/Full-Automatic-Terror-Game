@@ -128,7 +128,7 @@ function LevelLoader:make(object)
 		o = GlowBorg()
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "ocb" then
-		o = CircleBorg()
+		o = ScaredBorg()
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "ops" then
 		o = PhantomShip()

@@ -78,7 +78,7 @@ function Player:_init(x, y, v)
 	self.hb_1 = {self.x, self.y - 18.5, 10}
 	self.hb_2 = {self.x, self.y + 10.5, 19}
 
-	self.validCollisions = {1,6,5,7,8}
+	self.validCollisions = {1,6,5,7,8,14}
 	-- thrusters = {x1,y1,x2,y2,x3,y3} pos of thrusters
 	self.thrusters = {}
 	self:intitializeThrusters()
