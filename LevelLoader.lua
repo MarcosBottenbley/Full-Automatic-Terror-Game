@@ -11,13 +11,13 @@
 --- dmill118@jhu.edu
 
 bgm = nil
-local manager
 
 local LevelLoader = {
 	level = "level/level0",
 	bg_string = "gfx/large_bg_string.png",
 	hordeMode = false, won = false,
-	h_timer = 0, waveMode = false
+	h_timer = 0, waveMode = false,
+	manager
 }
 LevelLoader.__index = LevelLoader
 
@@ -74,8 +74,8 @@ function LevelLoader:load(...)
 	for line in love.filesystem.lines(self.level) do
 		--if the level is in wave mode, then use wave manager to load rest of level
 		if string.find(line, "wave:") ~= nil then
-			manager = WaveManager(self.level)
-			manager:load()
+			self.manager = WaveManager(self.level)
+			self.manager:load()
 			for num, tuple in ipairs(create) do
 				self:make(tuple)
 			end
@@ -201,7 +201,7 @@ function LevelLoader:update(dt, score, game)
 	]]
 	
 	if self.waveMode then
-		manager:update(dt, game)
+		self.manager:update(dt, game)
 	end
 
 	if self.hordeMode then
@@ -235,7 +235,7 @@ end
 function LevelLoader:waveDraw()
 	local timeLeft = math.floor(90 - self.h_timer)
 	love.graphics.print(
-		"WAVE: " .. manager:getWave(),
+		"WAVE: " .. self.manager:getWave(),
 		310, 10
 	)
 end
@@ -246,6 +246,10 @@ end
 
 function LevelLoader:getBackgroundDimensions()
 	return self.background:getWidth(), self.background:getHeight()
+end
+
+function LevelLoader:killManager()
+	self.manager = nil
 end
 
 return LevelLoader

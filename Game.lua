@@ -200,6 +200,8 @@ end
 function Game:stop()
 	bgm:stop()
 	bg_invul:stop()
+	
+	level:killManager()
 
 	local length = table.getn(objects)
 	for i = 0, length - 1 do
@@ -215,7 +217,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
 	end
-
+	
 	level = nil
 end
 

@@ -12,13 +12,19 @@
 
 local wave
 local clear
-local check
 local timer
-local enemies = {}
+local enemies
 local level
 local maxwave
 
-local WaveManager = {}
+local WaveManager = {
+	wave = 0,
+	clear = false,
+	timer = 0,
+	enemies = {},
+	level,
+	maxwave
+}
 WaveManager.__index = WaveManager
 
 setmetatable(WaveManager, {
@@ -30,14 +36,16 @@ setmetatable(WaveManager, {
 })
 
 function WaveManager:_init(lvl)
-	wave = 0
-	clear = false
-	check = false
-	level = lvl
-	timer = 0
+	-- wave = 0
+	-- clear = false
+	-- check = false
+	-- level = lvl
+	-- timer = 0
+	-- enemies = {}
 	
+	self.level = lvl
 	for i = 1, 10 do
-		enemies[i] = {}
+		self.enemies[i] = {}
 	end
 end
 
@@ -47,10 +55,10 @@ function WaveManager:load()
 	local makestuff = false
 
 	--populates creation array with everything specified in level file
-	for line in love.filesystem.lines(level) do
+	for line in love.filesystem.lines(self.level) do
 		if string.find(line, "wave:") ~= nil then
 			wNum = tonumber(string.sub(line, 6))
-			maxwave = tonumber(string.sub(line, 6))
+			self.maxwave = tonumber(string.sub(line, 6))
 			makestuff = true
 		end
 		if string.find(line, ":") == nil and makestuff then
@@ -66,9 +74,7 @@ function WaveManager:load()
 					table.insert(thing, tonumber(arg))
 				end
 			end
-			table.insert(enemies[wNum], thing)
-			print("fun:" .. wNum)
-			print(line)
+			table.insert(self.enemies[wNum], thing)
 		end
 	end
 end
@@ -81,31 +87,31 @@ function WaveManager:update(dt, game)
 	-- end
 	-- if clear then check end
 	
-	timer = timer + dt
+	self.timer = self.timer + dt
 	
-	if timer > 1 then
-		clear = true
+	if self.timer > 1 then
+		self.clear = true
 		for _, o in ipairs(objects) do
 			if o:getID() == 1 and o:getType() ~= 't' then
-				clear = false
+				self.clear = false
 			end
 		end
-		timer = 0
+		self.timer = 0
 	end
 	
-	if clear then
-		if wave == maxwave then
+	if self.clear then
+		if self.wave == self.maxwave then
 			game:advance()
 		else
-			wave = wave + 1
+			self.wave = self.wave + 1
 		end
-		clear = false
+		self.clear = false
 		self:start()
 	end
 end
 
 function WaveManager:start()
-	for _, object in ipairs(enemies[wave]) do
+	for _, object in ipairs(self.enemies[self.wave]) do
 		local etype
 		if object[1] == "ogb" then
 			etype = 'g'
@@ -131,7 +137,7 @@ function WaveManager:start()
 end
 
 function WaveManager:getWave()
-	return wave
+	return self.wave
 end
 
 return WaveManager
