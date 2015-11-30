@@ -19,7 +19,7 @@ local SpaceGoo = {
 	x = 10, y = 10,
 	width = 20, height = 20,
 	bounding_rad = 20,
-	id = 8, vertical = false
+	id = 14, vertical = false
 }
 SpaceGoo.__index = SpaceGoo
 
