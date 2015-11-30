@@ -11,38 +11,33 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 11: Have It Your Way!
+Assignment 12: Any way you like it!
 
 Problem 1: Progress
 
-For this assignment, we decided to add a new level as well as a handful of new 
-features. First, we added a new type of enemy to levels 3A and 4 (which is actually 
-our new level and is accessed after beating either 3A or 3B, our fourth level). This 
-type of enemy is a stationary turret that fires double shots and rotates between two 
-specified angles. Hitting a turret with one of your shots stuns the turret for a short
-duration, darkening its color, rendering it unable to shoot or rotate, and making an 
-"electrifying" particle effect. 
+We added a bunch of new features for this assignment. First of all, we added 
+another level to the game to follow the scrapyard. This level is called "siege", 
+and it involves defeating enemies that spawn in waves. The level has 6 waves, 
+and inside these waves are a new enemy type: the Scaredborg. Scaredborgs run 
+away from you and leave behind a trail of "space goo" that slows down your ship 
+on contact. 
 
-The player also now has bars instead of numbers to represent health and weapon cooldown
-times. In addition, to allow more screen space for the player to see, the "BOMBS:" and 
-"HYPERJUMPS:" texts were replaced with symbols. 
+Another feature is our tutorial level. We removed the "How to Play" menu in favor 
+of instructions written on our first level. This tutorial level is the first level 
+upon starting a new game and is accessible through the level select as well. 
 
-On the bottom-right of the screen are three little boxes. Each has a symbol for a weapon 
-type. The weapon that is currently equipped is outlined in green.
+We also made some adjustments to the Moon and Sun Bosses. The Moon Boss now moves 
+in a smooth pattern rather than jumping around spasmodically. Also, both bosses 
+bounce the player off on contact so that the player no longer gets stuck inside 
+of them. 
 
-In cooperation with the weapon cooldown bar is a new weapon for the player to use. It is 
-equipped with the '3' key and can charge up while the player holds down the fire button. 
-When at full power (flashing light-blue bar), the player can release the fire button to 
-unleash a larger, more damaging, penetrating shot. 
+The parallax overlay was fixed to make the backgrounds less distracting.
 
-We also added a fifth level to identify as our level 4. The goal of this level is to 
-deal with any enemies while collecting four mysterious gadget parts. These parts will 
-be combined to create something that will aid the player in future levels. We have a couple 
-of ideas as to what these will become: either a mine-dropper weapon or a split-shot weapon.
+The Circleborg enemies were changed to be colored red instead of blue. That way, 
+they contrast better with the darker backgrounds on each level.
 
-Finally, we made some changes to the Moon Boss on level 3B. It now moves and summons other 
-enemies. 
-
+Finally, we adjusted the weapon cooldown times so that the weapons would be more 
+balanced and players would be less inclined to only use one for the entire game.
 
 #Gameplay
 
