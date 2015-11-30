@@ -138,7 +138,7 @@ function Menu2:draw()
 		)
 	end
 
-	if selector == 1 and levelCount == 5 then
+	if selector == 1 and (levelCount == 5 or levelCount == 6) then
 		love.graphics.print(
 			levelCount - 1,
 			width/2 - 15, height/2 + 100
@@ -188,7 +188,7 @@ function Menu2:keyreleased(key)
 		error:play()
 	end
 
-	if key == 'right' and selector == 1 and levelCount == 5 then
+	if key == 'right' and selector == 1 and levelCount == max_level then
 		error:play()
 	end
 
@@ -196,7 +196,7 @@ function Menu2:keyreleased(key)
 		levelCount = levelCount - 1
 	end
 
-	if key == 'right' and selector == 1 and levelCount < 5 then
+	if key == 'right' and selector == 1 and levelCount < max_level then
 		levelCount = levelCount + 1
 	end
 

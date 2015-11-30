@@ -11,12 +11,13 @@
 --- dmill118@jhu.edu
 
 bgm = nil
+local manager
 
 local LevelLoader = {
 	level = "level/level0",
 	bg_string = "gfx/large_bg_string.png",
 	hordeMode = false, won = false,
-	h_timer = 0
+	h_timer = 0, waveMode = false
 }
 LevelLoader.__index = LevelLoader
 
@@ -37,6 +38,8 @@ function LevelLoader:setLevel(lvlNum)
 	self.level = "level/level" .. lvlNum
 	if lvlNum == 2 then
 		self.hordeMode = true
+	elseif lvlNum == 6 then
+		self.waveMode = true
 	end
 end
 
@@ -69,7 +72,15 @@ function LevelLoader:load(...)
 
 	--populates creation array with everything specified in level file
 	for line in love.filesystem.lines(self.level) do
-		if string.find(line, "BG:") == nil then
+		--if the level is in wave mode, then use wave manager to load rest of level
+		if string.find(line, "wave:") ~= nil then
+			manager = WaveManager(self.level)
+			manager:load()
+			for num, tuple in ipairs(create) do
+				self:make(tuple)
+			end
+			return
+		elseif string.find(line, "BG:") == nil then
 			-- obj, x, y, z, w = string.match(line, "(%a+)%((%d+),(%d+),(%d+),(%d+)%)")
 			-- thing = {obj, tonumber(x), tonumber(y), tonumber(z), tonumber(w)}
 			-- table.insert(create, thing)
@@ -103,6 +114,9 @@ function LevelLoader:make(object)
 		if levelNum == 4 or levelNum == 3 then
 			player.bomb = 0
 			player.h_jump = 0
+		end
+		if levelNum == 6 then
+			player.bomb = 1
 		end
 		if levelNum == 0 then
 			player.bomb = 99
@@ -155,8 +169,10 @@ function LevelLoader:make(object)
 		o = Turret(object[2], object[3], object[4], object[5])
 	elseif object[1] == "wpt" then
 		o = WeaponPart(object[2], object[3], object[4])
+	elseif object[1] == "osb" then
+		o = ScaredBorg()
+		o:setPosition(object[2], object[3])
 	end
-
 	table.insert(objects, o)
 end
 
@@ -181,6 +197,10 @@ function LevelLoader:update(dt, score, game)
 		end
 	end
 	]]
+	
+	if self.waveMode then
+		manager:update(dt, game)
+	end
 
 	if self.hordeMode then
 		self:hordeCheck(dt, game)
@@ -206,6 +226,14 @@ function LevelLoader:hordeDraw()
 	local timeLeft = math.floor(90 - self.h_timer)
 	love.graphics.print(
 		"TIME: " .. timeLeft,
+		310, 10
+	)
+end
+
+function LevelLoader:waveDraw()
+	local timeLeft = math.floor(90 - self.h_timer)
+	love.graphics.print(
+		"WAVE: " .. manager:getWave(),
 		310, 10
 	)
 end

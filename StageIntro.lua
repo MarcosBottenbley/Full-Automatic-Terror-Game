@@ -17,7 +17,8 @@ local namelist = {
 	"ONSLAUGHT",
 	"SPACE JAIL",
 	"GAUNTLET",
-	"SCRAPYARD"
+	"SCRAPYARD",
+	"SIEGE"
 }
 
 local StageIntro = {
@@ -62,6 +63,8 @@ function StageIntro:start()
 		self.enterstring = "Now entering Sector 3B"
 	elseif levelNum == 5 then
 		self.enterstring = "Now entering Sector 4"
+	elseif levelNum == 6 then
+		self.enterstring = "Now entering Sector 5"
 	end
 	
 	--we have to set the font dimensions every time the state 
