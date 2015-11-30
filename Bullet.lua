@@ -49,7 +49,7 @@ function Bullet:_init(x, y, v, a)
 
 	self.hb_1 = {self.x, self.y, self.bounding_rad}
 
-	self.validCollisions = {1,6,8}
+	self.validCollisions = {1,6,8,14}
 end
 
 --- bullet, hitbox speed and direction
@@ -59,7 +59,7 @@ function Bullet:update(dt, swidth, sheight)
 
 	self.y = self.y - math.sin(self.angle)*self.vel*dt
 	self.x = self.x + math.cos(self.angle)*self.vel*dt
-	
+
 	self.hb_1[1] = self.x + 37 * math.cos(self.angle)
 	self.hb_1[2] = self.y - 37 * math.sin(self.angle)
 

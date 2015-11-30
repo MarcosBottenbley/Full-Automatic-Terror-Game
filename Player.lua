@@ -140,6 +140,12 @@ function Player:update(dt, swidth, sheight)
 
 		self.vel = 0
 
+		if self.slowed then
+			self.max_vel = 80
+		else
+			self.max_vel = 200
+		end
+
 		local thrusting = false
 		self:smoothturn()
 		--turn left or right
@@ -303,6 +309,7 @@ function Player:update(dt, swidth, sheight)
 		end
 	end
 	--self.thrusters = {-11,17,1,21,13,17}
+	self.slowed = false
 end
 
 function Player:easeOutCubic(t, b, c, d)
@@ -343,6 +350,8 @@ function Player:draw()
 			Object.draw(self,255,255,0, love_angle)
 		elseif self.bouncing then
 			Object.draw(self,30,144,255, love_angle)
+		elseif self.slowed then
+			Object.draw(self, 33, 215, 29, love_angle)
 		else
 			Object.draw(self,255,255,255, love_angle)
 		end
@@ -663,7 +672,7 @@ function Player:collide(obj)
 	elseif obj:getID() == 9 then
 		self.winner = true
 	elseif obj:getID() == 14 then
-		self.vel = 0
+		self.slowed = true
 	end
 
 	if obj:getType() == 'b' then

@@ -90,15 +90,15 @@ end
 
 function Bucket:update(dt)
 	local length = table.getn(self.objects)
-	
+
 	for i=1, length do
 		if self.objects[(length + 1) - i]:isDead() then
 			table.remove(self.objects,(length + 1) - i)
 		end
 	end
-	
+
 	length = table.getn(self.objects)
-	
+
 	for i=1, length - 1 do
 		for j = i + 1, length do
 			if self:valid(self.objects[i], self.objects[j]) then
@@ -109,8 +109,8 @@ function Bucket:update(dt)
 			end
 		end
 	end
-	
-	
+
+
 	--self:remove()
 end
 
@@ -126,7 +126,7 @@ function Bucket:valid(obj1, obj2)
 			valid = true
 		end
 	end
-	
+
 	if obj1.collided or obj2.collided then
 		valid = false
 	end

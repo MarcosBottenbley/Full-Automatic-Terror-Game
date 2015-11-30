@@ -12,6 +12,8 @@
 
 Object = require("Object")
 
+local time = love.timer.getTime()
+
 local SpaceGoo = {
 	img = 'gfx/goo.png',
 	frames = 1, states = 1,
@@ -19,7 +21,8 @@ local SpaceGoo = {
 	x = 10, y = 10,
 	width = 32, height = 32,
 	bounding_rad = 16,
-	id = 14, vertical = false
+	id = 14, vertical = false,
+	health = 5
 }
 SpaceGoo.__index = SpaceGoo
 
@@ -32,16 +35,13 @@ setmetatable(SpaceGoo, {
 	end,
 })
 
---post dimentions is 20X20
---vert fence dims are 18X180
---hori fence dims are 180X18
 function SpaceGoo:_init(x,y)
 	self.x = x
 	self.y = y
 
 	Object._init(self, x, y,self.img,self.width,self.height,self.frames,self.states,self.delay)
 
-	self.validCollisions = {2}
+	self.validCollisions = {2,3}
 end
 
 function SpaceGoo:load()
@@ -56,24 +56,36 @@ function SpaceGoo:getHitBoxes( ... )
 	local hb = {}
 	local hb_1 = {self.x, self.y, self.bounding_rad}
 	table.insert(hb, hb_1)
+
 	return hb
+end
+
+function SpaceGoo:isDead( ... )
+	if self.health == 0 then
+		return true
+	end
+
+	if math.floor(love.timer.getTime() - time) == 5 then
+		return true
+	end
+end
+
+function SpaceGoo:collide(obj)
+	if obj:getID() == 3 and self.health > 0 then
+		self.health = self.health - 1
+		self.hit = true
+	else
+		self.hit = false
+	end
 end
 
 
 function SpaceGoo:draw(...)
-	-- body
-	Object.draw(self,255,255,255,self.angle)
-
-	--draw circle to represent point that Game checks to see if it should draw
-	--the SpaceGoo or not
-
-	-- love.graphics.setColor(0, 0, 255, 255)
-	-- if self.vertical then
-		-- love.graphics.circle("fill", self.x + self.height/2, self.y + self.width/2, 10, 100)
-	-- else
-		-- love.graphics.circle("fill", self.x + self.width/2, self.y + self.height/2, 10, 100)
-	-- end
-	-- love.graphics.setColor(255, 255, 255, 255)
+	if self.hit then
+		Object.draw(self,115, 73, 35,self.angle)
+	else
+		Object.draw(self,250 + self.health,255,255,self.angle)
+	end
 end
 
 return SpaceGoo
