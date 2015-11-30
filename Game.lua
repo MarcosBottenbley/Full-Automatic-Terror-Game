@@ -58,6 +58,7 @@ function Game:load(arg)
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
 	LevelLoader = require("LevelLoader")
+	WaveManager = require("WaveManager")
 
 	Player = require("Player")
 	GlowBorg = require("GlowBorg")
@@ -386,6 +387,8 @@ function Game:draw(dt)
 
 	if level.hordeMode then
 		level:hordeDraw()
+	elseif level.waveMode then
+		level:waveDraw()
 	end
 
 	--fps = love.timer.getFPS()

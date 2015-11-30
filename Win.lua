@@ -129,6 +129,9 @@ function Win:keyreleased(key)
 			elseif levelNum == 3 or levelNum == 4 then
 				levelNum = 5
 				switchTo(Intro5)
+			elseif levelNum == 5 then
+				levelNum = 6
+				switchTo(Intro6)
 			end
 		else
 			levelNum = 1

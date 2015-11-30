@@ -63,6 +63,10 @@ function ObjectHole:update(dt)
 			e = PhantomShip()
 		elseif self.type == 'd' then
 			e = DualMaster()
+		elseif self.type == 't' then
+			e = Turret(self.x, self.y, 0, 360)
+		elseif self.type == 's' then
+			e = ScaredBorg()
 		else
 			e = GlowBorg()
 		end
