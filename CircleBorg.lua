@@ -13,7 +13,7 @@
 GlowBorg = require("GlowBorg")
 
 local CircleBorg = {
-	--Distance from player at which the glowborg will 
+	--Distance from player at which the glowborg will
 	--stop advancing and start circling around the player
 	chase_range = 300,
 	--Angle used for moving the glowborg in a circle
@@ -45,9 +45,9 @@ end
 
 function CircleBorg:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
-	
+
 	local angle = math.atan((py - self.y) / (px - self.x))
-	
+
 	--if not exploding or circling around player
 	if not self.collided then
 		if not self.circling then
@@ -59,7 +59,7 @@ function CircleBorg:update(dt, swidth, sheight, px, py)
 				self.x = self.x - self.vel * dt * math.cos(angle)
 				self.y = self.y - self.vel * dt * math.sin(angle)
 			end
-			
+
 			if (self.x - px)^2 + (self.y - py)^2 < self.chase_range^2 then
 				self.circling = true
 				--hacky code to set borg's starting angular position in circle to current position
@@ -80,7 +80,7 @@ function CircleBorg:update(dt, swidth, sheight, px, py)
 end
 
 function CircleBorg:draw()
-	Enemy.draw(self, 100, 100, 255)
+	Enemy.draw(self, 217, 52, 52)
 end
 
 function CircleBorg:collide(obj)
