@@ -68,7 +68,7 @@ function ObjectHole:update(dt)
 		elseif self.type == 's' then
 			e = ScaredBorg()
 		else
-			e = GlowBorg()
+			e = PhantomShip()
 		end
 
 		e:setPosition(self.x, self.y)
