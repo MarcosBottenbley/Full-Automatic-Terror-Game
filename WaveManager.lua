@@ -117,11 +117,15 @@ function WaveManager:start()
 			etype = 'd'
 		elseif object[1] == "tur" then
 			etype = 't'
-		elseif object[1] == "osb" then
+		elseif object[1] == "osc" then
 			etype = 's'
+		elseif object[1] == "oss" then
+			etype = 'b'
 		end
-		local o = ObjectHole(object[2], object[3], etype)
-		table.insert(objects, o)
+		if etype ~= nil then
+			local o = ObjectHole(object[2], object[3], etype)
+			table.insert(objects, o)
+		end
 	end
 	
 end

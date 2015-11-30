@@ -128,7 +128,7 @@ function LevelLoader:make(object)
 		o = GlowBorg()
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "ocb" then
-		o = ScaredBorg()
+		o = CircleBorg()
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "ops" then
 		o = PhantomShip()
@@ -169,9 +169,11 @@ function LevelLoader:make(object)
 		o = Turret(object[2], object[3], object[4], object[5])
 	elseif object[1] == "wpt" then
 		o = WeaponPart(object[2], object[3], object[4])
-	elseif object[1] == "osb" then
+	elseif object[1] == "osc" then
 		o = ScaredBorg()
 		o:setPosition(object[2], object[3])
+	elseif object[1] == "oss" then
+		o = SunBoss2(object[2], object[3])
 	end
 	table.insert(objects, o)
 end

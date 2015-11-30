@@ -67,8 +67,10 @@ function ObjectHole:update(dt)
 			e = Turret(self.x, self.y, 0, 360)
 		elseif self.type == 's' then
 			e = ScaredBorg()
+		elseif self.type == 'b' then
+			e = SunBoss2()
 		else
-			e = PhantomShip()
+			e = GlowBorg()
 		end
 
 		e:setPosition(self.x, self.y)
