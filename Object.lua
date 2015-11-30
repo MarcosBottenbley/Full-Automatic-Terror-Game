@@ -16,7 +16,8 @@ local Object = {
 	x = 10, y = 10,
 	width = 10, height = 10,
 	sprites = {}, delta = 0,
-	id = 0, collided = false,
+	id = 0, type = 'o',
+	collided = false,
 	dead = false, thrusters = {},
 	particles = nil
 }
@@ -158,6 +159,10 @@ end
 
 function Object:getID( ... )
 	return self.id
+end
+
+function Object:getType( ... )
+	return self.type
 end
 
 function Object:getHitBoxes( ... )

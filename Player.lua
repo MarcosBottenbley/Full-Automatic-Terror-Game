@@ -634,6 +634,7 @@ function Player:collide(obj)
 			teleport:play()
 		end
 		-- love.timer.sleep(0.2)
+		-- wall
 	elseif obj:getID() == 8 then
 		if self.isJumping then
 			self.invul = false
@@ -661,6 +662,22 @@ function Player:collide(obj)
 		self.b_timer = .2
 	elseif obj:getID() == 9 then
 		self.winner = true
+	elseif obj:getID() == 14 then
+		self.vel = 0
+	end
+
+	if obj:getType() == 'b' then
+		if self.isJumping then
+			self.invul = false
+			self.isJumping = false
+			self.jumptimer = 0
+			self.vel = self.max_vel
+		end
+		ox = obj:getX()
+		oy = obj:getY()
+		self.b_angle = self.move_angle + math.pi
+		self.bouncing = true
+		self.b_timer = .2
 	end
 end
 
