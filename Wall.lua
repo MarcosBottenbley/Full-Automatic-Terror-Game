@@ -73,7 +73,6 @@ function Wall:load()
 end
 
 function Wall:update(dt)
-	-- body
 	Object.update(self,dt)
 end
 

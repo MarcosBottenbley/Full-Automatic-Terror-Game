@@ -1,4 +1,4 @@
-	--- Marcos Bottenbley
+--- Marcos Bottenbley
 --- mbotten1@jhu.edu
 
 --- Rebecca Bushko
@@ -45,7 +45,7 @@ local MoonBoss = {
 	vel = 100, damaged = false,
 	move_angle = 0, bouncing,
 	b_timer, b_angle, pos = 0,
-	moved
+	laser = false
 }
 MoonBoss.__index = MoonBoss
 
@@ -61,6 +61,8 @@ setmetatable(MoonBoss, {
 function MoonBoss:_init(x,y)
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.validCollisions = {2, 3, 8}
+
+	self.beam = BossLaser(self.x, self.y, "down", false)
 end
 
 function MoonBoss:load()
@@ -198,6 +200,20 @@ function MoonBoss:hit()
 	self.damaged = true
 	self.dmg_timer = 0
 	bosshit:play()
+end
+
+function MoonBoss:toggleLaser(direction)
+	if laser then
+		beam = BossLaser(self.x, self.y, direction)
+		table.insert(objects, b)
+	end
+end
+
+function MoonBoss:updateLaser()
+	if beam ~= nil then
+		beam.setX(self.x)
+		beam.setY(self.y)
+	end
 end
 
 function MoonBoss:move()
