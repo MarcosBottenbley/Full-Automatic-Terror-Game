@@ -28,7 +28,7 @@ local Player = {
 	width = 42, height = 57,
 	frames = 5, states = 2,
 	delay = 0.12, sprites = {},
-	id = 2, collided = false,
+	id = 2, collided = false, fast = false,
 	bounding_rad = 25, angle1 = math.pi/2,
 	move_angle = math.pi/2, draw_angle = math.pi/2,
 	ang_vel = 0, double = false,
@@ -92,7 +92,7 @@ function Player:load()
 	playerhit:setLooping(false)
 	bump = love.audio.newSource("sfx/bump1.ogg")
 	bump:setLooping(false)
-	part = love.audio.newSource("sfx/getPart.ogg")
+	part = love.audio.newSource("sfx/getpart.ogg")
 	part:setLooping(false)
 	self.partfont = love.graphics.newFont("PressStart2P.ttf", 12)
 end
@@ -143,7 +143,11 @@ function Player:update(dt, swidth, sheight)
 		if self.slowed then
 			self.max_vel = 80
 		else
-			self.max_vel = 200
+			if self.fast then
+				self.max_vel = 300
+			else
+				self.max_vel = 200
+			end
 		end
 
 		local thrusting = false
@@ -369,6 +373,10 @@ function Player:draw()
 	love.graphics.setFont(self.partfont)
 	if self.pMessaging then
 		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
+	end
+	
+	if levelNum == 0 then
+		self:drawObjectiveMarker(200,200)
 	end
 end
 
@@ -634,6 +642,7 @@ function Player:collide(obj)
 			end
 		elseif obj:getType() == 'sp' then
 			self.max_vel = self.max_vel + 100
+			self.fast = true
 		end
 	-- wormhole
 	elseif obj:getID() == 7 then
@@ -756,6 +765,19 @@ function Player:partUpdate(dt)
 	if self.partCount >= 4 then
 		self.winner = true
 	end
+end
+
+function Player:drawObjectiveMarker(obj_x, obj_y)
+	local obj_angle = math.atan((self.y - obj_y) / (obj_x - self.x))
+	if obj_x < self.x then
+		obj_angle = obj_angle + math.pi
+	elseif obj_y > self.y then
+		obj_angle = obj_angle + math.pi*2
+	end
+	
+	love.graphics.setColor(255,0,0)
+	love.graphics.circle('fill', self.x + 50*math.cos(obj_angle), self.y - 50*math.sin(obj_angle), 10, 100)
+	love.graphics.setColor(255,255,255)
 end
 
 return Player
