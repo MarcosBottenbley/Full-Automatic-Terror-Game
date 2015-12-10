@@ -11,33 +11,11 @@
 --- dmill118@jhu.edu
 
 600.255: Intro to Video Game Design
-Assignment 12: Any way you like it!
+Assignment 13
 
-Problem 1: Progress
-
-We added a bunch of new features for this assignment. First of all, we added 
-another level to the game to follow the scrapyard. This level is called "siege", 
-and it involves defeating enemies that spawn in waves. The level has 6 waves, 
-and inside these waves are a new enemy type: the Scaredborg. Scaredborgs run 
-away from you and leave behind a trail of "space goo" that slows down your ship 
-on contact. 
-
-Another feature is our tutorial level. We removed the "How to Play" menu in favor 
-of instructions written on our first level. This tutorial level is the first level 
-upon starting a new game and is accessible through the level select as well. 
-
-We also made some adjustments to the Moon and Sun Bosses. The Moon Boss now moves 
-in a smooth pattern rather than jumping around spasmodically. Also, both bosses 
-bounce the player off on contact so that the player no longer gets stuck inside 
-of them. 
-
-The parallax overlay was fixed to make the backgrounds less distracting.
-
-The Circleborg enemies were changed to be colored red instead of blue. That way, 
-they contrast better with the darker backgrounds on each level.
-
-Finally, we adjusted the weapon cooldown times so that the weapons would be more 
-balanced and players would be less inclined to only use one for the entire game.
+For this assignment we made graphics changes to our game to make
+it more visually appealing. We are making progress on new controls
+that will be completed for the Gold presentation.
 
 #Gameplay
 
