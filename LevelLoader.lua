@@ -232,12 +232,8 @@ function LevelLoader:hordeDraw()
 	)
 end
 
-function LevelLoader:waveDraw()
-	local timeLeft = math.floor(90 - self.h_timer)
-	love.graphics.print(
-		"WAVE: " .. self.manager:getWave(),
-		310, 10
-	)
+function LevelLoader:waveDraw(numEnemies)
+	self.manager:waveDraw(numEnemies)
 end
 
 function LevelLoader:getBackground()

@@ -33,6 +33,9 @@ local frames = {}
 
 local p
 
+--tracks how many enemies are onscreen for wave mode
+local numEnemies
+
 local wormholes = {}
 
 --you can't prove this isn't good practice
@@ -294,12 +297,18 @@ function Game:update(dt)
 	local playerx = 0
 	local playery = 0
 	local x = 1
+	
+	numEnemies = 0
 	for _, o in ipairs(objects) do
 		-- update Spawn
 
 		if x == 1 then
 			playerx = o:getX()
 			playery = o:getY()
+		end
+		
+		if o:getID() == 1 and o:getType() ~= 't' then
+			numEnemies = numEnemies + 1
 		end
 
 		o:update(dt, bg_width, bg_height, playerx, playery)
@@ -378,6 +387,7 @@ function Game:draw(dt)
 
 		--self:drawHitboxes(o)
 	end
+	self:drawMarkers()
 	-- move text
 	-- zoom in
 	love.graphics.translate(-cx, -cy)
@@ -393,7 +403,7 @@ function Game:draw(dt)
 	if level.hordeMode then
 		level:hordeDraw()
 	elseif level.waveMode then
-		level:waveDraw()
+		level:waveDraw(numEnemies)
 	end
 
 	--fps = love.timer.getFPS()
@@ -591,6 +601,16 @@ function Game:particles()
 	psystem:setSizeVariation(1)
 	psystem:setLinearAcceleration(0, -10, 0, 0) -- Random movement in all directions.
 	psystem:setColors(255, 255, 0, 255, 255, 0, 0, 100) -- Fade to transparency.
+end
+
+function Game:drawMarkers()
+	if levelNum == 6 and numEnemies <= 5 and numEnemies > 0 then
+		for _, o in ipairs(objects) do
+			if o:getID() == 1 and o:getType() ~= 't' then
+				player:drawObjectiveMarker(o:getX(), o:getY())
+			end
+		end
+	end
 end
 
 return Game

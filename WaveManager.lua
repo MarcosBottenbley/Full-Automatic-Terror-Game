@@ -23,7 +23,7 @@ local WaveManager = {
 	timer = 0,
 	enemies = {},
 	level,
-	maxwave
+	maxwave,
 }
 WaveManager.__index = WaveManager
 
@@ -104,13 +104,14 @@ function WaveManager:update(dt, game)
 			game:advance()
 		else
 			self.wave = self.wave + 1
+			self.clear = false
+			self:start()
 		end
-		self.clear = false
-		self:start()
 	end
 end
 
 function WaveManager:start()
+	self.numLeft = 0
 	for _, object in ipairs(self.enemies[self.wave]) do
 		local etype
 		if object[1] == "ogb" then
@@ -132,8 +133,25 @@ function WaveManager:start()
 			local o = ObjectHole(object[2], object[3], etype)
 			table.insert(objects, o)
 		end
+		if object[1] ~= "tur" then
+			self.numLeft = self.numLeft + 1
+		end
 	end
-	
+end
+
+function WaveManager:waveDraw(numEnemies)
+	if self.wave >= 1 and self.wave <= self.maxwave then
+		love.graphics.print(
+			"WAVE: " .. self.wave,
+			310, 10
+		)
+	end
+	if numEnemies <= 5 and numEnemies > 0 then
+		love.graphics.print(
+			"ENEMIES REMAINING: " .. numEnemies,
+			10, 80
+		)
+	end
 end
 
 function WaveManager:getWave()
