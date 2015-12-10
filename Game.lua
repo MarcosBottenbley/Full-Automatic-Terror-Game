@@ -90,6 +90,7 @@ function Game:load(arg)
 	WeaponPart = require("WeaponPart")
 	ScaredBorg = require("ScaredBorg")
 	SpaceGoo = require("SpaceGoo")
+	BossLaser = require("BossLaser")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -203,7 +204,7 @@ end
 function Game:stop()
 	bgm:stop()
 	bg_invul:stop()
-	
+
 	level:killManager()
 
 	local length = table.getn(objects)
@@ -220,7 +221,7 @@ function Game:stop()
 	for i = 0, length - 1 do
 		table.remove(wormholes, length - i)
 	end
-	
+
 	level = nil
 end
 
@@ -385,7 +386,7 @@ function Game:draw(dt)
 			end
 		end
 
-		--self:drawHitboxes(o)
+		self:drawHitboxes(o)
 	end
 	self:drawMarkers()
 	-- move text

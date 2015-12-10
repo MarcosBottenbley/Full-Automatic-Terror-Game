@@ -24,6 +24,7 @@ local lvltime = 0
 local spawned = false
 local destx = 0
 local desty = 0
+local l_timer = 0
 
 --pos stuff
 -- 0 = top middle
@@ -40,7 +41,7 @@ local MoonBoss = {
 	frames = 9, states = 2,
 	delay = 0.12, sprites = {},
 	bounding_rad = 64, type = 'b',
-	health = 40, s_timer = 0,
+	health = 69, s_timer = 0,
 	dmg_timer = 0, shoot_angle = 0,
 	vel = 100, damaged = false,
 	move_angle = 0, bouncing,
@@ -63,6 +64,7 @@ function MoonBoss:_init(x,y)
 	self.validCollisions = {2, 3, 8}
 
 	self.beam = BossLaser(self.x, self.y, "down", false)
+	table.insert(objects, self.beam)
 end
 
 function MoonBoss:load()
@@ -75,6 +77,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	Enemy.update(self, dt, swidth, sheight)
 	time = time + dt
 	t_timer = t_timer + dt
+	l_timer = l_timer + dt
 	if self:inArena(px,py) then
 		lvltime = lvltime + dt
 	end
@@ -89,9 +92,27 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	end
 
 	self:move()
-	self:changePos()
+	if self.health % 10 == 0 and l_timer < 10 then
+		self:laserMode()
+		self:updateLaser()
+		if not self.laser then
+			self.laser = true
+		end
+	else
+		self.laser = false
+		self:changePos()
+		if l_timer >= 10 then
+			self.health = self.health - 1
+		end
+		if self.laser then
+			self.laser = false
+		end
+		l_timer = 0
+	end
 
-	if math.floor(time) % 5 == 1 and self:inArena(px,py) and spawned == false and lvltime > 10 then
+	self.beam:setStatus(self.laser)
+
+	if math.floor(time) % 5 == 1 and self:inArena(px,py) and not spawned and lvltime > 10 and not self.laser then
 		local rand = math.random(3)
 		spawned = true
 		if rand == 1 then
@@ -105,8 +126,6 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 	end
 
 	self:checkpos()
-
-
 
 	if self.dmg_timer > 0.2 then
 		self.damaged = false
@@ -155,8 +174,13 @@ function MoonBoss:checkpos( ... )
 	elseif self.x == 1500 and self.y == (1000 + self.height) then
 		self.pos = 0
 		t_timer = 0
+	elseif self.x == (1000 + self.width) and self.y == (1000 - self.height) then
+		self.pos = 8
+		t_timer = 0
+	elseif self.x == (2000 - self.width) and self.y == (1000 - self.height) then
+		self.pos = 9
+		t_timer = 0
 	end
-	--t_timer = 0
 end
 
 function MoonBoss:changePos( ... )
@@ -192,6 +216,19 @@ function MoonBoss:changePos( ... )
 		--self:move(1000 + self.width, 1000 + self.height) -- 1
 		destx = 1000 + self.width
 		desty = 1000 + self.height
+	elseif self.pos > 7 then
+		destx = 1000 + self.width
+		desty = 1000 + self.height
+	end
+end
+
+function MoonBoss:laserMode()
+	if self.pos < 8  or self.pos == 9 then
+		destx = 1000 + self.width
+		desty = 1000 - self.height
+	elseif self.pos == 8 then
+		destx = 2000 - self.width
+		desty = 1000 - self.height
 	end
 end
 
@@ -202,17 +239,10 @@ function MoonBoss:hit()
 	bosshit:play()
 end
 
-function MoonBoss:toggleLaser(direction)
-	if laser then
-		beam = BossLaser(self.x, self.y, direction)
-		table.insert(objects, b)
-	end
-end
-
 function MoonBoss:updateLaser()
-	if beam ~= nil then
-		beam.setX(self.x)
-		beam.setY(self.y)
+	if self.beam ~= nil then
+		self.beam:setX(self.x)
+		self.beam:setY(self.y)
 	end
 end
 
