@@ -62,7 +62,7 @@ function Missile:update(dt)
 	if self.time < 0.2 then
 		self.y = self.y - math.sin(self.angle)*self.vel*dt
 		self.x = self.x + math.cos(self.angle)*self.vel*dt
-	elseif self.time < 1.2 then
+	elseif self.time < 2 then
 		local closestDist = self.lockDistance
 	
 		self.target_x = nil
@@ -144,7 +144,7 @@ end
 
 --Calculates direction to turn based on current angle and angle to target
 function Missile:angleDir(a_start, a_finish)
-	local diff = a_start - a_finish
+	local diff = (a_start % (math.pi*2)) - (a_finish % (math.pi*2))
 	
 	if math.abs(diff) > math.pi then
 		if diff > 0 then return 1

@@ -68,6 +68,7 @@ function CircleBorg:update(dt, swidth, sheight, px, py)
 				else
 					self.circle_angle = angle
 				end
+				self.player_dist = math.sqrt((py - self.y)^2 + (px - self.x)^2)
 			end
 		else
 			--circle around player
