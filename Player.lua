@@ -722,7 +722,7 @@ end
 
 -- add boosters to ships
 function Player:intitializeThrusters()
-	self.particles:setParticleLifetime(0.3, 0.7)
+	self.particles:setParticleLifetime(0.6, 1)
 	self.particles:setEmissionRate(40)
 	self.particles:setSizeVariation(1)
 	self.particles:setLinearAcceleration(0, 100, 0, 200)
