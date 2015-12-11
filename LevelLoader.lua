@@ -174,6 +174,8 @@ function LevelLoader:make(object)
 		o:setPosition(object[2], object[3])
 	elseif object[1] == "oss" then
 		o = SunBoss2(object[2], object[3])
+	elseif object[1] == "atw" then
+		o = Asteroid2(object[2], object[3], object[4], object[5], object[6])
 	end
 	table.insert(objects, o)
 end
