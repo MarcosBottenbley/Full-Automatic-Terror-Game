@@ -14,6 +14,7 @@ Enemy = require("Enemy")
 Winhole = require("Winhole")
 
 local time = 0
+local max_health = 40
 
 local SunBoss = {
 	img = "gfx/sun_boss3.png",
@@ -93,6 +94,7 @@ function SunBoss:update(dt, swidth, sheight, px, py)
 end
 
 function SunBoss:draw()
+	self:drawHealthBar()
 	if self.damaged then
 		Object.draw(self,255,100,100)
 	elseif not self:alive() then
@@ -100,6 +102,20 @@ function SunBoss:draw()
 	else
 		Object.draw(self,255,255,255)
 	end
+end
+
+function SunBoss:drawHealthBar()
+	local percent = math.floor((self.health / max_health) * 100)
+	local length = (self.width * percent) /100
+	if percent > 50 then
+		love.graphics.setColor(0, 255, 0, 150)
+	elseif percent < 50 and percent > 20 then
+		love.graphics.setColor(222, 209, 37, 150)
+	else
+		love.graphics.setColor(255, 0, 0, 150)
+	end
+	love.graphics.rectangle("fill", self.x - self.width/2, self.y - 100, length , 10)
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 function SunBoss:getType()
