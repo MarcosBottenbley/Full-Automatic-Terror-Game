@@ -63,8 +63,10 @@ function MoonBoss:_init(x,y)
 	Enemy._init(self, x, y, v, self.img, self.width, self.height, self.frames, self.states, self.delay)
 	self.validCollisions = {2, 3, 8}
 
-	self.beam = BossLaser(self.x, self.y, "down", false)
-	table.insert(objects, self.beam)
+	self.beamone = BossLaser(self.x - self.width/2, self.y, "down", false)
+	self.beamtwo = BossLaser(self.x + self.width/2, self.y, "down", false)
+	table.insert(objects, self.beamone)
+	table.insert(objects, self.beamtwo)
 end
 
 function MoonBoss:load()
@@ -91,6 +93,7 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 			spawned = false
 	end
 
+
 	self:move()
 	if self.health % 10 == 0 and l_timer < 10 then
 		self:laserMode()
@@ -110,7 +113,8 @@ function MoonBoss:update(dt, swidth, sheight, px, py)
 		l_timer = 0
 	end
 
-	self.beam:setStatus(self.laser)
+	self.beamone:setStatus(self.laser)
+	self.beamtwo:setStatus(self.laser)
 
 	if math.floor(time) % 5 == 1 and self:inArena(px,py) and not spawned and lvltime > 10 and not self.laser then
 		local rand = math.random(3)
@@ -240,10 +244,11 @@ function MoonBoss:hit()
 end
 
 function MoonBoss:updateLaser()
-	if self.beam ~= nil then
-		self.beam:setX(self.x)
-		self.beam:setY(self.y)
-	end
+	self.beamone:setX(self.x - self.width/2)
+	self.beamone:setY(self.y)
+
+	self.beamtwo:setX(self.x + self.width/2)
+	self.beamtwo:setY(self.y)
 end
 
 function MoonBoss:move()
@@ -290,10 +295,10 @@ function MoonBoss:spawn4()
 end
 
 function MoonBoss:spawnCircleBorg(px,py)
-	local c1 = ObjectHole(px,py+100,'c')
-	local c2 = ObjectHole(px,py-100,'c')
-	local c3 = ObjectHole(px+100,py,'c')
-	local c4 = ObjectHole(px-100,py,'c')
+	local c1 = ObjectHole(px,py+150,'c')
+	local c2 = ObjectHole(px,py-150,'c')
+	local c3 = ObjectHole(px+150,py,'c')
+	local c4 = ObjectHole(px-150,py,'c')
 
 	table.insert(objects, c1)
 	table.insert(objects, c2)

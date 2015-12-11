@@ -377,7 +377,7 @@ function Player:draw()
 	if self.pMessaging then
 		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
 	end
-	
+
 	if levelNum == 0 then
 		self:drawObjectiveMarker(200,200)
 	end
@@ -625,7 +625,7 @@ end
 
 function Player:collide(obj)
 	-- enemy
-	if obj:getID() == 1 or obj:getID() == 6 then
+	if obj:getID() == 1 or obj:getID() == 6 or obj:getID() == 15 then
 		self:hit()
 		if not self:alive() then
 			self.collided = true
