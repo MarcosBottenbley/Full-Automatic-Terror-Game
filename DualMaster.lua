@@ -21,7 +21,7 @@ local DualMaster = {
 	delay = 0.12, sprites = {},
 	bounding_rad = 20, type = 'd',
 	fireRate = 5, timer = 5,
-	goRight
+	goRight, thrusters = {}
 }
 DualMaster.__index = DualMaster
 
@@ -42,6 +42,8 @@ function DualMaster:_init()
 	local choice = {true, false}
 	self.goRight = choice[math.random(2)]
 	Enemy._init(self, self.x, self.y, self.vel, self.img, self.width, self.height, self.frames, self.states, self.delay)
+	self:intitializeThrusters()
+	self.thrusters = {-6,-11,-6,13}
 end
 
 function DualMaster:update(dt, swidth, sheight, px, py)
@@ -81,6 +83,13 @@ function DualMaster:draw()
 		Enemy.draw(self, 255, 255, 255)
 	else
 		Object.draw(self, 255, 255, 255, math.pi)
+	end
+	if not self.goRight then
+		love.graphics.draw(self.particles, self.x, self.y, 0, 1, 1, self.thrusters[1], self.thrusters[2])
+		love.graphics.draw(self.particles, self.x, self.y, 0, 1, 1, self.thrusters[3], self.thrusters[4])
+	else
+		love.graphics.draw(self.particles, self.x, self.y, math.pi, 1, 1, self.thrusters[1], self.thrusters[2])
+		love.graphics.draw(self.particles, self.x, self.y, math.pi, 1, 1, self.thrusters[3], self.thrusters[4])
 	end
 end
 
@@ -127,6 +136,14 @@ function DualMaster:collide(obj)
 	if obj:getID() ~= 1 then
 		Enemy.collide(self, obj)
 	end
+end
+
+function DualMaster:intitializeThrusters()
+	self.particles:setParticleLifetime(1, 1.1)
+	self.particles:setEmissionRate(10)
+	self.particles:setSizeVariation(1)
+	self.particles:setLinearAcceleration(60, 0, 80, 0)
+	self.particles:setColors(240, 240, 255, 255, 255, 0, 0, 100)
 end
 
 return DualMaster
