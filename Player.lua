@@ -20,6 +20,7 @@ local pos
 local t_timer
 local destination
 local clockwise
+local arrow
 
 local Player = {
 	vel = 0, max_vel = 200,
@@ -95,10 +96,12 @@ function Player:load()
 	part = love.audio.newSource("sfx/getpart.ogg")
 	part:setLooping(false)
 	self.partfont = love.graphics.newFont("PressStart2P.ttf", 12)
+	arrow = love.graphics.newImage("gfx/indicator.png")
 end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
+	print(self.x .. " " .. self.y)
 	self:partUpdate(dt)
 	if f_timer < self.weaponSpeeds[self.current_weapon] then
 		f_timer = f_timer + dt
@@ -774,10 +777,9 @@ function Player:drawObjectiveMarker(obj_x, obj_y)
 	elseif obj_y > self.y then
 		obj_angle = obj_angle + math.pi*2
 	end
-
-	love.graphics.setColor(255,0,0)
-	love.graphics.circle('fill', self.x + 50*math.cos(obj_angle), self.y - 50*math.sin(obj_angle), 10, 100)
-	love.graphics.setColor(255,255,255)
+	
+	local love_angle = (math.pi/2) - obj_angle
+	love.graphics.draw(arrow, self.x + 50*math.cos(obj_angle), self.y - 50*math.sin(obj_angle), love_angle, 0.5)
 end
 
 return Player

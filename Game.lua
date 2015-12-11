@@ -91,6 +91,7 @@ function Game:load(arg)
 	ScaredBorg = require("ScaredBorg")
 	SpaceGoo = require("SpaceGoo")
 	BossLaser = require("BossLaser")
+	Asteroid2 = require("Asteroid2")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)
@@ -386,7 +387,7 @@ function Game:draw(dt)
 			end
 		end
 
-		self:drawHitboxes(o)
+		--self:drawHitboxes(o)
 	end
 	self:drawMarkers()
 	-- move text
@@ -605,7 +606,13 @@ function Game:particles()
 end
 
 function Game:drawMarkers()
-	if levelNum == 6 and numEnemies <= 5 and numEnemies > 0 then
+	if levelNum == 5 then
+		for _, o in ipairs(objects) do
+			if o:getID() == 13 then
+				player:drawObjectiveMarker(o:getX(), o:getY())
+			end
+		end
+	elseif levelNum == 6 and numEnemies <= 5 and numEnemies > 0 then
 		for _, o in ipairs(objects) do
 			if o:getID() == 1 and o:getType() ~= 't' then
 				player:drawObjectiveMarker(o:getX(), o:getY())
