@@ -45,9 +45,9 @@ end
 
 function Intro6:start()
 	self.lines = {
-		"Your new device takes you far, but /nnot far enough.",
+		"You've escaped, but you're not yet \nfinished with your mission.",
 		"Between you and your foe are \nsix deadly waves of enemies.",
-		"Defeat them to make your way /nto the final sector!"
+		"Defeat them to make your way \nto the final sector!"
 	}
 
 	time = 0

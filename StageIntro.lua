@@ -63,9 +63,9 @@ function StageIntro:start()
 	elseif levelNum == 4 then
 		self.enterstring = "Now entering Sector 3B"
 	elseif levelNum == 5 then
-		self.enterstring = "Now entering Sector 4"
+		self.enterstring = "Now entering Sector 4B"
 	elseif levelNum == 6 then
-		self.enterstring = "Now entering Sector 5"
+		self.enterstring = "Now entering Sector 4A"
 	elseif levelNum == 7 then
 		self.enterstring = "Now entering Final Sector"
 		self.stagefont = love.graphics.newFont("ka1.ttf", 56)

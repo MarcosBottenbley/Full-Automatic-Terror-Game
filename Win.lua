@@ -124,15 +124,15 @@ function Win:keyreleased(key)
 				levelNum = levelNum + 1
 				switchTo(Intro2)
 			elseif levelNum == 2 then
-				levelNum = levelNum + 2
+				levelNum = 4
 				switchTo(Intro4)
-			elseif levelNum == 3 or levelNum == 4 then
-				levelNum = 5
-				switchTo(Intro5)
-			elseif levelNum == 5 then
+			elseif levelNum == 3 then
 				levelNum = 6
 				switchTo(Intro6)
-			elseif levelNum == 6 then
+			elseif levelNum == 4 then
+				levelNum = 5
+				switchTo(Intro5)
+			elseif levelNum == 5 or levelNum == 6 then
 				levelNum = 7
 				switchTo(Intro7)
 			end
