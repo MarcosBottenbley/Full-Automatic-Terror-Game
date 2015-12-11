@@ -101,7 +101,6 @@ end
 
 function Player:update(dt, swidth, sheight)
 	Object.update(self,dt)
-	print(self.x .. " " .. self.y)
 	self:partUpdate(dt)
 	if f_timer < self.weaponSpeeds[self.current_weapon] then
 		f_timer = f_timer + dt
@@ -376,10 +375,6 @@ function Player:draw()
 	love.graphics.setFont(self.partfont)
 	if self.pMessaging then
 		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
-	end
-
-	if levelNum == 0 then
-		self:drawObjectiveMarker(200,200)
 	end
 end
 
