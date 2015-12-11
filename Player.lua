@@ -374,7 +374,7 @@ function Player:draw()
 	if self.pMessaging then
 		love.graphics.print("" .. self.partCount .. " OF 4 PARTS COLLECTED", self.x + 50, self.y + 50)
 	end
-	
+
 	if levelNum == 0 then
 		self:drawObjectiveMarker(200,200)
 	end
@@ -622,7 +622,7 @@ end
 
 function Player:collide(obj)
 	-- enemy
-	if obj:getID() == 1 or obj:getID() == 6 then
+	if obj:getID() == 1 or obj:getID() == 6 or obj:getID() == 15 then
 		self:hit()
 		if not self:alive() then
 			self.collided = true
@@ -774,7 +774,7 @@ function Player:drawObjectiveMarker(obj_x, obj_y)
 	elseif obj_y > self.y then
 		obj_angle = obj_angle + math.pi*2
 	end
-	
+
 	love.graphics.setColor(255,0,0)
 	love.graphics.circle('fill', self.x + 50*math.cos(obj_angle), self.y - 50*math.sin(obj_angle), 10, 100)
 	love.graphics.setColor(255,255,255)
