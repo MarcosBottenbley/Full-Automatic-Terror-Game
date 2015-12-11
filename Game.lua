@@ -93,6 +93,7 @@ function Game:load(arg)
 	BossLaser = require("BossLaser")
 	Asteroid2 = require("Asteroid2")
 	Orbiter = require("Orbiter")
+	FinalBoss = require("FinalBoss")
 
 	self.helpfont = love.graphics.newFont("PressStart2P.ttf", 12)
 	self.scorefont = love.graphics.newFont("PressStart2P.ttf", 20)

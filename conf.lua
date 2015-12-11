@@ -13,9 +13,9 @@
 math.randomseed(os.time())
 local titles = {
 	"Space Game 3000",
-	"More like DULL Automatic Terror",
-	"More like Full FARTomatic Terror",
-	"More like Full Automatic TERRIBLE",
+	--"More like DULL Automatic Terror",
+	--"More like Full FARTomatic Terror",
+	--"More like Full Automatic TERRIBLE",
 	"Made with 100% Farm-Raised Roseda Beef",
 	"Oh no some enemy robot fighter ships or something",
 	"Working Working Title",
@@ -62,7 +62,8 @@ local titles = {
 	"YYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",
 	"Now on Kickstarter!",
 	"Put 3D glasses on now",
-	"2015: A Friendly Space Jaunt"
+	"2015: A Friendly Space Jaunt",
+	"Wrath of the Donut"
 }
 
 local titlestring = titles[math.random(#titles)]

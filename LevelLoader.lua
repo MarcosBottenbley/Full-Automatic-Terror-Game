@@ -54,7 +54,9 @@ function LevelLoader:load(...)
 
 	self.background = love.graphics.newImage(self.bg_string)
 
-	if levelNum == 1 then
+	if levelNum == 0 then
+		bgm = love.audio.newSource("sfx/scorelow.ogg")
+	elseif levelNum == 1 then
 		bgm = love.audio.newSource("sfx/bgm_1.ogg")
 	elseif levelNum == 2 or levelNum == 6 then
 		bgm = love.audio.newSource("sfx/bgm_2.ogg")
@@ -62,6 +64,8 @@ function LevelLoader:load(...)
 		bgm = love.audio.newSource("sfx/bgm_3.ogg")
 	elseif levelNum == 4 then
 		bgm = love.audio.newSource("sfx/bgm_4.ogg")
+	elseif levelNum == 7 then
+		bgm = love.audio.newSource("sfx/bgm_final.ogg")
 	else
 		bgm = love.audio.newSource("sfx/bgm_1.ogg")
 	end
@@ -144,6 +148,8 @@ function LevelLoader:make(object)
 		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'f')
 	elseif object[1] == "sdm" then
 		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'd')
+	elseif object[1] == "sob" then
+		o = Spawn(object[2], object[3], object[4], object[5], object[6], object[7], object[8], 'o')
 	elseif object[1] == "pwr" then
 		o = DoubleShot(object[2], object[3], 0)
 	elseif object[1] == "rep" then
@@ -177,7 +183,9 @@ function LevelLoader:make(object)
 	elseif object[1] == "atw" then
 		o = Asteroid2(object[2], object[3], object[4], object[5], object[6])
 	elseif object[1] == "orb" then
-		o = Orbiter(object[2], object[3])
+		o = Orbiter(object[2], object[3], object[4], object[5])
+	elseif object[1] == "fat" then
+		o = FinalBoss(object[2], object[3])
 	end
 	table.insert(objects, o)
 end

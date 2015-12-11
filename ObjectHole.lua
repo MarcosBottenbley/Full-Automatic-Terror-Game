@@ -69,6 +69,8 @@ function ObjectHole:update(dt)
 			e = ScaredBorg()
 		elseif self.type == 'b' then
 			e = SunBoss2()
+		elseif self.type == 'o' then
+			e = Orbiter(self.x, self.y, 500, 300)
 		else
 			e = GlowBorg()
 		end

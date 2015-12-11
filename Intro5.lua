@@ -49,8 +49,8 @@ function Intro5:start()
 		"you arrived in a realm \nfilled with asteroids and enemies.",
 		"Amidst the enemies are \npieces of technology, presumably\n" .. 
 		"from failed weapon tests.",
-		"You can probably make a \nnew gadget from these parts to \naid you in future \nendeavors.", 
-		"Collect all four weapon \ncomponents to beat the level.\nGood luck!"
+		"You can probably make a \nlocator from these parts to \nguide you towards  \nFull Auto's lair.", 
+		"Collect all four tech \ncomponents to beat the level.\nGood luck!"
 	}
 
 	time = 0

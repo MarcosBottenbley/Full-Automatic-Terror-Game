@@ -132,9 +132,12 @@ function Win:keyreleased(key)
 			elseif levelNum == 5 then
 				levelNum = 6
 				switchTo(Intro6)
+			elseif levelNum == 6 then
+				levelNum = 7
+				switchTo(Intro7)
 			end
 		else
-			levelNum = 1
+			levelNum = 0
 			switchTo(ScoreScreen)
 		end
 	end

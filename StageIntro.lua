@@ -18,7 +18,8 @@ local namelist = {
 	"SPACE JAIL",
 	"GAUNTLET",
 	"SCRAPYARD",
-	"SIEGE"
+	"SIEGE",
+	"EVENT HORIZON"
 }
 
 local StageIntro = {
@@ -65,6 +66,10 @@ function StageIntro:start()
 		self.enterstring = "Now entering Sector 4"
 	elseif levelNum == 6 then
 		self.enterstring = "Now entering Sector 5"
+	elseif levelNum == 7 then
+		self.enterstring = "Now entering Final Sector"
+		self.stagefont = love.graphics.newFont("ka1.ttf", 56)
+		self.enterfont = love.graphics.newFont("ka1.ttf", 28)
 	end
 	
 	--we have to set the font dimensions every time the state 

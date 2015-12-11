@@ -16,14 +16,14 @@ local time = 0
 local changed = 0
 local bgm
 
-local Intro6 = {
+local Intro7 = {
 	bg = nil, pos = 0,
 	script_pos = 1,
 	lines = {}
 }
-Intro6.__index = Intro6
+Intro7.__index = Intro7
 
-setmetatable(Intro6, {
+setmetatable(Intro7, {
 	__index = State,
 	__call = function (cls, ...)
 		local self = setmetatable({}, cls)
@@ -32,7 +32,7 @@ setmetatable(Intro6, {
 	end,
 })
 
-function Intro6:load()
+function Intro7:load()
 	self.list_font = love.graphics.newFont("PressStart2P.ttf", 17)
 	text_height = (self.list_font):getHeight()
 	self.bg = love.graphics.newImage("gfx/intro_screen.png")
@@ -43,11 +43,14 @@ function Intro6:load()
 	bgm:setLooping(true)
 end
 
-function Intro6:start()
+function Intro7:start()
 	self.lines = {
-		"Your new device takes you far, but /nnot far enough.",
-		"Between you and your foe are \nsix deadly waves of enemies.",
-		"Defeat them to make your way /nto the final sector!"
+		"You've reached the final sector.",
+		"Preparing for the showdown with \nFull Auto, you notice something \nstrange.",
+		"Where his robot army used to be, \nyou now only see darkness.",
+		"With growing horror, you realize he's \nconfused the technological singularity \nwith a gravitational singularity and \nturned himself into a black hole.",
+		"You're not sure how this makes \nany sense, but you are sure of \none thing...",
+		"You need to stop this, \nbefore it's too late!"
 	}
 
 	time = 0
@@ -58,8 +61,8 @@ function Intro6:start()
 	bgm:play()
 end
 
-function Intro6:update(dt)
-	time = time + 1 * dt
+function Intro7:update(dt)
+	time = time + 0.75 * dt
 	self.pos = self.pos + 50 * dt
 
 	if self.pos >= 0 then
@@ -78,16 +81,16 @@ function Intro6:update(dt)
 	end
 end
 
-function Intro6:keyreleased(key)
+function Intro7:keyreleased(key)
 	if time > 2 then
 		switchTo(StageIntro)
 	end
 end
 
-function Intro6:keypressed(key)
+function Intro7:keypressed(key)
 end
 
-function Intro6:stop()
+function Intro7:stop()
 	time = 0
 	changed = 0
 	self.pos = -(self.bg:getHeight() - height)
@@ -96,10 +99,10 @@ function Intro6:stop()
 	bgm:stop()
 end
 
-function Intro6:draw()
+function Intro7:draw()
 	love.graphics.setFont(self.list_font)
 	love.graphics.translate(0,self.pos)
-	love.graphics.setColor(50,50,255,50)
+	love.graphics.setColor(220,220,220,50)
 	love.graphics.draw(self.bg, 0, 0)
 	love.graphics.setColor(255, 255, 255, 255)
 
@@ -116,4 +119,4 @@ function Intro6:draw()
 	end
 end
 
-return Intro6
+return Intro7

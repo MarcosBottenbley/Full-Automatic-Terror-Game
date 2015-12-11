@@ -138,7 +138,7 @@ function Menu2:draw()
 		)
 	end
 
-	if selector == 1 and (levelCount == 5 or levelCount == 6) then
+	if selector == 1 and (levelCount == 5 or levelCount == 6 or levelCount == 7) then
 		love.graphics.print(
 			levelCount - 1,
 			width/2 - 15, height/2 + 100
