@@ -86,8 +86,8 @@ function love.load(arg)
 	table.remove(highscores, 1)
 
 	-- compute some globals
-	width = love.window.getWidth()
-	height = love.window.getHeight()
+	width = love.graphics.getWidth()
+	height = love.graphics.getHeight()
 
 	-- load all the states
 	Studio:load()

@@ -22,8 +22,8 @@ local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
 local title1 = "ADJUST YOUR GAME"
 local title2 = "SETTINGS"
-local width = love.window.getWidth()
-local height = love.window.getHeight()
+local width = love.graphics.getWidth()
+local height = love.graphics.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
 --local adelt = 75
 
@@ -49,7 +49,7 @@ function Menu2:load()
 
 	self.title1_width = self.title1_font:getWidth(title1)
 	self.title1_height = self.title1_font:getHeight(title1)
-	
+
 	self.title2_width = self.title2_font:getWidth(title2)
 	self.title2_height = self.title2_font:getHeight(title2)
 
@@ -75,7 +75,7 @@ function Menu2:update(dt)
 		timer1 = love.timer.getTime()
 	end
 end
-	
+
 
 --- creates the actual list and background
 
@@ -92,7 +92,7 @@ function Menu2:draw()
 	end
 
 	--love.graphics.setColor(255,255,255,alpha)
-	
+
 	love.graphics.setFont(self.title1_font)
 	love.graphics.print(
 		title1,
@@ -144,14 +144,14 @@ function Menu2:draw()
 			width/2 - 25, height/2 + 100
 		)
 	end
-	
+
 	if selector == 1 and levelCount == 6 then
 		love.graphics.print(
 			"4A",
 			width/2 - 25, height/2 + 100
 		)
 	end
-	
+
 	if selector == 1 and levelCount == 7 then
 		love.graphics.print(
 			"FINAL",

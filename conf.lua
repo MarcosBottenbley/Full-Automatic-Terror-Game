@@ -69,7 +69,7 @@ local titles = {
 local titlestring = titles[math.random(#titles)]
 
 function love.conf(t)
-	t.version = "0.9.2"
+	t.version = "0.10.2"
 	t.window.title = titlestring
 
 	t.window.fullscreen = false

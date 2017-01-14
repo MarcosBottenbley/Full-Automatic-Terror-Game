@@ -23,8 +23,8 @@ local help = "Use the arrow keys to navigate and Enter to select"
 local flash = false
 local title1 = "FULL AUTOMATIC"
 local title2 = "TERROR"
-local width = love.window.getWidth()
-local height = love.window.getHeight()
+local width = love.graphics.getWidth()
+local height = love.graphics.getHeight()
 --local alpha = 50		for flashing maybe in the future do not delete
 --local adelt = 75
 
@@ -50,7 +50,7 @@ function Menu:load()
 
 	title1_width = self.title1_font:getWidth(title1)
 	title1_height = self.title1_font:getHeight(title1)
-	
+
 	title2_width = self.title2_font:getWidth(title2)
 	title2_height = self.title2_font:getHeight(title2)
 
@@ -75,7 +75,7 @@ function Menu:load()
 	quitgame:setLooping(false)
 
 	self.bg = love.graphics.newImage("gfx/menu_screen.png")
-	
+
 	-- for flashing title
 	timer1 = love.timer.getTime()
 	timer2 = love.timer.getTime()
@@ -116,7 +116,7 @@ function Menu:draw()
 	end
 
 	--love.graphics.setColor(255,255,255,alpha)
-	
+
 	love.graphics.setFont(self.title1_font)
 	love.graphics.print(
 		title1,
