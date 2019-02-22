@@ -13,30 +13,30 @@
 Powerup = require("Powerup")
 
 local DoubleShot = {
-	img = "gfx/power_up.png",
-	width = 44, height = 47,
-	frames = 2, states = 1,
-	delay = 0.3, 
-	vx = 10, vy = 10,
-	sprites = {}, bounding_rad = 22,
-	id = 5, type = 'ds', collided = false
+    img = "gfx/power_up.png",
+    width = 44, height = 47,
+    frames = 2, states = 1,
+    delay = 0.3,
+    vx = 10, vy = 10,
+    sprites = {}, bounding_rad = 22,
+    id = 5, type = 'ds', collided = false
 }
 DoubleShot.__index = DoubleShot
 
 setmetatable(DoubleShot, {
-	__index = Powerup,
-	__call = function (cls, ...)
-		local self = setmetatable({}, cls)
-		self:_init(...)
-		return self
-	end,
+    __index = Powerup,
+    __call = function (cls, ...)
+        local self = setmetatable({}, cls)
+        self:_init(...)
+        return self
+    end,
 })
 
 function DoubleShot:_init(x, y, v)
-	self.vx = v
-	self.vy = v
-	self.collided = false
-	Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
+    self.vx = v
+    self.vy = v
+    self.collided = false
+    Object._init(self, x, y, self.img, self.width, self.height, self.frames, self.states, self.delay)
 end
 
 return DoubleShot

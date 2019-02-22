@@ -11,18 +11,18 @@
 --- dmill118@jhu.edu
 
 local Level = {
-	num, 
+    num,
 }
 Level.__index = Level
 
 setmetatable(Level, {
-	__call = function (cls, ... )
-		local self = setmetatable({}, cls)
-		self:_init(...)
-		return self
-	end,
+    __call = function (cls, ... )
+        local self = setmetatable({}, cls)
+        self:_init(...)
+        return self
+    end,
 })
 
 function Level:_init()
-	
+
 end

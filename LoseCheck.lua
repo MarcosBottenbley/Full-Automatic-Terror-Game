@@ -14,29 +14,29 @@ local LoseCheck = {}
 LoseCheck.__index = LoseCheck
 
 setmetatable(LoseCheck, {
-	__call = function (cls, ... )
-		local self = setmetatable({}, cls)
-		self:_init(...)
-		return self
-	end,
+    __call = function (cls, ... )
+        local self = setmetatable({}, cls)
+        self:_init(...)
+        return self
+    end,
 })
 
 function LoseCheck:_init(id)
-	if id == 1 then
-		self.current = death
-	end
+    if id == 1 then
+        self.current = death
+    end
 end
 
 function LoseCheck:setPlayer(player)
-	self.player = player
+    self.player = player
 end
 
 local death = function (...)
-	return self.player:getHealth()
+    return self.player:getHealth()
 end
 
 function LoseCheck:getstatus(...)
-	return self.current()
+    return self.current()
 end
 
 return LoseCheck

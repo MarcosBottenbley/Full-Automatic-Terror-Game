@@ -14,15 +14,15 @@ local Observer = {}
 Observer.__index = Observer
 
 setmetatable(Observer, {
-	__call = function (cls, ...)
-		local self = setmetatable({}, cls)
-		self:_init(...)
-		return self
-	end,
+    __call = function (cls, ...)
+        local self = setmetatable({}, cls)
+        self:_init(...)
+        return self
+    end,
 })
 
 function Observer:_init(obj1, obj2)
-	
+
 end
 
 return Observer
